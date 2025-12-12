@@ -121,6 +121,7 @@ This tool is a **pure frontend** PWA where all data is processed locally in the 
 - **Touch Optimized**: Gesture-friendly interface for mobile devices
 - **Real-time Validation**: Instant feedback with visual cues for input errors
 - **Professional Styling**: Card-based layouts with shadows, gradients, and modern design
+- **Responsive Number Display**: Adaptive font sizing prevents number overflow in all display contexts
 
 ---
 
@@ -519,7 +520,8 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ### Version History
 
-- **v2.1.0** (Current) - PWA features, batch processing, history management
+- **v2.1.1** (Current) - Fixed number overflow in ROI dashboard cards and tables
+- **v2.1.0** - PWA features, batch processing, history management
 - **v2.0.0** - Multi-language support, enhanced UI/UX
 - **v1.5.0** - Qualitative risk analysis, dark mode
 - **v1.0.0** - Initial release with quantitative analysis
@@ -640,6 +642,7 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 - **觸控最佳化**：手機裝置友善的手勢介面
 - **即時驗證**：輸入錯誤的即時回饋與視覺提示
 - **專業樣式**：具陰影、漸層與現代設計的卡片式版面
+- **響應式數字顯示**：自適應字體大小防止數字在所有顯示情境中溢出
 
 ---
 
@@ -1038,7 +1041,8 @@ ALE-Risk-Calculator/
 
 ### 版本歷史
 
-- **v2.1.0**（目前）- PWA 功能、批次處理、歷史管理
+- **v2.1.1**（目前）- 修復 ROI 儀表板卡片與表格中數字溢出問題
+- **v2.1.0** - PWA 功能、批次處理、歷史管理
 - **v2.0.0** - 多語言支援、增強 UI/UX
 - **v1.5.0** - 定性風險分析、深色模式
 - **v1.0.0** - 量化分析的初始版本
