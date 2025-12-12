@@ -1,1 +1,17 @@
+# Development and documentation files
 CHANGELOG.md
+FIX-SUMMARY.md
+VERIFICATION-CHECKLIST.md
+DEPLOYMENT-GUIDE.md
+test-overflow-fix.html
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
