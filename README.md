@@ -5,7 +5,7 @@
 **A simple and reliable tool to calculate ALE, SLE, and ROI for cybersecurity investments.**
 
 🔗 **線上使用 (Live Demo)**  
-👉 https://aleriskcalculator.io
+👉 
 
 ---
 
