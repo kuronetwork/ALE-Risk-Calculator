@@ -1,106 +1,78 @@
-# 資安風險量化與定性分析工具 (ALE Risk Calculator)
-# Cybersecurity Risk Quantification & Qualitative Analysis Tool (ALE Risk Calculator)
+# Privacy Policy / 隱私權政策
 
-**厭世資安人量化救星 — 快速計算 ALE、SLE 與投資淨效益，產出專業的資安評估報告。**  
-**A simple and reliable tool to calculate ALE, SLE, and ROI for cybersecurity investments.**
-
-🔗 **線上使用 (Live Demo)**  
-👉 https://aleriskcalc.kuronetwork.me/
+## 🌐 Language / 語言選擇
+- 👉 [中文版本](#中文版本-privacy-policy)
+- 👉 [English Version](#english-version-privacy-policy)
 
 ---
 
-## 📖 專案簡介 (Introduction)
+# 中文版本 Privacy Policy
 
-在資安治理與合規的流程中，我們常遇到一個問題：  
-**「要怎麼證明資安投資真的有幫助？」**
-
-本工具基於 **NIST SP 800-30** 方法論，讓資安人員、稽核與管理階層能快速執行：
-
-- **量化分析 (Quantitative Analysis)**：計算 SLE、ALE、ROI  
-- **定性分析 (Qualitative Analysis)**：使用風險矩陣評估風險等級  
-- **報表匯出**：一鍵輸出 PDF / Excel 報告供簡報與決策使用  
-
-此工具為 **純前端 (Pure Frontend)** 靜態頁面，所有資料均在瀏覽器端運算，  
-**不會上傳任何資料**，確保機敏資訊安全。
+## 目錄 Table of Contents
+- [簡介](#簡介)
+- [資料收集方式](#資料收集方式)
+- [使用 Open-Meteo API](#使用-open-meteo-api)
+- [資料使用方式](#資料使用方式)
+- [資料保護](#資料保護)
+- [第三方服務](#第三方服務)
+- [聯絡方式](#聯絡方式)
+- [架構圖](#架構圖)
 
 ---
 
-## ✨ 核心功能 (Features)
+## 簡介
+本應用程式（以下稱「本 App」）重視使用者的隱私權。本政策將向您說明我們如何處理在使用本 App 時所產生的資料。
 
-### 📊 量化風險分析 (Quantitative Risk Analysis)
+## 資料收集方式
+本 App 不會主動收集可識別個人身分的資訊。  
+僅會在您使用功能時收集必要的匿名資料，例如：裝置型號、基本操作紀錄。
 
-- **即時計算 (Instant Calculation)**：輸入 AV、EF、ARO 後自動產生 SLE 與 ALE  
-- **導入前後比較 (Before vs After Comparison)**：清楚呈現控制措施的影響  
-- **效益分析 (Benefit Analysis)**：計算「風險降低金額」與「最終淨效益 (Net Benefit)」  
+## 使用 Open-Meteo API
+本 App 使用 **Open-Meteo** 天氣 API 來取得天氣資訊。  
+當您查詢天氣時，本 App 會將您的 **GPS 座標（經緯度）** 傳送至 Open-Meteo API。
 
-#### 視覺化圖表 (Visual Charts)
+- 本 App **不會儲存**使用者位置  
+- 位置僅在請求天氣當下使用  
 
-- **ALE 比較圖 (ALE Comparison Bars)**：直觀比較風險降低幅度  
-- **淨效益瀑布圖 (Net Benefit Waterfall Chart)**：呈現「風險降低 − 成本 = 淨效益」的財務邏輯  
+## 資料使用方式
+我們僅會將資料用於：
+1. 顯示天氣資訊  
+2. 改善 App 使用體驗  
+3. 確保功能正常  
 
----
+**不會**用於追蹤、廣告或提供給第三方商業用途。
 
-### 🛡️ 定性風險分析 (Qualitative Risk Analysis)
+## 資料保護
+本 App 使用標準安全傳輸協定（如 HTTPS）。  
+因本 App 不儲存任何個人資料，因此不存在個資外洩風險。
 
-- **3×3 風險矩陣 (3×3 Risk Matrix)**：基於 Likelihood × Impact  
-- **動態標示 (Dynamic Highlight)**：顯示 Low / Medium / High / Critical  
-- **前後比較 (Before/After View)**：呈現控制措施導入後的風險下降情況  
+## 第三方服務
+本 App 使用以下外部服務：
+- **Open-Meteo API**
 
----
+第三方服務可能有其獨立的隱私權政策。
 
-### 💾 匯出與分享 (Export & Sharing)
-
-- **PDF 匯出 (PDF Export)**：完整包含圖表與所有數據  
-- **Excel 匯出 (Excel Export)**：便於二次分析與內部存檔  
-
----
-
-## 🛠️ 技術棧 (Tech Stack)
-
-本專案為純前端，無後端服務。  
-This project is a fully static frontend application.
-
-- **Core**：HTML5、Vanilla JavaScript  
-- **Styling**：Tailwind CSS (CDN)  
-- **Charts**：Chart.js  
-
-**Export Libraries**
-
-- jsPDF（PDF 生成 / PDF Generation）  
-- html2canvas（畫面截圖 / HTML Snapshot）  
-- SheetJS（Excel 輸出 / Excel Export）  
-
-## 🏛️ 架構圖 (System Architecture)
-
-                +----------------------+
-                |        使用者        |
-                |      User Input      |
-                +----------+-----------+
-                           |
-                           v
-             +-----------------------------+
-             |  前端計算邏輯 (JavaScript)  |
-             |  Risk Calculation Engine    |
-             +-----------------------------+
-               |            |             |
-      (Quantitative)   (Qualitative)   (Visualization)
-         SLE/ALE       Risk Matrix      Charts/Graphs
-               |            |             |
-               +------------+-------------+
-                           |
-                           v
-         +------------------------------------------+
-         |         匯出功能 Export Module            |
-         |  - PDF (jsPDF + html2canvas)             |
-         |  - Excel (SheetJS)                       |
-         +------------------------------------------+
-
+## 聯絡方式
+如對本政策有疑問，請聯繫：  
+📧 Email：your-email@example.com
 
 ---
 
-## 🚀 快速開始 (Quick Start)
+## 架構圖
 
-### 1. Clone 專案 (Clone the Repository)
-
-```bash
-git clone https://github.com/YourUsername/ale-risk-calculator.git
+```plaintext
++-----------------------+
+|        使用者         |
++-----------+-----------+
+            |
+            v
++-----------------------+
+|         本 App        |
+|  (資料僅處理不儲存)  |
++-----------+-----------+
+            |
+            v
++-----------------------+
+|    Open-Meteo API     |
+|   (接收經緯度回天氣)  |
++-----------------------+
