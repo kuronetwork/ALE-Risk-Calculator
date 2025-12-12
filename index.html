@@ -6,7 +6,27 @@
     <!-- SEO Meta Tags -->
     <meta name="description" content="Professional Quantitative (ALE/SLE) and Qualitative Cybersecurity Risk Assessment Tool. NIST SP 800-30 Compliant.">
     <meta name="author" content="Kuro">
+    <meta name="keywords" content="ALE, SLE, risk assessment, cybersecurity, NIST, quantitative analysis, security ROI">
     <title>Kuro Risk Calculator - Cyber Risk Quantification Tool</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="ALE Calculator">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ALE Calculator">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#3B82F6">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- Manifest and Icons -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="mask-icon" href="/icons/icon.svg" color="#3B82F6">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,6 +34,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
     
     <!-- Tailwind Configuration for Dark Mode -->
     <script>
@@ -105,6 +126,77 @@
         .social-icon:hover {
             transform: translateY(-3px);
         }
+
+        /* PWA Specific Styles */
+        .pwa-install-prompt {
+            animation: slideInUp 0.3s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .offline-indicator {
+            animation: slideInDown 0.3s ease-out;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* History Modal Styles */
+        .history-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+        
+        /* Responsive improvements for mobile PWA */
+        @media (max-width: 640px) {
+            .history-item {
+                padding: 12px;
+            }
+            
+            .history-item h3 {
+                font-size: 14px;
+            }
+            
+            .history-item .flex.items-center.space-x-4 {
+                flex-direction: column;
+                align-items: flex-start;
+                space-x: 0;
+                gap: 4px;
+            }
+        }
+        
+        /* PWA status bar adjustments */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: env(safe-area-inset-top);
+                padding-bottom: env(safe-area-inset-bottom);
+            }
+            
+            .sticky.top-0 {
+                top: env(safe-area-inset-top);
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
@@ -179,6 +271,9 @@
         <div class="flex flex-wrap justify-center gap-4 mb-8 no-print">
             <button id="btn-reset" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
                 <span class="mr-2">↺</span> <span data-i18n="btnReset">Reset</span>
+            </button>
+            <button id="btn-batch" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
+                <span class="mr-2">📋</span> <span data-i18n="btnBatch">Batch Assessment</span>
             </button>
             <button id="export-pdf" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
                 <span class="mr-2">📄</span> <span data-i18n="btnExportPDF">Export PDF</span>
@@ -555,6 +650,8 @@
                     appTitle: "Cyber Risk Quantification Tool",
                     appSubtitle: "The Quantified Savior for Cynical Security Pros",
                     btnReset: "Reset",
+                    btnBatch: "Batch Assessment",
+                    btnHistory: "History",
                     btnExportPDF: "Export PDF",
                     btnExportExcel: "Export Excel",
                     secQuantTitle: "1. Quantitative Analysis",
@@ -611,6 +708,8 @@
                     appTitle: "資安風險量化與定性分析工具",
                     appSubtitle: "厭世資安人量化救星",
                     btnReset: "重置",
+                    btnBatch: "批量評估",
+                    btnHistory: "歷史記錄",
                     btnExportPDF: "匯出 PDF",
                     btnExportExcel: "匯出 Excel",
                     secQuantTitle: "1. 量化風險分析",
@@ -1015,6 +1114,916 @@
 
         /**
          * ------------------------------------------------------------------
+         * MODULE: History Manager (IndexedDB)
+         * ------------------------------------------------------------------
+         */
+        const HistoryManager = {
+            dbName: 'ALE_Calculator_History',
+            dbVersion: 1,
+            storeName: 'assessments',
+            db: null,
+            
+            // Initialize IndexedDB
+            init: async function() {
+                try {
+                    this.db = await this.openDatabase();
+                    console.log('[History] Database initialized successfully');
+                    return true;
+                } catch (error) {
+                    console.error('[History] Database initialization failed:', error);
+                    return false;
+                }
+            },
+            
+            // Open IndexedDB database
+            openDatabase: function() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open(this.dbName, this.dbVersion);
+                    
+                    request.onerror = () => reject(request.error);
+                    request.onsuccess = () => resolve(request.result);
+                    
+                    request.onupgradeneeded = (event) => {
+                        const db = event.target.result;
+                        
+                        // Create assessments store
+                        if (!db.objectStoreNames.contains(this.storeName)) {
+                            const store = db.createObjectStore(this.storeName, { keyPath: 'id' });
+                            
+                            // Create indexes
+                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                            store.createIndex('type', 'type', { unique: false });
+                            store.createIndex('tags', 'metadata.tags', { unique: false, multiEntry: true });
+                        }
+                    };
+                });
+            },
+            
+            // Save assessment to history
+            saveAssessment: async function(inputs, results, metadata = {}) {
+                if (!this.db) {
+                    await this.init();
+                }
+                
+                const assessment = {
+                    id: this.generateUUID(),
+                    timestamp: new Date().toISOString(),
+                    type: 'single',
+                    version: '2.0.0',
+                    inputs: { ...inputs },
+                    results: { ...results },
+                    metadata: {
+                        assetName: metadata.assetName || 'Unnamed Asset',
+                        category: metadata.category || 'General',
+                        tags: metadata.tags || [],
+                        notes: metadata.notes || '',
+                        complianceFrameworks: metadata.complianceFrameworks || [],
+                        ...metadata
+                    }
+                };
+                
+                try {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    await store.add(assessment);
+                    
+                    console.log('[History] Assessment saved:', assessment.id);
+                    this.showSaveNotification();
+                    return assessment.id;
+                } catch (error) {
+                    console.error('[History] Failed to save assessment:', error);
+                    throw error;
+                }
+            },
+            
+            // Get all assessments
+            getAllAssessments: async function() {
+                if (!this.db) {
+                    await this.init();
+                }
+                
+                try {
+                    const transaction = this.db.transaction([this.storeName], 'readonly');
+                    const store = transaction.objectStore(this.storeName);
+                    const index = store.index('timestamp');
+                    
+                    return new Promise((resolve, reject) => {
+                        const request = index.getAll();
+                        request.onsuccess = () => {
+                            // Sort by timestamp descending (newest first)
+                            const assessments = request.result.sort((a, b) => 
+                                new Date(b.timestamp) - new Date(a.timestamp)
+                            );
+                            resolve(assessments);
+                        };
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (error) {
+                    console.error('[History] Failed to get assessments:', error);
+                    return [];
+                }
+            },
+            
+            // Get assessment by ID
+            getAssessment: async function(id) {
+                if (!this.db) {
+                    await this.init();
+                }
+                
+                try {
+                    const transaction = this.db.transaction([this.storeName], 'readonly');
+                    const store = transaction.objectStore(this.storeName);
+                    
+                    return new Promise((resolve, reject) => {
+                        const request = store.get(id);
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (error) {
+                    console.error('[History] Failed to get assessment:', error);
+                    return null;
+                }
+            },
+            
+            // Delete assessment
+            deleteAssessment: async function(id) {
+                if (!this.db) {
+                    await this.init();
+                }
+                
+                try {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    
+                    return new Promise((resolve, reject) => {
+                        const request = store.delete(id);
+                        request.onsuccess = () => {
+                            console.log('[History] Assessment deleted:', id);
+                            resolve(true);
+                        };
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (error) {
+                    console.error('[History] Failed to delete assessment:', error);
+                    return false;
+                }
+            },
+            
+            // Search assessments
+            searchAssessments: async function(query, filters = {}) {
+                const allAssessments = await this.getAllAssessments();
+                
+                return allAssessments.filter(assessment => {
+                    // Text search
+                    if (query) {
+                        const searchText = query.toLowerCase();
+                        const searchableText = [
+                            assessment.metadata.assetName,
+                            assessment.metadata.category,
+                            assessment.metadata.notes,
+                            ...assessment.metadata.tags
+                        ].join(' ').toLowerCase();
+                        
+                        if (!searchableText.includes(searchText)) {
+                            return false;
+                        }
+                    }
+                    
+                    // Date range filter
+                    if (filters.startDate || filters.endDate) {
+                        const assessmentDate = new Date(assessment.timestamp);
+                        if (filters.startDate && assessmentDate < new Date(filters.startDate)) {
+                            return false;
+                        }
+                        if (filters.endDate && assessmentDate > new Date(filters.endDate)) {
+                            return false;
+                        }
+                    }
+                    
+                    // Category filter
+                    if (filters.category && assessment.metadata.category !== filters.category) {
+                        return false;
+                    }
+                    
+                    // Tags filter
+                    if (filters.tags && filters.tags.length > 0) {
+                        const hasTag = filters.tags.some(tag => 
+                            assessment.metadata.tags.includes(tag)
+                        );
+                        if (!hasTag) {
+                            return false;
+                        }
+                    }
+                    
+                    return true;
+                });
+            },
+            
+            // Load assessment into form
+            loadAssessment: async function(id) {
+                const assessment = await this.getAssessment(id);
+                if (!assessment) {
+                    console.error('[History] Assessment not found:', id);
+                    return false;
+                }
+                
+                try {
+                    const { inputs } = assessment;
+                    
+                    // Load quantitative inputs
+                    if (inputs.assetValue) document.getElementById('av').value = inputs.assetValue;
+                    if (inputs.exposureFactor) document.getElementById('ef').value = inputs.exposureFactor;
+                    if (inputs.arosBefore) document.getElementById('aro-before').value = inputs.arosBefore;
+                    if (inputs.aroAfter) document.getElementById('new-aro').value = inputs.aroAfter;
+                    if (inputs.controlCost) document.getElementById('control-cost').value = inputs.controlCost;
+                    
+                    // Load qualitative inputs
+                    if (inputs.likelihood !== undefined) document.getElementById('likelihood').value = inputs.likelihood;
+                    if (inputs.impact !== undefined) document.getElementById('impact').value = inputs.impact;
+                    if (inputs.likelihoodBefore !== undefined) document.getElementById('likelihood-before').value = inputs.likelihoodBefore;
+                    if (inputs.impactBefore !== undefined) document.getElementById('impact-before').value = inputs.impactBefore;
+                    if (inputs.likelihoodAfter !== undefined) document.getElementById('likelihood-after').value = inputs.likelihoodAfter;
+                    if (inputs.impactAfter !== undefined) document.getElementById('impact-after').value = inputs.impactAfter;
+                    
+                    // Trigger recalculation
+                    Calculator.calculateQuantitative();
+                    Calculator.updateQualitative();
+                    Calculator.updateQualitativeComparison();
+                    
+                    console.log('[History] Assessment loaded successfully:', id);
+                    this.showLoadNotification(assessment.metadata.assetName);
+                    return true;
+                } catch (error) {
+                    console.error('[History] Failed to load assessment:', error);
+                    return false;
+                }
+            },
+            
+            // Export history to JSON
+            exportHistory: async function() {
+                const assessments = await this.getAllAssessments();
+                const exportData = {
+                    exportDate: new Date().toISOString(),
+                    version: '2.0.0',
+                    totalAssessments: assessments.length,
+                    assessments: assessments
+                };
+                
+                const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+                    type: 'application/json'
+                });
+                
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `ale-calculator-history-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            },
+            
+            // Clear all history
+            clearHistory: async function() {
+                if (!confirm('Are you sure you want to delete all assessment history? This action cannot be undone.')) {
+                    return false;
+                }
+                
+                try {
+                    const transaction = this.db.transaction([this.storeName], 'readwrite');
+                    const store = transaction.objectStore(this.storeName);
+                    
+                    return new Promise((resolve, reject) => {
+                        const request = store.clear();
+                        request.onsuccess = () => {
+                            console.log('[History] All history cleared');
+                            resolve(true);
+                        };
+                        request.onerror = () => reject(request.error);
+                    });
+                } catch (error) {
+                    console.error('[History] Failed to clear history:', error);
+                    return false;
+                }
+            },
+            
+            // Generate UUID
+            generateUUID: function() {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                    const r = Math.random() * 16 | 0;
+                    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+                    return v.toString(16);
+                });
+            },
+            
+            // Show save notification
+            showSaveNotification: function() {
+                this.showNotification('Assessment saved to history', 'success');
+            },
+            
+            // Show load notification
+            showLoadNotification: function(assetName) {
+                this.showNotification(`Loaded: ${assetName}`, 'info');
+            },
+            
+            // Show notification
+            showNotification: function(message, type = 'info') {
+                const notification = document.createElement('div');
+                const colors = {
+                    success: 'bg-green-500',
+                    error: 'bg-red-500',
+                    info: 'bg-blue-500',
+                    warning: 'bg-yellow-500'
+                };
+                
+                notification.className = `fixed top-20 right-4 z-50 ${colors[type]} text-white 
+                    px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Animate in
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+                
+                // Animate out and remove
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }, 3000);
+            }
+        };
+
+        /**
+         * ------------------------------------------------------------------
+         * MODULE: Batch Processor
+         * ------------------------------------------------------------------
+         */
+        const BatchProcessor = {
+            currentData: null,
+            results: null,
+            
+            // Initialize batch processing
+            init: function() {
+                this.setupBatchUI();
+            },
+            
+            // Setup batch processing UI
+            setupBatchUI: function() {
+                const batchBtn = document.getElementById('btn-batch');
+                if (batchBtn) {
+                    batchBtn.addEventListener('click', () => this.showBatchModal());
+                }
+            },
+            
+            // Show batch processing modal
+            showBatchModal: function() {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4 modal-backdrop';
+                modal.innerHTML = `
+                    <div class="bg-white dark:bg-darkcard rounded-2xl shadow-xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Batch Risk Assessment</h2>
+                            <button id="close-batch-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <div class="p-6">
+                            <!-- Step 1: Upload CSV -->
+                            <div id="upload-step" class="step-content">
+                                <h3 class="text-lg font-semibold mb-4">Step 1: Upload CSV File</h3>
+                                <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center">
+                                    <input type="file" id="csv-file-input" accept=".csv" class="hidden">
+                                    <div id="upload-area" class="cursor-pointer">
+                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                            <span class="font-medium text-blue-600 hover:text-blue-500">Click to upload</span> or drag and drop
+                                        </p>
+                                        <p class="text-xs text-gray-500">CSV files only</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4 flex items-center justify-between">
+                                    <button id="download-template" class="text-blue-600 hover:text-blue-500 text-sm font-medium">
+                                        📥 Download CSV Template
+                                    </button>
+                                    <div class="text-sm text-gray-500">
+                                        Required columns: Asset Name, Asset Value, Exposure Factor, ARO Before, ARO After, Control Cost
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 2: Preview Data -->
+                            <div id="preview-step" class="step-content hidden">
+                                <h3 class="text-lg font-semibold mb-4">Step 2: Preview Data</h3>
+                                <div id="data-preview" class="overflow-x-auto max-h-64 border border-gray-200 dark:border-gray-600 rounded-lg"></div>
+                                <div class="mt-4 flex justify-between">
+                                    <button id="back-to-upload" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+                                        ← Back
+                                    </button>
+                                    <button id="process-batch" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                                        Process Batch →
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Step 3: Results -->
+                            <div id="results-step" class="step-content hidden">
+                                <h3 class="text-lg font-semibold mb-4">Step 3: Results</h3>
+                                <div id="batch-results"></div>
+                                <div class="mt-4 flex justify-between">
+                                    <button id="back-to-preview" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg">
+                                        ← Back
+                                    </button>
+                                    <div class="space-x-2">
+                                        <button id="export-batch-pdf" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+                                            📄 Export PDF
+                                        </button>
+                                        <button id="export-batch-excel" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+                                            📊 Export Excel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                this.setupBatchModalEvents(modal);
+            },
+            
+            // Setup batch modal events
+            setupBatchModalEvents: function(modal) {
+                // Close modal
+                modal.querySelector('#close-batch-modal').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                // File upload
+                const fileInput = modal.querySelector('#csv-file-input');
+                const uploadArea = modal.querySelector('#upload-area');
+                
+                uploadArea.addEventListener('click', () => fileInput.click());
+                
+                // Drag and drop
+                uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.add('bg-blue-50', 'dark:bg-blue-900');
+                });
+                
+                uploadArea.addEventListener('dragleave', () => {
+                    uploadArea.classList.remove('bg-blue-50', 'dark:bg-blue-900');
+                });
+                
+                uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    uploadArea.classList.remove('bg-blue-50', 'dark:bg-blue-900');
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        this.handleFileUpload(files[0], modal);
+                    }
+                });
+                
+                fileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        this.handleFileUpload(e.target.files[0], modal);
+                    }
+                });
+                
+                // Download template
+                modal.querySelector('#download-template').addEventListener('click', () => {
+                    this.downloadTemplate();
+                });
+                
+                // Navigation buttons
+                modal.querySelector('#back-to-upload').addEventListener('click', () => {
+                    this.showStep(modal, 'upload');
+                });
+                
+                modal.querySelector('#process-batch').addEventListener('click', () => {
+                    this.processBatch(modal);
+                });
+                
+                modal.querySelector('#back-to-preview').addEventListener('click', () => {
+                    this.showStep(modal, 'preview');
+                });
+                
+                // Export buttons
+                modal.querySelector('#export-batch-pdf').addEventListener('click', () => {
+                    this.exportBatchPDF();
+                });
+                
+                modal.querySelector('#export-batch-excel').addEventListener('click', () => {
+                    this.exportBatchExcel();
+                });
+                
+                // Close on outside click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            },
+            
+            // Handle file upload
+            handleFileUpload: function(file, modal) {
+                if (!file.name.toLowerCase().endsWith('.csv')) {
+                    alert('Please upload a CSV file.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const csv = e.target.result;
+                        const parsed = Papa.parse(csv, {
+                            header: true,
+                            skipEmptyLines: true,
+                            transformHeader: (header) => header.trim()
+                        });
+                        
+                        if (parsed.errors.length > 0) {
+                            console.error('CSV parsing errors:', parsed.errors);
+                            alert('Error parsing CSV file. Please check the format.');
+                            return;
+                        }
+                        
+                        this.currentData = parsed.data;
+                        this.validateAndPreviewData(modal);
+                        
+                    } catch (error) {
+                        console.error('File reading error:', error);
+                        alert('Error reading file. Please try again.');
+                    }
+                };
+                
+                reader.readAsText(file);
+            },
+            
+            // Validate and preview data
+            validateAndPreviewData: function(modal) {
+                const requiredColumns = [
+                    'Asset Name', 'Asset Value', 'Exposure Factor', 
+                    'ARO Before', 'ARO After', 'Control Cost'
+                ];
+                
+                if (this.currentData.length === 0) {
+                    alert('CSV file is empty.');
+                    return;
+                }
+                
+                const headers = Object.keys(this.currentData[0]);
+                const missingColumns = requiredColumns.filter(col => !headers.includes(col));
+                
+                if (missingColumns.length > 0) {
+                    alert(`Missing required columns: ${missingColumns.join(', ')}`);
+                    return;
+                }
+                
+                // Validate data types
+                const validationErrors = [];
+                this.currentData.forEach((row, index) => {
+                    const rowNum = index + 2; // +2 for header and 0-based index
+                    
+                    if (!row['Asset Name'] || row['Asset Name'].trim() === '') {
+                        validationErrors.push(`Row ${rowNum}: Asset Name is required`);
+                    }
+                    
+                    ['Asset Value', 'Exposure Factor', 'ARO Before', 'ARO After', 'Control Cost'].forEach(col => {
+                        const value = parseFloat(row[col]);
+                        if (isNaN(value) || value < 0) {
+                            validationErrors.push(`Row ${rowNum}: ${col} must be a positive number`);
+                        }
+                    });
+                    
+                    const ef = parseFloat(row['Exposure Factor']);
+                    if (!isNaN(ef) && ef > 100) {
+                        validationErrors.push(`Row ${rowNum}: Exposure Factor cannot exceed 100%`);
+                    }
+                });
+                
+                if (validationErrors.length > 0) {
+                    alert(`Validation errors:\n${validationErrors.slice(0, 5).join('\n')}${validationErrors.length > 5 ? '\n...' : ''}`);
+                    return;
+                }
+                
+                this.renderDataPreview(modal);
+                this.showStep(modal, 'preview');
+            },
+            
+            // Render data preview
+            renderDataPreview: function(modal) {
+                const previewDiv = modal.querySelector('#data-preview');
+                const previewData = this.currentData.slice(0, 5); // Show first 5 rows
+                
+                let html = `
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Asset Name</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Asset Value</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">EF %</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">ARO Before</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">ARO After</th>
+                                <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Control Cost</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600">
+                `;
+                
+                previewData.forEach(row => {
+                    html += `
+                        <tr>
+                            <td class="px-3 py-2 text-sm text-gray-900 dark:text-gray-100">${row['Asset Name']}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${Calculator.formatMoney(parseFloat(row['Asset Value']))}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${row['Exposure Factor']}%</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${row['ARO Before']}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${row['ARO After']}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${Calculator.formatMoney(parseFloat(row['Control Cost']))}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                        </tbody>
+                    </table>
+                `;
+                
+                if (this.currentData.length > 5) {
+                    html += `<p class="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">Showing first 5 of ${this.currentData.length} rows</p>`;
+                }
+                
+                previewDiv.innerHTML = html;
+            },
+            
+            // Process batch data
+            processBatch: function(modal) {
+                const results = [];
+                let totalRiskBefore = 0;
+                let totalRiskAfter = 0;
+                let totalCost = 0;
+                
+                this.currentData.forEach(row => {
+                    const av = parseFloat(row['Asset Value']);
+                    const ef = parseFloat(row['Exposure Factor']) / 100;
+                    const aroBefore = parseFloat(row['ARO Before']);
+                    const aroAfter = parseFloat(row['ARO After']);
+                    const cost = parseFloat(row['Control Cost']);
+                    
+                    const sle = av * ef;
+                    const aleBefore = sle * aroBefore;
+                    const aleAfter = sle * aroAfter;
+                    const mitigation = aleBefore - aleAfter;
+                    const netBenefit = mitigation - cost;
+                    const roi = mitigation > 0 ? ((netBenefit / cost) * 100) : 0;
+                    
+                    results.push({
+                        assetName: row['Asset Name'],
+                        category: row['Category'] || 'General',
+                        av, ef: ef * 100, aroBefore, aroAfter, cost,
+                        sle, aleBefore, aleAfter, mitigation, netBenefit, roi
+                    });
+                    
+                    totalRiskBefore += aleBefore;
+                    totalRiskAfter += aleAfter;
+                    totalCost += cost;
+                });
+                
+                this.results = {
+                    individual: results,
+                    summary: {
+                        totalAssets: results.length,
+                        totalRiskBefore,
+                        totalRiskAfter,
+                        totalMitigation: totalRiskBefore - totalRiskAfter,
+                        totalCost,
+                        totalNetBenefit: (totalRiskBefore - totalRiskAfter) - totalCost,
+                        averageROI: results.reduce((sum, r) => sum + r.roi, 0) / results.length
+                    }
+                };
+                
+                this.renderBatchResults(modal);
+                this.showStep(modal, 'results');
+                
+                // Save to history
+                this.saveBatchToHistory();
+            },
+            
+            // Render batch results
+            renderBatchResults: function(modal) {
+                const resultsDiv = modal.querySelector('#batch-results');
+                const { individual, summary } = this.results;
+                
+                let html = `
+                    <!-- Summary Cards -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
+                            <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">${summary.totalAssets}</div>
+                            <div class="text-sm text-blue-600 dark:text-blue-400">Total Assets</div>
+                        </div>
+                        <div class="bg-red-50 dark:bg-red-900 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-red-600 dark:text-red-400">${Calculator.formatMoney(summary.totalRiskBefore)}</div>
+                            <div class="text-sm text-red-600 dark:text-red-400">Total Risk (Before)</div>
+                        </div>
+                        <div class="bg-green-50 dark:bg-green-900 p-4 rounded-lg">
+                            <div class="text-lg font-bold text-green-600 dark:text-green-400">${Calculator.formatMoney(summary.totalMitigation)}</div>
+                            <div class="text-sm text-green-600 dark:text-green-400">Risk Reduction</div>
+                        </div>
+                        <div class="bg-purple-50 dark:bg-purple-900 p-4 rounded-lg">
+                            <div class="text-lg font-bold ${summary.totalNetBenefit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">${Calculator.formatMoney(summary.totalNetBenefit)}</div>
+                            <div class="text-sm text-purple-600 dark:text-purple-400">Net Benefit</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Results Table -->
+                    <div class="overflow-x-auto border border-gray-200 dark:border-gray-600 rounded-lg">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Asset</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">ALE Before</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">ALE After</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Mitigation</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Cost</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Net Benefit</th>
+                                    <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">ROI %</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600">
+                `;
+                
+                individual.forEach(result => {
+                    const benefitColor = result.netBenefit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+                    const roiColor = result.roi >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+                    
+                    html += `
+                        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
+                            <td class="px-3 py-2 text-sm font-medium text-gray-900 dark:text-gray-100">${result.assetName}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${Calculator.formatMoney(result.aleBefore)}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${Calculator.formatMoney(result.aleAfter)}</td>
+                            <td class="px-3 py-2 text-sm text-right text-blue-600 dark:text-blue-400">${Calculator.formatMoney(result.mitigation)}</td>
+                            <td class="px-3 py-2 text-sm text-right text-gray-900 dark:text-gray-100">${Calculator.formatMoney(result.cost)}</td>
+                            <td class="px-3 py-2 text-sm text-right font-medium ${benefitColor}">${Calculator.formatMoney(result.netBenefit)}</td>
+                            <td class="px-3 py-2 text-sm text-right font-medium ${roiColor}">${result.roi.toFixed(1)}%</td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+                
+                resultsDiv.innerHTML = html;
+            },
+            
+            // Show specific step
+            showStep: function(modal, step) {
+                modal.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+                modal.querySelector(`#${step}-step`).classList.remove('hidden');
+            },
+            
+            // Download CSV template
+            downloadTemplate: function() {
+                const template = [
+                    ['Asset Name', 'Asset Value', 'Exposure Factor', 'ARO Before', 'ARO After', 'Control Cost', 'Category', 'Notes'],
+                    ['Email Server', '1000000', '25', '2', '0.5', '100000', 'Infrastructure', 'Critical system'],
+                    ['Web Application', '500000', '15', '1', '0.2', '50000', 'Application', 'Customer facing'],
+                    ['Database', '2000000', '30', '0.5', '0.1', '200000', 'Data', 'Contains PII']
+                ];
+                
+                const csv = template.map(row => row.join(',')).join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'ale-calculator-template.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            },
+            
+            // Save batch to history
+            saveBatchToHistory: async function() {
+                if (!this.results) return;
+                
+                try {
+                    const batchAssessment = {
+                        id: HistoryManager.generateUUID(),
+                        timestamp: new Date().toISOString(),
+                        type: 'batch',
+                        version: '2.0.0',
+                        fileName: 'batch-assessment.csv',
+                        assessments: this.results.individual.map(result => ({
+                            inputs: {
+                                assetValue: result.av,
+                                exposureFactor: result.ef,
+                                arosBefore: result.aroBefore,
+                                aroAfter: result.aroAfter,
+                                controlCost: result.cost
+                            },
+                            results: {
+                                sle: result.sle,
+                                aleBefore: result.aleBefore,
+                                aleAfter: result.aleAfter,
+                                riskMitigation: result.mitigation,
+                                netBenefit: result.netBenefit,
+                                roi: result.roi
+                            },
+                            metadata: {
+                                assetName: result.assetName,
+                                category: result.category,
+                                tags: ['batch'],
+                                notes: 'Batch processed assessment'
+                            }
+                        })),
+                        summary: this.results.summary
+                    };
+                    
+                    // Save to IndexedDB (extend HistoryManager for batch assessments)
+                    console.log('[Batch] Batch assessment processed:', batchAssessment);
+                    HistoryManager.showNotification(`Batch assessment completed: ${this.results.summary.totalAssets} assets processed`, 'success');
+                    
+                } catch (error) {
+                    console.error('[Batch] Failed to save batch assessment:', error);
+                }
+            },
+            
+            // Export batch results as PDF
+            exportBatchPDF: function() {
+                // Implementation would use jsPDF to create comprehensive batch report
+                console.log('[Batch] PDF export not yet implemented');
+                alert('PDF export functionality will be implemented in the next iteration.');
+            },
+            
+            // Export batch results as Excel
+            exportBatchExcel: function() {
+                if (!this.results) return;
+                
+                const wb = XLSX.utils.book_new();
+                
+                // Summary sheet
+                const summaryData = [
+                    ['Batch Assessment Summary'],
+                    [''],
+                    ['Total Assets', this.results.summary.totalAssets],
+                    ['Total Risk (Before)', this.results.summary.totalRiskBefore],
+                    ['Total Risk (After)', this.results.summary.totalRiskAfter],
+                    ['Total Risk Mitigation', this.results.summary.totalMitigation],
+                    ['Total Control Cost', this.results.summary.totalCost],
+                    ['Total Net Benefit', this.results.summary.totalNetBenefit],
+                    ['Average ROI (%)', this.results.summary.averageROI.toFixed(2)]
+                ];
+                
+                const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
+                XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
+                
+                // Detailed results sheet
+                const detailsData = [
+                    ['Asset Name', 'Asset Value', 'Exposure Factor (%)', 'ARO Before', 'ARO After', 'Control Cost', 'SLE', 'ALE Before', 'ALE After', 'Risk Mitigation', 'Net Benefit', 'ROI (%)']
+                ];
+                
+                this.results.individual.forEach(result => {
+                    detailsData.push([
+                        result.assetName,
+                        result.av,
+                        result.ef,
+                        result.aroBefore,
+                        result.aroAfter,
+                        result.cost,
+                        result.sle,
+                        result.aleBefore,
+                        result.aleAfter,
+                        result.mitigation,
+                        result.netBenefit,
+                        result.roi.toFixed(2)
+                    ]);
+                });
+                
+                const detailsWs = XLSX.utils.aoa_to_sheet(detailsData);
+                XLSX.utils.book_append_sheet(wb, detailsWs, 'Detailed Results');
+                
+                // Export
+                XLSX.writeFile(wb, `batch-risk-assessment-${new Date().toISOString().split('T')[0]}.xlsx`);
+            }
+        };
+
+        /**
+         * ------------------------------------------------------------------
          * MODULE: Calculator Logic & UI Updates
          * ------------------------------------------------------------------
          */
@@ -1032,6 +2041,17 @@
                 this.updateQualitative();
                 this.updateQualitativeComparison();
                 this.updateThemeIcon();
+                
+                // Initialize history manager
+                HistoryManager.init().then(success => {
+                    if (success) {
+                        console.log('[Calculator] History manager initialized');
+                        this.setupHistoryUI();
+                    }
+                });
+                
+                // Initialize batch processor
+                BatchProcessor.init();
             },
 
             formatMoney: function(amount) {
@@ -1187,6 +2207,245 @@
                 }
 
                 Storage.save();
+                
+                // Auto-save to history if all required fields are filled
+                this.autoSaveToHistory(av, ef, aroBefore, newAro, cost, sle, ale1, ale2, mitigation, benefit);
+            },
+            
+            // Setup history UI components
+            setupHistoryUI: function() {
+                // Add history button to action buttons
+                const actionButtons = document.querySelector('.no-print');
+                if (actionButtons) {
+                    const historyBtn = document.createElement('button');
+                    historyBtn.id = 'btn-history';
+                    historyBtn.className = 'bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center';
+                    historyBtn.innerHTML = '<span class="mr-2">📚</span> <span data-i18n="btnHistory">History</span>';
+                    historyBtn.addEventListener('click', () => this.showHistoryModal());
+                    
+                    // Insert before export buttons
+                    const exportPdfBtn = document.getElementById('export-pdf');
+                    actionButtons.insertBefore(historyBtn, exportPdfBtn);
+                }
+            },
+            
+            // Show history modal
+            showHistoryModal: async function() {
+                const assessments = await HistoryManager.getAllAssessments();
+                
+                // Create modal
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4';
+                modal.innerHTML = `
+                    <div class="bg-white dark:bg-darkcard rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+                        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-600">
+                            <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Assessment History</h2>
+                            <div class="flex items-center space-x-2">
+                                <button id="export-history-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+                                    Export All
+                                </button>
+                                <button id="clear-history-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm">
+                                    Clear All
+                                </button>
+                                <button id="close-history-modal" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="p-6">
+                            <!-- Search and filters -->
+                            <div class="mb-4 flex flex-wrap gap-4">
+                                <input type="text" id="history-search" placeholder="Search assessments..." 
+                                       class="flex-1 min-w-64 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                <select id="history-category-filter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+                                    <option value="">All Categories</option>
+                                    <option value="Auto-saved">Auto-saved</option>
+                                    <option value="Manual">Manual</option>
+                                    <option value="Batch">Batch</option>
+                                </select>
+                            </div>
+                            
+                            <!-- History list -->
+                            <div id="history-list" class="space-y-3 max-h-96 overflow-y-auto">
+                                ${this.renderHistoryList(assessments)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Setup event listeners
+                document.getElementById('close-history-modal').addEventListener('click', () => {
+                    modal.remove();
+                });
+                
+                document.getElementById('export-history-btn').addEventListener('click', () => {
+                    HistoryManager.exportHistory();
+                });
+                
+                document.getElementById('clear-history-btn').addEventListener('click', async () => {
+                    const success = await HistoryManager.clearHistory();
+                    if (success) {
+                        modal.remove();
+                    }
+                });
+                
+                // Search functionality
+                document.getElementById('history-search').addEventListener('input', (e) => {
+                    this.filterHistory(e.target.value);
+                });
+                
+                document.getElementById('history-category-filter').addEventListener('change', (e) => {
+                    this.filterHistory(document.getElementById('history-search').value, e.target.value);
+                });
+                
+                // Close on outside click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+                
+                // Setup history item events
+                this.setupHistoryItemEvents();
+            },
+            
+            // Render history list
+            renderHistoryList: function(assessments) {
+                if (assessments.length === 0) {
+                    return '<div class="text-center text-gray-500 dark:text-gray-400 py-8">No assessments found</div>';
+                }
+                
+                return assessments.map(assessment => {
+                    const date = new Date(assessment.timestamp).toLocaleString();
+                    const netBenefit = assessment.results.netBenefit || 0;
+                    const benefitColor = netBenefit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
+                    
+                    return `
+                        <div class="history-item bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer"
+                             data-id="${assessment.id}" data-category="${assessment.metadata.category}">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-800 dark:text-gray-100">${assessment.metadata.assetName}</h3>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400">${date}</p>
+                                    <div class="flex items-center space-x-4 mt-2 text-sm">
+                                        <span class="text-gray-600 dark:text-gray-400">ALE: ${Calculator.formatMoney(assessment.results.aleBefore || 0)}</span>
+                                        <span class="${benefitColor}">Net Benefit: ${Calculator.formatMoney(netBenefit)}</span>
+                                    </div>
+                                    ${assessment.metadata.tags.length > 0 ? `
+                                        <div class="flex flex-wrap gap-1 mt-2">
+                                            ${assessment.metadata.tags.map(tag => `
+                                                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded">${tag}</span>
+                                            `).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                <div class="flex items-center space-x-2 ml-4">
+                                    <button class="load-assessment-btn text-blue-500 hover:text-blue-600 p-1" data-id="${assessment.id}" title="Load Assessment">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="delete-assessment-btn text-red-500 hover:text-red-600 p-1" data-id="${assessment.id}" title="Delete Assessment">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            },
+            
+            // Filter history
+            filterHistory: async function(searchQuery = '', category = '') {
+                const assessments = await HistoryManager.searchAssessments(searchQuery, { category });
+                const historyList = document.getElementById('history-list');
+                if (historyList) {
+                    historyList.innerHTML = this.renderHistoryList(assessments);
+                    this.setupHistoryItemEvents();
+                }
+            },
+            
+            // Setup history item events
+            setupHistoryItemEvents: function() {
+                // Load assessment events
+                document.querySelectorAll('.load-assessment-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        const id = btn.dataset.id;
+                        const success = await HistoryManager.loadAssessment(id);
+                        if (success) {
+                            document.querySelector('.fixed.inset-0').remove(); // Close modal
+                        }
+                    });
+                });
+                
+                // Delete assessment events
+                document.querySelectorAll('.delete-assessment-btn').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        e.stopPropagation();
+                        if (confirm('Are you sure you want to delete this assessment?')) {
+                            const id = btn.dataset.id;
+                            const success = await HistoryManager.deleteAssessment(id);
+                            if (success) {
+                                btn.closest('.history-item').remove();
+                            }
+                        }
+                    });
+                });
+            },
+            
+            // Auto-save assessment to history
+            autoSaveToHistory: function(av, ef, aroBefore, newAro, cost, sle, ale1, ale2, mitigation, benefit) {
+                // Only save if we have meaningful data
+                if (av > 0 && ef > 0 && aroBefore >= 0 && newAro >= 0) {
+                    // Debounce auto-save to avoid too frequent saves
+                    clearTimeout(this.autoSaveTimeout);
+                    this.autoSaveTimeout = setTimeout(async () => {
+                        try {
+                            const inputs = {
+                                assetValue: av,
+                                exposureFactor: ef,
+                                arosBefore: aroBefore,
+                                aroAfter: newAro,
+                                controlCost: cost,
+                                // Include qualitative data if available
+                                likelihood: parseInt(document.getElementById('likelihood').value),
+                                impact: parseInt(document.getElementById('impact').value),
+                                likelihoodBefore: parseInt(document.getElementById('likelihood-before').value),
+                                impactBefore: parseInt(document.getElementById('impact-before').value),
+                                likelihoodAfter: parseInt(document.getElementById('likelihood-after').value),
+                                impactAfter: parseInt(document.getElementById('impact-after').value)
+                            };
+                            
+                            const results = {
+                                sle: sle,
+                                aleBefore: ale1,
+                                aleAfter: ale2,
+                                riskMitigation: mitigation,
+                                netBenefit: benefit,
+                                roi: mitigation > 0 ? ((benefit / mitigation) * 100) : 0
+                            };
+                            
+                            const metadata = {
+                                assetName: `Assessment ${new Date().toLocaleString()}`,
+                                category: 'Auto-saved',
+                                tags: ['auto-save'],
+                                notes: 'Automatically saved assessment'
+                            };
+                            
+                            await HistoryManager.saveAssessment(inputs, results, metadata);
+                        } catch (error) {
+                            console.warn('[Calculator] Auto-save to history failed:', error);
+                        }
+                    }, 2000); // Wait 2 seconds after last change
+                }
             },
 
             // Matrix Logic
@@ -1341,7 +2600,214 @@
         // Initialize App
         document.addEventListener('DOMContentLoaded', () => {
             Calculator.init();
+            PWAManager.init();
         });
+
+        /**
+         * ------------------------------------------------------------------
+         * MODULE: PWA Manager
+         * ------------------------------------------------------------------
+         */
+        const PWAManager = {
+            isOnline: navigator.onLine,
+            swRegistration: null,
+            
+            init: function() {
+                this.registerServiceWorker();
+                this.setupOnlineOfflineHandlers();
+                this.setupInstallPrompt();
+                this.checkForUpdates();
+            },
+            
+            // Register Service Worker
+            registerServiceWorker: async function() {
+                if ('serviceWorker' in navigator) {
+                    try {
+                        const registration = await navigator.serviceWorker.register('/sw.js');
+                        this.swRegistration = registration;
+                        
+                        console.log('[PWA] Service Worker registered successfully');
+                        
+                        // Listen for updates
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    this.showUpdateAvailable();
+                                }
+                            });
+                        });
+                        
+                    } catch (error) {
+                        console.error('[PWA] Service Worker registration failed:', error);
+                    }
+                }
+            },
+            
+            // Setup online/offline event handlers
+            setupOnlineOfflineHandlers: function() {
+                window.addEventListener('online', () => {
+                    this.isOnline = true;
+                    this.updateOnlineStatus();
+                });
+                
+                window.addEventListener('offline', () => {
+                    this.isOnline = false;
+                    this.updateOnlineStatus();
+                });
+                
+                // Initial status
+                this.updateOnlineStatus();
+            },
+            
+            // Update online status indicator
+            updateOnlineStatus: function() {
+                const statusIndicator = document.getElementById('online-status');
+                if (!statusIndicator) {
+                    // Create status indicator if it doesn't exist
+                    this.createOnlineStatusIndicator();
+                    return;
+                }
+                
+                if (this.isOnline) {
+                    statusIndicator.classList.add('hidden');
+                } else {
+                    statusIndicator.classList.remove('hidden');
+                }
+            },
+            
+            // Create online status indicator
+            createOnlineStatusIndicator: function() {
+                const indicator = document.createElement('div');
+                indicator.id = 'online-status';
+                indicator.className = `fixed top-16 left-1/2 transform -translate-x-1/2 z-50 
+                    bg-orange-500 text-white px-4 py-2 rounded-lg shadow-lg transition-all duration-300
+                    ${this.isOnline ? 'hidden' : ''}`;
+                indicator.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>Offline Mode - Calculations still work!</span>
+                    </div>
+                `;
+                document.body.appendChild(indicator);
+            },
+            
+            // Setup install prompt
+            setupInstallPrompt: function() {
+                let deferredPrompt;
+                
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    this.showInstallButton(deferredPrompt);
+                });
+                
+                window.addEventListener('appinstalled', () => {
+                    console.log('[PWA] App installed successfully');
+                    this.hideInstallButton();
+                });
+            },
+            
+            // Show install button
+            showInstallButton: function(deferredPrompt) {
+                const installBtn = document.createElement('button');
+                installBtn.id = 'install-btn';
+                installBtn.className = `fixed bottom-4 right-4 z-50 bg-primary hover:bg-blue-600 
+                    text-white font-bold py-3 px-4 rounded-full shadow-lg transition-all duration-300
+                    flex items-center space-x-2`;
+                installBtn.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    <span>Install App</span>
+                `;
+                
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        console.log('[PWA] Install prompt outcome:', outcome);
+                        deferredPrompt = null;
+                        this.hideInstallButton();
+                    }
+                });
+                
+                document.body.appendChild(installBtn);
+            },
+            
+            // Hide install button
+            hideInstallButton: function() {
+                const installBtn = document.getElementById('install-btn');
+                if (installBtn) {
+                    installBtn.remove();
+                }
+            },
+            
+            // Check for updates
+            checkForUpdates: function() {
+                if (this.swRegistration) {
+                    setInterval(() => {
+                        this.swRegistration.update();
+                    }, 60000); // Check every minute
+                }
+            },
+            
+            // Show update available notification
+            showUpdateAvailable: function() {
+                const updateNotification = document.createElement('div');
+                updateNotification.className = `fixed top-20 right-4 z-50 bg-green-500 text-white 
+                    p-4 rounded-lg shadow-lg max-w-sm`;
+                updateNotification.innerHTML = `
+                    <div class="flex items-start space-x-3">
+                        <svg class="w-6 h-6 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div class="flex-1">
+                            <p class="font-semibold">Update Available</p>
+                            <p class="text-sm opacity-90">A new version is ready to install.</p>
+                            <button onclick="PWAManager.applyUpdate()" 
+                                    class="mt-2 bg-white text-green-500 px-3 py-1 rounded text-sm font-medium hover:bg-gray-100">
+                                Update Now
+                            </button>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                    class="mt-2 ml-2 text-white opacity-75 hover:opacity-100 text-sm">
+                                Later
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(updateNotification);
+                
+                // Auto-remove after 10 seconds
+                setTimeout(() => {
+                    if (updateNotification.parentNode) {
+                        updateNotification.remove();
+                    }
+                }, 10000);
+            },
+            
+            // Apply update
+            applyUpdate: function() {
+                if (this.swRegistration && this.swRegistration.waiting) {
+                    this.swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                    window.location.reload();
+                }
+            },
+            
+            // Get app info
+            getAppInfo: function() {
+                return {
+                    isOnline: this.isOnline,
+                    isInstalled: window.matchMedia('(display-mode: standalone)').matches,
+                    hasServiceWorker: 'serviceWorker' in navigator,
+                    swRegistration: this.swRegistration
+                };
+            }
+        };
 
     </script>
 </body>

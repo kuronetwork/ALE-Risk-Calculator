@@ -1,0 +1,26 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="64" fill="#3B82F6"/>
+  
+  <!-- Shield Icon -->
+  <path d="M256 64L128 128V256C128 352 256 448 256 448S384 352 384 256V128L256 64Z" 
+        fill="#FFFFFF" stroke="#E5E7EB" stroke-width="4"/>
+  
+  <!-- Calculator/Chart Elements -->
+  <rect x="200" y="160" width="112" height="8" rx="4" fill="#3B82F6"/>
+  <rect x="200" y="180" width="80" height="8" rx="4" fill="#10B981"/>
+  <rect x="200" y="200" width="96" height="8" rx="4" fill="#F59E0B"/>
+  
+  <!-- Dollar Sign -->
+  <text x="256" y="280" font-family="Arial, sans-serif" font-size="64" font-weight="bold" 
+        text-anchor="middle" fill="#FFFFFF">$</text>
+  
+  <!-- Risk Assessment Dots -->
+  <circle cx="180" cy="320" r="6" fill="#EF4444"/>
+  <circle cx="200" cy="320" r="6" fill="#F59E0B"/>
+  <circle cx="220" cy="320" r="6" fill="#10B981"/>
+  
+  <!-- ALE Text -->
+  <text x="256" y="360" font-family="Arial, sans-serif" font-size="24" font-weight="bold" 
+        text-anchor="middle" fill="#FFFFFF">ALE</text>
+</svg>
