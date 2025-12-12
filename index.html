@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資安風險量化與定性分析工具</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .highlight {
+            background-color: #FFD700 !important; /* Gold */
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans p-4 md:p-8">
+    <div class="max-w-7xl mx-auto" id="report-container">
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">資安風險量化與定性分析工具</h1>
+            <p class="text-gray-600 mt-2">厭世資安人量化救星</p>
+        </header>
+
+        <div class="flex justify-center mb-6 space-x-4">
+            <button id="export-pdf" class="bg-red-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300">匯出為 PDF</button>
+            <button id="export-excel" class="bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300">匯出為 Excel</button>
+        </div>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Quantitative Analysis Section -->
+            <section class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-700 mb-6">1. 量化風險分析</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2 mb-6">
+                    <div>
+                        <label for="av" class="block text-sm font-medium text-gray-700">
+                            資產價值 (AV)
+                             <div class="tooltip inline-block">
+                                <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                <span class="tooltiptext">資產的總體商業價值，包含有形與無形資產。</span>
+                            </div>
+                        </label>
+                        <input type="number" id="av" placeholder="10000000" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <p id="av-error" class="text-red-500 text-xs mt-1 h-4"></p>
+                    </div>
+                    <div>
+                        <label for="ef" class="block text-sm font-medium text-gray-700">
+                            暴露因子 (EF %)
+                            <div class="tooltip inline-block">
+                                <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                <span class="tooltiptext">單次安全事件對資產造成損失的百分比。</span>
+                            </div>
+                        </label>
+                        <input type="number" id="ef" placeholder="10" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <p id="ef-error" class="text-red-500 text-xs mt-1 h-4"></p>
+                    </div>
+                    <div>
+                        <label for="aro-before" class="block text-sm font-medium text-gray-700">
+                            導入前 ARO
+                            <div class="tooltip inline-block">
+                                <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                <span class="tooltiptext">評估在一年內，威脅事件發生的平均頻率。</span>
+                            </div>
+                        </label>
+                        <input type="number" step="0.1" id="aro-before" placeholder="1" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <p id="aro-before-error" class="text-red-500 text-xs mt-1 h-4"></p>
+                    </div>
+                    <div>
+                        <label for="new-aro" class="block text-sm font-medium text-gray-700">
+                            導入後 ARO
+                             <div class="tooltip inline-block">
+                                <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                <span class="tooltiptext">導入控制措施後，預估一年內事件發生的頻率。</span>
+                            </div>
+                        </label>
+                        <input type="number" step="0.1" id="new-aro" placeholder="0.2" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <p id="new-aro-error" class="text-red-500 text-xs mt-1 h-4"></p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="control-cost" class="block text-sm font-medium text-gray-700">
+                            年度控制成本
+                            <div class="tooltip inline-block">
+                                <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                <span class="tooltiptext">為實施和維護控制措施，所產生的年度總成本。</span>
+                            </div>
+                        </label>
+                        <input type="number" id="control-cost" placeholder="10000000" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                        <p id="control-cost-error" class="text-red-500 text-xs mt-1 h-4"></p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse border border-gray-300">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th class="border border-gray-300 px-4 py-2 text-left font-bold">計算項目</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left font-bold">導入前風險分析</th>
+                                <th class="border border-gray-300 px-4 py-2 text-left font-bold">導入後風險分析</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">AV (資產價值)</td>
+                                <td id="table-av-before" class="border border-gray-300 px-4 py-2 text-right" colspan="2"></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">EF (暴露因子)</td>
+                                <td id="table-ef-before" class="border border-gray-300 px-4 py-2 text-right" colspan="2"></td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">
+                                    SLE (單一預期損失)
+                                    <div class="tooltip">
+                                        <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                        <span class="tooltiptext">SLE = AV × EF</span>
+                                    </div>
+                                </td>
+                                <td id="table-sle-before" class="border border-gray-300 px-4 py-2 text-right"></td>
+                                <td id="table-sle-after" class="border border-gray-300 px-4 py-2 text-right"></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">ARO (年度發生率)</td>
+                                <td id="table-aro-before" class="border border-gray-300 px-4 py-2 text-right"></td>
+                                <td id="table-aro-after" class="border border-gray-300 px-4 py-2 text-right"></td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">
+                                    ALE (年預期損失)
+                                     <div class="tooltip">
+                                        <span class="text-blue-500 cursor-pointer">(ⓘ)</span>
+                                        <span class="tooltiptext">ALE = SLE × ARO</span>
+                                    </div>
+                                </td>
+                                <td id="table-ale-before" class="border border-gray-300 px-4 py-2 text-right font-bold text-red-600"></td>
+                                <td id="table-ale-after" class="border border-gray-300 px-4 py-2 text-right font-bold text-green-600"></td>
+                            </tr>
+                             <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">風險降低價值</td>
+                                <td id="table-mitigation" class="border border-gray-300 px-4 py-2 text-right" colspan="2"></td>
+                            </tr>
+                             <tr class="bg-white">
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">最終淨效益</td>
+                                <td id="table-benefit" class="border border-gray-300 px-4 py-2 text-right font-bold text-xl" colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="quantitative-conclusion" class="mt-6 p-4 rounded-lg bg-gray-100 text-center"></div>
+                
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">年度預期損失 (ALE) 比較</h3>
+                    <div class="h-64">
+                        <canvas id="aleChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold text-gray-700 mb-2 text-center">最終淨效益分析 (瀑布圖)</h3>
+                     <div class="h-64">
+                        <canvas id="benefitWaterfallChart"></canvas>
+                    </div>
+                </div>
+
+
+            </section>
+
+            <!-- Qualitative Analysis Section -->
+            <section class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-700 mb-6">2. 定性風險分析 (單一風險)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label for="likelihood" class="block text-sm font-medium text-gray-700">可能性 (Likelihood)</label>
+                        <select id="likelihood" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="2">高</option>
+                            <option value="1">中</option>
+                            <option value="0">低</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="impact" class="block text-sm font-medium text-gray-700">衝擊性 (Impact)</label>
+                        <select id="impact" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="2">高</option>
+                            <option value="1">中</option>
+                            <option value="0">低</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse border-2 border-gray-500 text-center">
+                        <thead>
+                            <tr>
+                                <th class="border border-gray-400 p-3"></th>
+                                <th class="border border-gray-400 p-3 bg-gray-200 font-bold">衝擊：低</th>
+                                <th class="border border-gray-400 p-3 bg-gray-200 font-bold">衝擊：中</th>
+                                <th class="border border-gray-400 p-3 bg-gray-200 font-bold">衝擊：高</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-400 p-3 bg-gray-200 font-bold">可能性：高</td>
+                                <td id="matrix-2-0" class="border border-gray-400 p-3 bg-yellow-200 transition-all duration-300">中度風險</td>
+                                <td id="matrix-2-1" class="border border-gray-400 p-3 bg-red-300 transition-all duration-300">高度風險</td>
+                                <td id="matrix-2-2" class="border border-gray-400 p-3 bg-red-500 transition-all duration-300">極高風險</td>
+                            </tr>
+                            <tr>
+                                <td class="border border-gray-400 p-3 bg-gray-200 font-bold">可能性：中</td>
+                                <td id="matrix-1-0" class="border border-gray-400 p-3 bg-green-200 transition-all duration-300">低度風險</td>
+                                <td id="matrix-1-1" class="border border-gray-400 p-3 bg-yellow-200 transition-all duration-300">中度風險</td>
+                                <td id="matrix-1-2" class="border border-gray-400 p-3 bg-red-300 transition-all duration-300">高度風險</td>
+                            </tr>
+                             <tr>
+                                <td class="border border-gray-400 p-3 bg-gray-200 font-bold">可能性：低</td>
+                                <td id="matrix-0-0" class="border border-gray-400 p-3 bg-green-200 transition-all duration-300">低度風險</td>
+                                <td id="matrix-0-1" class="border border-gray-400 p-3 bg-green-200 transition-all duration-300">低度風險</td>
+                                <td id="matrix-0-2" class="border border-gray-400 p-3 bg-yellow-200 transition-all duration-300">中度風險</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="qualitative-conclusion" class="mt-6 p-4 rounded-lg bg-gray-100 text-center"></div>
+
+                <!-- New Before/After Qualitative Analysis -->
+                <hr class="my-8 border-gray-300">
+                <h2 class="text-2xl font-bold text-gray-700 mb-6">2.1. 處理前後定性風險比較</h2>
+
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border-collapse border border-gray-300 text-center">
+                         <thead class="bg-gray-200">
+                            <tr>
+                                <th class="border border-gray-300 px-4 py-2 font-bold">項目</th>
+                                <th class="border border-gray-300 px-4 py-2 font-bold">處理前</th>
+                                <th class="border border-gray-300 px-4 py-2 font-bold">處理後</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">可能性</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <select id="likelihood-before" class="w-full p-1 border-gray-300 rounded-md">
+                                        <option value="2">高</option>
+                                        <option value="1" selected>中</option>
+                                        <option value="0">低</option>
+                                    </select>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <select id="likelihood-after" class="w-full p-1 border-gray-300 rounded-md">
+                                        <option value="2">高</option>
+                                        <option value="1">中</option>
+                                        <option value="0" selected>低</option>
+                                    </select>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td class="border border-gray-300 px-4 py-2 font-semibold">衝擊性</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <select id="impact-before" class="w-full p-1 border-gray-300 rounded-md">
+                                        <option value="2" selected>高</option>
+                                        <option value="1">中</option>
+                                        <option value="0">低</option>
+                                    </select>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                     <select id="impact-after" class="w-full p-1 border-gray-300 rounded-md">
+                                        <option value="2">高</option>
+                                        <option value="1" selected>中</option>
+                                        <option value="0">低</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2 font-bold">風險等級</td>
+                                <td id="risk-level-before" class="border border-gray-300 px-4 py-2 font-bold text-lg"></td>
+                                <td id="risk-level-after" class="border border-gray-300 px-4 py-2 font-bold text-lg"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="qualitative-comparison-conclusion" class="mt-6 p-4 rounded-lg bg-gray-100 text-center"></div>
+
+                <hr class="my-8 border-gray-300">
+                <h2 class="text-2xl font-bold text-gray-700 mb-6">3. 核心計算公式說明</h2>
+                <div class="space-y-4 text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-lg">單一預期損失 (SLE)</h4>
+                        <p class="bg-gray-100 p-3 rounded-md mt-1 font-mono text-sm sm:text-base">SLE = 資產價值 (AV) × 暴露因子 (EF)</p>
+                        <p class="text-sm mt-1">說明：指單一風險事件發生時，預期會造成的財務損失金額。</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg">年預期損失 (ALE)</h4>
+                        <p class="bg-gray-100 p-3 rounded-md mt-1 font-mono text-sm sm:text-base">ALE = 單一預期損失 (SLE) × 年度發生率 (ARO)</p>
+                        <p class="text-sm mt-1">說明：將單次損失的衝擊與其發生的頻率相結合，計算出年度的預期總損失。</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg">風險降低價值</h4>
+                        <p class="bg-gray-100 p-3 rounded-md mt-1 font-mono text-sm sm:text-base">風險降低價值 = 導入前 ALE - 導入後 ALE</p>
+                        <p class="text-sm mt-1">說明：評估導入控制措施後，每年能有效避免多少潛在損失。</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-lg">最終淨效益</h4>
+                        <p class="bg-gray-100 p-3 rounded-md mt-1 font-mono text-sm sm:text-base">最終淨效益 = 風險降低價值 - 年度控制成本</p>
+                        <p class="text-sm mt-1">說明：衡量資安投資的最終財務回報，是決策的關鍵指標。</p>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 text-gray-500 text-sm space-y-2">
+            <p>資安風險分析工具 by Kuro</p>
+            <p>
+                Email: <a href="mailto:contact@kuronetwork.me" class="text-blue-600 hover:underline">contact@kuronetwork.me</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const avInput = document.getElementById('av');
+        const efInput = document.getElementById('ef');
+        const aroBeforeInput = document.getElementById('aro-before');
+        const newAroInput = document.getElementById('new-aro');
+        const controlCostInput = document.getElementById('control-cost');
+
+        // Chart setup
+        const aleCtx = document.getElementById('aleChart').getContext('2d');
+        let aleChart = new Chart(aleCtx, {
+            type: 'bar',
+            data: {
+                labels: ['導入前 ALE', '導入後 ALE'],
+                datasets: [{
+                    label: '年預期損失 (元)',
+                    data: [0, 0],
+                    backgroundColor: [
+                        'rgba(239, 68, 68, 0.6)', // red
+                        'rgba(34, 197, 94, 0.6)' // green
+                    ],
+                    borderColor: [
+                        'rgba(239, 68, 68, 1)',
+                        'rgba(34, 197, 94, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
+                            }
+                        }
+                    }
+                },
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + context.parsed.y.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }); } } } },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        const benefitCtx = document.getElementById('benefitWaterfallChart').getContext('2d');
+        let benefitWaterfallChart = new Chart(benefitCtx, {
+             type: 'bar',
+             data: {
+                labels: ['風險降低價值', '控制成本', '最終淨效益'],
+                datasets: [{
+                    label: '效益分析',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(34, 197, 94, 0.6)', // green
+                        'rgba(239, 68, 68, 0.6)', // red
+                        'rgba(59, 130, 246, 0.6)'  // blue
+                    ],
+                    borderColor: [
+                        'rgba(34, 197, 94, 1)',
+                        'rgba(239, 68, 68, 1)',
+                        'rgba(59, 130, 246, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+             },
+             options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                         ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
+                            }
+                        }
+                    }
+                },
+                 plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(context) { 
+                    let label = context.label || '';
+                    if (label) { label += ': '; }
+                    const value = Array.isArray(context.raw) ? (context.raw[1] - context.raw[0]) : context.raw;
+                    return label + value.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
+                 } } } },
+                responsive: true,
+                maintainAspectRatio: false,
+             }
+        });
+
+
+        function formatCurrency(num) {
+            if (isNaN(num)) return 'N/A';
+            return num.toLocaleString('zh-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 });
+        }
+
+        function calculateQuantitative() {
+            // 1. Setup validation
+            const inputs = {
+                av: { el: avInput, errorEl: document.getElementById('av-error'), value: parseFloat(avInput.value) },
+                ef: { el: efInput, errorEl: document.getElementById('ef-error'), value: parseFloat(efInput.value) },
+                aroBefore: { el: aroBeforeInput, errorEl: document.getElementById('aro-before-error'), value: parseFloat(aroBeforeInput.value) },
+                newAro: { el: newAroInput, errorEl: document.getElementById('new-aro-error'), value: parseFloat(newAroInput.value) },
+                controlCost: { el: controlCostInput, errorEl: document.getElementById('control-cost-error'), value: parseFloat(controlCostInput.value) },
+            };
+
+            let isValid = true;
+
+            // 2. Reset all error states
+            for (const key in inputs) {
+                inputs[key].el.classList.remove('border-red-500');
+                inputs[key].errorEl.textContent = '';
+            }
+
+            // 3. Validate each input
+            if (isNaN(inputs.av.value) || inputs.av.value <= 0) {
+                inputs.av.el.classList.add('border-red-500');
+                inputs.av.errorEl.textContent = '資產價值必須為正數。';
+                isValid = false;
+            }
+            if (isNaN(inputs.ef.value) || inputs.ef.value < 0 || inputs.ef.value > 100) {
+                inputs.ef.el.classList.add('border-red-500');
+                inputs.ef.errorEl.textContent = '暴露因子需介於 0 到 100 之間。';
+                isValid = false;
+            }
+            if (isNaN(inputs.aroBefore.value) || inputs.aroBefore.value < 0) {
+                inputs.aroBefore.el.classList.add('border-red-500');
+                inputs.aroBefore.errorEl.textContent = '年度發生率不可為負數。';
+                isValid = false;
+            }
+            if (isNaN(inputs.newAro.value) || inputs.newAro.value < 0) {
+                inputs.newAro.el.classList.add('border-red-500');
+                inputs.newAro.errorEl.textContent = '年度發生率不可為負數。';
+                isValid = false;
+            }
+             if (isNaN(inputs.controlCost.value) || inputs.controlCost.value < 0) {
+                inputs.controlCost.el.classList.add('border-red-500');
+                inputs.controlCost.errorEl.textContent = '控制成本不可為負數。';
+                isValid = false;
+            }
+
+            // 4. If not valid, clear results and stop
+            if (!isValid) {
+                const naFields = ['table-av-before', 'table-ef-before', 'table-sle-before', 'table-sle-after', 'table-aro-before', 'table-aro-after', 'table-ale-before', 'table-ale-after', 'table-mitigation', 'table-benefit'];
+                naFields.forEach(id => document.getElementById(id).textContent = 'N/A');
+                document.getElementById('quantitative-conclusion').innerHTML = '';
+                aleChart.data.datasets[0].data = [0, 0];
+                aleChart.update();
+                benefitWaterfallChart.data.datasets[0].data = [];
+                benefitWaterfallChart.update();
+                return;
+            }
+
+            // 5. Proceed with calculation
+            const { av, ef, aroBefore, newAro, controlCost } = {
+                av: inputs.av.value,
+                ef: inputs.ef.value,
+                aroBefore: inputs.aroBefore.value,
+                newAro: inputs.newAro.value,
+                controlCost: inputs.controlCost.value
+            };
+            
+            const sle = av * (ef / 100);
+            const ale1 = sle * aroBefore;
+            const ale2 = sle * newAro;
+            const mitigation = ale1 - ale2;
+            const benefit = mitigation - controlCost;
+
+            // Update Table
+            document.getElementById('table-av-before').textContent = formatCurrency(av);
+            document.getElementById('table-ef-before').textContent = `${ef} %`;
+            document.getElementById('table-sle-before').textContent = formatCurrency(sle);
+            document.getElementById('table-sle-after').textContent = formatCurrency(sle);
+            document.getElementById('table-aro-before').textContent = `${aroBefore} 次/年`;
+            document.getElementById('table-aro-after').textContent = `${newAro} 次/年`;
+            document.getElementById('table-ale-before').textContent = formatCurrency(ale1);
+            document.getElementById('table-ale-after').textContent = formatCurrency(ale2);
+            document.getElementById('table-mitigation').textContent = formatCurrency(mitigation);
+            document.getElementById('table-benefit').textContent = formatCurrency(benefit);
+
+            // Update Conclusion
+            const conclusionDiv = document.getElementById('quantitative-conclusion');
+            if (benefit > 0) {
+                conclusionDiv.innerHTML = `<p class="font-bold text-green-700">結論：導入此控制措施具備正向投資回報，預估每年可為組織帶來 <span class="text-xl">${formatCurrency(benefit)}</span> 的淨效益，建議採納。</p>`;
+                document.getElementById('table-benefit').className = "border border-gray-300 px-4 py-2 text-right font-bold text-xl text-green-700";
+            } else {
+                conclusionDiv.innerHTML = `<p class="font-bold text-red-700">結論：導入此控制措施的成本高於其風險降低價值 (${formatCurrency(benefit)})，從財務角度看不具效益，建議重新評估。</p>`;
+                 document.getElementById('table-benefit').className = "border border-gray-300 px-4 py-2 text-right font-bold text-xl text-red-700";
+            }
+            
+            // Update ALE Chart
+            aleChart.data.datasets[0].data = [ale1, ale2];
+            aleChart.update();
+
+            // Update Benefit Waterfall Chart
+            benefitWaterfallChart.data.datasets[0].data = [
+                [0, mitigation], // Risk Mitigation Value
+                [mitigation, mitigation - controlCost], // Control Cost (subtracts from mitigation)
+                [0, benefit] // Net Benefit
+            ];
+            benefitWaterfallChart.update();
+        }
+        
+        // Qualitative Analysis
+        const likelihoodSelect = document.getElementById('likelihood');
+        const impactSelect = document.getElementById('impact');
+        const qualitativeConclusionDiv = document.getElementById('qualitative-conclusion');
+        
+        const riskMatrixMapping = [
+            // Impact: Low(0), Medium(1), High(2)
+            ['低度風險', '低度風險', '中度風險'], // Likelihood: Low(0)
+            ['低度風險', '中度風險', '高度風險'], // Likelihood: Medium(1)
+            ['中度風險', '高度風險', '極高風險']  // Likelihood: High(2)
+        ];
+        
+        const riskConclusionMapping = {
+            '極高風險': '建議：此風險必須立即處理，並向高階管理層匯報。',
+            '高度風險': '建議：應優先處理此風險，並制定控制措施。',
+            '中度風險': '建議：應監控此風險，並在資源允許時處理。',
+            '低度風險': '建議：可考慮接受此風險，但需定期審查。'
+        };
+
+        function updateQualitative() {
+            // Clear previous highlights
+            document.querySelectorAll('td[id^="matrix-"]').forEach(cell => {
+                cell.classList.remove('highlight');
+            });
+            
+            const likelihood = likelihoodSelect.value;
+            const impact = impactSelect.value;
+            
+            const riskLevel = riskMatrixMapping[likelihood][impact];
+            
+            // Highlight cell
+            const cellId = `matrix-${likelihood}-${impact}`;
+            document.getElementById(cellId).classList.add('highlight');
+            
+            // Update conclusion
+            qualitativeConclusionDiv.innerHTML = `
+                <p class="font-bold text-lg">風險等級：<span class="text-blue-600">${riskLevel}</span></p>
+                <p class="text-gray-600 mt-1">${riskConclusionMapping[riskLevel]}</p>
+            `;
+        }
+
+        // --- New Before/After Qualitative Analysis ---
+        const likelihoodBeforeSelect = document.getElementById('likelihood-before');
+        const impactBeforeSelect = document.getElementById('impact-before');
+        const likelihoodAfterSelect = document.getElementById('likelihood-after');
+        const impactAfterSelect = document.getElementById('impact-after');
+        const riskLevelBeforeCell = document.getElementById('risk-level-before');
+        const riskLevelAfterCell = document.getElementById('risk-level-after');
+        const comparisonConclusionDiv = document.getElementById('qualitative-comparison-conclusion');
+
+        const riskColorMapping = {
+            '極高風險': 'text-red-600',
+            '高度風險': 'text-red-500',
+            '中度風險': 'text-yellow-600',
+            '低度風險': 'text-green-600',
+        };
+
+        function updateQualitativeComparison() {
+            const likelihoodBefore = likelihoodBeforeSelect.value;
+            const impactBefore = impactBeforeSelect.value;
+            const riskLevelBefore = riskMatrixMapping[likelihoodBefore][impactBefore];
+
+            const likelihoodAfter = likelihoodAfterSelect.value;
+            const impactAfter = impactAfterSelect.value;
+            const riskLevelAfter = riskMatrixMapping[likelihoodAfter][impactAfter];
+
+            riskLevelBeforeCell.textContent = riskLevelBefore;
+            riskLevelBeforeCell.className = `border border-gray-300 px-4 py-2 font-bold text-lg ${riskColorMapping[riskLevelBefore] || ''}`;
+
+            riskLevelAfterCell.textContent = riskLevelAfter;
+            riskLevelAfterCell.className = `border border-gray-300 px-4 py-2 font-bold text-lg ${riskColorMapping[riskLevelAfter] || ''}`;
+
+            comparisonConclusionDiv.innerHTML = `<p class="font-bold">結論：導入控制措施後，風險等級從 <strong class="${riskColorMapping[riskLevelBefore]}">${riskLevelBefore}</strong> 降低至 <strong class="${riskColorMapping[riskLevelAfter]}">${riskLevelAfter}</strong>。</p>`;
+        }
+
+
+        // Event Listeners
+        [avInput, efInput, aroBeforeInput, newAroInput, controlCostInput].forEach(input => {
+            input.addEventListener('input', calculateQuantitative);
+        });
+
+        [likelihoodSelect, impactSelect].forEach(select => {
+            select.addEventListener('change', updateQualitative);
+        });
+
+        [likelihoodBeforeSelect, impactBeforeSelect, likelihoodAfterSelect, impactAfterSelect].forEach(select => {
+            select.addEventListener('change', updateQualitativeComparison);
+        });
+
+        // Initial Calculations
+        avInput.value = 10000000;
+        efInput.value = 10;
+        aroBeforeInput.value = 1;
+        newAroInput.value = 0.2;
+        controlCostInput.value = 10000000;
+        calculateQuantitative();
+        updateQualitative();
+        updateQualitativeComparison();
+
+        // Export functionality
+        document.getElementById('export-pdf').addEventListener('click', () => {
+             const { jsPDF } = window.jspdf;
+             const report = document.getElementById('report-container');
+             
+             // Temporarily increase width for better capture
+             report.style.width = '1200px';
+
+             html2canvas(report, { scale: 2 }).then(canvas => {
+                // Restore original width
+                report.style.width = ''; 
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save('資安風險評估報告.pdf');
+             });
+        });
+
+        document.getElementById('export-excel').addEventListener('click', () => {
+            // Re-run validation before exporting
+            calculateQuantitative(); 
+            // Check if any error message is visible
+            const hasErrors = Array.from(document.querySelectorAll('p[id$="-error"]')).some(p => p.textContent !== '');
+            if (hasErrors) {
+                alert('請修正輸入欄位的錯誤後再匯出。');
+                return;
+            }
+
+            const av = parseFloat(avInput.value) || 0;
+            const ef = parseFloat(efInput.value) || 0;
+            const aroBefore = parseFloat(aroBeforeInput.value) || 0;
+            const newAro = parseFloat(newAroInput.value) || 0;
+            const controlCost = parseFloat(controlCostInput.value) || 0;
+            const sle = av * (ef / 100);
+            const ale1 = sle * aroBefore;
+            const ale2 = sle * newAro;
+            const mitigation = ale1 - ale2;
+            const benefit = mitigation - controlCost;
+
+            const likelihood = likelihoodSelect.options[likelihoodSelect.selectedIndex].text;
+            const impact = impactSelect.options[impactSelect.selectedIndex].text;
+            const riskLevel = riskMatrixMapping[likelihoodSelect.value][impactSelect.value];
+            
+            const quantData = [
+                { '項目': '資產價值 (AV)', '數值': av },
+                { '項目': '暴露因子 (EF)', '數值': `${ef}%` },
+                { '項目': '單一預期損失 (SLE)', '數值': sle },
+                { '項目': '導入前 ARO', '數值': aroBefore },
+                { '項目': '導入前 ALE', '數值': ale1 },
+                { '項目': '導入後 ARO', '數值': newAro },
+                { '項目': '導入後 ALE', '數值': ale2 },
+                { '項目': '年度控制成本', '數值': controlCost },
+                { '項目': '風險降低價值', '數值': mitigation },
+                { '項目': '最終淨效益', '數值': benefit },
+            ];
+
+            const qualData = [
+                { '項目': '可能性', '選擇': likelihood },
+                { '項目': '衝擊性', '選擇': impact },
+                { '項目': '風險等級', '結果': riskLevel },
+                { '項目': '建議', '結果': riskConclusionMapping[riskLevel] }
+            ]
+            
+            const wb = XLSX.utils.book_new();
+            const wsQuant = XLSX.utils.json_to_sheet(quantData);
+            const wsQual = XLSX.utils.json_to_sheet(qualData);
+
+            XLSX.utils.book_append_sheet(wb, wsQuant, '量化風險分析');
+            XLSX.utils.book_append_sheet(wb, wsQual, '定性風險分析');
+
+            XLSX.writeFile(wb, '資安風險評估報告.xlsx');
+        });
+
+    </script>
+</body>
+</html>
