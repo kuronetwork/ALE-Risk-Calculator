@@ -50,10 +50,11 @@ This tool is a **pure frontend** PWA where all data is processed locally in the 
 - **Advanced Benefit Analysis**: Calculate risk mitigation value and net benefit with ROI
 - **Multi-Currency Support**: USD, TWD, EUR, JPY, CNY with proper formatting
 
-#### Interactive Visualizations
+#### Enhanced Visualizations
 
-- **ALE Comparison Charts**: Dynamic bar charts showing risk reduction
-- **ROI Waterfall Analysis**: Visual breakdown of mitigation value, costs, and net benefit
+- **ALE Comparison Charts**: Animated bar charts with gradient colors showing risk reduction
+- **ROI Dashboard Cards**: Intuitive card-based layout displaying key metrics
+- **Real-time Visual Feedback**: Input validation with smooth animations and color coding
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
 
 ---
@@ -110,22 +111,26 @@ This tool is a **pure frontend** PWA where all data is processed locally in the 
 
 ---
 
-### 🎨 Modern UX/UI Features
+### 🎨 Enhanced UX/UI Features
 
 - **Dark/Light Mode**: System-aware theme switching with manual override
-- **Smooth Animations**: Polished transitions and micro-interactions
+- **Enhanced Input Fields**: Improved contrast, focus states, and validation feedback
+- **Smart Visual Hierarchy**: Key values highlighted with color-coded cards and gradients
+- **Smooth Animations**: Input success/error animations, hover effects, and transitions
 - **Accessibility**: WCAG compliant with keyboard navigation and screen reader support
 - **Touch Optimized**: Gesture-friendly interface for mobile devices
-- **Loading States**: Clear feedback during processing operations
-- **Error Handling**: User-friendly error messages with recovery suggestions
+- **Real-time Validation**: Instant feedback with visual cues for input errors
+- **Professional Styling**: Card-based layouts with shadows, gradients, and modern design
 
 ---
 
 ### 💾 Export & Sharing
 
-- **Professional PDF Reports**: Complete reports with charts, calculations, and branding
-- **Excel Workbooks**: Multi-sheet exports with formulas and formatting
-- **Data Portability**: JSON export for integration with other tools
+- **Professional PDF Reports**: High-quality reports with charts, calculations, and metadata
+- **Comprehensive Excel Workbooks**: Multi-sheet exports with summary, calculations, and risk matrix
+- **Data Validation**: Pre-export validation ensures complete and accurate reports
+- **Loading Indicators**: Visual feedback during export processing
+- **Timestamped Files**: Automatic file naming with generation dates
 - **Print Optimization**: Clean print layouts for physical documentation
 
 ---
@@ -564,10 +569,11 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 - **進階效益分析**：計算風險降低價值、淨效益與投資報酬率
 - **多幣別支援**：支援 USD、TWD、EUR、JPY、CNY 並正確格式化
 
-#### 互動式視覺化
+#### 增強視覺化
 
-- **ALE 比較圖表**：動態長條圖顯示風險降低效果
-- **ROI 瀑布分析**：視覺化呈現降低價值、成本與淨效益分解
+- **ALE 比較圖表**：具漸層色彩的動畫長條圖顯示風險降低效果
+- **ROI 儀表板卡片**：直觀的卡片式版面顯示關鍵指標
+- **即時視覺回饋**：輸入驗證搭配流暢動畫與色彩編碼
 - **響應式設計**：針對桌機、平板、手機最佳化
 
 ---
@@ -624,22 +630,26 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ---
 
-### 🎨 現代化 UX/UI 功能
+### 🎨 增強 UX/UI 功能
 
 - **深色/淺色模式**：系統感知主題切換與手動覆寫
-- **流暢動畫**：精緻的轉場與微互動
+- **增強輸入欄位**：改善對比度、焦點狀態與驗證回饋
+- **智慧視覺層級**：關鍵數值以色彩編碼卡片與漸層突出顯示
+- **流暢動畫**：輸入成功/錯誤動畫、懸停效果與轉場
 - **無障礙設計**：符合 WCAG 標準，支援鍵盤導航與螢幕閱讀器
 - **觸控最佳化**：手機裝置友善的手勢介面
-- **載入狀態**：處理操作期間的清楚回饋
-- **錯誤處理**：使用者友善的錯誤訊息與復原建議
+- **即時驗證**：輸入錯誤的即時回饋與視覺提示
+- **專業樣式**：具陰影、漸層與現代設計的卡片式版面
 
 ---
 
 ### 💾 匯出與分享
 
-- **專業 PDF 報告**：包含圖表、計算與品牌的完整報告
-- **Excel 工作簿**：包含公式與格式的多工作表匯出
-- **資料可攜性**：JSON 匯出以整合其他工具
+- **專業 PDF 報告**：包含圖表、計算與中繼資料的高品質報告
+- **完整 Excel 工作簿**：包含摘要、計算與風險矩陣的多工作表匯出
+- **資料驗證**：匯出前驗證確保完整準確的報告
+- **載入指示器**：匯出處理期間的視覺回饋
+- **時間戳檔案**：自動以生成日期命名檔案
 - **列印最佳化**：實體文件的清潔列印版面
 
 ---
