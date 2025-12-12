@@ -181,7 +181,6 @@
             .history-item .flex.items-center.space-x-4 {
                 flex-direction: column;
                 align-items: flex-start;
-                space-x: 0;
                 gap: 4px;
             }
         }
@@ -196,6 +195,175 @@
             .sticky.top-0 {
                 top: env(safe-area-inset-top);
             }
+        }
+
+        /* Enhanced Input Styling */
+        .enhanced-input {
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .enhanced-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+        
+        .enhanced-input.error {
+            border-color: #ef4444 !important;
+            background-color: #fef2f2;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .dark .enhanced-input.error {
+            background-color: #450a0a;
+        }
+        
+        /* Enhanced Table Styling */
+        .enhanced-table {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .enhanced-table tbody tr:nth-child(even) {
+            background-color: rgba(249, 250, 251, 0.5);
+        }
+        
+        .dark .enhanced-table tbody tr:nth-child(even) {
+            background-color: rgba(55, 65, 81, 0.3);
+        }
+        
+        .enhanced-table tbody tr:hover {
+            background-color: rgba(59, 130, 246, 0.05);
+            transform: translateX(2px);
+            transition: all 0.2s ease;
+        }
+        
+        .dark .enhanced-table tbody tr:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+        
+        /* Key Value Highlighting */
+        .key-value {
+            font-weight: 700;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        .key-value.positive {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            border: 1px solid #10b981;
+        }
+        
+        .key-value.negative {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            color: #991b1b;
+            border: 1px solid #ef4444;
+        }
+        
+        .key-value.neutral {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            border: 1px solid #3b82f6;
+        }
+        
+        .dark .key-value.positive {
+            background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+            color: #6ee7b7;
+        }
+        
+        .dark .key-value.negative {
+            background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
+            color: #fca5a5;
+        }
+        
+        .dark .key-value.neutral {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: #93c5fd;
+        }
+        
+        /* ROI Cards */
+        .roi-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .roi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+        }
+        
+        .roi-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark .roi-card {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-color: #374151;
+        }
+        
+        .roi-card.positive::before {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .roi-card.negative::before {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+        
+        .roi-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 8px 0;
+        }
+        
+        .roi-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+        
+        .roi-description {
+            font-size: 0.75rem;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+        
+        /* Input Animation */
+        @keyframes inputSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .input-success {
+            animation: inputSuccess 0.3s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .input-error {
+            animation: shake 0.5s ease;
         }
     </style>
 </head>
@@ -305,7 +473,7 @@
                                 <span class="tooltip-text" data-i18n="tipAV">Total monetary value of the asset.</span>
                             </div>
                         </label>
-                        <input type="number" id="av" placeholder="10000000" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
+                        <input type="number" id="av" placeholder="10000000" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="av-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
@@ -318,7 +486,7 @@
                                 <span class="tooltip-text" data-i18n="tipEF">% of loss when a threat occurs.</span>
                             </div>
                         </label>
-                        <input type="number" id="ef" placeholder="10" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
+                        <input type="number" id="ef" placeholder="10" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="ef-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
@@ -331,7 +499,7 @@
                                 <span class="tooltip-text" data-i18n="tipARO1">Frequency of occurrence per year (Current).</span>
                             </div>
                         </label>
-                        <input type="number" step="0.1" id="aro-before" placeholder="1" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
+                        <input type="number" step="0.1" id="aro-before" placeholder="1" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="aro-before-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
@@ -344,7 +512,7 @@
                                 <span class="tooltip-text" data-i18n="tipARO2">Estimated frequency after control.</span>
                             </div>
                         </label>
-                        <input type="number" step="0.1" id="new-aro" placeholder="0.2" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
+                        <input type="number" step="0.1" id="new-aro" placeholder="0.2" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="new-aro-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
@@ -357,14 +525,14 @@
                                 <span class="tooltip-text" data-i18n="tipCost">Cost to implement/maintain control.</span>
                             </div>
                         </label>
-                        <input type="number" id="control-cost" placeholder="10000000" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow">
+                        <input type="number" id="control-cost" placeholder="10000000" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="control-cost-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
                 </div>
 
                 <!-- Comparison Table -->
                 <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600 mb-6">
-                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+                    <table class="enhanced-table min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                         <thead class="bg-gray-100 dark:bg-gray-700">
                             <tr>
                                 <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3" data-i18n="thItem">Item</th>
@@ -411,19 +579,45 @@
                 <!-- Quant Conclusion -->
                 <div id="quantitative-conclusion" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center mb-8 border border-gray-200 dark:border-gray-600 min-h-[60px] flex items-center justify-center"></div>
                 
-                <!-- Charts -->
+                <!-- Charts and ROI Cards -->
                 <div class="space-y-8">
+                    <!-- ALE Comparison Chart -->
                     <div>
                         <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 text-center" data-i18n="chartAleTitle">ALE Comparison</h3>
                         <div class="h-64 relative w-full">
                             <canvas id="aleChart"></canvas>
                         </div>
                     </div>
+                    
+                    <!-- ROI Dashboard Cards -->
                     <div>
-                        <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 text-center" data-i18n="chartBenefitTitle">ROI Waterfall Analysis</h3>
-                         <div class="h-64 relative w-full">
-                            <canvas id="benefitWaterfallChart"></canvas>
+                        <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4 text-center" data-i18n="roiDashboardTitle">Investment Analysis Dashboard</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Risk Reduction Card -->
+                            <div class="roi-card neutral">
+                                <div class="roi-label" data-i18n="roiRiskReduction">Risk Reduction</div>
+                                <div id="roi-risk-reduction" class="roi-value text-blue-600 dark:text-blue-400">$0</div>
+                                <div class="roi-description" data-i18n="roiRiskReductionDesc">Annual risk mitigation value</div>
+                            </div>
+                            
+                            <!-- Control Cost Card -->
+                            <div class="roi-card">
+                                <div class="roi-label" data-i18n="roiControlCost">Control Cost</div>
+                                <div id="roi-control-cost" class="roi-value text-gray-600 dark:text-gray-400">$0</div>
+                                <div class="roi-description" data-i18n="roiControlCostDesc">Annual implementation cost</div>
+                            </div>
+                            
+                            <!-- Net Benefit Card -->
+                            <div id="roi-net-benefit-card" class="roi-card">
+                                <div class="roi-label" data-i18n="roiNetBenefit">Net Benefit</div>
+                                <div id="roi-net-benefit" class="roi-value">$0</div>
+                                <div id="roi-percentage" class="text-sm font-semibold mt-1">ROI: 0%</div>
+                                <div class="roi-description" data-i18n="roiNetBenefitDesc">Annual return on investment</div>
+                            </div>
                         </div>
+                        
+                        <!-- ROI Conclusion -->
+                        <div id="roi-conclusion" class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600"></div>
                     </div>
                 </div>
             </section>
@@ -671,7 +865,13 @@
                     rowMitigation: "Risk Mitigation Value",
                     rowNetBenefit: "Net Benefit",
                     chartAleTitle: "ALE Comparison",
-                    chartBenefitTitle: "ROI Waterfall Analysis",
+                    roiDashboardTitle: "Investment Analysis Dashboard",
+                    roiRiskReduction: "Risk Reduction",
+                    roiRiskReductionDesc: "Annual risk mitigation value",
+                    roiControlCost: "Control Cost", 
+                    roiControlCostDesc: "Annual implementation cost",
+                    roiNetBenefit: "Net Benefit",
+                    roiNetBenefitDesc: "Annual return on investment",
                     secQualTitle: "2. Qualitative Analysis",
                     subQualSingle: "Single Risk Assessment",
                     labelLikelihood: "Likelihood",
@@ -729,7 +929,13 @@
                     rowMitigation: "風險降低價值",
                     rowNetBenefit: "最終淨效益",
                     chartAleTitle: "年度預期損失 (ALE) 比較",
-                    chartBenefitTitle: "淨效益瀑布圖分析",
+                    roiDashboardTitle: "投資分析儀表板",
+                    roiRiskReduction: "風險降低",
+                    roiRiskReductionDesc: "年度風險降低價值",
+                    roiControlCost: "控制成本",
+                    roiControlCostDesc: "年度實施成本", 
+                    roiNetBenefit: "淨效益",
+                    roiNetBenefitDesc: "年度投資回報",
                     secQualTitle: "2. 定性風險分析",
                     subQualSingle: "單一風險評估",
                     labelLikelihood: "可能性",
@@ -780,7 +986,13 @@
                     rowMitigation: "リスク低減効果",
                     rowNetBenefit: "純利益 (Net Benefit)",
                     chartAleTitle: "ALE 比較",
-                    chartBenefitTitle: "ROI 分析",
+                    roiDashboardTitle: "投資分析ダッシュボード",
+                    roiRiskReduction: "リスク低減",
+                    roiRiskReductionDesc: "年間リスク軽減価値",
+                    roiControlCost: "対策コスト",
+                    roiControlCostDesc: "年間実装コスト",
+                    roiNetBenefit: "純利益", 
+                    roiNetBenefitDesc: "年間投資収益率",
                     secQualTitle: "2. 定性分析",
                     labelLikelihood: "可能性",
                     labelImpact: "影響度",
@@ -820,7 +1032,13 @@
                     rowMitigation: "Valor de Mitigación",
                     rowNetBenefit: "Beneficio Neto",
                     chartAleTitle: "Comparación ALE",
-                    chartBenefitTitle: "Análisis ROI",
+                    roiDashboardTitle: "Panel de Análisis de Inversión",
+                    roiRiskReduction: "Reducción de Riesgo",
+                    roiRiskReductionDesc: "Valor anual de mitigación de riesgo",
+                    roiControlCost: "Costo de Control",
+                    roiControlCostDesc: "Costo anual de implementación",
+                    roiNetBenefit: "Beneficio Neto",
+                    roiNetBenefitDesc: "Retorno anual de inversión",
                     secQualTitle: "2. Análisis Cualitativo",
                     labelLikelihood: "Probabilidad",
                     labelImpact: "Impacto",
@@ -860,7 +1078,13 @@
                     rowMitigation: "Risikominderungswert",
                     rowNetBenefit: "Nettonutzen",
                     chartAleTitle: "ALE Vergleich",
-                    chartBenefitTitle: "ROI Analyse",
+                    roiDashboardTitle: "Investment-Analyse-Dashboard",
+                    roiRiskReduction: "Risikominderung",
+                    roiRiskReductionDesc: "Jährlicher Risikominderungswert",
+                    roiControlCost: "Kontrollkosten",
+                    roiControlCostDesc: "Jährliche Implementierungskosten",
+                    roiNetBenefit: "Nettonutzen",
+                    roiNetBenefitDesc: "Jährliche Kapitalrendite",
                     secQualTitle: "2. Qualitative Analyse",
                     labelLikelihood: "Wahrscheinlichkeit",
                     labelImpact: "Auswirkung",
@@ -900,7 +1124,13 @@
                     rowMitigation: "Valeur d'Atténuation",
                     rowNetBenefit: "Bénéfice Net",
                     chartAleTitle: "Comparaison ALE",
-                    chartBenefitTitle: "Analyse ROI",
+                    roiDashboardTitle: "Tableau de Bord d'Analyse d'Investissement",
+                    roiRiskReduction: "Réduction des Risques",
+                    roiRiskReductionDesc: "Valeur annuelle d'atténuation des risques",
+                    roiControlCost: "Coût de Contrôle",
+                    roiControlCostDesc: "Coût annuel d'implémentation",
+                    roiNetBenefit: "Bénéfice Net",
+                    roiNetBenefitDesc: "Retour sur investissement annuel",
                     secQualTitle: "2. Analyse Qualitative",
                     labelLikelihood: "Probabilité",
                     labelImpact: "Impact",
@@ -940,7 +1170,13 @@
                     rowMitigation: "Valor de Mitigação",
                     rowNetBenefit: "Benefício Líquido",
                     chartAleTitle: "Comparação ALE",
-                    chartBenefitTitle: "Análise ROI",
+                    roiDashboardTitle: "Painel de Análise de Investimento",
+                    roiRiskReduction: "Redução de Risco",
+                    roiRiskReductionDesc: "Valor anual de mitigação de risco",
+                    roiControlCost: "Custo de Controle",
+                    roiControlCostDesc: "Custo anual de implementação",
+                    roiNetBenefit: "Benefício Líquido",
+                    roiNetBenefitDesc: "Retorno anual do investimento",
                     secQualTitle: "2. Análise Qualitativa",
                     labelLikelihood: "Probabilidade",
                     labelImpact: "Impacto",
@@ -980,7 +1216,13 @@
                     rowMitigation: "Giá trị Giảm thiểu",
                     rowNetBenefit: "Lợi ích Ròng",
                     chartAleTitle: "So sánh ALE",
-                    chartBenefitTitle: "Phân tích ROI",
+                    roiDashboardTitle: "Bảng Điều Khiển Phân Tích Đầu Tư",
+                    roiRiskReduction: "Giảm Thiểu Rủi Ro",
+                    roiRiskReductionDesc: "Giá trị giảm thiểu rủi ro hàng năm",
+                    roiControlCost: "Chi Phí Kiểm Soát",
+                    roiControlCostDesc: "Chi phí triển khai hàng năm",
+                    roiNetBenefit: "Lợi Ích Ròng",
+                    roiNetBenefitDesc: "Lợi nhuận đầu tư hàng năm",
                     secQualTitle: "2. Phân tích Định tính",
                     labelLikelihood: "Khả năng",
                     labelImpact: "Tác động",
@@ -2030,7 +2272,6 @@
         const Calculator = {
             // Chart Instances
             aleChart: null,
-            benefitChart: null,
 
             init: function() {
                 this.initCharts();
@@ -2065,19 +2306,24 @@
             },
 
             initCharts: function() {
-                // Common Chart Options
+                // Enhanced Chart Options
                 const commonOptions = {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: { display: false },
                         tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff',
+                            borderColor: '#3B82F6',
+                            borderWidth: 1,
+                            cornerRadius: 8,
                             callbacks: {
                                 label: (context) => {
                                     let label = context.dataset.label || '';
                                     if (label) label += ': ';
-                                    const val = Array.isArray(context.raw) ? (context.raw[1] - context.raw[0]) : context.raw;
-                                    return label + this.formatMoney(val);
+                                    return label + this.formatMoney(context.raw);
                                 }
                             }
                         }
@@ -2085,20 +2331,31 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { color: document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb' },
+                            grid: { 
+                                color: document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb',
+                                drawBorder: false
+                            },
                             ticks: { 
                                 color: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280',
-                                callback: (value) => this.formatMoney(value) 
+                                callback: (value) => this.formatMoney(value),
+                                padding: 10
                             }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { color: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280' }
+                            ticks: { 
+                                color: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280',
+                                padding: 10
+                            }
                         }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeInOutQuart'
                     }
                 };
 
-                // ALE Chart
+                // Enhanced ALE Chart
                 const aleCtx = document.getElementById('aleChart').getContext('2d');
                 this.aleChart = new Chart(aleCtx, {
                     type: 'bar',
@@ -2107,35 +2364,32 @@
                         datasets: [{
                             label: 'ALE',
                             data: [0, 0],
-                            backgroundColor: ['rgba(239, 68, 68, 0.7)', 'rgba(16, 185, 129, 0.7)'],
-                            borderColor: ['rgb(239, 68, 68)', 'rgb(16, 185, 129)'],
-                            borderWidth: 1,
-                            borderRadius: 6
-                        }]
-                    },
-                    options: commonOptions
-                });
-
-                // Waterfall Chart
-                const benCtx = document.getElementById('benefitWaterfallChart').getContext('2d');
-                this.benefitChart = new Chart(benCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: [I18n.t('rowMitigation'), I18n.t('labelCost'), I18n.t('rowNetBenefit')],
-                        datasets: [{
-                            label: 'Value',
-                            data: [],
                             backgroundColor: [
-                                'rgba(59, 130, 246, 0.7)', // Blue (Mitigation)
-                                'rgba(239, 68, 68, 0.7)',  // Red (Cost)
-                                'rgba(16, 185, 129, 0.7)'  // Green (Net)
+                                'linear-gradient(135deg, rgba(239, 68, 68, 0.8) 0%, rgba(220, 38, 38, 0.8) 100%)',
+                                'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)'
                             ],
-                            borderWidth: 1,
-                            borderRadius: 6,
+                            borderColor: ['rgb(239, 68, 68)', 'rgb(16, 185, 129)'],
+                            borderWidth: 2,
+                            borderRadius: 8,
                             borderSkipped: false
                         }]
                     },
-                    options: commonOptions
+                    options: {
+                        ...commonOptions,
+                        plugins: {
+                            ...commonOptions.plugins,
+                            tooltip: {
+                                ...commonOptions.plugins.tooltip,
+                                callbacks: {
+                                    afterLabel: (context) => {
+                                        if (context.dataIndex === 0) return 'Current Risk Level';
+                                        if (context.dataIndex === 1) return 'Risk After Controls';
+                                        return '';
+                                    }
+                                }
+                            }
+                        }
+                    }
                 });
             },
 
@@ -2176,40 +2430,116 @@
                 setText('table-sle-after', this.formatMoney(sle));
                 setText('table-aro-before', aroBefore);
                 setText('table-aro-after', newAro);
-                setText('table-ale-before', this.formatMoney(ale1));
-                setText('table-ale-after', this.formatMoney(ale2));
-                setText('table-mitigation', this.formatMoney(mitigation));
-                
+                // Update key values with enhanced styling
+                const aleBeforeEl = document.getElementById('table-ale-before');
+                const aleAfterEl = document.getElementById('table-ale-after');
+                const mitigationEl = document.getElementById('table-mitigation');
                 const benEl = document.getElementById('table-benefit');
-                benEl.textContent = this.formatMoney(benefit);
-                benEl.className = `px-4 py-3 text-right font-bold text-xl ${benefit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`;
+                
+                aleBeforeEl.innerHTML = `<span class="key-value negative">${this.formatMoney(ale1)}</span>`;
+                aleAfterEl.innerHTML = `<span class="key-value positive">${this.formatMoney(ale2)}</span>`;
+                mitigationEl.innerHTML = `<span class="key-value neutral">${this.formatMoney(mitigation)}</span>`;
+                
+                const benefitClass = benefit >= 0 ? 'positive' : 'negative';
+                benEl.innerHTML = `<span class="key-value ${benefitClass}">${this.formatMoney(benefit)}</span>`;
+                benEl.className = 'px-4 py-3 text-right';
 
                 // Conclusion
                 const concDiv = document.getElementById('quantitative-conclusion');
                 const concText = benefit >= 0 ? I18n.t('concBenefitPos') : I18n.t('concBenefitNeg');
                 concDiv.innerHTML = `<p class="font-bold text-lg ${benefit >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-600 dark:text-red-300'}">${concText.replace('{val}', this.formatMoney(benefit))}</p>`;
 
-                // Update Charts
+                // Update ALE Chart
                 if(this.aleChart) {
                     this.aleChart.data.datasets[0].data = [ale1, ale2];
                     this.aleChart.data.labels = [I18n.t('thBefore'), I18n.t('thAfter')];
-                    this.aleChart.update();
+                    this.aleChart.update('active');
                 }
                 
-                if(this.benefitChart) {
-                    this.benefitChart.data.datasets[0].data = [
-                        [0, mitigation],
-                        [mitigation, mitigation - cost],
-                        [0, benefit]
-                    ];
-                    this.benefitChart.data.labels = [I18n.t('rowMitigation'), I18n.t('labelCost'), I18n.t('rowNetBenefit')];
-                    this.benefitChart.update();
-                }
+                // Update ROI Cards
+                this.updateROICards(mitigation, cost, benefit);
 
                 Storage.save();
                 
                 // Auto-save to history if all required fields are filled
                 this.autoSaveToHistory(av, ef, aroBefore, newAro, cost, sle, ale1, ale2, mitigation, benefit);
+            },
+            
+            // Update ROI Cards
+            updateROICards: function(mitigation, cost, benefit) {
+                // Update Risk Reduction Card
+                document.getElementById('roi-risk-reduction').textContent = this.formatMoney(mitigation);
+                
+                // Update Control Cost Card  
+                document.getElementById('roi-control-cost').textContent = this.formatMoney(cost);
+                
+                // Update Net Benefit Card
+                const netBenefitEl = document.getElementById('roi-net-benefit');
+                const netBenefitCard = document.getElementById('roi-net-benefit-card');
+                const roiPercentageEl = document.getElementById('roi-percentage');
+                const roiConclusionEl = document.getElementById('roi-conclusion');
+                
+                netBenefitEl.textContent = this.formatMoney(benefit);
+                
+                // Calculate ROI percentage
+                const roiPercent = cost > 0 ? ((benefit / cost) * 100) : 0;
+                roiPercentageEl.textContent = `ROI: ${roiPercent.toFixed(1)}%`;
+                
+                // Update card styling based on benefit
+                if (benefit >= 0) {
+                    netBenefitCard.className = 'roi-card positive';
+                    netBenefitEl.className = 'roi-value text-green-600 dark:text-green-400';
+                    roiPercentageEl.className = 'text-sm font-semibold mt-1 text-green-600 dark:text-green-400';
+                } else {
+                    netBenefitCard.className = 'roi-card negative';
+                    netBenefitEl.className = 'roi-value text-red-600 dark:text-red-400';
+                    roiPercentageEl.className = 'text-sm font-semibold mt-1 text-red-600 dark:text-red-400';
+                }
+                
+                // Update ROI conclusion
+                const isPositive = benefit >= 0;
+                const conclusionText = isPositive 
+                    ? `✅ Recommended Investment - Positive ROI of ${roiPercent.toFixed(1)}%`
+                    : `⚠️ Review Required - Negative ROI of ${roiPercent.toFixed(1)}%`;
+                    
+                const conclusionClass = isPositive 
+                    ? 'text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
+                    : 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800';
+                    
+                roiConclusionEl.innerHTML = `<p class="font-semibold ${conclusionClass} p-3 rounded-lg border">${conclusionText}</p>`;
+            },
+            
+            // Enhanced input validation with visual feedback
+            validateInput: function(inputId, value, min, max) {
+                const inputEl = document.getElementById(inputId);
+                const errorEl = document.getElementById(inputId + '-error');
+                
+                let isValid = true;
+                let errorMsg = '';
+                
+                if (value === '' || isNaN(value)) {
+                    isValid = false;
+                    errorMsg = 'Required';
+                } else if (value < min) {
+                    isValid = false;
+                    errorMsg = `Min: ${min}`;
+                } else if (max !== undefined && value > max) {
+                    isValid = false;
+                    errorMsg = `Max: ${max}`;
+                }
+                
+                // Update visual feedback
+                if (isValid) {
+                    inputEl.classList.remove('error');
+                    inputEl.classList.add('input-success');
+                    setTimeout(() => inputEl.classList.remove('input-success'), 300);
+                } else {
+                    inputEl.classList.add('error', 'input-error');
+                    setTimeout(() => inputEl.classList.remove('input-error'), 500);
+                }
+                
+                errorEl.textContent = errorMsg;
+                return isValid;
             },
             
             // Setup history UI components
@@ -2529,9 +2859,36 @@
             },
 
             bindEvents: function() {
-                // Inputs
-                ['av', 'ef', 'aro-before', 'new-aro', 'control-cost'].forEach(id => {
-                    document.getElementById(id).addEventListener('input', () => this.calculateQuantitative());
+                // Enhanced Input Handling
+                const inputConfigs = {
+                    'av': { min: 0.01, max: undefined },
+                    'ef': { min: 0, max: 100 },
+                    'aro-before': { min: 0, max: undefined },
+                    'new-aro': { min: 0, max: undefined },
+                    'control-cost': { min: 0, max: undefined }
+                };
+                
+                Object.keys(inputConfigs).forEach(id => {
+                    const input = document.getElementById(id);
+                    const config = inputConfigs[id];
+                    
+                    // Input event with validation
+                    input.addEventListener('input', (e) => {
+                        const value = parseFloat(e.target.value);
+                        this.validateInput(id, value, config.min, config.max);
+                        this.calculateQuantitative();
+                    });
+                    
+                    // Focus events for better UX
+                    input.addEventListener('focus', () => {
+                        input.classList.remove('error');
+                    });
+                    
+                    // Blur events for final validation
+                    input.addEventListener('blur', (e) => {
+                        const value = parseFloat(e.target.value);
+                        this.validateInput(id, value, config.min, config.max);
+                    });
                 });
                 
                 ['likelihood', 'impact'].forEach(id => {
@@ -2573,27 +2930,289 @@
             },
 
             exportPDF: function() {
-                const { jsPDF } = window.jspdf;
-                const report = document.getElementById('report-container');
-                const btnContainer = document.querySelector('.no-print');
-                
-                btnContainer.style.display = 'none'; // Hide buttons
-                window.scrollTo(0, 0);
+                try {
+                    // Validate data before export
+                    const av = parseFloat(document.getElementById('av').value) || 0;
+                    const ef = parseFloat(document.getElementById('ef').value) || 0;
+                    const aroBefore = parseFloat(document.getElementById('aro-before').value) || 0;
+                    const newAro = parseFloat(document.getElementById('new-aro').value) || 0;
+                    const cost = parseFloat(document.getElementById('control-cost').value) || 0;
+                    
+                    if (av <= 0 || ef < 0 || aroBefore < 0 || newAro < 0 || cost < 0) {
+                        alert('Please fill in all required fields with valid values before exporting.');
+                        return;
+                    }
+                    
+                    const { jsPDF } = window.jspdf;
+                    const report = document.getElementById('report-container');
+                    const btnContainer = document.querySelector('.no-print');
+                    
+                    // Show loading state
+                    const loadingDiv = document.createElement('div');
+                    loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+                    loadingDiv.innerHTML = `
+                        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl">
+                            <div class="flex items-center space-x-3">
+                                <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600"></div>
+                                <span class="text-gray-700 dark:text-gray-300">Generating PDF report...</span>
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(loadingDiv);
+                    
+                    // Hide buttons and scroll to top
+                    btnContainer.style.display = 'none';
+                    window.scrollTo(0, 0);
 
-                html2canvas(report, { scale: 2, backgroundColor: document.documentElement.classList.contains('dark') ? '#111827' : '#f9fafb' }).then(canvas => {
-                    btnContainer.style.display = 'flex'; // Show buttons
-                    const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF('p', 'mm', 'a4');
-                    const pdfWidth = pdf.internal.pageSize.getWidth();
-                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                    pdf.save('risk-assessment-report.pdf');
-                });
+                    // Generate PDF with better options
+                    html2canvas(report, { 
+                        scale: 2, 
+                        backgroundColor: document.documentElement.classList.contains('dark') ? '#111827' : '#f9fafb',
+                        useCORS: true,
+                        allowTaint: true,
+                        height: report.scrollHeight,
+                        width: report.scrollWidth
+                    }).then(canvas => {
+                        try {
+                            // Restore UI
+                            btnContainer.style.display = 'flex';
+                            loadingDiv.remove();
+                            
+                            const imgData = canvas.toDataURL('image/png', 0.95);
+                            const pdf = new jsPDF('p', 'mm', 'a4');
+                            const pdfWidth = pdf.internal.pageSize.getWidth();
+                            const pdfHeight = pdf.internal.pageSize.getHeight();
+                            const imgWidth = canvas.width;
+                            const imgHeight = canvas.height;
+                            const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                            const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                            const imgY = 0;
+                            
+                            // Add image to PDF
+                            pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+                            
+                            // Add metadata
+                            pdf.setProperties({
+                                title: 'ALE Risk Assessment Report',
+                                subject: 'Cybersecurity Risk Analysis',
+                                author: 'ALE Risk Calculator',
+                                creator: 'Kuro Risk Calculator',
+                                producer: 'ALE Risk Calculator v2.1'
+                            });
+                            
+                            // Save with timestamp
+                            const fileName = `ALE-Risk-Assessment-${new Date().toISOString().split('T')[0]}.pdf`;
+                            pdf.save(fileName);
+                            
+                            // Show success notification
+                            this.showNotification('PDF report exported successfully!', 'success');
+                            
+                        } catch (error) {
+                            console.error('PDF generation error:', error);
+                            btnContainer.style.display = 'flex';
+                            loadingDiv.remove();
+                            alert('Error generating PDF. Please try again.');
+                        }
+                    }).catch(error => {
+                        console.error('Canvas generation error:', error);
+                        btnContainer.style.display = 'flex';
+                        loadingDiv.remove();
+                        alert('Error capturing content for PDF. Please try again.');
+                    });
+                    
+                } catch (error) {
+                    console.error('PDF export error:', error);
+                    alert('Error exporting PDF file. Please try again.');
+                }
             },
 
             exportExcel: function() {
-                // ... (Logic similar to previous version but using current values)
-                alert("Excel Export initiated (Feature preserved from v1)");
+                try {
+                    // Get current calculation values
+                    const av = parseFloat(document.getElementById('av').value) || 0;
+                    const ef = parseFloat(document.getElementById('ef').value) || 0;
+                    const aroBefore = parseFloat(document.getElementById('aro-before').value) || 0;
+                    const newAro = parseFloat(document.getElementById('new-aro').value) || 0;
+                    const cost = parseFloat(document.getElementById('control-cost').value) || 0;
+                    
+                    // Validate data
+                    if (av <= 0 || ef < 0 || aroBefore < 0 || newAro < 0 || cost < 0) {
+                        alert('Please fill in all required fields with valid values before exporting.');
+                        return;
+                    }
+                    
+                    // Calculate values
+                    const sle = av * (ef / 100);
+                    const ale1 = sle * aroBefore;
+                    const ale2 = sle * newAro;
+                    const mitigation = ale1 - ale2;
+                    const benefit = mitigation - cost;
+                    const roiPercent = cost > 0 ? ((benefit / cost) * 100) : 0;
+                    
+                    // Get qualitative values
+                    const likelihood = parseInt(document.getElementById('likelihood').value);
+                    const impact = parseInt(document.getElementById('impact').value);
+                    const likelihoodBefore = parseInt(document.getElementById('likelihood-before').value);
+                    const impactBefore = parseInt(document.getElementById('impact-before').value);
+                    const likelihoodAfter = parseInt(document.getElementById('likelihood-after').value);
+                    const impactAfter = parseInt(document.getElementById('impact-after').value);
+                    
+                    // Create workbook
+                    const wb = XLSX.utils.book_new();
+                    
+                    // Summary Sheet
+                    const summaryData = [
+                        ['ALE Risk Assessment Report'],
+                        ['Generated on:', new Date().toLocaleString()],
+                        [''],
+                        ['QUANTITATIVE ANALYSIS'],
+                        ['Asset Value (AV):', av],
+                        ['Exposure Factor (EF %):', ef],
+                        ['ARO (Before Controls):', aroBefore],
+                        ['ARO (After Controls):', newAro],
+                        ['Annual Control Cost:', cost],
+                        [''],
+                        ['CALCULATED RESULTS'],
+                        ['Single Loss Expectancy (SLE):', sle],
+                        ['ALE (Before Controls):', ale1],
+                        ['ALE (After Controls):', ale2],
+                        ['Risk Mitigation Value:', mitigation],
+                        ['Net Benefit:', benefit],
+                        ['Return on Investment (ROI %):', roiPercent.toFixed(2)],
+                        [''],
+                        ['QUALITATIVE ANALYSIS'],
+                        ['Single Assessment - Likelihood:', this.getLikelihoodText(likelihood)],
+                        ['Single Assessment - Impact:', this.getImpactText(impact)],
+                        ['Single Assessment - Risk Level:', this.getRiskLevel(likelihood, impact)],
+                        [''],
+                        ['Before/After Comparison:'],
+                        ['Before - Likelihood:', this.getLikelihoodText(likelihoodBefore)],
+                        ['Before - Impact:', this.getImpactText(impactBefore)],
+                        ['Before - Risk Level:', this.getRiskLevel(likelihoodBefore, impactBefore)],
+                        ['After - Likelihood:', this.getLikelihoodText(likelihoodAfter)],
+                        ['After - Impact:', this.getImpactText(impactAfter)],
+                        ['After - Risk Level:', this.getRiskLevel(likelihoodAfter, impactAfter)],
+                        [''],
+                        ['RECOMMENDATION'],
+                        [benefit >= 0 ? 'RECOMMENDED: Positive ROI investment' : 'REVIEW REQUIRED: Negative ROI investment']
+                    ];
+                    
+                    const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
+                    
+                    // Style the summary sheet
+                    summaryWs['A1'] = { v: 'ALE Risk Assessment Report', t: 's', s: { font: { bold: true, sz: 16 } } };
+                    
+                    XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
+                    
+                    // Detailed Calculations Sheet
+                    const detailsData = [
+                        ['Parameter', 'Value', 'Description'],
+                        ['Asset Value (AV)', av, 'Total monetary value of the asset'],
+                        ['Exposure Factor (EF)', ef + '%', 'Percentage of asset value lost in a single incident'],
+                        ['ARO (Before)', aroBefore, 'Annual rate of occurrence before controls'],
+                        ['ARO (After)', newAro, 'Annual rate of occurrence after controls'],
+                        ['Control Cost', cost, 'Annual cost to implement and maintain controls'],
+                        [''],
+                        ['Calculation', 'Formula', 'Result'],
+                        ['SLE', 'AV × EF', sle],
+                        ['ALE (Before)', 'SLE × ARO (Before)', ale1],
+                        ['ALE (After)', 'SLE × ARO (After)', ale2],
+                        ['Risk Mitigation', 'ALE (Before) - ALE (After)', mitigation],
+                        ['Net Benefit', 'Risk Mitigation - Control Cost', benefit],
+                        ['ROI %', '(Net Benefit / Control Cost) × 100', roiPercent.toFixed(2) + '%']
+                    ];
+                    
+                    const detailsWs = XLSX.utils.aoa_to_sheet(detailsData);
+                    XLSX.utils.book_append_sheet(wb, detailsWs, 'Calculations');
+                    
+                    // Risk Matrix Sheet
+                    const matrixData = [
+                        ['Risk Matrix Analysis'],
+                        [''],
+                        ['Single Assessment'],
+                        ['Likelihood:', this.getLikelihoodText(likelihood)],
+                        ['Impact:', this.getImpactText(impact)],
+                        ['Risk Level:', this.getRiskLevel(likelihood, impact)],
+                        [''],
+                        ['Before/After Comparison'],
+                        ['', 'Before Controls', 'After Controls'],
+                        ['Likelihood', this.getLikelihoodText(likelihoodBefore), this.getLikelihoodText(likelihoodAfter)],
+                        ['Impact', this.getImpactText(impactBefore), this.getImpactText(impactAfter)],
+                        ['Risk Level', this.getRiskLevel(likelihoodBefore, impactBefore), this.getRiskLevel(likelihoodAfter, impactAfter)],
+                        [''],
+                        ['Risk Matrix (3x3)'],
+                        ['', 'Low Impact', 'Medium Impact', 'High Impact'],
+                        ['High Likelihood', 'Medium', 'High', 'Critical'],
+                        ['Medium Likelihood', 'Low', 'Medium', 'High'],
+                        ['Low Likelihood', 'Low', 'Low', 'Medium']
+                    ];
+                    
+                    const matrixWs = XLSX.utils.aoa_to_sheet(matrixData);
+                    XLSX.utils.book_append_sheet(wb, matrixWs, 'Risk Matrix');
+                    
+                    // Export the file
+                    const fileName = `ALE-Risk-Assessment-${new Date().toISOString().split('T')[0]}.xlsx`;
+                    XLSX.writeFile(wb, fileName);
+                    
+                    // Show success message
+                    this.showNotification('Excel report exported successfully!', 'success');
+                    
+                } catch (error) {
+                    console.error('Excel export error:', error);
+                    alert('Error exporting Excel file. Please try again.');
+                }
+            },
+            
+            // Helper functions for Excel export
+            getLikelihoodText: function(value) {
+                const texts = { 0: 'Low', 1: 'Medium', 2: 'High' };
+                return texts[value] || 'Unknown';
+            },
+            
+            getImpactText: function(value) {
+                const texts = { 0: 'Low', 1: 'Medium', 2: 'High' };
+                return texts[value] || 'Unknown';
+            },
+            
+            getRiskLevel: function(likelihood, impact) {
+                const matrix = [
+                    ['Low', 'Low', 'Medium'],     // Likelihood 0 (Low)
+                    ['Low', 'Medium', 'High'],    // Likelihood 1 (Med)
+                    ['Medium', 'High', 'Critical'] // Likelihood 2 (High)
+                ];
+                return matrix[likelihood] ? matrix[likelihood][impact] : 'Unknown';
+            },
+            
+            // Notification helper
+            showNotification: function(message, type = 'info') {
+                const notification = document.createElement('div');
+                const colors = {
+                    success: 'bg-green-500',
+                    error: 'bg-red-500',
+                    info: 'bg-blue-500',
+                    warning: 'bg-yellow-500'
+                };
+                
+                notification.className = `fixed top-20 right-4 z-50 ${colors[type]} text-white 
+                    px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
+                notification.textContent = message;
+                
+                document.body.appendChild(notification);
+                
+                // Animate in
+                setTimeout(() => {
+                    notification.classList.remove('translate-x-full');
+                }, 100);
+                
+                // Animate out and remove
+                setTimeout(() => {
+                    notification.classList.add('translate-x-full');
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 300);
+                }, 3000);
             }
         };
 
