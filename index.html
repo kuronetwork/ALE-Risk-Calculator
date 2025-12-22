@@ -197,6 +197,68 @@
             }
         }
 
+        /* App Download Specific Styles */
+        .app-download-badge {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .app-download-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .app-download-badge:hover::before {
+            left: 100%;
+        }
+        
+        .app-banner-slide {
+            animation: slideInDown 0.5s ease-out;
+        }
+        
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .app-store-badge {
+            transition: all 0.3s ease;
+            filter: grayscale(1);
+        }
+        
+        .app-store-badge:hover {
+            filter: grayscale(0.5);
+            transform: translateY(-2px);
+        }
+        
+        .coming-soon-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        .notify-button {
+            background: linear-gradient(45deg, #3b82f6, #10b981);
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         /* Enhanced Input Styling */
         .enhanced-input {
             transition: all 0.2s ease;
@@ -387,6 +449,26 @@
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
+    <!-- App Launch Banner -->
+    <div id="app-banner" class="bg-gradient-to-r from-blue-600 to-teal-500 text-white py-3 px-4 text-center relative">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <div class="flex items-center justify-center flex-1">
+                <span class="text-lg mr-2">🚀</span>
+                <span class="font-medium text-sm md:text-base" data-i18n="bannerText">
+                    Kuro Risk Calculator APP 即將上線！搶先體驗移動版風險分析工具
+                </span>
+                <button class="ml-4 bg-white/20 hover:bg-white/30 text-white font-medium py-1 px-3 rounded-full text-sm transition-colors" data-i18n="bannerCTA">
+                    了解更多
+                </button>
+            </div>
+            <button id="close-banner" class="text-white/80 hover:text-white ml-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -398,6 +480,49 @@
                 </div>
                 
                 <div class="flex items-center space-x-2 md:space-x-4">
+                    <!-- App Download Button -->
+                    <div class="relative group">
+                        <button id="app-download-btn" class="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-1 flex items-center text-sm">
+                            <span class="mr-2">📱</span>
+                            <span class="hidden sm:inline" data-i18n="btnDownloadApp">下載APP</span>
+                            <span class="sm:hidden">APP</span>
+                        </button>
+                        <!-- App Download Dropdown -->
+                        <div id="app-download-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-darkcard rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600 z-50 p-4">
+                            <div class="text-center mb-4">
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2" data-i18n="appDownloadTitle">Kuro Risk Calculator</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="appDownloadSubtitle">即將推出移動版本</p>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
+                                    <div class="flex items-center">
+                                        <img src="https://developer.apple.com/assets/elements/icons/app-store/app-store-64x64_2x.png" alt="App Store" class="w-8 h-8 mr-3">
+                                        <div>
+                                            <div class="font-semibold text-sm">App Store</div>
+                                            <div class="text-xs text-gray-500">iOS版本</div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full" data-i18n="statusComingSoon">即將推出</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
+                                    <div class="flex items-center">
+                                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Google Play" class="w-8 h-8 mr-3 rounded">
+                                        <div>
+                                            <div class="font-semibold text-sm">Google Play</div>
+                                            <div class="text-xs text-gray-500">Android版本</div>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full" data-i18n="statusComingSoon">即將推出</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                <p class="text-xs text-blue-700 dark:text-blue-300 text-center" data-i18n="appReleaseInfo">
+                                    預計2024年第一季正式發布
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Currency Selector -->
                     <div class="relative group hidden sm:block">
                          <select id="currency-select" class="appearance-none bg-gray-100 dark:bg-gray-700 border-none rounded-lg py-2 pl-3 pr-8 text-sm focus:ring-2 focus:ring-primary cursor-pointer">
@@ -792,11 +917,53 @@
 
         <!-- Modern Footer Dock -->
         <footer class="mt-12 py-12 border-t border-gray-200 dark:border-gray-700">
-            <div class="max-w-7xl mx-auto px-4 text-center">
-                <p class="text-gray-500 dark:text-gray-400 mb-6 font-medium">
-                    Developed with ❤️ by <span class="text-gray-800 dark:text-gray-200 font-bold">Kuro</span>
-                    <br><span class="text-xs opacity-75">v2.1 International Edition</span>
-                </p>
+            <div class="max-w-7xl mx-auto px-4">
+                
+                <!-- App Download Section -->
+                <div class="text-center mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4" data-i18n="footerAppTitle">
+                        隨時隨地進行風險分析
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto" data-i18n="footerAppDesc">
+                        Kuro Risk Calculator 移動版即將推出，讓您在任何地方都能進行專業的資安風險量化分析
+                    </p>
+                    
+                    <!-- App Store Badges -->
+                    <div class="flex justify-center items-center space-x-4 mb-6">
+                        <div class="relative group">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 opacity-60 cursor-not-allowed transition-all duration-300 group-hover:opacity-80">
+                                <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg" 
+                                     alt="Download on App Store" class="h-12 w-auto">
+                            </div>
+                            <div class="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full" data-i18n="statusSoon">
+                                即將推出
+                            </div>
+                        </div>
+                        
+                        <div class="relative group">
+                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 opacity-60 cursor-not-allowed transition-all duration-300 group-hover:opacity-80">
+                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
+                                     alt="Get it on Google Play" class="h-12 w-auto">
+                            </div>
+                            <div class="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full" data-i18n="statusSoon">
+                                即將推出
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notify Me Button -->
+                    <div class="text-center">
+                        <p class="text-gray-600 dark:text-gray-400 text-lg font-medium" data-i18n="appComingSoonText">
+                            敬請期待 APP 正式發布
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <p class="text-gray-500 dark:text-gray-400 mb-6 font-medium">
+                        Developed with ❤️ by <span class="text-gray-800 dark:text-gray-200 font-bold">Kuro</span>
+                        <br><span class="text-xs opacity-75">v2.1 International Edition</span>
+                    </p>
 
                 <!-- Social Dock -->
                 <div class="flex justify-center items-center gap-6">
@@ -920,7 +1087,20 @@
                     descHigh: "Priority action required. Implement controls.",
                     descMed: "Monitor and manage within budget.",
                     descLow: "Acceptable risk. Periodic review.",
-                    concCompare: "Risk reduced from {l1} to {l2} after control."
+                    concCompare: "Risk reduced from {l1} to {l2} after control.",
+                    // App Download Related
+                    btnDownloadApp: "Download App",
+                    appDownloadTitle: "Kuro Risk Calculator",
+                    appDownloadSubtitle: "Mobile version coming soon",
+                    statusComingSoon: "Coming Soon",
+                    appReleaseInfo: "Expected release: Q1 2024",
+                    bannerText: "Kuro Risk Calculator APP is launching soon! Mobile risk analysis tools coming",
+                    bannerCTA: "Learn More",
+                    footerAppTitle: "Risk Analysis Anywhere, Anytime",
+                    footerAppDesc: "Kuro Risk Calculator mobile version is coming soon, allowing you to perform professional cybersecurity risk quantification analysis anywhere",
+                    statusSoon: "Soon",
+                    appComingSoonText: "Stay tuned for the official APP release",
+                    appReleaseSchedule: "Expected release: Q1 2024"
                 },
                 "zh-TW": {
                     appTitle: "資安風險量化與定性分析工具",
@@ -984,7 +1164,20 @@
                     descHigh: "應優先處理，並制定控制措施。",
                     descMed: "應持續監控，資源允許時處理。",
                     descLow: "可接受風險，需定期審查。",
-                    concCompare: "結論：導入後風險等級從 {l1} 降低至 {l2}。"
+                    concCompare: "結論：導入後風險等級從 {l1} 降低至 {l2}。",
+                    // App Download Related
+                    btnDownloadApp: "下載APP",
+                    appDownloadTitle: "Kuro Risk Calculator",
+                    appDownloadSubtitle: "即將推出移動版本",
+                    statusComingSoon: "即將推出",
+                    appReleaseInfo: "預計2024年第一季正式發布",
+                    bannerText: "Kuro Risk Calculator APP 即將上線！移動版風險分析工具",
+                    bannerCTA: "了解更多",
+                    footerAppTitle: "隨時隨地進行風險分析",
+                    footerAppDesc: "Kuro Risk Calculator 移動版即將推出，讓您在任何地方都能進行專業的資安風險量化分析",
+                    statusSoon: "即將推出",
+                    appComingSoonText: "敬請期待 APP 正式發布",
+                    appReleaseSchedule: "預計發布時間：2024年第一季"
                 },
                  ja: {
                     appTitle: "サイバーセキュリティリスク定量化ツール",
@@ -1030,7 +1223,20 @@
                     descHigh: "優先的に対処し、対策を講じてください。",
                     descMed: "監視し、予算内で対処してください。",
                     descLow: "許容可能。定期的に見直してください。",
-                    concCompare: "対策後、リスクは {l1} から {l2} に低減しました。"
+                    concCompare: "対策後、リスクは {l1} から {l2} に低減しました。",
+                    // App Download Related
+                    btnDownloadApp: "アプリをダウンロード",
+                    appDownloadTitle: "Kuro Risk Calculator",
+                    appDownloadSubtitle: "モバイル版近日公開",
+                    statusComingSoon: "近日公開",
+                    appReleaseInfo: "2024年第1四半期リリース予定",
+                    bannerText: "Kuro Risk Calculator アプリが間もなくリリース！モバイル版リスク分析ツール",
+                    bannerCTA: "詳細を見る",
+                    footerAppTitle: "いつでもどこでもリスク分析",
+                    footerAppDesc: "Kuro Risk Calculator モバイル版が間もなく登場。どこでも専門的なサイバーセキュリティリスク定量化分析が可能に",
+                    statusSoon: "近日公開",
+                    appComingSoonText: "アプリの正式リリースをお待ちください",
+                    appReleaseSchedule: "リリース予定：2024年第1四半期"
                 },
                 es: {
                     appTitle: "Herramienta de Cuantificación de Riesgos Cibernéticos",
@@ -3238,7 +3444,163 @@
         document.addEventListener('DOMContentLoaded', () => {
             Calculator.init();
             PWAManager.init();
+            AppDownloadManager.init();
         });
+
+        /**
+         * ------------------------------------------------------------------
+         * MODULE: App Download Manager
+         * ------------------------------------------------------------------
+         */
+        const AppDownloadManager = {
+            init: function() {
+                this.setupEventListeners();
+                this.checkBannerVisibility();
+            },
+
+            setupEventListeners: function() {
+                // App download button dropdown toggle
+                const appBtn = document.getElementById('app-download-btn');
+                const dropdown = document.getElementById('app-download-dropdown');
+                
+                if (appBtn && dropdown) {
+                    appBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        dropdown.classList.toggle('hidden');
+                    });
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!appBtn.contains(e.target) && !dropdown.contains(e.target)) {
+                            dropdown.classList.add('hidden');
+                        }
+                    });
+                }
+
+                // Banner close button
+                const closeBanner = document.getElementById('close-banner');
+                const banner = document.getElementById('app-banner');
+                
+                if (closeBanner && banner) {
+                    closeBanner.addEventListener('click', () => {
+                        banner.style.display = 'none';
+                        localStorage.setItem('app-banner-closed', 'true');
+                    });
+                }
+
+                // Notify me buttons - removed for privacy
+                // Banner CTA button
+                const bannerCTA = document.querySelector('[data-i18n="bannerCTA"]');
+                if (bannerCTA) {
+                    bannerCTA.addEventListener('click', () => {
+                        this.showAppInfoModal();
+                    });
+                }
+            },
+
+            checkBannerVisibility: function() {
+                const banner = document.getElementById('app-banner');
+                const bannerClosed = localStorage.getItem('app-banner-closed');
+                
+                if (bannerClosed === 'true' && banner) {
+                    banner.style.display = 'none';
+                }
+            },
+
+            showNotifyModal: function() {
+                // Removed for privacy - no data collection
+            },
+
+            createNotifyModal: function() {
+                // Removed for privacy - no data collection
+                return null;
+            },
+
+            showAppInfoModal: function() {
+                const modal = this.createAppInfoModal();
+                document.body.appendChild(modal);
+                
+                // Animate in
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modal.querySelector('.transform').classList.remove('scale-95');
+                    modal.querySelector('.transform').classList.add('scale-100');
+                }, 10);
+            },
+
+            createAppInfoModal: function() {
+                const modal = document.createElement('div');
+                modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300';
+                
+                modal.innerHTML = `
+                    <div class="bg-white dark:bg-darkcard rounded-2xl shadow-2xl max-w-2xl w-full transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
+                        <div class="p-6">
+                            <div class="text-center mb-6">
+                                <div class="w-20 h-20 bg-gradient-to-r from-blue-600 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                                    <span class="text-3xl">📱</span>
+                                </div>
+                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Kuro Risk Calculator APP</h3>
+                                <p class="text-gray-600 dark:text-gray-400">專業移動版風險分析工具即將登場</p>
+                            </div>
+                            
+                            <div class="space-y-6">
+                                <div>
+                                    <h4 class="font-semibold text-lg text-gray-800 dark:text-white mb-3">🚀 即將推出的功能</h4>
+                                    <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+                                        <li class="flex items-center"><span class="mr-2">✓</span> 完整的量化風險分析</li>
+                                        <li class="flex items-center"><span class="mr-2">✓</span> 定性風險評估矩陣</li>
+                                        <li class="flex items-center"><span class="mr-2">✓</span> 離線模式支援</li>
+                                        <li class="flex items-center"><span class="mr-2">✓</span> 報告匯出功能</li>
+                                        <li class="flex items-center"><span class="mr-2">✓</span> 多語言支援</li>
+                                        <li class="flex items-center"><span class="mr-2">✓</span> 深色模式</li>
+                                    </ul>
+                                </div>
+                                
+                                <div>
+                                    <h4 class="font-semibold text-lg text-gray-800 dark:text-white mb-3">📅 預計發布時間</h4>
+                                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                                        <p class="text-blue-700 dark:text-blue-300">
+                                            <strong>iOS版本：</strong> 2024年第一季<br>
+                                            <strong>Android版本：</strong> 2024年第一季
+                                        </p>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center">
+                                    <p class="text-gray-600 dark:text-gray-400 mb-4" data-i18n="appReleaseSchedule">
+                                        預計發布時間：2024年第一季
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600 text-center">
+                                <button onclick="this.closest('.fixed').remove()" 
+                                        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                                    關閉
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Close on backdrop click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+                
+                return modal;
+            },
+
+            submitNotification: function(email) {
+                // Removed for privacy - no data collection
+            },
+
+            showSuccessMessage: function() {
+                // Removed for privacy - no data collection
+            }
+        };
 
         /**
          * ------------------------------------------------------------------
