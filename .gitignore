@@ -15,3 +15,123 @@ test-overflow-fix.html
 # OS files
 .DS_Store
 Thumbs.db
+
+
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Android local properties (may contain SDK paths)
+android/local.properties
+android/key.properties
+android/app/google-services.json
+
+# iOS/macOS sensitive files
+ios/Runner/GoogleService-Info.plist
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/ephemeral/
+
+# Keystore files (CRITICAL - contains signing keys)
+*.jks
+*.keystore
+*.p12
+*.key
+*.pem
+*.keystore.jks.base64
+*.keystore.properties
+*.upload-keystore.jks
+
+# Environment files (may contain API keys)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Firebase
+firebase_options.dart
+google-services.json
+GoogleService-Info.plist
+
+# Secrets and credentials
+secrets/
+credentials/
+*.secret
+*.credentials
+
+# Database files (if any local testing)
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.directory
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor/rules/snyk_rules.mdc
+
+# Kiro IDE
+.kiro/specs/*/tasks.md.backup

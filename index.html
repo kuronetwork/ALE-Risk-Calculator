@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" class="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Professional Quantitative (ALE/SLE) and Qualitative Cybersecurity Risk Assessment Tool. NIST SP 800-30 Compliant.">
+    <meta name="description"
+        content="Professional Quantitative (ALE/SLE) and Qualitative Cybersecurity Risk Assessment Tool. NIST SP 800-30 Compliant.">
     <meta name="author" content="Kuro">
     <meta name="keywords" content="ALE, SLE, risk assessment, cybersecurity, NIST, quantitative analysis, security ROI">
     <title>Kuro Risk Calculator - Cyber Risk Quantification Tool</title>
-    
+
     <!-- PWA Meta Tags -->
     <meta name="application-name" content="ALE Calculator">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -17,17 +19,17 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="msapplication-TileColor" content="#3B82F6">
     <meta name="msapplication-tap-highlight" content="no">
-    
+
     <!-- Manifest and Icons -->
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <link rel="mask-icon" href="/icons/icon.svg" color="#3B82F6">
-    
+
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
+
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -35,7 +37,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-    
+
     <!-- Tailwind Configuration for Dark Mode -->
     <script>
         tailwind.config = {
@@ -59,6 +61,7 @@
             position: relative;
             display: inline-block;
         }
+
         .tooltip-text {
             visibility: hidden;
             width: 240px;
@@ -79,6 +82,7 @@
             line-height: 1.4;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
+
         .tooltip-text::after {
             content: "";
             position: absolute;
@@ -89,12 +93,13 @@
             border-style: solid;
             border-color: #333 transparent transparent transparent;
         }
+
         .tooltip-container:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
             transform: translateY(0);
         }
-        
+
         /* Footer Icon Tooltip specific */
         .icon-tooltip .tooltip-text {
             width: 120px;
@@ -105,7 +110,12 @@
         }
 
         /* Smooth Transitions */
-        body, div, input, select, td, th {
+        body,
+        div,
+        input,
+        select,
+        td,
+        th {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
@@ -113,16 +123,26 @@
         .highlight {
             animation: pulse 2s infinite;
         }
+
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         /* Footer Social Icons Hover Effect */
         .social-icon {
             transition: transform 0.2s ease, fill 0.2s ease;
         }
+
         .social-icon:hover {
             transform: translateY(-3px);
         }
@@ -131,67 +151,69 @@
         .pwa-install-prompt {
             animation: slideInUp 0.3s ease-out;
         }
-        
+
         @keyframes slideInUp {
             from {
                 transform: translateY(100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         .offline-indicator {
             animation: slideInDown 0.3s ease-out;
         }
-        
+
         @keyframes slideInDown {
             from {
                 transform: translateY(-100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         /* History Modal Styles */
         .history-item:hover {
             transform: translateY(-1px);
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        
+
         .modal-backdrop {
             backdrop-filter: blur(4px);
         }
-        
+
         /* Responsive improvements for mobile PWA */
         @media (max-width: 640px) {
             .history-item {
                 padding: 12px;
             }
-            
+
             .history-item h3 {
                 font-size: 14px;
             }
-            
+
             .history-item .flex.items-center.space-x-4 {
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 4px;
             }
         }
-        
+
         /* PWA status bar adjustments */
         @media (display-mode: standalone) {
             body {
                 padding-top: env(safe-area-inset-top);
                 padding-bottom: env(safe-area-inset-bottom);
             }
-            
+
             .sticky.top-0 {
                 top: env(safe-area-inset-top);
             }
@@ -202,7 +224,7 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .app-download-badge::before {
             content: '';
             position: absolute;
@@ -210,53 +232,62 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
-        
+
         .app-download-badge:hover::before {
             left: 100%;
         }
-        
+
         .app-banner-slide {
             animation: slideInDown 0.5s ease-out;
         }
-        
+
         @keyframes slideInDown {
             from {
                 transform: translateY(-100%);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
             }
         }
-        
+
         .app-store-badge {
             transition: all 0.3s ease;
             filter: grayscale(1);
         }
-        
+
         .app-store-badge:hover {
             filter: grayscale(0.5);
             transform: translateY(-2px);
         }
-        
+
         .coming-soon-badge {
             animation: pulse 2s infinite;
         }
-        
+
         .notify-button {
             background: linear-gradient(45deg, #3b82f6, #10b981);
             background-size: 200% 200%;
             animation: gradientShift 3s ease infinite;
         }
-        
+
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         /* Enhanced Input Styling */
@@ -264,56 +295,61 @@
             transition: all 0.2s ease;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-        
+
         .enhanced-input:focus {
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
             transform: translateY(-1px);
         }
-        
+
         .enhanced-input.error {
             border-color: #ef4444 !important;
             background-color: #fef2f2;
             box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
-        
+
         .dark .enhanced-input.error {
             background-color: #450a0a;
         }
-        
+
         /* Enhanced Table Styling */
         .enhanced-table {
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-        
+
         .enhanced-table tbody tr:nth-child(even) {
             background-color: rgba(249, 250, 251, 0.5);
         }
-        
+
         .dark .enhanced-table tbody tr:nth-child(even) {
             background-color: rgba(55, 65, 81, 0.3);
         }
-        
+
         .enhanced-table tbody tr:hover {
             background-color: rgba(59, 130, 246, 0.05);
             transform: translateX(2px);
             transition: all 0.2s ease;
         }
-        
+
         .dark .enhanced-table tbody tr:hover {
             background-color: rgba(59, 130, 246, 0.1);
         }
-        
+
         .enhanced-table td {
             word-break: break-word;
             overflow-wrap: break-word;
         }
-        
+
         /* Prevent number overflow in all contexts */
-        .text-lg, .text-xl, .text-2xl, .text-3xl, .text-4xl, .text-5xl {
+        .text-lg,
+        .text-xl,
+        .text-2xl,
+        .text-3xl,
+        .text-4xl,
+        .text-5xl {
             word-break: break-word;
             overflow-wrap: break-word;
         }
-        
+
         /* Key Value Highlighting */
         .key-value {
             font-weight: 700;
@@ -326,40 +362,40 @@
             overflow-wrap: break-word;
             max-width: 100%;
         }
-        
+
         .key-value.positive {
             background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
             color: #065f46;
             border: 1px solid #10b981;
         }
-        
+
         .key-value.negative {
             background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
             color: #991b1b;
             border: 1px solid #ef4444;
         }
-        
+
         .key-value.neutral {
             background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
             color: #1e40af;
             border: 1px solid #3b82f6;
         }
-        
+
         .dark .key-value.positive {
             background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
             color: #6ee7b7;
         }
-        
+
         .dark .key-value.negative {
             background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 100%);
             color: #fca5a5;
         }
-        
+
         .dark .key-value.neutral {
             background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
             color: #93c5fd;
         }
-        
+
         /* ROI Cards */
         .roi-card {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -372,7 +408,7 @@
             overflow: visible;
             min-width: 200px;
         }
-        
+
         .roi-card::before {
             content: '';
             position: absolute;
@@ -382,25 +418,25 @@
             height: 4px;
             background: linear-gradient(90deg, #3b82f6, #10b981);
         }
-        
+
         .roi-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-        
+
         .dark .roi-card {
             background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
             border-color: #374151;
         }
-        
+
         .roi-card.positive::before {
             background: linear-gradient(90deg, #10b981, #059669);
         }
-        
+
         .roi-card.negative::before {
             background: linear-gradient(90deg, #ef4444, #dc2626);
         }
-        
+
         .roi-value {
             font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: 800;
@@ -410,7 +446,7 @@
             overflow-wrap: break-word;
             hyphens: auto;
         }
-        
+
         .roi-label {
             font-size: 0.875rem;
             font-weight: 600;
@@ -418,36 +454,56 @@
             letter-spacing: 0.05em;
             opacity: 0.8;
         }
-        
+
         .roi-description {
             font-size: 0.75rem;
             margin-top: 8px;
             opacity: 0.7;
         }
-        
+
         /* Input Animation */
         @keyframes inputSuccess {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
-        
+
         .input-success {
             animation: inputSuccess 0.3s ease;
         }
-        
+
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
         }
-        
+
         .input-error {
             animation: shake 0.5s ease;
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+<body
+    class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
     <!-- App Launch Banner -->
     <div id="app-banner" class="bg-gradient-to-r from-blue-600 to-teal-500 text-white py-3 px-4 text-center relative">
@@ -457,13 +513,16 @@
                 <span class="font-medium text-sm md:text-base" data-i18n="bannerText">
                     Kuro Risk Calculator APP 即將上線！搶先體驗移動版風險分析工具
                 </span>
-                <button class="ml-4 bg-white/20 hover:bg-white/30 text-white font-medium py-1 px-3 rounded-full text-sm transition-colors" data-i18n="bannerCTA">
+                <button
+                    class="ml-4 bg-white/20 hover:bg-white/30 text-white font-medium py-1 px-3 rounded-full text-sm transition-colors"
+                    data-i18n="bannerCTA">
                     了解更多
                 </button>
             </div>
             <button id="close-banner" class="text-white/80 hover:text-white ml-4">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
                 </svg>
             </button>
         </div>
@@ -474,49 +533,61 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
-                    <span class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate">
+                    <span
+                        class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate">
                         Kuro Risk Calculator
                     </span>
                 </div>
-                
+
                 <div class="flex items-center space-x-2 md:space-x-4">
                     <!-- App Download Button -->
                     <div class="relative group">
-                        <button id="app-download-btn" class="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-1 flex items-center text-sm">
+                        <button id="app-download-btn"
+                            class="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-1 flex items-center text-sm">
                             <span class="mr-2">📱</span>
                             <span class="hidden sm:inline" data-i18n="btnDownloadApp">下載APP</span>
                             <span class="sm:hidden">APP</span>
                         </button>
                         <!-- App Download Dropdown -->
-                        <div id="app-download-dropdown" class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-darkcard rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600 z-50 p-4">
+                        <div id="app-download-dropdown"
+                            class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-darkcard rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600 z-50 p-4">
                             <div class="text-center mb-4">
-                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2" data-i18n="appDownloadTitle">Kuro Risk Calculator</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="appDownloadSubtitle">即將推出移動版本</p>
+                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2"
+                                    data-i18n="appDownloadTitle">Kuro Risk Calculator</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="appDownloadSubtitle">
+                                    即將推出移動版本</p>
                             </div>
                             <div class="space-y-3">
-                                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
+                                <div
+                                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
                                     <div class="flex items-center">
-                                        <img src="https://developer.apple.com/assets/elements/icons/app-store/app-store-64x64_2x.png" alt="App Store" class="w-8 h-8 mr-3">
+                                        <img src="https://developer.apple.com/assets/elements/icons/app-store/app-store-64x64_2x.png"
+                                            alt="App Store" class="w-8 h-8 mr-3">
                                         <div>
                                             <div class="font-semibold text-sm">App Store</div>
                                             <div class="text-xs text-gray-500">iOS版本</div>
                                         </div>
                                     </div>
-                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full" data-i18n="statusComingSoon">即將推出</span>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full"
+                                        data-i18n="statusComingSoon">即將推出</span>
                                 </div>
-                                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
+                                <div
+                                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
                                     <div class="flex items-center">
-                                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Google Play" class="w-8 h-8 mr-3 rounded">
+                                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                                            alt="Google Play" class="w-8 h-8 mr-3 rounded">
                                         <div>
                                             <div class="font-semibold text-sm">Google Play</div>
                                             <div class="text-xs text-gray-500">Android版本</div>
                                         </div>
                                     </div>
-                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full" data-i18n="statusComingSoon">即將推出</span>
+                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full"
+                                        data-i18n="statusComingSoon">即將推出</span>
                                 </div>
                             </div>
                             <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                                <p class="text-xs text-blue-700 dark:text-blue-300 text-center" data-i18n="appReleaseInfo">
+                                <p class="text-xs text-blue-700 dark:text-blue-300 text-center"
+                                    data-i18n="appReleaseInfo">
                                     預計2024年第一季正式發布
                                 </p>
                             </div>
@@ -525,15 +596,19 @@
 
                     <!-- Currency Selector -->
                     <div class="relative group hidden sm:block">
-                         <select id="currency-select" class="appearance-none bg-gray-100 dark:bg-gray-700 border-none rounded-lg py-2 pl-3 pr-8 text-sm focus:ring-2 focus:ring-primary cursor-pointer">
+                        <select id="currency-select"
+                            class="appearance-none bg-gray-100 dark:bg-gray-700 border-none rounded-lg py-2 pl-3 pr-8 text-sm focus:ring-2 focus:ring-primary cursor-pointer">
                             <option value="USD">USD ($)</option>
                             <option value="TWD">TWD (NT$)</option>
                             <option value="EUR">EUR (€)</option>
                             <option value="JPY">JPY (¥)</option>
                             <option value="CNY">CNY (¥)</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
                         </div>
                     </div>
 
@@ -541,7 +616,8 @@
                     <div class="relative group">
                         <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg px-2 py-1">
                             <span class="text-lg mr-1">🌐</span>
-                            <select id="lang-select" class="bg-transparent border-none text-sm focus:ring-0 cursor-pointer py-1 pr-6 max-w-[80px] sm:max-w-none">
+                            <select id="lang-select"
+                                class="bg-transparent border-none text-sm focus:ring-0 cursor-pointer py-1 pr-6 max-w-[80px] sm:max-w-none">
                                 <option value="en">English</option>
                                 <option value="zh-TW">繁體中文</option>
                                 <option value="ja">日本語</option>
@@ -555,11 +631,19 @@
                     </div>
 
                     <!-- Dark Mode Toggle -->
-                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none transition-colors">
+                    <button id="theme-toggle"
+                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none transition-colors">
                         <!-- Sun Icon -->
-                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor"
+                            viewBox="0 0 20 20">
+                            <path
+                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z"
+                                fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
                         <!-- Moon Icon -->
-                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
                     </button>
                 </div>
             </div>
@@ -567,10 +651,11 @@
     </nav>
 
     <div class="flex-grow max-w-7xl mx-auto p-4 md:p-8 w-full" id="report-container">
-        
+
         <!-- Header -->
         <header class="mb-10 text-center">
-            <h1 class="text-3xl md:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-400 dark:to-teal-300" data-i18n="appTitle">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500 dark:from-blue-400 dark:to-teal-300"
+                data-i18n="appTitle">
                 Cyber Risk Quantification Tool
             </h1>
             <p class="text-gray-600 dark:text-gray-400 text-lg" data-i18n="appSubtitle">
@@ -580,29 +665,35 @@
 
         <!-- Action Buttons -->
         <div class="flex flex-wrap justify-center gap-4 mb-8 no-print">
-            <button id="btn-reset" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
+            <button id="btn-reset"
+                class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
                 <span class="mr-2">↺</span> <span data-i18n="btnReset">Reset</span>
             </button>
-            <button id="btn-batch" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
+            <button id="btn-batch"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
                 <span class="mr-2">📋</span> <span data-i18n="btnBatch">Batch Assessment</span>
             </button>
-            <button id="export-pdf" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
+            <button id="export-pdf"
+                class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
                 <span class="mr-2">📄</span> <span data-i18n="btnExportPDF">Export PDF</span>
             </button>
-            <button id="export-excel" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
+            <button id="export-excel"
+                class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
                 <span class="mr-2">📊</span> <span data-i18n="btnExportExcel">Export Excel</span>
             </button>
         </div>
 
         <main class="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            
+
             <!-- SECTION 1: Quantitative Analysis -->
-            <section class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+            <section
+                class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
                 <div class="flex items-center mb-6">
                     <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3">
                         <span class="text-2xl">💰</span>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="secQuantTitle">1. Quantitative Analysis</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="secQuantTitle">1.
+                        Quantitative Analysis</h2>
                 </div>
 
                 <!-- Inputs Grid -->
@@ -616,7 +707,8 @@
                                 <span class="tooltip-text" data-i18n="tipAV">Total monetary value of the asset.</span>
                             </div>
                         </label>
-                        <input type="number" id="av" placeholder="10000000" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        <input type="number" id="av" placeholder="10000000"
+                            class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="av-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
@@ -629,20 +721,24 @@
                                 <span class="tooltip-text" data-i18n="tipEF">% of loss when a threat occurs.</span>
                             </div>
                         </label>
-                        <input type="number" id="ef" placeholder="10" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        <input type="number" id="ef" placeholder="10"
+                            class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="ef-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
                     <!-- ARO Before -->
                     <div>
-                        <label for="aro-before" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="aro-before"
+                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                             <span data-i18n="labelARO1">ARO (Before)</span>
                             <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
                                 ⓘ
-                                <span class="tooltip-text" data-i18n="tipARO1">Frequency of occurrence per year (Current).</span>
+                                <span class="tooltip-text" data-i18n="tipARO1">Frequency of occurrence per year
+                                    (Current).</span>
                             </div>
                         </label>
-                        <input type="number" step="0.1" id="aro-before" placeholder="1" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        <input type="number" step="0.1" id="aro-before" placeholder="1"
+                            class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="aro-before-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
@@ -655,20 +751,24 @@
                                 <span class="tooltip-text" data-i18n="tipARO2">Estimated frequency after control.</span>
                             </div>
                         </label>
-                        <input type="number" step="0.1" id="new-aro" placeholder="0.2" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        <input type="number" step="0.1" id="new-aro" placeholder="0.2"
+                            class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="new-aro-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
 
                     <!-- Control Cost -->
                     <div class="md:col-span-2">
-                        <label for="control-cost" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                        <label for="control-cost"
+                            class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
                             <span data-i18n="labelCost">Control Cost (Annual)</span>
                             <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
                                 ⓘ
-                                <span class="tooltip-text" data-i18n="tipCost">Cost to implement/maintain control.</span>
+                                <span class="tooltip-text" data-i18n="tipCost">Cost to implement/maintain
+                                    control.</span>
                             </div>
                         </label>
-                        <input type="number" id="control-cost" placeholder="10000000" class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        <input type="number" id="control-cost" placeholder="10000000"
+                            class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
                         <p id="control-cost-error" class="text-red-500 text-xs mt-1 h-4"></p>
                     </div>
                 </div>
@@ -678,19 +778,24 @@
                     <table class="enhanced-table min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                         <thead class="bg-gray-100 dark:bg-gray-700">
                             <tr>
-                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3" data-i18n="thItem">Item</th>
-                                <th class="px-4 py-3 text-right text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3" data-i18n="thBefore">Before Control</th>
-                                <th class="px-4 py-3 text-right text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3" data-i18n="thAfter">After Control</th>
+                                <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3"
+                                    data-i18n="thItem">Item</th>
+                                <th class="px-4 py-3 text-right text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3"
+                                    data-i18n="thBefore">Before Control</th>
+                                <th class="px-4 py-3 text-right text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3"
+                                    data-i18n="thAfter">After Control</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600 text-sm">
-                             <tr>
+                            <tr>
                                 <td class="px-4 py-3 font-medium">AV</td>
-                                <td id="table-av-before" class="px-4 py-3 text-right text-gray-500 dark:text-gray-400" colspan="2">-</td>
+                                <td id="table-av-before" class="px-4 py-3 text-right text-gray-500 dark:text-gray-400"
+                                    colspan="2">-</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3 font-medium">EF</td>
-                                <td id="table-ef-before" class="px-4 py-3 text-right text-gray-500 dark:text-gray-400" colspan="2">-</td>
+                                <td id="table-ef-before" class="px-4 py-3 text-right text-gray-500 dark:text-gray-400"
+                                    colspan="2">-</td>
                             </tr>
                             <tr class="bg-gray-50 dark:bg-gray-800/50">
                                 <td class="px-4 py-3 font-medium text-blue-600 dark:text-blue-400">SLE</td>
@@ -704,15 +809,20 @@
                             </tr>
                             <tr class="bg-gray-50 dark:bg-gray-800/50">
                                 <td class="px-4 py-3 font-bold text-lg text-gray-800 dark:text-white">ALE</td>
-                                <td id="table-ale-before" class="px-4 py-3 text-right font-bold text-red-500 text-lg">-</td>
-                                <td id="table-ale-after" class="px-4 py-3 text-right font-bold text-green-500 text-lg">-</td>
+                                <td id="table-ale-before" class="px-4 py-3 text-right font-bold text-red-500 text-lg">-
+                                </td>
+                                <td id="table-ale-after" class="px-4 py-3 text-right font-bold text-green-500 text-lg">-
+                                </td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3 font-medium" data-i18n="rowMitigation">Risk Mitigation Value</td>
-                                <td id="table-mitigation" class="px-4 py-3 text-right font-medium text-blue-600 dark:text-blue-400" colspan="2">-</td>
+                                <td id="table-mitigation"
+                                    class="px-4 py-3 text-right font-medium text-blue-600 dark:text-blue-400"
+                                    colspan="2">-</td>
                             </tr>
                             <tr class="bg-green-50 dark:bg-green-900/20">
-                                <td class="px-4 py-3 font-bold text-xl text-gray-800 dark:text-white" data-i18n="rowNetBenefit">Net Benefit</td>
+                                <td class="px-4 py-3 font-bold text-xl text-gray-800 dark:text-white"
+                                    data-i18n="rowNetBenefit">Net Benefit</td>
                                 <td id="table-benefit" class="px-4 py-3 text-right font-bold text-xl" colspan="2">-</td>
                             </tr>
                         </tbody>
@@ -720,75 +830,91 @@
                 </div>
 
                 <!-- Quant Conclusion -->
-                <div id="quantitative-conclusion" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center mb-8 border border-gray-200 dark:border-gray-600 min-h-[60px] flex items-center justify-center"></div>
-                
+                <div id="quantitative-conclusion"
+                    class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center mb-8 border border-gray-200 dark:border-gray-600 min-h-[60px] flex items-center justify-center">
+                </div>
+
                 <!-- Charts and ROI Cards -->
                 <div class="space-y-8">
                     <!-- ALE Comparison Chart -->
                     <div>
-                        <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 text-center" data-i18n="chartAleTitle">ALE Comparison</h3>
+                        <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 text-center"
+                            data-i18n="chartAleTitle">ALE Comparison</h3>
                         <div class="h-64 relative w-full">
                             <canvas id="aleChart"></canvas>
                         </div>
                     </div>
-                    
+
                     <!-- ROI Dashboard Cards -->
                     <div>
-                        <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4 text-center" data-i18n="roiDashboardTitle">Investment Analysis Dashboard</h3>
+                        <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4 text-center"
+                            data-i18n="roiDashboardTitle">Investment Analysis Dashboard</h3>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Risk Reduction Card -->
                             <div class="roi-card neutral">
                                 <div class="roi-label" data-i18n="roiRiskReduction">Risk Reduction</div>
                                 <div id="roi-risk-reduction" class="roi-value text-blue-600 dark:text-blue-400">$0</div>
-                                <div class="roi-description" data-i18n="roiRiskReductionDesc">Annual risk mitigation value</div>
+                                <div class="roi-description" data-i18n="roiRiskReductionDesc">Annual risk mitigation
+                                    value</div>
                             </div>
-                            
+
                             <!-- Control Cost Card -->
                             <div class="roi-card">
                                 <div class="roi-label" data-i18n="roiControlCost">Control Cost</div>
                                 <div id="roi-control-cost" class="roi-value text-gray-600 dark:text-gray-400">$0</div>
-                                <div class="roi-description" data-i18n="roiControlCostDesc">Annual implementation cost</div>
+                                <div class="roi-description" data-i18n="roiControlCostDesc">Annual implementation cost
+                                </div>
                             </div>
-                            
+
                             <!-- Net Benefit Card -->
                             <div id="roi-net-benefit-card" class="roi-card">
                                 <div class="roi-label" data-i18n="roiNetBenefit">Net Benefit</div>
                                 <div id="roi-net-benefit" class="roi-value">$0</div>
                                 <div id="roi-percentage" class="text-sm font-semibold mt-1">ROI: 0%</div>
-                                <div class="roi-description" data-i18n="roiNetBenefitDesc">Annual return on investment</div>
+                                <div class="roi-description" data-i18n="roiNetBenefitDesc">Annual return on investment
+                                </div>
                             </div>
                         </div>
-                        
+
                         <!-- ROI Conclusion -->
-                        <div id="roi-conclusion" class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600"></div>
+                        <div id="roi-conclusion"
+                            class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600">
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- SECTION 2: Qualitative Analysis -->
-            <section class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+            <section
+                class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
                 <div class="flex items-center mb-6">
                     <div class="bg-emerald-100 dark:bg-emerald-900 p-2 rounded-lg mr-3">
                         <span class="text-2xl">🛡️</span>
                     </div>
-                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="secQualTitle">2. Qualitative Analysis</h2>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="secQualTitle">2.
+                        Qualitative Analysis</h2>
                 </div>
 
                 <!-- Single Risk Assessment -->
                 <div class="mb-8">
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2" data-i18n="subQualSingle">Single Risk Assessment</h3>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2"
+                        data-i18n="subQualSingle">Single Risk Assessment</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1" data-i18n="labelLikelihood">Likelihood</label>
-                            <select id="likelihood" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-shadow">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1"
+                                data-i18n="labelLikelihood">Likelihood</label>
+                            <select id="likelihood"
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-shadow">
                                 <option value="2" data-i18n="optHigh">High</option>
                                 <option value="1" data-i18n="optMed">Medium</option>
                                 <option value="0" data-i18n="optLow">Low</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1" data-i18n="labelImpact">Impact</label>
-                            <select id="impact" class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-shadow">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1"
+                                data-i18n="labelImpact">Impact</label>
+                            <select id="impact"
+                                class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-shadow">
                                 <option value="2" data-i18n="optHigh">High</option>
                                 <option value="1" data-i18n="optMed">Medium</option>
                                 <option value="0" data-i18n="optLow">Low</option>
@@ -802,78 +928,112 @@
                             <thead>
                                 <tr>
                                     <th class="p-2"></th>
-                                    <th class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400" data-i18n="colImpLow">Imp: Low</th>
-                                    <th class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400" data-i18n="colImpMed">Imp: Med</th>
-                                    <th class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400" data-i18n="colImpHigh">Imp: High</th>
+                                    <th class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400"
+                                        data-i18n="colImpLow">Imp: Low</th>
+                                    <th class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400"
+                                        data-i18n="colImpMed">Imp: Med</th>
+                                    <th class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400"
+                                        data-i18n="colImpHigh">Imp: High</th>
                                 </tr>
                             </thead>
                             <tbody class="text-sm font-medium text-white">
                                 <tr>
-                                    <td class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400 text-right whitespace-nowrap" data-i18n="rowLikHigh">Lik: High</td>
-                                    <td id="matrix-2-0" class="p-3 bg-yellow-400 rounded border-4 border-white dark:border-darkcard">Med</td>
-                                    <td id="matrix-2-1" class="p-3 bg-orange-500 rounded border-4 border-white dark:border-darkcard">High</td>
-                                    <td id="matrix-2-2" class="p-3 bg-red-600 rounded border-4 border-white dark:border-darkcard">Critical</td>
+                                    <td class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400 text-right whitespace-nowrap"
+                                        data-i18n="rowLikHigh">Lik: High</td>
+                                    <td id="matrix-2-0"
+                                        class="p-3 bg-yellow-400 rounded border-4 border-white dark:border-darkcard">Med
+                                    </td>
+                                    <td id="matrix-2-1"
+                                        class="p-3 bg-orange-500 rounded border-4 border-white dark:border-darkcard">
+                                        High</td>
+                                    <td id="matrix-2-2"
+                                        class="p-3 bg-red-600 rounded border-4 border-white dark:border-darkcard">
+                                        Critical</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400 text-right whitespace-nowrap" data-i18n="rowLikMed">Lik: Med</td>
-                                    <td id="matrix-1-0" class="p-3 bg-green-500 rounded border-4 border-white dark:border-darkcard">Low</td>
-                                    <td id="matrix-1-1" class="p-3 bg-yellow-400 rounded border-4 border-white dark:border-darkcard">Med</td>
-                                    <td id="matrix-1-2" class="p-3 bg-orange-500 rounded border-4 border-white dark:border-darkcard">High</td>
+                                    <td class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400 text-right whitespace-nowrap"
+                                        data-i18n="rowLikMed">Lik: Med</td>
+                                    <td id="matrix-1-0"
+                                        class="p-3 bg-green-500 rounded border-4 border-white dark:border-darkcard">Low
+                                    </td>
+                                    <td id="matrix-1-1"
+                                        class="p-3 bg-yellow-400 rounded border-4 border-white dark:border-darkcard">Med
+                                    </td>
+                                    <td id="matrix-1-2"
+                                        class="p-3 bg-orange-500 rounded border-4 border-white dark:border-darkcard">
+                                        High</td>
                                 </tr>
                                 <tr>
-                                    <td class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400 text-right whitespace-nowrap" data-i18n="rowLikLow">Lik: Low</td>
-                                    <td id="matrix-0-0" class="p-3 bg-green-500 rounded border-4 border-white dark:border-darkcard">Low</td>
-                                    <td id="matrix-0-1" class="p-3 bg-green-500 rounded border-4 border-white dark:border-darkcard">Low</td>
-                                    <td id="matrix-0-2" class="p-3 bg-yellow-400 rounded border-4 border-white dark:border-darkcard">Med</td>
+                                    <td class="p-2 text-xs font-bold uppercase text-gray-500 dark:text-gray-400 text-right whitespace-nowrap"
+                                        data-i18n="rowLikLow">Lik: Low</td>
+                                    <td id="matrix-0-0"
+                                        class="p-3 bg-green-500 rounded border-4 border-white dark:border-darkcard">Low
+                                    </td>
+                                    <td id="matrix-0-1"
+                                        class="p-3 bg-green-500 rounded border-4 border-white dark:border-darkcard">Low
+                                    </td>
+                                    <td id="matrix-0-2"
+                                        class="p-3 bg-yellow-400 rounded border-4 border-white dark:border-darkcard">Med
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div id="qualitative-conclusion" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600"></div>
+                    <div id="qualitative-conclusion"
+                        class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600">
+                    </div>
                 </div>
 
                 <!-- Before/After Comparison -->
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2" data-i18n="subQualCompare">Before vs. After Comparison</h3>
+                    <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2"
+                        data-i18n="subQualCompare">Before vs. After Comparison</h3>
                     <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
                         <table class="min-w-full text-center divide-y divide-gray-200 dark:divide-gray-600">
-                             <thead class="bg-gray-100 dark:bg-gray-700">
+                            <thead class="bg-gray-100 dark:bg-gray-700">
                                 <tr>
-                                    <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thItem">Item</th>
-                                    <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thBefore">Before</th>
-                                    <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thAfter">After</th>
+                                    <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thItem">
+                                        Item</th>
+                                    <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200"
+                                        data-i18n="thBefore">Before</th>
+                                    <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200"
+                                        data-i18n="thAfter">After</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600">
                                 <tr>
                                     <td class="px-4 py-2 font-medium" data-i18n="labelLikelihood">Likelihood</td>
                                     <td class="px-4 py-2">
-                                        <select id="likelihood-before" class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        <select id="likelihood-before"
+                                            class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
                                             <option value="2" data-i18n="optHigh">High</option>
                                             <option value="1" selected data-i18n="optMed">Medium</option>
                                             <option value="0" data-i18n="optLow">Low</option>
                                         </select>
                                     </td>
                                     <td class="px-4 py-2">
-                                        <select id="likelihood-after" class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        <select id="likelihood-after"
+                                            class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
                                             <option value="2" data-i18n="optHigh">High</option>
                                             <option value="1" data-i18n="optMed">Medium</option>
                                             <option value="0" selected data-i18n="optLow">Low</option>
                                         </select>
                                     </td>
                                 </tr>
-                                 <tr>
+                                <tr>
                                     <td class="px-4 py-2 font-medium" data-i18n="labelImpact">Impact</td>
                                     <td class="px-4 py-2">
-                                        <select id="impact-before" class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        <select id="impact-before"
+                                            class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
                                             <option value="2" selected data-i18n="optHigh">High</option>
                                             <option value="1" data-i18n="optMed">Medium</option>
                                             <option value="0" data-i18n="optLow">Low</option>
                                         </select>
                                     </td>
                                     <td class="px-4 py-2">
-                                         <select id="impact-after" class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        <select id="impact-after"
+                                            class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
                                             <option value="2" data-i18n="optHigh">High</option>
                                             <option value="1" selected data-i18n="optMed">Medium</option>
                                             <option value="0" data-i18n="optLow">Low</option>
@@ -888,26 +1048,33 @@
                             </tbody>
                         </table>
                     </div>
-                    <div id="qualitative-comparison-conclusion" class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600"></div>
+                    <div id="qualitative-comparison-conclusion"
+                        class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600">
+                    </div>
                 </div>
 
                 <!-- Formulas Section -->
                 <div class="mt-10 pt-6 border-t border-gray-200 dark:border-gray-600 text-sm">
-                    <h3 class="text-md font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4" data-i18n="secFormula">Formula Guide</h3>
+                    <h3 class="text-md font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4"
+                        data-i18n="secFormula">Formula Guide</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
                             <span class="font-mono font-bold text-blue-600 dark:text-blue-400">SLE = AV × EF</span>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="defSLE">Single Loss Expectancy</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="defSLE">Single Loss
+                                Expectancy</p>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
                             <span class="font-mono font-bold text-blue-600 dark:text-blue-400">ALE = SLE × ARO</span>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="defALE">Annualized Loss Expectancy</p>
-                        </div>
-                         <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                            <span class="font-mono font-bold text-green-600 dark:text-green-400">Risk Mitigation = ALE(Pre) - ALE(Post)</span>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="defALE">Annualized Loss
+                                Expectancy</p>
                         </div>
                         <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                            <span class="font-mono font-bold text-purple-600 dark:text-purple-400">Net Benefit = Mitigation - Cost</span>
+                            <span class="font-mono font-bold text-green-600 dark:text-green-400">Risk Mitigation =
+                                ALE(Pre) - ALE(Post)</span>
+                        </div>
+                        <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
+                            <span class="font-mono font-bold text-purple-600 dark:text-purple-400">Net Benefit =
+                                Mitigation - Cost</span>
                         </div>
                     </div>
                 </div>
@@ -918,7 +1085,7 @@
         <!-- Modern Footer Dock -->
         <footer class="mt-12 py-12 border-t border-gray-200 dark:border-gray-700">
             <div class="max-w-7xl mx-auto px-4">
-                
+
                 <!-- App Download Section -->
                 <div class="text-center mb-8">
                     <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-4" data-i18n="footerAppTitle">
@@ -927,30 +1094,34 @@
                     <p class="text-gray-600 dark:text-gray-400 mb-6 max-w-2xl mx-auto" data-i18n="footerAppDesc">
                         Kuro Risk Calculator 移動版即將推出，讓您在任何地方都能進行專業的資安風險量化分析
                     </p>
-                    
+
                     <!-- App Store Badges -->
                     <div class="flex justify-center items-center space-x-4 mb-6">
                         <div class="relative group">
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 opacity-60 cursor-not-allowed transition-all duration-300 group-hover:opacity-80">
-                                <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg" 
-                                     alt="Download on App Store" class="h-12 w-auto">
+                            <div
+                                class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 opacity-60 cursor-not-allowed transition-all duration-300 group-hover:opacity-80">
+                                <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg"
+                                    alt="Download on App Store" class="h-12 w-auto">
                             </div>
-                            <div class="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full" data-i18n="statusSoon">
+                            <div class="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full"
+                                data-i18n="statusSoon">
                                 即將推出
                             </div>
                         </div>
-                        
+
                         <div class="relative group">
-                            <div class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 opacity-60 cursor-not-allowed transition-all duration-300 group-hover:opacity-80">
-                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" 
-                                     alt="Get it on Google Play" class="h-12 w-auto">
+                            <div
+                                class="bg-gray-100 dark:bg-gray-700 rounded-xl p-4 opacity-60 cursor-not-allowed transition-all duration-300 group-hover:opacity-80">
+                                <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
+                                    alt="Get it on Google Play" class="h-12 w-auto">
                             </div>
-                            <div class="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full" data-i18n="statusSoon">
+                            <div class="absolute -top-2 -right-2 bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-1 rounded-full"
+                                data-i18n="statusSoon">
                                 即將推出
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Notify Me Button -->
                     <div class="text-center">
                         <p class="text-gray-600 dark:text-gray-400 text-lg font-medium" data-i18n="appComingSoonText">
@@ -958,57 +1129,72 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="text-center">
                     <p class="text-gray-500 dark:text-gray-400 mb-6 font-medium">
                         Developed with ❤️ by <span class="text-gray-800 dark:text-gray-200 font-bold">Kuro</span>
-                        <br><span class="text-xs opacity-75">v2.1 International Edition</span>
+                        <br>
+                        <span class="text-xs opacity-75">v2.1 International Edition</span>
+                        <span class="mx-2 text-xs opacity-75">|</span>
+                        <a href="privacy.html"
+                            class="text-xs opacity-75 hover:opacity-100 hover:text-blue-500 transition-colors">Privacy
+                            Policy</a>
                     </p>
 
-                <!-- Social Dock -->
-                <div class="flex justify-center items-center gap-6">
-                    
-                    <!-- About Kuro (Portaly) -->
-                    <a href="https://portaly.cc/kurohuang" target="_blank" class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-500 dark:hover:text-blue-400">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                        </svg>
-                        <span class="tooltip-text">About Kuro</span>
-                    </a>
+                    <!-- Social Dock -->
+                    <div class="flex justify-center items-center gap-6">
 
-                    <!-- GitHub (Source Code) -->
-                    <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank" class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        <span class="tooltip-text">Open Source Repo</span>
-                    </a>
+                        <!-- About Kuro (Portaly) -->
+                        <a href="https://portaly.cc/kurohuang" target="_blank"
+                            class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-500 dark:hover:text-blue-400">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
+                            </svg>
+                            <span class="tooltip-text">About Kuro</span>
+                        </a>
 
-                    <!-- LinkedIn -->
-                    <a href="https://www.linkedin.com/in/kurohuang/" target="_blank" class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-700 dark:hover:text-blue-500">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                        </svg>
-                        <span class="tooltip-text">LinkedIn</span>
-                    </a>
+                        <!-- GitHub (Source Code) -->
+                        <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank"
+                            class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                            </svg>
+                            <span class="tooltip-text">Open Source Repo</span>
+                        </a>
 
-                    <!-- Facebook -->
-                    <a href="https://www.facebook.com/kublackstock/" target="_blank" class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z"/>
-                        </svg>
-                        <span class="tooltip-text">Facebook</span>
-                    </a>
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/kurohuang/" target="_blank"
+                            class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-700 dark:hover:text-blue-500">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                            </svg>
+                            <span class="tooltip-text">LinkedIn</span>
+                        </a>
 
-                    <!-- Medium -->
-                    <a href="https://medium.com/@kuroH" target="_blank" class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z"/>
-                        </svg>
-                        <span class="tooltip-text">Medium</span>
-                    </a>
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/kublackstock/" target="_blank"
+                            class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z" />
+                            </svg>
+                            <span class="tooltip-text">Facebook</span>
+                        </a>
+
+                        <!-- Medium -->
+                        <a href="https://medium.com/@kuroH" target="_blank"
+                            class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-gray-900 dark:hover:text-white">
+                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z" />
+                            </svg>
+                            <span class="tooltip-text">Medium</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
         </footer>
     </div>
 
@@ -1022,7 +1208,7 @@
         const I18n = {
             lang: 'en', // default
             currency: 'USD', // default
-            
+
             // Translations Dictionary
             translations: {
                 en: {
@@ -1053,7 +1239,7 @@
                     roiDashboardTitle: "Investment Analysis Dashboard",
                     roiRiskReduction: "Risk Reduction",
                     roiRiskReductionDesc: "Annual risk mitigation value",
-                    roiControlCost: "Control Cost", 
+                    roiControlCost: "Control Cost",
                     roiControlCostDesc: "Annual implementation cost",
                     roiNetBenefit: "Net Benefit",
                     roiNetBenefitDesc: "Annual return on investment",
@@ -1131,7 +1317,7 @@
                     roiRiskReduction: "風險降低",
                     roiRiskReductionDesc: "年度風險降低價值",
                     roiControlCost: "控制成本",
-                    roiControlCostDesc: "年度實施成本", 
+                    roiControlCostDesc: "年度實施成本",
                     roiNetBenefit: "淨效益",
                     roiNetBenefitDesc: "年度投資回報",
                     secQualTitle: "2. 定性風險分析",
@@ -1179,7 +1365,7 @@
                     appComingSoonText: "敬請期待 APP 正式發布",
                     appReleaseSchedule: "預計發布時間：2024年第一季"
                 },
-                 ja: {
+                ja: {
                     appTitle: "サイバーセキュリティリスク定量化ツール",
                     appSubtitle: "セキュリティ担当者のための救世主",
                     btnReset: "リセット",
@@ -1202,7 +1388,7 @@
                     roiRiskReductionDesc: "年間リスク軽減価値",
                     roiControlCost: "対策コスト",
                     roiControlCostDesc: "年間実装コスト",
-                    roiNetBenefit: "純利益", 
+                    roiNetBenefit: "純利益",
                     roiNetBenefitDesc: "年間投資収益率",
                     secQualTitle: "2. 定性分析",
                     labelLikelihood: "可能性",
@@ -1284,7 +1470,7 @@
                     descLow: "Riesgo aceptable.",
                     concCompare: "Riesgo reducido de {l1} a {l2}."
                 },
-                 de: {
+                de: {
                     appTitle: "Cyber-Risiko-Quantifizierungstool",
                     appSubtitle: "Der quantifizierte Retter für Sicherheitsprofis",
                     btnReset: "Zurücksetzen",
@@ -1422,7 +1608,7 @@
                     descLow: "Risco aceitável.",
                     concCompare: "Risco reduzido de {l1} para {l2}."
                 },
-                 vi: {
+                vi: {
                     appTitle: "Công cụ Định lượng Rủi ro An ninh mạng",
                     appSubtitle: "Cứu tinh Định lượng cho Chuyên gia An ninh",
                     btnReset: "Đặt lại",
@@ -1471,7 +1657,7 @@
             },
 
             // Set Language
-            setLang: function(langCode) {
+            setLang: function (langCode) {
                 if (this.translations[langCode]) {
                     this.lang = langCode;
                     this.updateDOM();
@@ -1483,17 +1669,17 @@
             },
 
             // Get Text
-            t: function(key) {
+            t: function (key) {
                 return this.translations[this.lang][key] || this.translations['en'][key] || key;
             },
 
             // Update DOM Elements
-            updateDOM: function() {
+            updateDOM: function () {
                 document.querySelectorAll('[data-i18n]').forEach(el => {
                     const key = el.getAttribute('data-i18n');
                     el.textContent = this.t(key);
                 });
-                
+
                 // Update Select Options texts
                 document.querySelectorAll('option[data-i18n]').forEach(el => {
                     const key = el.getAttribute('data-i18n');
@@ -1509,8 +1695,8 @@
          */
         const Storage = {
             KEY: 'kuro_risk_calc_v2_data',
-            
-            save: function() {
+
+            save: function () {
                 const data = {
                     av: document.getElementById('av').value,
                     ef: document.getElementById('ef').value,
@@ -1531,35 +1717,35 @@
                 localStorage.setItem(this.KEY, JSON.stringify(data));
             },
 
-            load: function() {
+            load: function () {
                 const saved = localStorage.getItem(this.KEY);
                 if (saved) {
                     const data = JSON.parse(saved);
-                    
+
                     // Restore Values
-                    if(data.av) document.getElementById('av').value = data.av;
-                    if(data.ef) document.getElementById('ef').value = data.ef;
-                    if(data.aroBefore) document.getElementById('aro-before').value = data.aroBefore;
-                    if(data.newAro) document.getElementById('new-aro').value = data.newAro;
-                    if(data.controlCost) document.getElementById('control-cost').value = data.controlCost;
-                    
-                    if(data.likelihood) document.getElementById('likelihood').value = data.likelihood;
-                    if(data.impact) document.getElementById('impact').value = data.impact;
-                    
-                    if(data.likelihoodBefore) document.getElementById('likelihood-before').value = data.likelihoodBefore;
-                    if(data.impactBefore) document.getElementById('impact-before').value = data.impactBefore;
-                    if(data.likelihoodAfter) document.getElementById('likelihood-after').value = data.likelihoodAfter;
-                    if(data.impactAfter) document.getElementById('impact-after').value = data.impactAfter;
+                    if (data.av) document.getElementById('av').value = data.av;
+                    if (data.ef) document.getElementById('ef').value = data.ef;
+                    if (data.aroBefore) document.getElementById('aro-before').value = data.aroBefore;
+                    if (data.newAro) document.getElementById('new-aro').value = data.newAro;
+                    if (data.controlCost) document.getElementById('control-cost').value = data.controlCost;
+
+                    if (data.likelihood) document.getElementById('likelihood').value = data.likelihood;
+                    if (data.impact) document.getElementById('impact').value = data.impact;
+
+                    if (data.likelihoodBefore) document.getElementById('likelihood-before').value = data.likelihoodBefore;
+                    if (data.impactBefore) document.getElementById('impact-before').value = data.impactBefore;
+                    if (data.likelihoodAfter) document.getElementById('likelihood-after').value = data.likelihoodAfter;
+                    if (data.impactAfter) document.getElementById('impact-after').value = data.impactAfter;
 
                     // Restore Preferences
-                    if(data.lang) {
+                    if (data.lang) {
                         document.getElementById('lang-select').value = data.lang;
                         I18n.lang = data.lang;
                     }
-                    if(data.currency) {
+                    if (data.currency) {
                         document.getElementById('currency-select').value = data.currency;
                     }
-                    if(data.theme === 'dark') {
+                    if (data.theme === 'dark') {
                         document.documentElement.classList.add('dark');
                     }
                 } else {
@@ -1571,8 +1757,8 @@
                     document.getElementById('control-cost').value = 1000000;
                 }
             },
-            
-            reset: function() {
+
+            reset: function () {
                 localStorage.removeItem(this.KEY);
                 location.reload();
             }
@@ -1588,9 +1774,9 @@
             dbVersion: 1,
             storeName: 'assessments',
             db: null,
-            
+
             // Initialize IndexedDB
-            init: async function() {
+            init: async function () {
                 try {
                     this.db = await this.openDatabase();
                     console.log('[History] Database initialized successfully');
@@ -1600,22 +1786,22 @@
                     return false;
                 }
             },
-            
+
             // Open IndexedDB database
-            openDatabase: function() {
+            openDatabase: function () {
                 return new Promise((resolve, reject) => {
                     const request = indexedDB.open(this.dbName, this.dbVersion);
-                    
+
                     request.onerror = () => reject(request.error);
                     request.onsuccess = () => resolve(request.result);
-                    
+
                     request.onupgradeneeded = (event) => {
                         const db = event.target.result;
-                        
+
                         // Create assessments store
                         if (!db.objectStoreNames.contains(this.storeName)) {
                             const store = db.createObjectStore(this.storeName, { keyPath: 'id' });
-                            
+
                             // Create indexes
                             store.createIndex('timestamp', 'timestamp', { unique: false });
                             store.createIndex('type', 'type', { unique: false });
@@ -1624,13 +1810,13 @@
                     };
                 });
             },
-            
+
             // Save assessment to history
-            saveAssessment: async function(inputs, results, metadata = {}) {
+            saveAssessment: async function (inputs, results, metadata = {}) {
                 if (!this.db) {
                     await this.init();
                 }
-                
+
                 const assessment = {
                     id: this.generateUUID(),
                     timestamp: new Date().toISOString(),
@@ -1647,12 +1833,12 @@
                         ...metadata
                     }
                 };
-                
+
                 try {
                     const transaction = this.db.transaction([this.storeName], 'readwrite');
                     const store = transaction.objectStore(this.storeName);
                     await store.add(assessment);
-                    
+
                     console.log('[History] Assessment saved:', assessment.id);
                     this.showSaveNotification();
                     return assessment.id;
@@ -1661,23 +1847,23 @@
                     throw error;
                 }
             },
-            
+
             // Get all assessments
-            getAllAssessments: async function() {
+            getAllAssessments: async function () {
                 if (!this.db) {
                     await this.init();
                 }
-                
+
                 try {
                     const transaction = this.db.transaction([this.storeName], 'readonly');
                     const store = transaction.objectStore(this.storeName);
                     const index = store.index('timestamp');
-                    
+
                     return new Promise((resolve, reject) => {
                         const request = index.getAll();
                         request.onsuccess = () => {
                             // Sort by timestamp descending (newest first)
-                            const assessments = request.result.sort((a, b) => 
+                            const assessments = request.result.sort((a, b) =>
                                 new Date(b.timestamp) - new Date(a.timestamp)
                             );
                             resolve(assessments);
@@ -1689,17 +1875,17 @@
                     return [];
                 }
             },
-            
+
             // Get assessment by ID
-            getAssessment: async function(id) {
+            getAssessment: async function (id) {
                 if (!this.db) {
                     await this.init();
                 }
-                
+
                 try {
                     const transaction = this.db.transaction([this.storeName], 'readonly');
                     const store = transaction.objectStore(this.storeName);
-                    
+
                     return new Promise((resolve, reject) => {
                         const request = store.get(id);
                         request.onsuccess = () => resolve(request.result);
@@ -1710,17 +1896,17 @@
                     return null;
                 }
             },
-            
+
             // Delete assessment
-            deleteAssessment: async function(id) {
+            deleteAssessment: async function (id) {
                 if (!this.db) {
                     await this.init();
                 }
-                
+
                 try {
                     const transaction = this.db.transaction([this.storeName], 'readwrite');
                     const store = transaction.objectStore(this.storeName);
-                    
+
                     return new Promise((resolve, reject) => {
                         const request = store.delete(id);
                         request.onsuccess = () => {
@@ -1734,11 +1920,11 @@
                     return false;
                 }
             },
-            
+
             // Search assessments
-            searchAssessments: async function(query, filters = {}) {
+            searchAssessments: async function (query, filters = {}) {
                 const allAssessments = await this.getAllAssessments();
-                
+
                 return allAssessments.filter(assessment => {
                     // Text search
                     if (query) {
@@ -1749,12 +1935,12 @@
                             assessment.metadata.notes,
                             ...assessment.metadata.tags
                         ].join(' ').toLowerCase();
-                        
+
                         if (!searchableText.includes(searchText)) {
                             return false;
                         }
                     }
-                    
+
                     // Date range filter
                     if (filters.startDate || filters.endDate) {
                         const assessmentDate = new Date(assessment.timestamp);
@@ -1765,44 +1951,44 @@
                             return false;
                         }
                     }
-                    
+
                     // Category filter
                     if (filters.category && assessment.metadata.category !== filters.category) {
                         return false;
                     }
-                    
+
                     // Tags filter
                     if (filters.tags && filters.tags.length > 0) {
-                        const hasTag = filters.tags.some(tag => 
+                        const hasTag = filters.tags.some(tag =>
                             assessment.metadata.tags.includes(tag)
                         );
                         if (!hasTag) {
                             return false;
                         }
                     }
-                    
+
                     return true;
                 });
             },
-            
+
             // Load assessment into form
-            loadAssessment: async function(id) {
+            loadAssessment: async function (id) {
                 const assessment = await this.getAssessment(id);
                 if (!assessment) {
                     console.error('[History] Assessment not found:', id);
                     return false;
                 }
-                
+
                 try {
                     const { inputs } = assessment;
-                    
+
                     // Load quantitative inputs
                     if (inputs.assetValue) document.getElementById('av').value = inputs.assetValue;
                     if (inputs.exposureFactor) document.getElementById('ef').value = inputs.exposureFactor;
                     if (inputs.arosBefore) document.getElementById('aro-before').value = inputs.arosBefore;
                     if (inputs.aroAfter) document.getElementById('new-aro').value = inputs.aroAfter;
                     if (inputs.controlCost) document.getElementById('control-cost').value = inputs.controlCost;
-                    
+
                     // Load qualitative inputs
                     if (inputs.likelihood !== undefined) document.getElementById('likelihood').value = inputs.likelihood;
                     if (inputs.impact !== undefined) document.getElementById('impact').value = inputs.impact;
@@ -1810,12 +1996,12 @@
                     if (inputs.impactBefore !== undefined) document.getElementById('impact-before').value = inputs.impactBefore;
                     if (inputs.likelihoodAfter !== undefined) document.getElementById('likelihood-after').value = inputs.likelihoodAfter;
                     if (inputs.impactAfter !== undefined) document.getElementById('impact-after').value = inputs.impactAfter;
-                    
+
                     // Trigger recalculation
                     Calculator.calculateQuantitative();
                     Calculator.updateQualitative();
                     Calculator.updateQualitativeComparison();
-                    
+
                     console.log('[History] Assessment loaded successfully:', id);
                     this.showLoadNotification(assessment.metadata.assetName);
                     return true;
@@ -1824,9 +2010,9 @@
                     return false;
                 }
             },
-            
+
             // Export history to JSON
-            exportHistory: async function() {
+            exportHistory: async function () {
                 const assessments = await this.getAllAssessments();
                 const exportData = {
                     exportDate: new Date().toISOString(),
@@ -1834,11 +2020,11 @@
                     totalAssessments: assessments.length,
                     assessments: assessments
                 };
-                
+
                 const blob = new Blob([JSON.stringify(exportData, null, 2)], {
                     type: 'application/json'
                 });
-                
+
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
@@ -1848,17 +2034,17 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
             },
-            
+
             // Clear all history
-            clearHistory: async function() {
+            clearHistory: async function () {
                 if (!confirm('Are you sure you want to delete all assessment history? This action cannot be undone.')) {
                     return false;
                 }
-                
+
                 try {
                     const transaction = this.db.transaction([this.storeName], 'readwrite');
                     const store = transaction.objectStore(this.storeName);
-                    
+
                     return new Promise((resolve, reject) => {
                         const request = store.clear();
                         request.onsuccess = () => {
@@ -1872,28 +2058,28 @@
                     return false;
                 }
             },
-            
+
             // Generate UUID
-            generateUUID: function() {
-                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            generateUUID: function () {
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                     const r = Math.random() * 16 | 0;
                     const v = c == 'x' ? r : (r & 0x3 | 0x8);
                     return v.toString(16);
                 });
             },
-            
+
             // Show save notification
-            showSaveNotification: function() {
+            showSaveNotification: function () {
                 this.showNotification('Assessment saved to history', 'success');
             },
-            
+
             // Show load notification
-            showLoadNotification: function(assetName) {
+            showLoadNotification: function (assetName) {
                 this.showNotification(`Loaded: ${assetName}`, 'info');
             },
-            
+
             // Show notification
-            showNotification: function(message, type = 'info') {
+            showNotification: function (message, type = 'info') {
                 const notification = document.createElement('div');
                 const colors = {
                     success: 'bg-green-500',
@@ -1901,18 +2087,18 @@
                     info: 'bg-blue-500',
                     warning: 'bg-yellow-500'
                 };
-                
+
                 notification.className = `fixed top-20 right-4 z-50 ${colors[type]} text-white 
                     px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
                 notification.textContent = message;
-                
+
                 document.body.appendChild(notification);
-                
+
                 // Animate in
                 setTimeout(() => {
                     notification.classList.remove('translate-x-full');
                 }, 100);
-                
+
                 // Animate out and remove
                 setTimeout(() => {
                     notification.classList.add('translate-x-full');
@@ -1933,22 +2119,22 @@
         const BatchProcessor = {
             currentData: null,
             results: null,
-            
+
             // Initialize batch processing
-            init: function() {
+            init: function () {
                 this.setupBatchUI();
             },
-            
+
             // Setup batch processing UI
-            setupBatchUI: function() {
+            setupBatchUI: function () {
                 const batchBtn = document.getElementById('btn-batch');
                 if (batchBtn) {
                     batchBtn.addEventListener('click', () => this.showBatchModal());
                 }
             },
-            
+
             // Show batch processing modal
-            showBatchModal: function() {
+            showBatchModal: function () {
                 const modal = document.createElement('div');
                 modal.className = 'fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4 modal-backdrop';
                 modal.innerHTML = `
@@ -2024,34 +2210,34 @@
                         </div>
                     </div>
                 `;
-                
+
                 document.body.appendChild(modal);
                 this.setupBatchModalEvents(modal);
             },
-            
+
             // Setup batch modal events
-            setupBatchModalEvents: function(modal) {
+            setupBatchModalEvents: function (modal) {
                 // Close modal
                 modal.querySelector('#close-batch-modal').addEventListener('click', () => {
                     modal.remove();
                 });
-                
+
                 // File upload
                 const fileInput = modal.querySelector('#csv-file-input');
                 const uploadArea = modal.querySelector('#upload-area');
-                
+
                 uploadArea.addEventListener('click', () => fileInput.click());
-                
+
                 // Drag and drop
                 uploadArea.addEventListener('dragover', (e) => {
                     e.preventDefault();
                     uploadArea.classList.add('bg-blue-50', 'dark:bg-blue-900');
                 });
-                
+
                 uploadArea.addEventListener('dragleave', () => {
                     uploadArea.classList.remove('bg-blue-50', 'dark:bg-blue-900');
                 });
-                
+
                 uploadArea.addEventListener('drop', (e) => {
                     e.preventDefault();
                     uploadArea.classList.remove('bg-blue-50', 'dark:bg-blue-900');
@@ -2060,40 +2246,40 @@
                         this.handleFileUpload(files[0], modal);
                     }
                 });
-                
+
                 fileInput.addEventListener('change', (e) => {
                     if (e.target.files.length > 0) {
                         this.handleFileUpload(e.target.files[0], modal);
                     }
                 });
-                
+
                 // Download template
                 modal.querySelector('#download-template').addEventListener('click', () => {
                     this.downloadTemplate();
                 });
-                
+
                 // Navigation buttons
                 modal.querySelector('#back-to-upload').addEventListener('click', () => {
                     this.showStep(modal, 'upload');
                 });
-                
+
                 modal.querySelector('#process-batch').addEventListener('click', () => {
                     this.processBatch(modal);
                 });
-                
+
                 modal.querySelector('#back-to-preview').addEventListener('click', () => {
                     this.showStep(modal, 'preview');
                 });
-                
+
                 // Export buttons
                 modal.querySelector('#export-batch-pdf').addEventListener('click', () => {
                     this.exportBatchPDF();
                 });
-                
+
                 modal.querySelector('#export-batch-excel').addEventListener('click', () => {
                     this.exportBatchExcel();
                 });
-                
+
                 // Close on outside click
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
@@ -2101,14 +2287,14 @@
                     }
                 });
             },
-            
+
             // Handle file upload
-            handleFileUpload: function(file, modal) {
+            handleFileUpload: function (file, modal) {
                 if (!file.name.toLowerCase().endsWith('.csv')) {
                     alert('Please upload a CSV file.');
                     return;
                 }
-                
+
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     try {
@@ -2118,81 +2304,81 @@
                             skipEmptyLines: true,
                             transformHeader: (header) => header.trim()
                         });
-                        
+
                         if (parsed.errors.length > 0) {
                             console.error('CSV parsing errors:', parsed.errors);
                             alert('Error parsing CSV file. Please check the format.');
                             return;
                         }
-                        
+
                         this.currentData = parsed.data;
                         this.validateAndPreviewData(modal);
-                        
+
                     } catch (error) {
                         console.error('File reading error:', error);
                         alert('Error reading file. Please try again.');
                     }
                 };
-                
+
                 reader.readAsText(file);
             },
-            
+
             // Validate and preview data
-            validateAndPreviewData: function(modal) {
+            validateAndPreviewData: function (modal) {
                 const requiredColumns = [
-                    'Asset Name', 'Asset Value', 'Exposure Factor', 
+                    'Asset Name', 'Asset Value', 'Exposure Factor',
                     'ARO Before', 'ARO After', 'Control Cost'
                 ];
-                
+
                 if (this.currentData.length === 0) {
                     alert('CSV file is empty.');
                     return;
                 }
-                
+
                 const headers = Object.keys(this.currentData[0]);
                 const missingColumns = requiredColumns.filter(col => !headers.includes(col));
-                
+
                 if (missingColumns.length > 0) {
                     alert(`Missing required columns: ${missingColumns.join(', ')}`);
                     return;
                 }
-                
+
                 // Validate data types
                 const validationErrors = [];
                 this.currentData.forEach((row, index) => {
                     const rowNum = index + 2; // +2 for header and 0-based index
-                    
+
                     if (!row['Asset Name'] || row['Asset Name'].trim() === '') {
                         validationErrors.push(`Row ${rowNum}: Asset Name is required`);
                     }
-                    
+
                     ['Asset Value', 'Exposure Factor', 'ARO Before', 'ARO After', 'Control Cost'].forEach(col => {
                         const value = parseFloat(row[col]);
                         if (isNaN(value) || value < 0) {
                             validationErrors.push(`Row ${rowNum}: ${col} must be a positive number`);
                         }
                     });
-                    
+
                     const ef = parseFloat(row['Exposure Factor']);
                     if (!isNaN(ef) && ef > 100) {
                         validationErrors.push(`Row ${rowNum}: Exposure Factor cannot exceed 100%`);
                     }
                 });
-                
+
                 if (validationErrors.length > 0) {
                     alert(`Validation errors:\n${validationErrors.slice(0, 5).join('\n')}${validationErrors.length > 5 ? '\n...' : ''}`);
                     return;
                 }
-                
+
                 this.renderDataPreview(modal);
                 this.showStep(modal, 'preview');
             },
-            
+
             // Render data preview
-            renderDataPreview: function(modal) {
+            renderDataPreview: function (modal) {
                 const previewDiv = modal.querySelector('#data-preview');
                 const previewData = this.currentData.slice(0, 5); // Show first 5 rows
-                
+
                 let html = `
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
                         <thead class="bg-gray-50 dark:bg-gray-700">
@@ -2207,7 +2393,7 @@
                         </thead>
                         <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600">
                 `;
-                
+
                 previewData.forEach(row => {
                     html += `
                         <tr>
@@ -2220,52 +2406,52 @@
                         </tr>
                     `;
                 });
-                
+
                 html += `
                         </tbody>
                     </table>
                 `;
-                
+
                 if (this.currentData.length > 5) {
                     html += `<p class="text-sm text-gray-500 dark:text-gray-400 mt-2 text-center">Showing first 5 of ${this.currentData.length} rows</p>`;
                 }
-                
+
                 previewDiv.innerHTML = html;
             },
-            
+
             // Process batch data
-            processBatch: function(modal) {
+            processBatch: function (modal) {
                 const results = [];
                 let totalRiskBefore = 0;
                 let totalRiskAfter = 0;
                 let totalCost = 0;
-                
+
                 this.currentData.forEach(row => {
                     const av = parseFloat(row['Asset Value']);
                     const ef = parseFloat(row['Exposure Factor']) / 100;
                     const aroBefore = parseFloat(row['ARO Before']);
                     const aroAfter = parseFloat(row['ARO After']);
                     const cost = parseFloat(row['Control Cost']);
-                    
+
                     const sle = av * ef;
                     const aleBefore = sle * aroBefore;
                     const aleAfter = sle * aroAfter;
                     const mitigation = aleBefore - aleAfter;
                     const netBenefit = mitigation - cost;
                     const roi = mitigation > 0 ? ((netBenefit / cost) * 100) : 0;
-                    
+
                     results.push({
                         assetName: row['Asset Name'],
                         category: row['Category'] || 'General',
                         av, ef: ef * 100, aroBefore, aroAfter, cost,
                         sle, aleBefore, aleAfter, mitigation, netBenefit, roi
                     });
-                    
+
                     totalRiskBefore += aleBefore;
                     totalRiskAfter += aleAfter;
                     totalCost += cost;
                 });
-                
+
                 this.results = {
                     individual: results,
                     summary: {
@@ -2278,19 +2464,19 @@
                         averageROI: results.reduce((sum, r) => sum + r.roi, 0) / results.length
                     }
                 };
-                
+
                 this.renderBatchResults(modal);
                 this.showStep(modal, 'results');
-                
+
                 // Save to history
                 this.saveBatchToHistory();
             },
-            
+
             // Render batch results
-            renderBatchResults: function(modal) {
+            renderBatchResults: function (modal) {
                 const resultsDiv = modal.querySelector('#batch-results');
                 const { individual, summary } = this.results;
-                
+
                 let html = `
                     <!-- Summary Cards -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -2328,11 +2514,11 @@
                             </thead>
                             <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600">
                 `;
-                
+
                 individual.forEach(result => {
                     const benefitColor = result.netBenefit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
                     const roiColor = result.roi >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
-                    
+
                     html += `
                         <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
                             <td class="px-3 py-2 text-sm font-medium text-gray-900 dark:text-gray-100">${result.assetName}</td>
@@ -2345,35 +2531,35 @@
                         </tr>
                     `;
                 });
-                
+
                 html += `
                             </tbody>
                         </table>
                     </div>
                 `;
-                
+
                 resultsDiv.innerHTML = html;
             },
-            
+
             // Show specific step
-            showStep: function(modal, step) {
+            showStep: function (modal, step) {
                 modal.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
                 modal.querySelector(`#${step}-step`).classList.remove('hidden');
             },
-            
+
             // Download CSV template
-            downloadTemplate: function() {
+            downloadTemplate: function () {
                 const template = [
                     ['Asset Name', 'Asset Value', 'Exposure Factor', 'ARO Before', 'ARO After', 'Control Cost', 'Category', 'Notes'],
                     ['Email Server', '1000000', '25', '2', '0.5', '100000', 'Infrastructure', 'Critical system'],
                     ['Web Application', '500000', '15', '1', '0.2', '50000', 'Application', 'Customer facing'],
                     ['Database', '2000000', '30', '0.5', '0.1', '200000', 'Data', 'Contains PII']
                 ];
-                
+
                 const csv = template.map(row => row.join(',')).join('\n');
                 const blob = new Blob([csv], { type: 'text/csv' });
                 const url = URL.createObjectURL(blob);
-                
+
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'ale-calculator-template.csv';
@@ -2382,11 +2568,11 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
             },
-            
+
             // Save batch to history
-            saveBatchToHistory: async function() {
+            saveBatchToHistory: async function () {
                 if (!this.results) return;
-                
+
                 try {
                     const batchAssessment = {
                         id: HistoryManager.generateUUID(),
@@ -2419,29 +2605,29 @@
                         })),
                         summary: this.results.summary
                     };
-                    
+
                     // Save to IndexedDB (extend HistoryManager for batch assessments)
                     console.log('[Batch] Batch assessment processed:', batchAssessment);
                     HistoryManager.showNotification(`Batch assessment completed: ${this.results.summary.totalAssets} assets processed`, 'success');
-                    
+
                 } catch (error) {
                     console.error('[Batch] Failed to save batch assessment:', error);
                 }
             },
-            
+
             // Export batch results as PDF
-            exportBatchPDF: function() {
+            exportBatchPDF: function () {
                 // Implementation would use jsPDF to create comprehensive batch report
                 console.log('[Batch] PDF export not yet implemented');
                 alert('PDF export functionality will be implemented in the next iteration.');
             },
-            
+
             // Export batch results as Excel
-            exportBatchExcel: function() {
+            exportBatchExcel: function () {
                 if (!this.results) return;
-                
+
                 const wb = XLSX.utils.book_new();
-                
+
                 // Summary sheet
                 const summaryData = [
                     ['Batch Assessment Summary'],
@@ -2454,15 +2640,15 @@
                     ['Total Net Benefit', this.results.summary.totalNetBenefit],
                     ['Average ROI (%)', this.results.summary.averageROI.toFixed(2)]
                 ];
-                
+
                 const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
                 XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
-                
+
                 // Detailed results sheet
                 const detailsData = [
                     ['Asset Name', 'Asset Value', 'Exposure Factor (%)', 'ARO Before', 'ARO After', 'Control Cost', 'SLE', 'ALE Before', 'ALE After', 'Risk Mitigation', 'Net Benefit', 'ROI (%)']
                 ];
-                
+
                 this.results.individual.forEach(result => {
                     detailsData.push([
                         result.assetName,
@@ -2479,10 +2665,10 @@
                         result.roi.toFixed(2)
                     ]);
                 });
-                
+
                 const detailsWs = XLSX.utils.aoa_to_sheet(detailsData);
                 XLSX.utils.book_append_sheet(wb, detailsWs, 'Detailed Results');
-                
+
                 // Export
                 XLSX.writeFile(wb, `batch-risk-assessment-${new Date().toISOString().split('T')[0]}.xlsx`);
             }
@@ -2497,7 +2683,7 @@
             // Chart Instances
             aleChart: null,
 
-            init: function() {
+            init: function () {
                 this.initCharts();
                 this.bindEvents();
                 Storage.load();
@@ -2506,7 +2692,7 @@
                 this.updateQualitative();
                 this.updateQualitativeComparison();
                 this.updateThemeIcon();
-                
+
                 // Initialize history manager
                 HistoryManager.init().then(success => {
                     if (success) {
@@ -2514,12 +2700,12 @@
                         this.setupHistoryUI();
                     }
                 });
-                
+
                 // Initialize batch processor
                 BatchProcessor.init();
             },
 
-            formatMoney: function(amount) {
+            formatMoney: function (amount) {
                 const currency = document.getElementById('currency-select').value;
                 return new Intl.NumberFormat(I18n.lang === 'zh-TW' ? 'zh-TW' : 'en-US', {
                     style: 'currency',
@@ -2529,7 +2715,7 @@
                 }).format(amount);
             },
 
-            initCharts: function() {
+            initCharts: function () {
                 // Enhanced Chart Options
                 const commonOptions = {
                     responsive: true,
@@ -2555,11 +2741,11 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: { 
+                            grid: {
                                 color: document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb',
                                 drawBorder: false
                             },
-                            ticks: { 
+                            ticks: {
                                 color: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280',
                                 callback: (value) => this.formatMoney(value),
                                 padding: 10
@@ -2567,7 +2753,7 @@
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { 
+                            ticks: {
                                 color: document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280',
                                 padding: 10
                             }
@@ -2617,7 +2803,7 @@
                 });
             },
 
-            calculateQuantitative: function() {
+            calculateQuantitative: function () {
                 const av = parseFloat(document.getElementById('av').value) || 0;
                 const ef = parseFloat(document.getElementById('ef').value) || 0;
                 const aroBefore = parseFloat(document.getElementById('aro-before').value) || 0;
@@ -2631,11 +2817,11 @@
                     aro: aroBefore < 0 || newAro < 0,
                     cost: cost < 0
                 };
-                
+
                 // Toggle Error Messages
                 document.getElementById('av-error').textContent = errors.av ? "Must be > 0" : "";
                 document.getElementById('ef-error').textContent = errors.ef ? "0-100" : "";
-                
+
                 if (Object.values(errors).some(e => e)) return;
 
                 // Calculations
@@ -2647,7 +2833,7 @@
 
                 // Update UI
                 const setText = (id, val) => document.getElementById(id).textContent = val;
-                
+
                 setText('table-av-before', this.formatMoney(av));
                 setText('table-ef-before', ef + '%');
                 setText('table-sle-before', this.formatMoney(sle));
@@ -2659,11 +2845,11 @@
                 const aleAfterEl = document.getElementById('table-ale-after');
                 const mitigationEl = document.getElementById('table-mitigation');
                 const benEl = document.getElementById('table-benefit');
-                
+
                 aleBeforeEl.innerHTML = `<span class="key-value negative">${this.formatMoney(ale1)}</span>`;
                 aleAfterEl.innerHTML = `<span class="key-value positive">${this.formatMoney(ale2)}</span>`;
                 mitigationEl.innerHTML = `<span class="key-value neutral">${this.formatMoney(mitigation)}</span>`;
-                
+
                 const benefitClass = benefit >= 0 ? 'positive' : 'negative';
                 benEl.innerHTML = `<span class="key-value ${benefitClass}">${this.formatMoney(benefit)}</span>`;
                 benEl.className = 'px-4 py-3 text-right';
@@ -2674,41 +2860,41 @@
                 concDiv.innerHTML = `<p class="font-bold text-lg ${benefit >= 0 ? 'text-green-700 dark:text-green-300' : 'text-red-600 dark:text-red-300'}">${concText.replace('{val}', this.formatMoney(benefit))}</p>`;
 
                 // Update ALE Chart
-                if(this.aleChart) {
+                if (this.aleChart) {
                     this.aleChart.data.datasets[0].data = [ale1, ale2];
                     this.aleChart.data.labels = [I18n.t('thBefore'), I18n.t('thAfter')];
                     this.aleChart.update('active');
                 }
-                
+
                 // Update ROI Cards
                 this.updateROICards(mitigation, cost, benefit);
 
                 Storage.save();
-                
+
                 // Auto-save to history if all required fields are filled
                 this.autoSaveToHistory(av, ef, aroBefore, newAro, cost, sle, ale1, ale2, mitigation, benefit);
             },
-            
+
             // Update ROI Cards
-            updateROICards: function(mitigation, cost, benefit) {
+            updateROICards: function (mitigation, cost, benefit) {
                 // Update Risk Reduction Card
                 document.getElementById('roi-risk-reduction').textContent = this.formatMoney(mitigation);
-                
+
                 // Update Control Cost Card  
                 document.getElementById('roi-control-cost').textContent = this.formatMoney(cost);
-                
+
                 // Update Net Benefit Card
                 const netBenefitEl = document.getElementById('roi-net-benefit');
                 const netBenefitCard = document.getElementById('roi-net-benefit-card');
                 const roiPercentageEl = document.getElementById('roi-percentage');
                 const roiConclusionEl = document.getElementById('roi-conclusion');
-                
+
                 netBenefitEl.textContent = this.formatMoney(benefit);
-                
+
                 // Calculate ROI percentage
                 const roiPercent = cost > 0 ? ((benefit / cost) * 100) : 0;
                 roiPercentageEl.textContent = `ROI: ${roiPercent.toFixed(1)}%`;
-                
+
                 // Update card styling based on benefit
                 if (benefit >= 0) {
                     netBenefitCard.className = 'roi-card positive';
@@ -2719,28 +2905,28 @@
                     netBenefitEl.className = 'roi-value text-red-600 dark:text-red-400';
                     roiPercentageEl.className = 'text-sm font-semibold mt-1 text-red-600 dark:text-red-400';
                 }
-                
+
                 // Update ROI conclusion
                 const isPositive = benefit >= 0;
-                const conclusionText = isPositive 
+                const conclusionText = isPositive
                     ? `✅ Recommended Investment - Positive ROI of ${roiPercent.toFixed(1)}%`
                     : `⚠️ Review Required - Negative ROI of ${roiPercent.toFixed(1)}%`;
-                    
-                const conclusionClass = isPositive 
+
+                const conclusionClass = isPositive
                     ? 'text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
                     : 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800';
-                    
+
                 roiConclusionEl.innerHTML = `<p class="font-semibold ${conclusionClass} p-3 rounded-lg border">${conclusionText}</p>`;
             },
-            
+
             // Enhanced input validation with visual feedback
-            validateInput: function(inputId, value, min, max) {
+            validateInput: function (inputId, value, min, max) {
                 const inputEl = document.getElementById(inputId);
                 const errorEl = document.getElementById(inputId + '-error');
-                
+
                 let isValid = true;
                 let errorMsg = '';
-                
+
                 if (value === '' || isNaN(value)) {
                     isValid = false;
                     errorMsg = 'Required';
@@ -2751,7 +2937,7 @@
                     isValid = false;
                     errorMsg = `Max: ${max}`;
                 }
-                
+
                 // Update visual feedback
                 if (isValid) {
                     inputEl.classList.remove('error');
@@ -2761,13 +2947,13 @@
                     inputEl.classList.add('error', 'input-error');
                     setTimeout(() => inputEl.classList.remove('input-error'), 500);
                 }
-                
+
                 errorEl.textContent = errorMsg;
                 return isValid;
             },
-            
+
             // Setup history UI components
-            setupHistoryUI: function() {
+            setupHistoryUI: function () {
                 // Add history button to action buttons
                 const actionButtons = document.querySelector('.no-print');
                 if (actionButtons) {
@@ -2776,17 +2962,17 @@
                     historyBtn.className = 'bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center';
                     historyBtn.innerHTML = '<span class="mr-2">📚</span> <span data-i18n="btnHistory">History</span>';
                     historyBtn.addEventListener('click', () => this.showHistoryModal());
-                    
+
                     // Insert before export buttons
                     const exportPdfBtn = document.getElementById('export-pdf');
                     actionButtons.insertBefore(historyBtn, exportPdfBtn);
                 }
             },
-            
+
             // Show history modal
-            showHistoryModal: async function() {
+            showHistoryModal: async function () {
                 const assessments = await HistoryManager.getAllAssessments();
-                
+
                 // Create modal
                 const modal = document.createElement('div');
                 modal.className = 'fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4';
@@ -2829,56 +3015,56 @@
                         </div>
                     </div>
                 `;
-                
+
                 document.body.appendChild(modal);
-                
+
                 // Setup event listeners
                 document.getElementById('close-history-modal').addEventListener('click', () => {
                     modal.remove();
                 });
-                
+
                 document.getElementById('export-history-btn').addEventListener('click', () => {
                     HistoryManager.exportHistory();
                 });
-                
+
                 document.getElementById('clear-history-btn').addEventListener('click', async () => {
                     const success = await HistoryManager.clearHistory();
                     if (success) {
                         modal.remove();
                     }
                 });
-                
+
                 // Search functionality
                 document.getElementById('history-search').addEventListener('input', (e) => {
                     this.filterHistory(e.target.value);
                 });
-                
+
                 document.getElementById('history-category-filter').addEventListener('change', (e) => {
                     this.filterHistory(document.getElementById('history-search').value, e.target.value);
                 });
-                
+
                 // Close on outside click
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         modal.remove();
                     }
                 });
-                
+
                 // Setup history item events
                 this.setupHistoryItemEvents();
             },
-            
+
             // Render history list
-            renderHistoryList: function(assessments) {
+            renderHistoryList: function (assessments) {
                 if (assessments.length === 0) {
                     return '<div class="text-center text-gray-500 dark:text-gray-400 py-8">No assessments found</div>';
                 }
-                
+
                 return assessments.map(assessment => {
                     const date = new Date(assessment.timestamp).toLocaleString();
                     const netBenefit = assessment.results.netBenefit || 0;
                     const benefitColor = netBenefit >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
-                    
+
                     return `
                         <div class="history-item bg-gray-50 dark:bg-gray-700 rounded-lg p-4 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer"
                              data-id="${assessment.id}" data-category="${assessment.metadata.category}">
@@ -2915,9 +3101,9 @@
                     `;
                 }).join('');
             },
-            
+
             // Filter history
-            filterHistory: async function(searchQuery = '', category = '') {
+            filterHistory: async function (searchQuery = '', category = '') {
                 const assessments = await HistoryManager.searchAssessments(searchQuery, { category });
                 const historyList = document.getElementById('history-list');
                 if (historyList) {
@@ -2925,9 +3111,9 @@
                     this.setupHistoryItemEvents();
                 }
             },
-            
+
             // Setup history item events
-            setupHistoryItemEvents: function() {
+            setupHistoryItemEvents: function () {
                 // Load assessment events
                 document.querySelectorAll('.load-assessment-btn').forEach(btn => {
                     btn.addEventListener('click', async (e) => {
@@ -2939,7 +3125,7 @@
                         }
                     });
                 });
-                
+
                 // Delete assessment events
                 document.querySelectorAll('.delete-assessment-btn').forEach(btn => {
                     btn.addEventListener('click', async (e) => {
@@ -2954,9 +3140,9 @@
                     });
                 });
             },
-            
+
             // Auto-save assessment to history
-            autoSaveToHistory: function(av, ef, aroBefore, newAro, cost, sle, ale1, ale2, mitigation, benefit) {
+            autoSaveToHistory: function (av, ef, aroBefore, newAro, cost, sle, ale1, ale2, mitigation, benefit) {
                 // Only save if we have meaningful data
                 if (av > 0 && ef > 0 && aroBefore >= 0 && newAro >= 0) {
                     // Debounce auto-save to avoid too frequent saves
@@ -2977,7 +3163,7 @@
                                 likelihoodAfter: parseInt(document.getElementById('likelihood-after').value),
                                 impactAfter: parseInt(document.getElementById('impact-after').value)
                             };
-                            
+
                             const results = {
                                 sle: sle,
                                 aleBefore: ale1,
@@ -2986,14 +3172,14 @@
                                 netBenefit: benefit,
                                 roi: mitigation > 0 ? ((benefit / mitigation) * 100) : 0
                             };
-                            
+
                             const metadata = {
                                 assetName: `Assessment ${new Date().toLocaleString()}`,
                                 category: 'Auto-saved',
                                 tags: ['auto-save'],
                                 notes: 'Automatically saved assessment'
                             };
-                            
+
                             await HistoryManager.saveAssessment(inputs, results, metadata);
                         } catch (error) {
                             console.warn('[Calculator] Auto-save to history failed:', error);
@@ -3015,7 +3201,7 @@
                 riskHigh: 'bg-orange-500',
                 riskCritical: 'bg-red-600'
             },
-            
+
             riskTextColors: {
                 riskLow: 'text-green-600 dark:text-green-400',
                 riskMed: 'text-yellow-600 dark:text-yellow-400',
@@ -3023,11 +3209,11 @@
                 riskCritical: 'text-red-600 dark:text-red-400'
             },
 
-            updateQualitative: function() {
+            updateQualitative: function () {
                 const lik = parseInt(document.getElementById('likelihood').value);
                 const imp = parseInt(document.getElementById('impact').value);
                 const riskKey = this.riskMatrix[lik][imp];
-                
+
                 // Clear Highlight
                 document.querySelectorAll('td[id^="matrix-"]').forEach(el => {
                     el.classList.remove('ring-4', 'ring-blue-500', 'highlight');
@@ -3048,14 +3234,14 @@
                     riskLow: 'descLow'
                 };
                 const desc = I18n.t(descMap[riskKey]);
-                
+
                 const concDiv = document.getElementById('qualitative-conclusion');
                 concDiv.innerHTML = `<p class="font-bold text-lg ${this.riskTextColors[riskKey]}">${I18n.t('concQual').replace('{level}', level).replace('{desc}', desc)}</p>`;
-                
+
                 Storage.save();
             },
 
-            updateQualitativeComparison: function() {
+            updateQualitativeComparison: function () {
                 const lb = parseInt(document.getElementById('likelihood-before').value);
                 const ib = parseInt(document.getElementById('impact-before').value);
                 const la = parseInt(document.getElementById('likelihood-after').value);
@@ -3069,20 +3255,20 @@
 
                 const rbEl = document.getElementById('risk-level-before');
                 const raEl = document.getElementById('risk-level-after');
-                
+
                 rbEl.textContent = tBefore;
                 rbEl.className = `px-4 py-2 font-bold text-lg ${this.riskTextColors[rBefore]}`;
-                
+
                 raEl.textContent = tAfter;
                 raEl.className = `px-4 py-2 font-bold text-lg ${this.riskTextColors[rAfter]}`;
 
                 const concDiv = document.getElementById('qualitative-comparison-conclusion');
                 concDiv.innerHTML = `<p class="font-semibold text-gray-700 dark:text-gray-300">${I18n.t('concCompare').replace('{l1}', tBefore).replace('{l2}', tAfter)}</p>`;
-                
+
                 Storage.save();
             },
 
-            bindEvents: function() {
+            bindEvents: function () {
                 // Enhanced Input Handling
                 const inputConfigs = {
                     'av': { min: 0.01, max: undefined },
@@ -3091,30 +3277,30 @@
                     'new-aro': { min: 0, max: undefined },
                     'control-cost': { min: 0, max: undefined }
                 };
-                
+
                 Object.keys(inputConfigs).forEach(id => {
                     const input = document.getElementById(id);
                     const config = inputConfigs[id];
-                    
+
                     // Input event with validation
                     input.addEventListener('input', (e) => {
                         const value = parseFloat(e.target.value);
                         this.validateInput(id, value, config.min, config.max);
                         this.calculateQuantitative();
                     });
-                    
+
                     // Focus events for better UX
                     input.addEventListener('focus', () => {
                         input.classList.remove('error');
                     });
-                    
+
                     // Blur events for final validation
                     input.addEventListener('blur', (e) => {
                         const value = parseFloat(e.target.value);
                         this.validateInput(id, value, config.min, config.max);
                     });
                 });
-                
+
                 ['likelihood', 'impact'].forEach(id => {
                     document.getElementById(id).addEventListener('change', () => this.updateQualitative());
                 });
@@ -3130,7 +3316,7 @@
                     this.calculateQuantitative();
                 });
                 document.getElementById('btn-reset').addEventListener('click', () => Storage.reset());
-                
+
                 // Dark Mode
                 const toggleBtn = document.getElementById('theme-toggle');
                 toggleBtn.addEventListener('click', () => {
@@ -3138,22 +3324,22 @@
                     Storage.save();
                     this.updateThemeIcon();
                     // Update Charts Grid Colors
-                    this.initCharts(); 
+                    this.initCharts();
                     this.calculateQuantitative();
                 });
-                
+
                 // Export Buttons (Simplified for brevity)
                 document.getElementById('export-pdf').addEventListener('click', () => this.exportPDF());
                 document.getElementById('export-excel').addEventListener('click', () => this.exportExcel());
             },
 
-            updateThemeIcon: function() {
+            updateThemeIcon: function () {
                 const isDark = document.documentElement.classList.contains('dark');
                 document.getElementById('theme-toggle-dark-icon').classList.toggle('hidden', isDark);
                 document.getElementById('theme-toggle-light-icon').classList.toggle('hidden', !isDark);
             },
 
-            exportPDF: function() {
+            exportPDF: function () {
                 try {
                     // Validate data before export
                     const av = parseFloat(document.getElementById('av').value) || 0;
@@ -3161,16 +3347,16 @@
                     const aroBefore = parseFloat(document.getElementById('aro-before').value) || 0;
                     const newAro = parseFloat(document.getElementById('new-aro').value) || 0;
                     const cost = parseFloat(document.getElementById('control-cost').value) || 0;
-                    
+
                     if (av <= 0 || ef < 0 || aroBefore < 0 || newAro < 0 || cost < 0) {
                         alert('Please fill in all required fields with valid values before exporting.');
                         return;
                     }
-                    
+
                     const { jsPDF } = window.jspdf;
                     const report = document.getElementById('report-container');
                     const btnContainer = document.querySelector('.no-print');
-                    
+
                     // Show loading state
                     const loadingDiv = document.createElement('div');
                     loadingDiv.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
@@ -3183,14 +3369,14 @@
                         </div>
                     `;
                     document.body.appendChild(loadingDiv);
-                    
+
                     // Hide buttons and scroll to top
                     btnContainer.style.display = 'none';
                     window.scrollTo(0, 0);
 
                     // Generate PDF with better options
-                    html2canvas(report, { 
-                        scale: 2, 
+                    html2canvas(report, {
+                        scale: 2,
                         backgroundColor: document.documentElement.classList.contains('dark') ? '#111827' : '#f9fafb',
                         useCORS: true,
                         allowTaint: true,
@@ -3201,7 +3387,7 @@
                             // Restore UI
                             btnContainer.style.display = 'flex';
                             loadingDiv.remove();
-                            
+
                             const imgData = canvas.toDataURL('image/png', 0.95);
                             const pdf = new jsPDF('p', 'mm', 'a4');
                             const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -3211,10 +3397,10 @@
                             const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
                             const imgX = (pdfWidth - imgWidth * ratio) / 2;
                             const imgY = 0;
-                            
+
                             // Add image to PDF
                             pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
-                            
+
                             // Add metadata
                             pdf.setProperties({
                                 title: 'ALE Risk Assessment Report',
@@ -3223,14 +3409,14 @@
                                 creator: 'Kuro Risk Calculator',
                                 producer: 'ALE Risk Calculator v2.1'
                             });
-                            
+
                             // Save with timestamp
                             const fileName = `ALE-Risk-Assessment-${new Date().toISOString().split('T')[0]}.pdf`;
                             pdf.save(fileName);
-                            
+
                             // Show success notification
                             this.showNotification('PDF report exported successfully!', 'success');
-                            
+
                         } catch (error) {
                             console.error('PDF generation error:', error);
                             btnContainer.style.display = 'flex';
@@ -3243,14 +3429,14 @@
                         loadingDiv.remove();
                         alert('Error capturing content for PDF. Please try again.');
                     });
-                    
+
                 } catch (error) {
                     console.error('PDF export error:', error);
                     alert('Error exporting PDF file. Please try again.');
                 }
             },
 
-            exportExcel: function() {
+            exportExcel: function () {
                 try {
                     // Get current calculation values
                     const av = parseFloat(document.getElementById('av').value) || 0;
@@ -3258,13 +3444,13 @@
                     const aroBefore = parseFloat(document.getElementById('aro-before').value) || 0;
                     const newAro = parseFloat(document.getElementById('new-aro').value) || 0;
                     const cost = parseFloat(document.getElementById('control-cost').value) || 0;
-                    
+
                     // Validate data
                     if (av <= 0 || ef < 0 || aroBefore < 0 || newAro < 0 || cost < 0) {
                         alert('Please fill in all required fields with valid values before exporting.');
                         return;
                     }
-                    
+
                     // Calculate values
                     const sle = av * (ef / 100);
                     const ale1 = sle * aroBefore;
@@ -3272,7 +3458,7 @@
                     const mitigation = ale1 - ale2;
                     const benefit = mitigation - cost;
                     const roiPercent = cost > 0 ? ((benefit / cost) * 100) : 0;
-                    
+
                     // Get qualitative values
                     const likelihood = parseInt(document.getElementById('likelihood').value);
                     const impact = parseInt(document.getElementById('impact').value);
@@ -3280,10 +3466,10 @@
                     const impactBefore = parseInt(document.getElementById('impact-before').value);
                     const likelihoodAfter = parseInt(document.getElementById('likelihood-after').value);
                     const impactAfter = parseInt(document.getElementById('impact-after').value);
-                    
+
                     // Create workbook
                     const wb = XLSX.utils.book_new();
-                    
+
                     // Summary Sheet
                     const summaryData = [
                         ['ALE Risk Assessment Report'],
@@ -3320,14 +3506,14 @@
                         ['RECOMMENDATION'],
                         [benefit >= 0 ? 'RECOMMENDED: Positive ROI investment' : 'REVIEW REQUIRED: Negative ROI investment']
                     ];
-                    
+
                     const summaryWs = XLSX.utils.aoa_to_sheet(summaryData);
-                    
+
                     // Style the summary sheet
                     summaryWs['A1'] = { v: 'ALE Risk Assessment Report', t: 's', s: { font: { bold: true, sz: 16 } } };
-                    
+
                     XLSX.utils.book_append_sheet(wb, summaryWs, 'Summary');
-                    
+
                     // Detailed Calculations Sheet
                     const detailsData = [
                         ['Parameter', 'Value', 'Description'],
@@ -3345,10 +3531,10 @@
                         ['Net Benefit', 'Risk Mitigation - Control Cost', benefit],
                         ['ROI %', '(Net Benefit / Control Cost) × 100', roiPercent.toFixed(2) + '%']
                     ];
-                    
+
                     const detailsWs = XLSX.utils.aoa_to_sheet(detailsData);
                     XLSX.utils.book_append_sheet(wb, detailsWs, 'Calculations');
-                    
+
                     // Risk Matrix Sheet
                     const matrixData = [
                         ['Risk Matrix Analysis'],
@@ -3370,35 +3556,35 @@
                         ['Medium Likelihood', 'Low', 'Medium', 'High'],
                         ['Low Likelihood', 'Low', 'Low', 'Medium']
                     ];
-                    
+
                     const matrixWs = XLSX.utils.aoa_to_sheet(matrixData);
                     XLSX.utils.book_append_sheet(wb, matrixWs, 'Risk Matrix');
-                    
+
                     // Export the file
                     const fileName = `ALE-Risk-Assessment-${new Date().toISOString().split('T')[0]}.xlsx`;
                     XLSX.writeFile(wb, fileName);
-                    
+
                     // Show success message
                     this.showNotification('Excel report exported successfully!', 'success');
-                    
+
                 } catch (error) {
                     console.error('Excel export error:', error);
                     alert('Error exporting Excel file. Please try again.');
                 }
             },
-            
+
             // Helper functions for Excel export
-            getLikelihoodText: function(value) {
+            getLikelihoodText: function (value) {
                 const texts = { 0: 'Low', 1: 'Medium', 2: 'High' };
                 return texts[value] || 'Unknown';
             },
-            
-            getImpactText: function(value) {
+
+            getImpactText: function (value) {
                 const texts = { 0: 'Low', 1: 'Medium', 2: 'High' };
                 return texts[value] || 'Unknown';
             },
-            
-            getRiskLevel: function(likelihood, impact) {
+
+            getRiskLevel: function (likelihood, impact) {
                 const matrix = [
                     ['Low', 'Low', 'Medium'],     // Likelihood 0 (Low)
                     ['Low', 'Medium', 'High'],    // Likelihood 1 (Med)
@@ -3406,9 +3592,9 @@
                 ];
                 return matrix[likelihood] ? matrix[likelihood][impact] : 'Unknown';
             },
-            
+
             // Notification helper
-            showNotification: function(message, type = 'info') {
+            showNotification: function (message, type = 'info') {
                 const notification = document.createElement('div');
                 const colors = {
                     success: 'bg-green-500',
@@ -3416,18 +3602,18 @@
                     info: 'bg-blue-500',
                     warning: 'bg-yellow-500'
                 };
-                
+
                 notification.className = `fixed top-20 right-4 z-50 ${colors[type]} text-white 
                     px-4 py-2 rounded-lg shadow-lg transform transition-all duration-300 translate-x-full`;
                 notification.textContent = message;
-                
+
                 document.body.appendChild(notification);
-                
+
                 // Animate in
                 setTimeout(() => {
                     notification.classList.remove('translate-x-full');
                 }, 100);
-                
+
                 // Animate out and remove
                 setTimeout(() => {
                     notification.classList.add('translate-x-full');
@@ -3453,16 +3639,16 @@
          * ------------------------------------------------------------------
          */
         const AppDownloadManager = {
-            init: function() {
+            init: function () {
                 this.setupEventListeners();
                 this.checkBannerVisibility();
             },
 
-            setupEventListeners: function() {
+            setupEventListeners: function () {
                 // App download button dropdown toggle
                 const appBtn = document.getElementById('app-download-btn');
                 const dropdown = document.getElementById('app-download-dropdown');
-                
+
                 if (appBtn && dropdown) {
                     appBtn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -3480,7 +3666,7 @@
                 // Banner close button
                 const closeBanner = document.getElementById('close-banner');
                 const banner = document.getElementById('app-banner');
-                
+
                 if (closeBanner && banner) {
                     closeBanner.addEventListener('click', () => {
                         banner.style.display = 'none';
@@ -3497,19 +3683,19 @@
                 }
             },
 
-            checkBannerVisibility: function() {
+            checkBannerVisibility: function () {
                 const banner = document.getElementById('app-banner');
                 const bannerClosed = localStorage.getItem('app-banner-closed');
-                
+
                 if (bannerClosed === 'true' && banner) {
                     banner.style.display = 'none';
                 }
             },
 
-            showAppInfoModal: function() {
+            showAppInfoModal: function () {
                 const modal = this.createAppInfoModal();
                 document.body.appendChild(modal);
-                
+
                 // Animate in
                 setTimeout(() => {
                     modal.classList.remove('opacity-0');
@@ -3518,10 +3704,10 @@
                 }, 10);
             },
 
-            createAppInfoModal: function() {
+            createAppInfoModal: function () {
                 const modal = document.createElement('div');
                 modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300';
-                
+
                 modal.innerHTML = `
                     <div class="bg-white dark:bg-darkcard rounded-2xl shadow-2xl max-w-2xl w-full transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
                         <div class="p-6">
@@ -3572,14 +3758,14 @@
                         </div>
                     </div>
                 `;
-                
+
                 // Close on backdrop click
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) {
                         modal.remove();
                     }
                 });
-                
+
                 return modal;
             }
         };
@@ -3592,23 +3778,23 @@
         const PWAManager = {
             isOnline: navigator.onLine,
             swRegistration: null,
-            
-            init: function() {
+
+            init: function () {
                 this.registerServiceWorker();
                 this.setupOnlineOfflineHandlers();
                 this.setupInstallPrompt();
                 this.checkForUpdates();
             },
-            
+
             // Register Service Worker
-            registerServiceWorker: async function() {
+            registerServiceWorker: async function () {
                 if ('serviceWorker' in navigator) {
                     try {
                         const registration = await navigator.serviceWorker.register('/sw.js');
                         this.swRegistration = registration;
-                        
+
                         console.log('[PWA] Service Worker registered successfully');
-                        
+
                         // Listen for updates
                         registration.addEventListener('updatefound', () => {
                             const newWorker = registration.installing;
@@ -3618,47 +3804,47 @@
                                 }
                             });
                         });
-                        
+
                     } catch (error) {
                         console.error('[PWA] Service Worker registration failed:', error);
                     }
                 }
             },
-            
+
             // Setup online/offline event handlers
-            setupOnlineOfflineHandlers: function() {
+            setupOnlineOfflineHandlers: function () {
                 window.addEventListener('online', () => {
                     this.isOnline = true;
                     this.updateOnlineStatus();
                 });
-                
+
                 window.addEventListener('offline', () => {
                     this.isOnline = false;
                     this.updateOnlineStatus();
                 });
-                
+
                 // Initial status
                 this.updateOnlineStatus();
             },
-            
+
             // Update online status indicator
-            updateOnlineStatus: function() {
+            updateOnlineStatus: function () {
                 const statusIndicator = document.getElementById('online-status');
                 if (!statusIndicator) {
                     // Create status indicator if it doesn't exist
                     this.createOnlineStatusIndicator();
                     return;
                 }
-                
+
                 if (this.isOnline) {
                     statusIndicator.classList.add('hidden');
                 } else {
                     statusIndicator.classList.remove('hidden');
                 }
             },
-            
+
             // Create online status indicator
-            createOnlineStatusIndicator: function() {
+            createOnlineStatusIndicator: function () {
                 const indicator = document.createElement('div');
                 indicator.id = 'online-status';
                 indicator.className = `fixed top-16 left-1/2 transform -translate-x-1/2 z-50 
@@ -3674,25 +3860,25 @@
                 `;
                 document.body.appendChild(indicator);
             },
-            
+
             // Setup install prompt
-            setupInstallPrompt: function() {
+            setupInstallPrompt: function () {
                 let deferredPrompt;
-                
+
                 window.addEventListener('beforeinstallprompt', (e) => {
                     e.preventDefault();
                     deferredPrompt = e;
                     this.showInstallButton(deferredPrompt);
                 });
-                
+
                 window.addEventListener('appinstalled', () => {
                     console.log('[PWA] App installed successfully');
                     this.hideInstallButton();
                 });
             },
-            
+
             // Show install button
-            showInstallButton: function(deferredPrompt) {
+            showInstallButton: function (deferredPrompt) {
                 const installBtn = document.createElement('button');
                 installBtn.id = 'install-btn';
                 installBtn.className = `fixed bottom-4 right-4 z-50 bg-primary hover:bg-blue-600 
@@ -3705,7 +3891,7 @@
                     </svg>
                     <span>Install App</span>
                 `;
-                
+
                 installBtn.addEventListener('click', async () => {
                     if (deferredPrompt) {
                         deferredPrompt.prompt();
@@ -3715,29 +3901,29 @@
                         this.hideInstallButton();
                     }
                 });
-                
+
                 document.body.appendChild(installBtn);
             },
-            
+
             // Hide install button
-            hideInstallButton: function() {
+            hideInstallButton: function () {
                 const installBtn = document.getElementById('install-btn');
                 if (installBtn) {
                     installBtn.remove();
                 }
             },
-            
+
             // Check for updates
-            checkForUpdates: function() {
+            checkForUpdates: function () {
                 if (this.swRegistration) {
                     setInterval(() => {
                         this.swRegistration.update();
                     }, 60000); // Check every minute
                 }
             },
-            
+
             // Show update available notification
-            showUpdateAvailable: function() {
+            showUpdateAvailable: function () {
                 const updateNotification = document.createElement('div');
                 updateNotification.className = `fixed top-20 right-4 z-50 bg-green-500 text-white 
                     p-4 rounded-lg shadow-lg max-w-sm`;
@@ -3760,9 +3946,9 @@
                         </div>
                     </div>
                 `;
-                
+
                 document.body.appendChild(updateNotification);
-                
+
                 // Auto-remove after 10 seconds
                 setTimeout(() => {
                     if (updateNotification.parentNode) {
@@ -3770,17 +3956,17 @@
                     }
                 }, 10000);
             },
-            
+
             // Apply update
-            applyUpdate: function() {
+            applyUpdate: function () {
                 if (this.swRegistration && this.swRegistration.waiting) {
                     this.swRegistration.waiting.postMessage({ type: 'SKIP_WAITING' });
                     window.location.reload();
                 }
             },
-            
+
             // Get app info
-            getAppInfo: function() {
+            getAppInfo: function () {
                 return {
                     isOnline: this.isOnline,
                     isInstalled: window.matchMedia('(display-mode: standalone)').matches,
@@ -3792,4 +3978,5 @@
 
     </script>
 </body>
+
 </html>

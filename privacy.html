@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Kuro Risk Calculator</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="ALE Calculator">
+    <meta name="theme-color" content="#3B82F6">
+    
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6', // Blue 500
+                        secondary: '#10B981', // Emerald 500
+                        darkbg: '#111827', // Gray 900
+                        darkcard: '#1F2937', // Gray 800
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="/" class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate">
+                        Kuro Risk Calculator
+                    </a>
+                </div>
+                
+                <div class="flex items-center space-x-2 md:space-x-4">
+                     <!-- Dark Mode Toggle -->
+                     <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none transition-colors">
+                        <!-- Sun Icon -->
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                        <!-- Moon Icon -->
+                        <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+                    </button>
+                    <a href="/" class="text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors">Back to Calculator</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-4xl mx-auto p-4 md:p-8 w-full">
+        <div class="bg-white dark:bg-darkcard p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+            <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Privacy Policy</h1>
+            <p class="text-sm text-gray-500 mb-8">Last Updated: December 28, 2025</p>
+
+            <div class="space-y-6 text-gray-700 dark:text-gray-300">
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">1. Introduction</h2>
+                    <p>Welcome to Kuro Risk Calculator ("we," "our," or "us"). We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website or use our application and tell you about your privacy rights and how the law protects you.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">2. Information We Collect</h2>
+                    <p class="mb-2">We prioritize your privacy and minimize data collection:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><strong>Local Processing:</strong> All risk calculations are performed locally on your device (Client-side). We do not transmit your sensitive risk assessment data to any server.</li>
+                        <li><strong>Voluntary Information:</strong> If you contact us via email, we may collect your name and email address to respond to your inquiry.</li>
+                        <li><strong>Usage Data:</strong> We may collect non-personal usage data (e.g., browser type, device type) to improve our application's performance and compatibility.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">3. How We Use Your Information</h2>
+                    <p>We use the limited information we collect solely for:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Providing and maintaining the Service.</li>
+                        <li>Detecting, preventing, and addressing technical issues.</li>
+                        <li>Improving user experience.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">4. Data Storage and Security</h2>
+                    <p>Since the core functionality operates locally in your browser, your risk assessment data remains on your device regardless of whether you are online or offline. We implement appropriate technical measures to protect any data that might be incidentally collected.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">5. Third-Party Links</h2>
+                    <p>Our Service may contain links to other sites that are not operated by us (e.g., GitHub, LinkedIn). If you click on a third-party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">6. Children's Privacy</h2>
+                    <p>Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">7. Changes to This Privacy Policy</h2>
+                    <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+                </section>
+
+                <section>
+                    <h2 class="text-xl font-bold mb-3 text-gray-900 dark:text-white">8. Contact Us</h2>
+                    <p>If you have any questions about this Privacy Policy, please contact us by visiting our GitHub repository or contacting the developer directly.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-8 text-gray-500 text-sm">
+        <p>&copy; 2025 Kuro Risk Calculator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Dark mode logic (copied from main site for consistency)
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+        // Check local storage or system preference
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            themeToggleLightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeToggleDarkIcon.classList.remove('hidden');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            themeToggleDarkIcon.classList.toggle('hidden');
+            themeToggleLightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
