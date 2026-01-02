@@ -3,9 +3,9 @@
  * Provides offline functionality and caching for PWA experience
  */
 
-const CACHE_NAME = 'ale-calculator-v2.1.0';
-const STATIC_CACHE_NAME = 'ale-calculator-static-v2.1.0';
-const DYNAMIC_CACHE_NAME = 'ale-calculator-dynamic-v2.1.0';
+const CACHE_NAME = 'ale-calculator-v2.2.1';
+const STATIC_CACHE_NAME = 'ale-calculator-static-v2.2.1';
+const DYNAMIC_CACHE_NAME = 'ale-calculator-dynamic-v2.2.1';
 
 // Static assets to cache
 const STATIC_ASSETS = [
