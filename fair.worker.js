@@ -146,119 +146,136 @@ self.onmessage = function (e) {
         tefMin, tefLike, tefMax,
         vulnMin, vulnLike, vulnMax,
         primaryLossMin, primaryLossLike, primaryLossMax,
-        secondaryLossProb, // 0-100
-        secondaryLossMin, secondaryLossLike, secondaryLossMax
+        secondaryLossProb,
+        secondaryLossMin, secondaryLossLike, secondaryLossMax,
+        controlCost,
+        controlEffectiveness
     } = e.data;
 
     try {
-        const results = [];
-        let totalLoss = 0;
-        let maxLoss = 0;
-        let minLoss = Number.MAX_VALUE;
-        const lossCounts = new Map(); // For histogram
+        // Check if control is configured
+        const hasControl = controlCost > 0 && controlEffectiveness > 0;
 
-        // Initialize Distributions
-        // TEF: Threat Event Frequency
-        const tefDist = new PertDistribution(tefMin, tefLike, tefMax);
+        // Helper function to run simulation with given vulnerability values
+        function runSimulation(vMin, vLike, vMax, progressOffset = 0, progressMultiplier = 100) {
+            const results = [];
+            let totalLoss = 0;
+            let maxLoss = 0;
+            let minLoss = Number.MAX_VALUE;
 
-        // Vuln: Vulnerability (Probability of Loss given Threat)
-        const vulnDist = new PertDistribution(vulnMin, vulnLike, vulnMax);
+            // Initialize Distributions
+            const tefDist = new PertDistribution(tefMin, tefLike, tefMax);
+            const vulnDist = new PertDistribution(vMin, vLike, vMax);
+            const plmDist = new PertDistribution(primaryLossMin, primaryLossLike, primaryLossMax);
+            const slmDist = new PertDistribution(secondaryLossMin, secondaryLossLike, secondaryLossMax);
 
-        // Primary Loss Magnitude
-        const plmDist = new PertDistribution(primaryLossMin, primaryLossLike, primaryLossMax);
+            // Simulation Loop
+            for (let i = 0; i < simulationRuns; i++) {
+                let annualLoss = 0;
 
-        // Secondary Loss Magnitude
-        const slmDist = new PertDistribution(secondaryLossMin, secondaryLossLike, secondaryLossMax);
+                // 1. Determine LEF (Loss Event Frequency) for this year
+                const yearTEF = Math.max(0, tefDist.sample());
+                const yearVuln = Math.max(0, Math.min(100, vulnDist.sample())) / 100;
 
-        // Simulation Loop
-        for (let i = 0; i < simulationRuns; i++) {
-            let annualLoss = 0;
+                // Expected Loss Events = TEF * Vuln
+                const lambda = yearTEF * yearVuln;
+                const poisson = new PoissonDistribution(lambda);
+                const numEvents = poisson.sample();
 
-            // 1. Determine LEF (Loss Event Frequency) for this year
-            // FAIR Method: LEF is derived from TEF and Vuln
-            // We sample TEF and Vuln for the year
-            const yearTEF = Math.max(0, tefDist.sample());
-            const yearVuln = Math.max(0, Math.min(100, vulnDist.sample())) / 100;
+                // 2. Calculate Loss for each event
+                let primSum = 0;
+                let secSum = 0;
 
-            // Expected Loss Events = TEF * Vuln
-            // Use Poisson to determine integer number of actual events
-            const lambda = yearTEF * yearVuln;
-            const poisson = new PoissonDistribution(lambda);
-            const numEvents = poisson.sample();
+                if (numEvents > 0) {
+                    for (let k = 0; k < numEvents; k++) {
+                        const pl = Math.max(0, plmDist.sample());
+                        primSum += pl;
 
-            // 2. Calculate Loss (Logic moved to recording phase for detailed tracking)
-
-
-            // 3. Record Annual Result
-            // We store detailed object for richer CSV analysis
-            const record = {
-                year: i + 1,
-                events: numEvents,
-                primaryLoss: annualLoss - ((numEvents > 0) ? 0 : 0), // Simplifying for now, technically we didn't track prim/sec separately in 'annualLoss' variable above. Let's fix that.
-                secondaryLoss: 0,
-                total: annualLoss
-            };
-
-            // Re-calculating split for accuracy in record
-            // Limitation: The previous loop mixed them. 
-            // Let's refactor the loop slightly to track prim/sec separately.
-
-            // REFACTORING LOOP INSIDE THIS BLOCK PROPERLY:
-            let primSum = 0;
-            let secSum = 0;
-
-            if (numEvents > 0) {
-                for (let k = 0; k < numEvents; k++) {
-                    const pl = Math.max(0, plmDist.sample());
-                    primSum += pl;
-
-                    if (Math.random() < (secondaryLossProb / 100)) {
-                        const sl = Math.max(0, slmDist.sample());
-                        secSum += sl;
+                        if (Math.random() < (secondaryLossProb / 100)) {
+                            const sl = Math.max(0, slmDist.sample());
+                            secSum += sl;
+                        }
                     }
                 }
+                annualLoss = primSum + secSum;
+
+                results.push({
+                    year: i + 1,
+                    events: numEvents,
+                    primary: primSum,
+                    secondary: secSum,
+                    total: annualLoss
+                });
+
+                totalLoss += annualLoss;
+                if (annualLoss > maxLoss) maxLoss = annualLoss;
+                if (annualLoss < minLoss) minLoss = annualLoss;
+
+                // Progress update
+                if (i % 2000 === 0 && i > 0) {
+                    const progress = progressOffset + (i / simulationRuns) * progressMultiplier;
+                    self.postMessage({ type: 'progress', progress: progress });
+                }
             }
-            annualLoss = primSum + secSum;
 
-            results.push({
-                year: i + 1,
-                events: numEvents,
-                primary: primSum,
-                secondary: secSum,
-                total: annualLoss
-            });
+            // Sort for percentile calculations
+            const sortedResults = [...results].sort((a, b) => a.total - b.total);
 
-            totalLoss += annualLoss;
-            if (annualLoss > maxLoss) maxLoss = annualLoss;
-            if (annualLoss < minLoss) minLoss = annualLoss;
+            // AAL (Average Annual Loss)
+            const aal = totalLoss / simulationRuns;
 
-            // Progress update
-            if (i % 2000 === 0 && i > 0) {
-                self.postMessage({ type: 'progress', progress: (i / simulationRuns) * 100 });
+            // VaR (Value at Risk) - Percentiles
+            const idx90 = Math.floor(simulationRuns * 0.90);
+            const idx95 = Math.floor(simulationRuns * 0.95);
+            const var90 = sortedResults[idx90].total;
+            const var95 = sortedResults[idx95].total;
+
+            // Loss Exceedance Curve Data
+            const curveData = [];
+            const step = Math.floor(simulationRuns / 20);
+            for (let j = 0; j < simulationRuns; j += step) {
+                const loss = sortedResults[j].total;
+                const exceedanceProb = ((simulationRuns - j) / simulationRuns) * 100;
+                if (loss > 0) {
+                    curveData.push({ x: exceedanceProb, y: loss });
+                }
             }
+
+            return {
+                aal,
+                var90,
+                var95,
+                minLoss: minLoss === Number.MAX_VALUE ? 0 : minLoss,
+                maxLoss,
+                results,
+                curveData
+            };
         }
 
-        // 4. Analysis
-        // We need to sort by TOTAL loss for the VaR calculation
-        const sortedResults = [...results].sort((a, b) => a.total - b.total);
+        // Run baseline simulation (without control)
+        const progressMult = hasControl ? 50 : 100;
+        const baselineResults = runSimulation(vulnMin, vulnLike, vulnMax, 0, progressMult);
 
-        // AAL (Average Annual Loss)
-        const aal = totalLoss / simulationRuns;
+        // ROSI calculation variables
+        let aalAfterControl = 0;
+        let riskReduction = 0;
+        let rosi = 0;
 
-        // VaR (Value at Risk) - Percentiles
-        const idx90 = Math.floor(simulationRuns * 0.90);
-        const idx95 = Math.floor(simulationRuns * 0.95);
-        const var90 = sortedResults[idx90].total;
-        const var95 = sortedResults[idx95].total;
+        if (hasControl) {
+            // Calculate reduced vulnerability values
+            const effectivenessMultiplier = 1 - (controlEffectiveness / 100);
+            const reducedVulnMin = vulnMin * effectivenessMultiplier;
+            const reducedVulnLike = vulnLike * effectivenessMultiplier;
+            const reducedVulnMax = vulnMax * effectivenessMultiplier;
 
-        // Loss Exceedance Curve Data
-        const curveData = [];
-        const step = Math.floor(simulationRuns / 20);
-        for (let i = 0; i < simulationRuns; i += step) {
-            const loss = sortedResults[i].total;
-            const exceedanceProb = ((simulationRuns - i) / simulationRuns) * 100;
-            if (loss > 0) {
-                curveData.push({ x: exceedanceProb, y: loss });
+            // Run simulation with reduced vulnerability (progress starts at 50%)
+            const controlResults = runSimulation(reducedVulnMin, reducedVulnLike, reducedVulnMax, 50, 50);
+            aalAfterControl = controlResults.aal;
+
+            // Calculate ROSI
+            riskReduction = baselineResults.aal - aalAfterControl;
+            if (controlCost > 0) {
+                rosi = ((riskReduction - controlCost) / controlCost) * 100;
             }
         }
 
@@ -266,13 +283,19 @@ self.onmessage = function (e) {
         self.postMessage({
             type: 'complete',
             data: {
-                aal,
-                var90,
-                var95,
-                minLoss: minLoss === Number.MAX_VALUE ? 0 : minLoss,
-                maxLoss,
-                results: results, // Return the full array of objects
-                curveData
+                aal: baselineResults.aal,
+                var90: baselineResults.var90,
+                var95: baselineResults.var95,
+                minLoss: baselineResults.minLoss,
+                maxLoss: baselineResults.maxLoss,
+                results: baselineResults.results,
+                curveData: baselineResults.curveData,
+                // ROSI data
+                hasControl,
+                controlCost,
+                aalAfterControl,
+                riskReduction,
+                rosi
             }
         });
 

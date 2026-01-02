@@ -379,8 +379,52 @@
 
         </div>
 
+        <!-- Mitigating Controls Section -->
+        <div class="mt-8">
+            <div class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <button
+                    class="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                    onclick="toggleAccordion('mitigating-controls-content', this)">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelMitigating">Mitigating Controls</h3>
+                            <span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs px-2 py-1 rounded" data-i18n="badgeOptional">Optional</span>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="descMitigating">Calculate ROSI (Return on Security Investment)</p>
+                    </div>
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <div id="mitigating-controls-content" class="hidden px-6 pb-6 border-t border-gray-100 dark:border-gray-600">
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-semibold mb-1" data-i18n="labelControlCost">Annual Control Cost</label>
+                            <p class="text-xs text-gray-500 mb-2" data-i18n="descControlCost">Annualized cost of the security control.</p>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-500 currency-symbol">USD</span>
+                                <input type="number" id="control-cost" value="0" min="0"
+                                    class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold mb-1" data-i18n="labelControlEffect">Control Effectiveness (%)</label>
+                            <p class="text-xs text-gray-500 mb-2" data-i18n="descControlEffect">How much vulnerability is reduced.</p>
+                            <input type="number" id="control-effectiveness" value="0" min="0" max="100"
+                                class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-xs text-amber-700 dark:text-amber-300">
+                        <strong data-i18n="rosiNote">Note:</strong> <span data-i18n="rosiNoteText">ROSI = (Risk Reduction - Control Cost) / Control Cost. Control reduces Vulnerability by the specified percentage.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Simulation Controls -->
         <div class="mt-8 text-center">
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="runsExplain">Monte Carlo simulation runs. More runs = more stable results. 1K for quick preview, 10K recommended, 50K for formal reports.</p>
             <div class="mb-4 flex justify-center items-center gap-4 text-sm">
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="sim-runs" value="1000" class="text-purple-600"> 1k Runs
@@ -416,7 +460,7 @@
             </div>
 
             <!-- Summary Cards -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                 <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-xl text-center border border-purple-100">
                     <p data-i18n="metricAAL"
                         class="text-xs uppercase tracking-wider text-purple-600 dark:text-purple-300 font-bold mb-1">AAL
@@ -446,9 +490,32 @@
                 </div>
             </div>
 
+            <!-- ROSI Cards (shown only when control is configured) -->
+            <div id="rosi-section" class="hidden mb-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-xl text-center border border-teal-100">
+                        <p data-i18n="metricAALAfter" class="text-xs uppercase tracking-wider text-teal-600 dark:text-teal-300 font-bold mb-1">AAL (After Control)</p>
+                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-aal-after">-</p>
+                    </div>
+                    <div class="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-xl text-center border border-emerald-100">
+                        <p data-i18n="metricRiskReduction" class="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 font-bold mb-1">Risk Reduction</p>
+                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-risk-reduction">-</p>
+                    </div>
+                    <div class="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-xl text-center border border-cyan-100">
+                        <p data-i18n="metricControlCost" class="text-xs uppercase tracking-wider text-cyan-600 dark:text-cyan-300 font-bold mb-1">Control Cost</p>
+                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-control-cost">-</p>
+                    </div>
+                    <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center border border-green-100">
+                        <p data-i18n="metricROSI" class="text-xs uppercase tracking-wider text-green-600 dark:text-green-300 font-bold mb-1">ROSI</p>
+                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-rosi">-</p>
+                        <p class="text-[10px] text-green-500" data-i18n="rosiSubtext">Return on Security Investment</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Chart -->
             <div
-                class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative">
+                class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative mt-8">
                 <canvas id="lossChart"></canvas>
             </div>
         </div>
@@ -474,28 +541,53 @@
     <div id="tutorial-modal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleModal('tutorial-modal')"></div>
         <div
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-6 m-4 max-h-[90vh] overflow-y-auto">
-            <h3 class="text-xl font-bold mb-4">Methodology Guide</h3>
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-6 m-4 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4" data-i18n="modalTitle">Methodology Guide</h3>
             <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300">
-                <p>This tool uses <strong>OpenFAIR™</strong> standard calculations with <strong>Monte Carlo
-                        Simulation</strong>.</p>
+                <p><span data-i18n="modalIntro">This tool uses</span> <strong>OpenFAIR™</strong> <span data-i18n="modalIntro2">standard calculations with</span> <strong>Monte Carlo Simulation</strong>.</p>
 
                 <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
                     <h4 class="font-bold text-purple-700 dark:text-purple-300">1. Beta-PERT Distribution</h4>
-                    <p class="mt-1">Unlike simple averages, we use Min/Most Likely/Max inputs to create a smooth
-                        probability curve (Lambda=4). This accounts for uncertainty in your estimates.</p>
+                    <p class="mt-1" data-i18n="modalPert">Unlike simple averages, we use Min/Most Likely/Max inputs to create a smooth probability curve (Lambda=4). This accounts for uncertainty in your estimates.</p>
                 </div>
 
                 <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
                     <h4 class="font-bold text-blue-700 dark:text-blue-300">2. Event-Driven Logic</h4>
-                    <p class="mt-1">Risk = Frequency x Magnitude. We treat risk as discrete events using a
-                        <strong>Poisson Distribution</strong> for frequency, ensuring rare high-impact events are
-                        modeled correctly.
-                    </p>
+                    <p class="mt-1" data-i18n="modalEvent">Risk = Frequency x Magnitude. We treat risk as discrete events using a <strong>Poisson Distribution</strong> for frequency, ensuring rare high-impact events are modeled correctly.</p>
+                </div>
+
+                <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                    <h4 class="font-bold text-green-700 dark:text-green-300">3. FAIR Calculation Formula</h4>
+                    <div class="mt-2 space-y-2 text-xs font-mono bg-white dark:bg-gray-800 p-3 rounded">
+                        <p><strong>LEF</strong> = TEF × Vulnerability</p>
+                        <p><strong>LM</strong> = Primary Loss + (Secondary Loss × Sec. Prob)</p>
+                        <p><strong>AAL</strong> = Σ(LEF × LM) / Simulation Runs</p>
+                        <p><strong>VaR 90%</strong> = 90th percentile of annual losses</p>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg">
+                    <h4 class="font-bold text-amber-700 dark:text-amber-300">4. ROSI Calculation</h4>
+                    <p class="mt-1" data-i18n="modalRosi">When Mitigating Controls are configured:</p>
+                    <div class="mt-2 space-y-2 text-xs font-mono bg-white dark:bg-gray-800 p-3 rounded">
+                        <p><strong>Vuln (after)</strong> = Vuln × (1 - Effectiveness%)</p>
+                        <p><strong>Risk Reduction</strong> = AAL (before) - AAL (after)</p>
+                        <p><strong>ROSI</strong> = (Risk Reduction - Control Cost) / Control Cost × 100%</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
+                    <h4 class="font-bold text-gray-700 dark:text-gray-300">5. Monte Carlo Runs</h4>
+                    <p class="mt-1" data-i18n="modalRuns">Each "run" simulates one year. More runs produce more stable statistics:</p>
+                    <ul class="mt-2 text-xs space-y-1 list-disc list-inside">
+                        <li><strong>1K:</strong> <span data-i18n="runs1k">Quick preview, less stable tail values</span></li>
+                        <li><strong>10K:</strong> <span data-i18n="runs10k">Recommended balance of speed and accuracy</span></li>
+                        <li><strong>50K:</strong> <span data-i18n="runs50k">High precision for formal reports</span></li>
+                    </ul>
                 </div>
 
                 <button onclick="toggleModal('tutorial-modal')"
-                    class="w-full py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg font-bold mt-4">Close</button>
+                    class="w-full py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg font-bold mt-4" data-i18n="btnClose">Close</button>
             </div>
         </div>
     </div>
@@ -531,6 +623,16 @@
                     descSec: "Reputation, Legal, etc. (Optional)",
                     labelSecProb: "Secondary Loss Probability (%)",
                     descSecProb: "Chance this loss happens GIVEN the primary event.",
+                    labelMitigating: "Mitigating Controls",
+                    badgeOptional: "Optional",
+                    descMitigating: "Calculate ROSI (Return on Security Investment)",
+                    labelControlCost: "Annual Control Cost",
+                    descControlCost: "Annualized cost of the security control.",
+                    labelControlEffect: "Control Effectiveness (%)",
+                    descControlEffect: "How much vulnerability is reduced.",
+                    rosiNote: "Note:",
+                    rosiNoteText: "ROSI = (Risk Reduction - Control Cost) / Control Cost. Control reduces Vulnerability by the specified percentage.",
+                    runsExplain: "Monte Carlo simulation runs. More runs = more stable results. 1K for quick preview, 10K recommended, 50K for formal reports.",
                     btnRun: "Run Simulation",
                     reportTitle: "Analyst Report",
                     btnCsv: "Download CSV",
@@ -538,7 +640,14 @@
                     metricVaR: "VaR (90%)",
                     metricMax: "Max Loss",
                     metricMin: "Min Loss",
-                    footerAAL: "Average Annual Loss"
+                    metricAALAfter: "AAL (After Control)",
+                    metricRiskReduction: "Risk Reduction",
+                    metricControlCost: "Control Cost",
+                    metricROSI: "ROSI",
+                    rosiSubtext: "Return on Security Investment",
+                    footerAAL: "Average Annual Loss",
+                    modalTitle: "Methodology Guide",
+                    btnClose: "Close"
                 },
                 'zh-TW': {
                     navTitle: "FAIR 風險分析",
@@ -565,6 +674,16 @@
                     descSec: "聲譽、法律訴訟等（選填）。",
                     labelSecProb: "次要損失發生機率 (%)",
                     descSecProb: "在主要事件發生後，次要損失隨之發生的機率。",
+                    labelMitigating: "緩解控制措施",
+                    badgeOptional: "選填",
+                    descMitigating: "計算 ROSI（資安投資報酬率）",
+                    labelControlCost: "年度控制成本",
+                    descControlCost: "資安控制措施的年化成本。",
+                    labelControlEffect: "控制有效性 (%)",
+                    descControlEffect: "脆弱性降低的百分比。",
+                    rosiNote: "說明：",
+                    rosiNoteText: "ROSI = (風險降低量 - 控制成本) / 控制成本。控制措施按指定百分比降低脆弱性。",
+                    runsExplain: "蒙地卡羅模擬次數。次數越多結果越穩定。1K 快速預覽，10K 建議值，50K 正式報告用。",
                     btnRun: "執行模擬",
                     reportTitle: "分析報告",
                     btnCsv: "下載 CSV",
@@ -572,7 +691,14 @@
                     metricVaR: "風險值 (90% VaR)",
                     metricMax: "最大損失",
                     metricMin: "最小損失",
-                    footerAAL: "平均年損失 (AAL)"
+                    metricAALAfter: "控制後 AAL",
+                    metricRiskReduction: "風險降低量",
+                    metricControlCost: "控制成本",
+                    metricROSI: "ROSI",
+                    rosiSubtext: "資安投資報酬率",
+                    footerAAL: "平均年損失 (AAL)",
+                    modalTitle: "方法論指南",
+                    btnClose: "關閉"
                 },
                 ja: {
                     navTitle: "FAIRリスク分析",
@@ -599,6 +725,16 @@
                     descSec: "評判、法的対応など（任意）。",
                     labelSecProb: "二次損失発生確率 (%)",
                     descSecProb: "一次事象が発生した条件下での二次損失発生確率。",
+                    labelMitigating: "緩和コントロール",
+                    badgeOptional: "任意",
+                    descMitigating: "ROSI（セキュリティ投資収益率）を計算",
+                    labelControlCost: "年間コントロールコスト",
+                    descControlCost: "セキュリティコントロールの年間コスト。",
+                    labelControlEffect: "コントロール有効性 (%)",
+                    descControlEffect: "脆弱性がどれだけ低減されるか。",
+                    rosiNote: "注：",
+                    rosiNoteText: "ROSI = (リスク低減額 - コントロールコスト) / コントロールコスト。コントロールは指定された割合で脆弱性を低減します。",
+                    runsExplain: "モンテカルロシミュレーション回数。回数が多いほど結果が安定。1Kはプレビュー、10K推奨、50Kは正式レポート用。",
                     btnRun: "シミュレーション実行",
                     reportTitle: "分析レポート",
                     btnCsv: "CSVダウンロード",
@@ -606,7 +742,14 @@
                     metricVaR: "VaR (90%)",
                     metricMax: "最大損失",
                     metricMin: "最小損失",
-                    footerAAL: "年間平均損失 (AAL)"
+                    metricAALAfter: "コントロール後AAL",
+                    metricRiskReduction: "リスク低減額",
+                    metricControlCost: "コントロールコスト",
+                    metricROSI: "ROSI",
+                    rosiSubtext: "セキュリティ投資収益率",
+                    footerAAL: "年間平均損失 (AAL)",
+                    modalTitle: "方法論ガイド",
+                    btnClose: "閉じる"
                 }
             },
 
@@ -709,9 +852,18 @@
         let riskChart = null;
         let lastResults = null;
 
-        const worker = new Worker('fair.worker.js?v=' + Date.now());
+        const worker = new Worker('fair.worker.js?v=' + Date.now() + Math.random());
+        console.log('[Main] Worker created');
+
+        worker.onerror = function (e) {
+            console.error('[Main] Worker error:', e);
+            console.error('[Main] Error details:', e.message, e.filename, e.lineno);
+            alert('Worker Error: ' + e.message);
+            setLoading(false);
+        };
 
         worker.onmessage = function (e) {
+            console.log('[Main] Worker message received:', e.data.type);
             const { type, data, progress, message } = e.data;
 
             if (type === 'progress') {
@@ -758,6 +910,32 @@
             document.getElementById('sticky-aal').innerText = fmt(data.aal);
             document.getElementById('sticky-var').innerText = fmt(data.var90);
             document.getElementById('sticky-footer').classList.add('visible');
+
+            // Handle ROSI section
+            const rosiSection = document.getElementById('rosi-section');
+            if (data.hasControl && data.controlCost > 0) {
+                rosiSection.classList.remove('hidden');
+                document.getElementById('res-aal-after').innerText = fmt(data.aalAfterControl);
+                document.getElementById('res-risk-reduction').innerText = fmt(data.riskReduction);
+                document.getElementById('res-control-cost').innerText = fmt(data.controlCost);
+                
+                // Format ROSI with sign and percentage
+                const rosiValue = data.rosi;
+                const rosiText = (rosiValue >= 0 ? '+' : '') + rosiValue.toFixed(0) + '%';
+                document.getElementById('res-rosi').innerText = rosiText;
+                
+                // Color code ROSI
+                const rosiEl = document.getElementById('res-rosi');
+                if (rosiValue > 0) {
+                    rosiEl.classList.remove('text-red-600');
+                    rosiEl.classList.add('text-green-600');
+                } else {
+                    rosiEl.classList.remove('text-green-600');
+                    rosiEl.classList.add('text-red-600');
+                }
+            } else {
+                rosiSection.classList.add('hidden');
+            }
 
             // Render Chart
             renderChart(data.curveData);
@@ -826,12 +1004,19 @@
         }
 
         document.getElementById('btn-run').addEventListener('click', () => {
+            console.log('[Main] Run button clicked');
             setLoading(true);
 
             // Gather Inputs
             const runs = document.querySelector('input[name="sim-runs"]:checked').value;
+            console.log('[Main] Simulation runs:', runs);
 
-            worker.postMessage({
+            // Get control parameters
+            const controlCost = parseFloat(document.getElementById('control-cost').value) || 0;
+            const controlEffectiveness = parseFloat(document.getElementById('control-effectiveness').value) || 0;
+            console.log('[Main] Control params:', controlCost, controlEffectiveness);
+
+            const payload = {
                 simulationRuns: parseInt(runs),
                 tefMin: parseFloat(document.getElementById('tef-min').value),
                 tefLike: parseFloat(document.getElementById('tef-like').value),
@@ -846,7 +1031,11 @@
                 secondaryLossMin: parseFloat(document.getElementById('sec-min').value),
                 secondaryLossLike: parseFloat(document.getElementById('sec-like').value),
                 secondaryLossMax: parseFloat(document.getElementById('sec-max').value),
-            });
+                controlCost: controlCost,
+                controlEffectiveness: controlEffectiveness
+            };
+            console.log('[Main] Sending to worker:', payload);
+            worker.postMessage(payload);
         });
 
         // CSV Export logic
