@@ -143,8 +143,7 @@
                                 d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
                     </a>
-                    <span data-i18n="navTitle"
-                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500 dark:from-purple-400 dark:to-pink-300 truncate">
+                    <span data-i18n="navTitle" class="text-xl font-bold text-gray-900 dark:text-white truncate">
                         FAIR Analysis
                     </span>
                 </div>
@@ -182,9 +181,9 @@
                         Information Risk
                         (OpenFAIR™)</p>
                 </div>
-                <div class="w-full sm:w-auto mt-4 sm:mt-0">
+                <div class="w-full sm:w-auto mt-4 sm:mt-0 flex-grow sm:ml-8">
                     <input type="text" id="scenario-name" placeholder="e.g., Ransomware Attack on DB"
-                        class="w-full sm:w-80 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500">
+                        class="w-full bg-transparent border-0 border-b-2 border-gray-200 dark:border-gray-700 text-xl sm:text-2xl font-bold text-gray-800 dark:text-white focus:ring-0 focus:border-purple-500 placeholder-gray-300 dark:placeholder-gray-600 transition-colors py-2">
                 </div>
             </div>
         </header>
@@ -381,27 +380,36 @@
 
         <!-- Mitigating Controls Section -->
         <div class="mt-8">
-            <div class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div
+                class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
                 <button
                     class="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                     onclick="toggleAccordion('mitigating-controls-content', this)">
                     <div>
                         <div class="flex items-center gap-2">
-                            <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelMitigating">Mitigating Controls</h3>
-                            <span class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs px-2 py-1 rounded" data-i18n="badgeOptional">Optional</span>
+                            <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelMitigating">
+                                Mitigating Controls</h3>
+                            <span
+                                class="bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs px-2 py-1 rounded"
+                                data-i18n="badgeOptional">Optional</span>
                         </div>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="descMitigating">Calculate ROSI (Return on Security Investment)</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="descMitigating">Calculate
+                            ROSI (Return on Security Investment)</p>
                     </div>
-                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
 
-                <div id="mitigating-controls-content" class="hidden px-6 pb-6 border-t border-gray-100 dark:border-gray-600">
+                <div id="mitigating-controls-content"
+                    class="hidden px-6 pb-6 border-t border-gray-100 dark:border-gray-600">
                     <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-semibold mb-1" data-i18n="labelControlCost">Annual Control Cost</label>
-                            <p class="text-xs text-gray-500 mb-2" data-i18n="descControlCost">Annualized cost of the security control.</p>
+                            <label class="block text-sm font-semibold mb-1" data-i18n="labelControlCost">Annual Control
+                                Cost</label>
+                            <p class="text-xs text-gray-500 mb-2" data-i18n="descControlCost">Annualized cost of the
+                                security control.</p>
                             <div class="flex items-center gap-2">
                                 <span class="text-gray-500 currency-symbol">USD</span>
                                 <input type="number" id="control-cost" value="0" min="0"
@@ -409,14 +417,19 @@
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-semibold mb-1" data-i18n="labelControlEffect">Control Effectiveness (%)</label>
-                            <p class="text-xs text-gray-500 mb-2" data-i18n="descControlEffect">How much vulnerability is reduced.</p>
+                            <label class="block text-sm font-semibold mb-1" data-i18n="labelControlEffect">Control
+                                Effectiveness (%)</label>
+                            <p class="text-xs text-gray-500 mb-2" data-i18n="descControlEffect">How much vulnerability
+                                is reduced.</p>
                             <input type="number" id="control-effectiveness" value="0" min="0" max="100"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
                         </div>
                     </div>
-                    <div class="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-xs text-amber-700 dark:text-amber-300">
-                        <strong data-i18n="rosiNote">Note:</strong> <span data-i18n="rosiNoteText">ROSI = (Risk Reduction - Control Cost) / Control Cost. Control reduces Vulnerability by the specified percentage.</span>
+                    <div
+                        class="mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg text-xs text-amber-700 dark:text-amber-300">
+                        <strong data-i18n="rosiNote">Note:</strong> <span data-i18n="rosiNoteText">ROSI = (Risk
+                            Reduction - Control Cost) / Control Cost. Control reduces Vulnerability by the specified
+                            percentage.</span>
                     </div>
                 </div>
             </div>
@@ -424,7 +437,9 @@
 
         <!-- Simulation Controls -->
         <div class="mt-8 text-center">
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="runsExplain">Monte Carlo simulation runs. More runs = more stable results. 1K for quick preview, 10K recommended, 50K for formal reports.</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="runsExplain">Monte Carlo simulation
+                runs. More runs = more stable results. 1K for quick preview, 10K recommended, 50K for formal reports.
+            </p>
             <div class="mb-4 flex justify-center items-center gap-4 text-sm">
                 <label class="flex items-center gap-2 cursor-pointer">
                     <input type="radio" name="sim-runs" value="1000" class="text-purple-600"> 1k Runs
@@ -437,7 +452,7 @@
                 </label>
             </div>
             <button id="btn-run" data-i18n="btnRun"
-                class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-12 rounded-full shadow-lg transform transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                class="bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-12 rounded-lg shadow-md transform transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
                 Run Simulation
             </button>
             <p id="sim-status" class="mt-2 text-sm text-gray-500 min-h-[20px]"></p>
@@ -446,8 +461,7 @@
         <!-- RESULTS SECTION (Initially Hidden) -->
         <div id="results-section" class="mt-12 opacity-50 pointer-events-none transition-opacity duration-500">
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
-                <h2 data-i18n="reportTitle"
-                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
+                <h2 data-i18n="reportTitle" class="text-2xl font-bold text-gray-900 dark:text-white">
                     Analyst Report</h2>
                 <button id="btn-csv" disabled
                     class="mt-4 sm:mt-0 flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50">
@@ -494,19 +508,30 @@
             <div id="rosi-section" class="hidden mb-8">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-teal-50 dark:bg-teal-900/20 p-4 rounded-xl text-center border border-teal-100">
-                        <p data-i18n="metricAALAfter" class="text-xs uppercase tracking-wider text-teal-600 dark:text-teal-300 font-bold mb-1">AAL (After Control)</p>
+                        <p data-i18n="metricAALAfter"
+                            class="text-xs uppercase tracking-wider text-teal-600 dark:text-teal-300 font-bold mb-1">AAL
+                            (After Control)</p>
                         <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-aal-after">-</p>
                     </div>
-                    <div class="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-xl text-center border border-emerald-100">
-                        <p data-i18n="metricRiskReduction" class="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 font-bold mb-1">Risk Reduction</p>
-                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-risk-reduction">-</p>
+                    <div
+                        class="bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-xl text-center border border-emerald-100">
+                        <p data-i18n="metricRiskReduction"
+                            class="text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-300 font-bold mb-1">
+                            Risk Reduction</p>
+                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-risk-reduction">
+                            -</p>
                     </div>
                     <div class="bg-cyan-50 dark:bg-cyan-900/20 p-4 rounded-xl text-center border border-cyan-100">
-                        <p data-i18n="metricControlCost" class="text-xs uppercase tracking-wider text-cyan-600 dark:text-cyan-300 font-bold mb-1">Control Cost</p>
-                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-control-cost">-</p>
+                        <p data-i18n="metricControlCost"
+                            class="text-xs uppercase tracking-wider text-cyan-600 dark:text-cyan-300 font-bold mb-1">
+                            Control Cost</p>
+                        <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-control-cost">-
+                        </p>
                     </div>
                     <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl text-center border border-green-100">
-                        <p data-i18n="metricROSI" class="text-xs uppercase tracking-wider text-green-600 dark:text-green-300 font-bold mb-1">ROSI</p>
+                        <p data-i18n="metricROSI"
+                            class="text-xs uppercase tracking-wider text-green-600 dark:text-green-300 font-bold mb-1">
+                            ROSI</p>
                         <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-rosi">-</p>
                         <p class="text-[10px] text-green-500" data-i18n="rosiSubtext">Return on Security Investment</p>
                     </div>
@@ -544,16 +569,22 @@
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-6 m-4 max-h-[90vh] overflow-y-auto">
             <h3 class="text-xl font-bold mb-4" data-i18n="modalTitle">Methodology Guide</h3>
             <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300">
-                <p><span data-i18n="modalIntro">This tool uses</span> <strong>OpenFAIR™</strong> <span data-i18n="modalIntro2">standard calculations with</span> <strong>Monte Carlo Simulation</strong>.</p>
+                <p><span data-i18n="modalIntro">This tool uses</span> <strong>OpenFAIR™</strong> <span
+                        data-i18n="modalIntro2">standard calculations with</span> <strong>Monte Carlo
+                        Simulation</strong>.</p>
 
                 <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
                     <h4 class="font-bold text-purple-700 dark:text-purple-300">1. Beta-PERT Distribution</h4>
-                    <p class="mt-1" data-i18n="modalPert">Unlike simple averages, we use Min/Most Likely/Max inputs to create a smooth probability curve (Lambda=4). This accounts for uncertainty in your estimates.</p>
+                    <p class="mt-1" data-i18n="modalPert">Unlike simple averages, we use Min/Most Likely/Max inputs to
+                        create a smooth probability curve (Lambda=4). This accounts for uncertainty in your estimates.
+                    </p>
                 </div>
 
                 <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
                     <h4 class="font-bold text-blue-700 dark:text-blue-300">2. Event-Driven Logic</h4>
-                    <p class="mt-1" data-i18n="modalEvent">Risk = Frequency x Magnitude. We treat risk as discrete events using a <strong>Poisson Distribution</strong> for frequency, ensuring rare high-impact events are modeled correctly.</p>
+                    <p class="mt-1" data-i18n="modalEvent">Risk = Frequency x Magnitude. We treat risk as discrete
+                        events using a <strong>Poisson Distribution</strong> for frequency, ensuring rare high-impact
+                        events are modeled correctly.</p>
                 </div>
 
                 <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
@@ -578,16 +609,21 @@
 
                 <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
                     <h4 class="font-bold text-gray-700 dark:text-gray-300">5. Monte Carlo Runs</h4>
-                    <p class="mt-1" data-i18n="modalRuns">Each "run" simulates one year. More runs produce more stable statistics:</p>
+                    <p class="mt-1" data-i18n="modalRuns">Each "run" simulates one year. More runs produce more stable
+                        statistics:</p>
                     <ul class="mt-2 text-xs space-y-1 list-disc list-inside">
-                        <li><strong>1K:</strong> <span data-i18n="runs1k">Quick preview, less stable tail values</span></li>
-                        <li><strong>10K:</strong> <span data-i18n="runs10k">Recommended balance of speed and accuracy</span></li>
-                        <li><strong>50K:</strong> <span data-i18n="runs50k">High precision for formal reports</span></li>
+                        <li><strong>1K:</strong> <span data-i18n="runs1k">Quick preview, less stable tail values</span>
+                        </li>
+                        <li><strong>10K:</strong> <span data-i18n="runs10k">Recommended balance of speed and
+                                accuracy</span></li>
+                        <li><strong>50K:</strong> <span data-i18n="runs50k">High precision for formal reports</span>
+                        </li>
                     </ul>
                 </div>
 
                 <button onclick="toggleModal('tutorial-modal')"
-                    class="w-full py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg font-bold mt-4" data-i18n="btnClose">Close</button>
+                    class="w-full py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg font-bold mt-4"
+                    data-i18n="btnClose">Close</button>
             </div>
         </div>
     </div>
@@ -918,12 +954,12 @@
                 document.getElementById('res-aal-after').innerText = fmt(data.aalAfterControl);
                 document.getElementById('res-risk-reduction').innerText = fmt(data.riskReduction);
                 document.getElementById('res-control-cost').innerText = fmt(data.controlCost);
-                
+
                 // Format ROSI with sign and percentage
                 const rosiValue = data.rosi;
                 const rosiText = (rosiValue >= 0 ? '+' : '') + rosiValue.toFixed(0) + '%';
                 document.getElementById('res-rosi').innerText = rosiText;
-                
+
                 // Color code ROSI
                 const rosiEl = document.getElementById('res-rosi');
                 if (rosiValue > 0) {
@@ -1042,6 +1078,14 @@
         document.getElementById('btn-csv').addEventListener('click', () => {
             if (!lastResults) return;
 
+            // Get Scenario Name
+            let scenarioName = document.getElementById('scenario-name').value.trim();
+            if (!scenarioName) {
+                scenarioName = "Risk_Assessment_Report";
+            }
+            // Sanitize for filename
+            const safeName = scenarioName.replace(/[^a-z0-9]/gi, '_').replace(/_{2,}/g, '_');
+
             // CSV Headers
             let hYear = "Simulation Year";
             let hEvent = "Event Count";
@@ -1055,7 +1099,9 @@
                 hYear = "シミュレーション年"; hEvent = "イベント数"; hPrim = "一次損失"; hSec = "二次損失"; hTotal = "総損失";
             }
 
-            let csvContent = `data:text/csv;charset=utf-8,${hYear},${hEvent},${hPrim}(${I18n.currency}),${hSec}(${I18n.currency}),${hTotal}(${I18n.currency})\n`;
+            // Include Scenario Name in Content
+            let csvContent = `data:text/csv;charset=utf-8,Scenario: ${scenarioName}\n`;
+            csvContent += `${hYear},${hEvent},${hPrim}(${I18n.currency}),${hSec}(${I18n.currency}),${hTotal}(${I18n.currency})\n`;
 
             lastResults.forEach((row) => {
                 // row: { year, events, primary, secondary, total }
@@ -1065,7 +1111,7 @@
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `FAIR_Simulation_${new Date().toISOString().slice(0, 10)}.csv`);
+            link.setAttribute("download", `FAIR_Simulation_${safeName}_${new Date().toISOString().slice(0, 10)}.csv`);
             document.body.appendChild(link);
             link.click();
             link.remove();
