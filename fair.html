@@ -10,6 +10,20 @@
     <meta name="author" content="Kuro">
     <title>FAIR Analysis - Kuro Risk Calculator</title>
 
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aleriskcalc.kuronetwork.me/fair.html">
+    <meta property="og:title" content="FAIR Analysis - Kuro Risk Calculator">
+    <meta property="og:description" content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
+    <meta property="og:image" content="https://aleriskcalc.kuronetwork.me/icons/icon-cat.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://aleriskcalc.kuronetwork.me/fair.html">
+    <meta name="twitter:title" content="FAIR Analysis - Kuro Risk Calculator">
+    <meta name="twitter:description" content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
+    <meta name="twitter:image" content="https://aleriskcalc.kuronetwork.me/icons/icon-cat.jpg">
+
     <!-- PWA Meta Tags -->
     <meta name="application-name" content="FAIR Calc">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -135,18 +149,14 @@
     <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <a href="https://aleriskcalc.kuronetwork.me"
-                        class="flex items-center text-gray-500 hover:text-primary transition-colors mr-4">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                        </svg>
-                    </a>
-                    <span data-i18n="navTitle" class="text-xl font-bold text-gray-900 dark:text-white truncate">
-                        FAIR Analysis
-                    </span>
-                </div>
+                <a href="https://aleriskcalc.kuronetwork.me"
+                    class="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors group">
+                    <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <span class="text-sm font-medium" data-i18n="navBack">Kuro Risk Calculator</span>
+                </a>
 
                 <div class="flex items-center space-x-4">
                     <!-- Info/Tutorial Button -->
@@ -171,17 +181,19 @@
 
     <div class="flex-grow max-w-5xl mx-auto p-4 w-full pb-32">
 
-        <!-- Header -->
-        <header class="mb-8 text-center sm:text-left border-b border-gray-200 dark:border-gray-700 pb-4">
-            <div class="flex flex-col sm:flex-row justify-between items-end">
+        <!-- Page Title -->
+        <div class="mb-6 text-center sm:text-left">
+            <h1 class="text-3xl font-bold text-gray-900 dark:text-white" data-i18n="navTitle">FAIR Analysis</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="pageSubtitle">Factor Analysis of Information Risk (OpenFAIR™)</p>
+        </div>
+
+        <!-- Scenario Header -->
+        <header class="mb-8 border-b border-gray-200 dark:border-gray-700 pb-4">
+            <div class="flex flex-col sm:flex-row justify-between items-end gap-4">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white" data-i18n="pageTitle">Risk Scenario
-                    </h1>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="pageSubtitle">Factor Analysis of
-                        Information Risk
-                        (OpenFAIR™)</p>
+                    <p class="text-xs text-gray-500 uppercase tracking-wide mb-1" data-i18n="labelScenario">Scenario</p>
                 </div>
-                <div class="w-full sm:w-auto mt-4 sm:mt-0 flex-grow sm:ml-8">
+                <div class="w-full sm:w-auto flex-grow">
                     <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-end">
                         <div class="sm:w-48">
                             <label class="block text-xs text-gray-500 mb-1" data-i18n="labelTemplate">Reference Template</label>
@@ -291,7 +303,7 @@
                 <!-- Level 2 Card -->
                 <!-- Level 2 Card (Minimalist) -->
                 <div
-                    class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-700 border-l-4 border-l-blue-500 shadow-sm">
+                    class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-700 border-l-4 border-l-blue-500 shadow-sm">擺在</div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide"
                             data-i18n="badgeL2Driver">Level 2 Driver</span>
@@ -730,15 +742,26 @@
         </div>
     </div>
 
-    <script>
+    <!-- Disclaimer Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <p class="text-xs text-gray-500 dark:text-gray-400">
+                This tool implements the FAIR methodology for educational purposes.
+                OpenFAIR™ is a trademark of The Open Group.
+            </p>
+        </div>
+    </footer>
+
+    <script></script>
         // --- Localization & Settings ---
         const I18n = {
             lang: 'en',
             currency: 'USD',
             translations: {
                 en: {
+                    navBack: "Kuro Risk Calculator",
                     navTitle: "FAIR Analysis",
-                    pageTitle: "Risk Scenario",
+                    labelScenario: "Scenario",
                     pageSubtitle: "Factor Analysis of Information Risk (OpenFAIR™)",
                     badgeL2Driver: "Level 2 Driver",
                     cardLefTitle: "Loss Event Frequency",
