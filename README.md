@@ -539,7 +539,8 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ### Version History
 
-- **v2.2.0** (Current) - FAIR Analysis module with Monte Carlo simulation and ROSI calculator
+- **v2.3.0** (Current) - Fixed FAIR page mobile layout issue, added version-based cache refresh for FAIR page
+- **v2.2.0** - FAIR Analysis module with Monte Carlo simulation and ROSI calculator
 - **v2.1.1** - Fixed number overflow in ROI dashboard cards and tables
 - **v2.1.0** - PWA features, batch processing, history management
 - **v2.0.0** - Multi-language support, enhanced UI/UX
@@ -1079,7 +1080,8 @@ ALE-Risk-Calculator/
 
 ### 版本歷史
 
-- **v2.2.0**（目前）- FAIR 風險分析模組，含蒙地卡羅模擬與 ROSI 計算器
+- **v2.3.0**（目前）- 修復 FAIR 頁面手機版跑版問題，新增 FAIR 頁面版本強制刷新機制
+- **v2.2.0** - FAIR 風險分析模組，含蒙地卡羅模擬與 ROSI 計算器
 - **v2.1.1** - 修復 ROI 儀表板卡片與表格中數字溢出問題
 - **v2.1.0** - PWA 功能、批次處理、歷史管理
 - **v2.0.0** - 多語言支援、增強 UI/UX

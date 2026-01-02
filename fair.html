@@ -300,10 +300,9 @@
 
             <!-- COLUMN 1: Loss Event Frequency (LEF) -->
             <div class="space-y-6">
-                <!-- Level 2 Card -->
                 <!-- Level 2 Card (Minimalist) -->
                 <div
-                    class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-700 border-l-4 border-l-blue-500 shadow-sm">擺在</div>
+                    class="bg-white dark:bg-darkcard p-6 rounded-xl border border-gray-200 dark:border-gray-700 border-l-4 border-l-blue-500 shadow-sm">
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wide"
                             data-i18n="badgeL2Driver">Level 2 Driver</span>
@@ -752,7 +751,7 @@
         </div>
     </footer>
 
-    <script></script>
+    <script>
         // --- Localization & Settings ---
         const I18n = {
             lang: 'en',
@@ -1491,6 +1490,35 @@
             link.click();
             link.remove();
         });
+
+        // --- PWA Version Check & Update ---
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').then(registration => {
+                // Check for updates periodically
+                setInterval(() => {
+                    registration.update();
+                }, 60000);
+
+                // Listen for new service worker
+                registration.addEventListener('updatefound', () => {
+                    const newWorker = registration.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // New version available
+                            if (confirm('New version available! Reload to update?')) {
+                                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                window.location.reload();
+                            }
+                        }
+                    });
+                });
+            }).catch(err => console.log('SW registration failed:', err));
+
+            // Handle controller change
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+            });
+        }
 
     </script>
 </body>
