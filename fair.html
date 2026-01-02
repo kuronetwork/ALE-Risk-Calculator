@@ -182,11 +182,46 @@
                         (OpenFAIR™)</p>
                 </div>
                 <div class="w-full sm:w-auto mt-4 sm:mt-0 flex-grow sm:ml-8">
-                    <input type="text" id="scenario-name" placeholder="e.g., Ransomware Attack on DB"
-                        class="w-full bg-transparent border-0 border-b-2 border-gray-200 dark:border-gray-700 text-xl sm:text-2xl font-bold text-gray-800 dark:text-white focus:ring-0 focus:border-purple-500 placeholder-gray-300 dark:placeholder-gray-600 transition-colors py-2">
+                    <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-end">
+                        <div class="sm:w-48">
+                            <label class="block text-xs text-gray-500 mb-1" data-i18n="labelTemplate">Reference Template</label>
+                            <select id="scenario-template"
+                                class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
+                                <option value="custom" data-i18n="templateCustom">Custom Scenario</option>
+                                <option value="ransomware" data-i18n="templateRansomware">Ransomware Attack</option>
+                                <option value="databreach" data-i18n="templateDataBreach">Data Breach</option>
+                                <option value="ddos" data-i18n="templateDDoS">DDoS Attack</option>
+                                <option value="bec" data-i18n="templateBEC">Business Email Compromise</option>
+                                <option value="insider" data-i18n="templateInsider">Insider Threat</option>
+                            </select>
+                        </div>
+                        <div class="flex-grow">
+                            <input type="text" id="scenario-name" placeholder="e.g., Ransomware Attack on DB"
+                                class="w-full bg-transparent border-0 border-b-2 border-gray-200 dark:border-gray-700 text-xl sm:text-2xl font-bold text-gray-800 dark:text-white focus:ring-0 focus:border-purple-500 placeholder-gray-300 dark:placeholder-gray-600 transition-colors py-2">
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
+
+        <!-- Template Notice (hidden by default) -->
+        <div id="template-notice" class="hidden mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
+            <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="flex-grow">
+                    <p class="text-sm font-semibold text-amber-800 dark:text-amber-200" data-i18n="templateNoticeTitle">Reference Data Loaded</p>
+                    <p class="text-xs text-amber-700 dark:text-amber-300 mt-1" id="template-source"></p>
+                    <p class="text-xs text-amber-600 dark:text-amber-400 mt-2" data-i18n="templateNoticeHint">Please adjust values based on your organization's industry, size, and existing security controls.</p>
+                </div>
+                <button onclick="document.getElementById('template-notice').classList.add('hidden')" class="text-amber-500 hover:text-amber-700">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
 
         <!-- Main Form Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -522,9 +557,33 @@
             </div>
 
             <!-- Chart -->
-            <div
-                class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative mt-8">
-                <canvas id="lossChart"></canvas>
+            <div class="mt-8">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="chartTitle">Loss Exceedance Curve</h3>
+                    <div id="chart-legend" class="hidden text-xs space-x-4">
+                        <span class="inline-flex items-center gap-1">
+                            <span class="w-3 h-0.5 bg-red-500 rounded"></span>
+                            <span data-i18n="legendBefore">Before Control</span>
+                        </span>
+                        <span class="inline-flex items-center gap-1">
+                            <span class="w-3 h-0.5 bg-emerald-500 rounded"></span>
+                            <span data-i18n="legendAfter">After Control</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative">
+                    <canvas id="lossChart"></canvas>
+                </div>
+                <!-- Chart Interpretation (shown when control is configured) -->
+                <div id="chart-interpretation" class="hidden mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
+                    <p class="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2" data-i18n="chartInterpretTitle">📊 How to Read This Chart</p>
+                    <ul class="text-xs text-blue-700 dark:text-blue-300 space-y-1">
+                        <li data-i18n="chartInterpret1">• Red line = Risk distribution WITHOUT the control investment</li>
+                        <li data-i18n="chartInterpret2">• Green line = Risk distribution WITH the control investment</li>
+                        <li data-i18n="chartInterpret3">• The gap between lines = Potential loss avoided by investing</li>
+                    </ul>
+                    <p id="chart-summary" class="text-xs font-medium text-blue-900 dark:text-blue-100 mt-3 pt-3 border-t border-blue-200 dark:border-blue-700"></p>
+                </div>
             </div>
         </div>
 
@@ -666,7 +725,32 @@
                     rosiSubtext: "Return on Security Investment",
                     footerAAL: "Average Annual Loss",
                     modalTitle: "Methodology Guide",
-                    btnClose: "Close"
+                    btnClose: "Close",
+                    labelTemplate: "Reference Template",
+                    templateCustom: "Custom Scenario",
+                    templateRansomware: "Ransomware Attack",
+                    templateDataBreach: "Data Breach",
+                    templateDDoS: "DDoS Attack",
+                    templateBEC: "Business Email Compromise",
+                    templateInsider: "Insider Threat",
+                    templateNoticeTitle: "Reference Data Loaded",
+                    templateNoticeHint: "Please adjust values based on your organization's industry, size, and existing security controls.",
+                    chartTitle: "Loss Exceedance Curve",
+                    legendBefore: "Before Control",
+                    legendAfter: "After Control",
+                    chartInterpretTitle: "📊 How to Read This Chart",
+                    chartInterpret1: "• Red line = Risk distribution WITHOUT the control investment",
+                    chartInterpret2: "• Green line = Risk distribution WITH the control investment",
+                    chartInterpret3: "• The gap between lines = Potential loss avoided by investing",
+                    modalIntro: "This tool uses",
+                    modalIntro2: "standard calculations with",
+                    modalPert: "Unlike simple averages, we use Min/Most Likely/Max inputs to create a smooth probability curve (Lambda=4). This accounts for uncertainty in your estimates.",
+                    modalEvent: "Risk = Frequency x Magnitude. We treat risk as discrete events using a Poisson Distribution for frequency, ensuring rare high-impact events are modeled correctly.",
+                    modalRosi: "When Mitigating Controls are configured:",
+                    modalRuns: "Each \"run\" simulates one year. More runs produce more stable statistics:",
+                    runs1k: "Quick preview, less stable tail values",
+                    runs10k: "Recommended balance of speed and accuracy",
+                    runs50k: "High precision for formal reports"
                 },
                 'zh-TW': {
                     navTitle: "FAIR 風險分析",
@@ -717,7 +801,32 @@
                     rosiSubtext: "資安投資報酬率",
                     footerAAL: "平均年損失 (AAL)",
                     modalTitle: "方法論指南",
-                    btnClose: "關閉"
+                    btnClose: "關閉",
+                    labelTemplate: "參考情境模板",
+                    templateCustom: "自訂情境",
+                    templateRansomware: "勒索軟體攻擊",
+                    templateDataBreach: "資料外洩",
+                    templateDDoS: "阻斷服務攻擊",
+                    templateBEC: "商業郵件詐騙",
+                    templateInsider: "內部威脅",
+                    templateNoticeTitle: "已載入參考數據",
+                    templateNoticeHint: "請根據貴組織的產業別、規模及現有資安控制措施調整數值。",
+                    chartTitle: "損失超越曲線",
+                    legendBefore: "控制前",
+                    legendAfter: "控制後",
+                    chartInterpretTitle: "📊 如何解讀此圖表",
+                    chartInterpret1: "• 紅線 = 未投資控制措施的風險分布",
+                    chartInterpret2: "• 綠線 = 投資控制措施後的風險分布",
+                    chartInterpret3: "• 兩線之間的差距 = 投資可避免的潛在損失",
+                    modalIntro: "本工具使用",
+                    modalIntro2: "標準計算方法搭配",
+                    modalPert: "不同於簡單平均，我們使用最小/最可能/最大值輸入來建立平滑的機率曲線（Lambda=4）。這能反映您估計值的不確定性。",
+                    modalEvent: "風險 = 頻率 x 幅度。我們將風險視為離散事件，使用泊松分布來模擬頻率，確保罕見的高衝擊事件能被正確建模。",
+                    modalRosi: "當設定緩解控制措施時：",
+                    modalRuns: "每次「執行」模擬一年。執行次數越多，統計結果越穩定：",
+                    runs1k: "快速預覽，尾端數值較不穩定",
+                    runs10k: "速度與準確度的建議平衡點",
+                    runs50k: "正式報告用的高精度"
                 },
                 ja: {
                     navTitle: "FAIRリスク分析",
@@ -768,7 +877,32 @@
                     rosiSubtext: "セキュリティ投資収益率",
                     footerAAL: "年間平均損失 (AAL)",
                     modalTitle: "方法論ガイド",
-                    btnClose: "閉じる"
+                    btnClose: "閉じる",
+                    labelTemplate: "参考テンプレート",
+                    templateCustom: "カスタムシナリオ",
+                    templateRansomware: "ランサムウェア攻撃",
+                    templateDataBreach: "データ侵害",
+                    templateDDoS: "DDoS攻撃",
+                    templateBEC: "ビジネスメール詐欺",
+                    templateInsider: "内部脅威",
+                    templateNoticeTitle: "参考データを読み込みました",
+                    templateNoticeHint: "組織の業種、規模、既存のセキュリティ対策に基づいて値を調整してください。",
+                    chartTitle: "損失超過曲線",
+                    legendBefore: "コントロール前",
+                    legendAfter: "コントロール後",
+                    chartInterpretTitle: "📊 このチャートの読み方",
+                    chartInterpret1: "• 赤線 = コントロール投資なしのリスク分布",
+                    chartInterpret2: "• 緑線 = コントロール投資後のリスク分布",
+                    chartInterpret3: "• 線の間のギャップ = 投資により回避できる潜在的損失",
+                    modalIntro: "このツールは",
+                    modalIntro2: "標準計算を使用し",
+                    modalPert: "単純な平均とは異なり、最小/最頻/最大値の入力から滑らかな確率曲線を作成します（Lambda=4）。これにより推定値の不確実性を考慮できます。",
+                    modalEvent: "リスク = 頻度 x 規模。リスクを離散イベントとして扱い、ポアソン分布で頻度をモデル化することで、稀な高インパクトイベントを正確にモデル化します。",
+                    modalRosi: "緩和コントロールが設定されている場合：",
+                    modalRuns: "各「実行」は1年をシミュレートします。実行回数が多いほど統計が安定します：",
+                    runs1k: "クイックプレビュー、テール値は不安定",
+                    runs10k: "速度と精度のバランスが取れた推奨値",
+                    runs50k: "正式レポート用の高精度"
                 }
             },
 
@@ -854,17 +988,141 @@
         // Initialize on load
         document.addEventListener('DOMContentLoaded', () => {
             I18n.init();
+            initScenarioTemplates();
         });
+
+        // --- Scenario Templates ---
+        // Reference data from IBM Cost of Data Breach 2024, Verizon DBIR 2024, Sophos State of Ransomware 2024
+        const scenarioTemplates = {
+            ransomware: {
+                name: { en: 'Ransomware Attack', 'zh-TW': '勒索軟體攻擊', ja: 'ランサムウェア攻撃' },
+                source: { 
+                    en: 'Reference: IBM Cost of Data Breach 2024, Sophos State of Ransomware 2024', 
+                    'zh-TW': '參考來源：IBM 資料外洩成本報告 2024、Sophos 勒索軟體現況報告 2024',
+                    ja: '参考：IBM データ侵害コストレポート 2024、Sophos ランサムウェアレポート 2024'
+                },
+                values: {
+                    tefMin: 0.5, tefLike: 2, tefMax: 12,
+                    vulnMin: 20, vulnLike: 45, vulnMax: 80,
+                    primMin: 50000, primLike: 1500000, primMax: 10000000,
+                    secProb: 30,
+                    secMin: 100000, secLike: 500000, secMax: 5000000
+                }
+            },
+            databreach: {
+                name: { en: 'Data Breach', 'zh-TW': '資料外洩', ja: 'データ侵害' },
+                source: { 
+                    en: 'Reference: IBM Cost of Data Breach 2024 (Global Average: $4.45M)', 
+                    'zh-TW': '參考來源：IBM 資料外洩成本報告 2024（全球平均：$4.45M）',
+                    ja: '参考：IBM データ侵害コストレポート 2024（世界平均：$4.45M）'
+                },
+                values: {
+                    tefMin: 1, tefLike: 3, tefMax: 15,
+                    vulnMin: 15, vulnLike: 35, vulnMax: 70,
+                    primMin: 100000, primLike: 4450000, primMax: 15000000,
+                    secProb: 50,
+                    secMin: 200000, secLike: 2000000, secMax: 20000000
+                }
+            },
+            ddos: {
+                name: { en: 'DDoS Attack', 'zh-TW': '阻斷服務攻擊', ja: 'DDoS攻撃' },
+                source: { 
+                    en: 'Reference: Cloudflare DDoS Report 2024, Ponemon Institute', 
+                    'zh-TW': '參考來源：Cloudflare DDoS 報告 2024、Ponemon Institute',
+                    ja: '参考：Cloudflare DDoS レポート 2024、Ponemon Institute'
+                },
+                values: {
+                    tefMin: 2, tefLike: 8, tefMax: 50,
+                    vulnMin: 30, vulnLike: 60, vulnMax: 90,
+                    primMin: 10000, primLike: 120000, primMax: 2000000,
+                    secProb: 20,
+                    secMin: 50000, secLike: 300000, secMax: 1000000
+                }
+            },
+            bec: {
+                name: { en: 'Business Email Compromise', 'zh-TW': '商業郵件詐騙', ja: 'ビジネスメール詐欺' },
+                source: { 
+                    en: 'Reference: FBI IC3 Report 2024, Verizon DBIR 2024', 
+                    'zh-TW': '參考來源：FBI IC3 報告 2024、Verizon DBIR 2024',
+                    ja: '参考：FBI IC3 レポート 2024、Verizon DBIR 2024'
+                },
+                values: {
+                    tefMin: 5, tefLike: 20, tefMax: 100,
+                    vulnMin: 5, vulnLike: 15, vulnMax: 40,
+                    primMin: 25000, primLike: 125000, primMax: 2000000,
+                    secProb: 10,
+                    secMin: 10000, secLike: 50000, secMax: 500000
+                }
+            },
+            insider: {
+                name: { en: 'Insider Threat', 'zh-TW': '內部威脅', ja: '内部脅威' },
+                source: { 
+                    en: 'Reference: Ponemon Cost of Insider Threats 2024', 
+                    'zh-TW': '參考來源：Ponemon 內部威脅成本報告 2024',
+                    ja: '参考：Ponemon 内部脅威コストレポート 2024'
+                },
+                values: {
+                    tefMin: 1, tefLike: 4, tefMax: 12,
+                    vulnMin: 25, vulnLike: 50, vulnMax: 80,
+                    primMin: 100000, primLike: 750000, primMax: 5000000,
+                    secProb: 40,
+                    secMin: 150000, secLike: 800000, secMax: 3000000
+                }
+            }
+        };
+
+        function initScenarioTemplates() {
+            const select = document.getElementById('scenario-template');
+            select.addEventListener('change', (e) => {
+                const templateKey = e.target.value;
+                if (templateKey === 'custom') {
+                    document.getElementById('template-notice').classList.add('hidden');
+                    return;
+                }
+
+                const template = scenarioTemplates[templateKey];
+                if (!template) return;
+
+                // Fill in values
+                document.getElementById('tef-min').value = template.values.tefMin;
+                document.getElementById('tef-like').value = template.values.tefLike;
+                document.getElementById('tef-max').value = template.values.tefMax;
+                document.getElementById('vuln-min').value = template.values.vulnMin;
+                document.getElementById('vuln-like').value = template.values.vulnLike;
+                document.getElementById('vuln-max').value = template.values.vulnMax;
+                document.getElementById('prim-min').value = template.values.primMin;
+                document.getElementById('prim-like').value = template.values.primLike;
+                document.getElementById('prim-max').value = template.values.primMax;
+                document.getElementById('sec-prob').value = template.values.secProb;
+                document.getElementById('sec-min').value = template.values.secMin;
+                document.getElementById('sec-like').value = template.values.secLike;
+                document.getElementById('sec-max').value = template.values.secMax;
+
+                // Set scenario name
+                document.getElementById('scenario-name').value = template.name[I18n.lang] || template.name.en;
+
+                // Show notice with source
+                const notice = document.getElementById('template-notice');
+                document.getElementById('template-source').innerText = template.source[I18n.lang] || template.source.en;
+                notice.classList.remove('hidden');
+            });
+        }
 
         document.getElementById('btn-tutorial').addEventListener('click', () => toggleModal('tutorial-modal'));
 
         // Theme Toggle Logic
         document.getElementById('theme-toggle').addEventListener('click', () => {
             document.documentElement.classList.toggle('dark');
-            // We just update the local override AND try to update the main settings if possible, 
-            // but to be safe we just toggle class here. 
-            // Ideally we'd update the big JSON object but let's keep it simple for now to avoid race conditions.
-            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            // Sync theme back to main storage
+            const storageKey = 'kuro_risk_calc_v2_data';
+            try {
+                const savedData = localStorage.getItem(storageKey);
+                const data = savedData ? JSON.parse(savedData) : {};
+                data.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                localStorage.setItem(storageKey, JSON.stringify(data));
+            } catch (e) {
+                console.warn('Failed to sync theme to storage', e);
+            }
         });
 
         // --- Worker & Chart Logic ---
@@ -952,12 +1210,23 @@
                     rosiEl.classList.remove('text-green-600');
                     rosiEl.classList.add('text-red-600');
                 }
+
+                // Update chart summary text
+                const summaryEl = document.getElementById('chart-summary');
+                const reductionPct = ((data.riskReduction / data.aal) * 100).toFixed(0);
+                if (I18n.lang === 'zh-TW') {
+                    summaryEl.innerText = `簡單說：投資 ${fmt(data.controlCost)}，平均每年可避免 ${fmt(data.riskReduction)} 損失（降低 ${reductionPct}%），投資報酬率 ${rosiText}`;
+                } else if (I18n.lang === 'ja') {
+                    summaryEl.innerText = `要約：${fmt(data.controlCost)} の投資で、年間平均 ${fmt(data.riskReduction)} の損失を回避（${reductionPct}% 削減）、ROSI ${rosiText}`;
+                } else {
+                    summaryEl.innerText = `In short: Invest ${fmt(data.controlCost)} to avoid ${fmt(data.riskReduction)} average annual loss (${reductionPct}% reduction), ROSI ${rosiText}`;
+                }
             } else {
                 rosiSection.classList.add('hidden');
             }
 
-            // Render Chart
-            renderChart(data.curveData);
+            // Render Chart (with comparison if control is configured)
+            renderChart(data.curveData, data.curveDataAfterControl, data.hasControl);
 
             // Scroll to results on mobile
             if (window.innerWidth < 768) {
@@ -965,7 +1234,7 @@
             }
         }
 
-        function renderChart(curveData) {
+        function renderChart(curveData, curveDataAfterControl = null, hasControl = false) {
             const ctx = document.getElementById('lossChart').getContext('2d');
 
             if (riskChart) riskChart.destroy();
@@ -975,22 +1244,58 @@
             const textColor = isDark ? '#9CA3AF' : '#4B5563';
 
             // Localize Chart Labels
-            const labelLEC = I18n.lang === 'en' ? 'Loss Exceedance Curve (LEC)' : (I18n.lang === 'zh-TW' ? '損失超越曲線 (LEC)' : '損失超過曲線 (LEC)');
+            const labelBefore = I18n.lang === 'en' ? 'Before Control' : (I18n.lang === 'zh-TW' ? '控制前' : 'コントロール前');
+            const labelAfter = I18n.lang === 'en' ? 'After Control' : (I18n.lang === 'zh-TW' ? '控制後' : 'コントロール後');
+            const labelLEC = I18n.lang === 'en' ? 'Loss Exceedance Curve' : (I18n.lang === 'zh-TW' ? '損失超越曲線' : '損失超過曲線');
             const labelY = I18n.lang === 'en' ? 'Loss Amount' : (I18n.lang === 'zh-TW' ? '損失金額' : '損失額');
             const labelX = I18n.lang === 'en' ? 'Probability of Exceedance' : (I18n.lang === 'zh-TW' ? '超越機率' : '超過確率');
+
+            // Build datasets
+            const datasets = [];
+
+            if (hasControl && curveDataAfterControl && curveDataAfterControl.length > 0) {
+                // Two curves: Before (red) and After (green)
+                datasets.push({
+                    label: labelBefore,
+                    data: curveData.map(d => d.y),
+                    borderColor: '#EF4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2
+                });
+                datasets.push({
+                    label: labelAfter,
+                    data: curveDataAfterControl.map(d => d.y),
+                    borderColor: '#10B981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2
+                });
+                // Show legend
+                document.getElementById('chart-legend').classList.remove('hidden');
+                document.getElementById('chart-interpretation').classList.remove('hidden');
+            } else {
+                // Single curve (original purple)
+                datasets.push({
+                    label: labelLEC,
+                    data: curveData.map(d => d.y),
+                    borderColor: '#8B5CF6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                });
+                // Hide legend
+                document.getElementById('chart-legend').classList.add('hidden');
+                document.getElementById('chart-interpretation').classList.add('hidden');
+            }
 
             riskChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: curveData.map(d => d.x.toFixed(0) + '%'),
-                    datasets: [{
-                        label: labelLEC,
-                        data: curveData.map(d => d.y),
-                        borderColor: '#8B5CF6',
-                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
+                    datasets: datasets
                 },
                 options: {
                     responsive: true,
@@ -1013,9 +1318,13 @@
                         }
                     },
                     plugins: {
-                        legend: { display: false },
+                        legend: { 
+                            display: hasControl && curveDataAfterControl && curveDataAfterControl.length > 0,
+                            position: 'top',
+                            labels: { color: textColor, usePointStyle: true, pointStyle: 'line' }
+                        },
                         tooltip: {
-                            callbacks: { label: (c) => fmt(c.raw) }
+                            callbacks: { label: (c) => `${c.dataset.label}: ${fmt(c.raw)}` }
                         }
                     }
                 }

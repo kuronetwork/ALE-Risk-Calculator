@@ -260,6 +260,8 @@ self.onmessage = function (e) {
         let aalAfterControl = 0;
         let riskReduction = 0;
         let rosi = 0;
+        let curveDataAfterControl = [];
+        let var90AfterControl = 0;
 
         if (hasControl) {
             // Calculate reduced vulnerability values
@@ -271,6 +273,8 @@ self.onmessage = function (e) {
             // Run simulation with reduced vulnerability (progress starts at 50%)
             const controlResults = runSimulation(reducedVulnMin, reducedVulnLike, reducedVulnMax, 50, 50);
             aalAfterControl = controlResults.aal;
+            curveDataAfterControl = controlResults.curveData;
+            var90AfterControl = controlResults.var90;
 
             // Calculate ROSI
             riskReduction = baselineResults.aal - aalAfterControl;
@@ -295,7 +299,10 @@ self.onmessage = function (e) {
                 controlCost,
                 aalAfterControl,
                 riskReduction,
-                rosi
+                rosi,
+                // New: curve data after control for comparison chart
+                curveDataAfterControl,
+                var90AfterControl
             }
         });
 

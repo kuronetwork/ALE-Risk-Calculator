@@ -71,6 +71,9 @@ A dedicated module implementing the **OpenFAIR™** standard for quantitative cy
 - **FAIR Taxonomy**: TEF, Vulnerability, Primary Loss, Secondary Loss with probability
 - **Key Metrics**: AAL (Annual Loss Expectancy), VaR 90%, Loss Exceedance Curve
 - **ROSI Calculator**: Return on Security Investment analysis with control effectiveness modeling
+- **Scenario Templates**: Pre-configured templates for Ransomware, Data Breach, DDoS, BEC, Insider Threat with industry reference data (IBM, Verizon DBIR, Sophos)
+- **Before/After Comparison Chart**: Dual Loss Exceedance Curves showing risk reduction from control investments
+- **Chart Interpretation Guide**: Built-in explanations to help executives understand the results
 - **Multi-language**: English, 繁體中文, 日本語
 
 ---
@@ -609,6 +612,9 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 - **FAIR 分類架構**：TEF、脆弱性、主要損失、次要損失（含發生機率）
 - **關鍵指標**：AAL（年均損失）、VaR 90%、損失超越曲線
 - **ROSI 計算器**：資安投資報酬率分析，支援控制措施有效性建模
+- **情境模板**：預設勒索軟體、資料外洩、DDoS、BEC、內部威脅等情境，含業界參考數據（IBM、Verizon DBIR、Sophos）
+- **控制前後比較圖**：雙曲線損失超越圖，清楚呈現控制措施投資帶來的風險降低效果
+- **圖表解讀指南**：內建說明協助管理階層理解分析結果
 - **多語系支援**：English、繁體中文、日本語
 
 ---
