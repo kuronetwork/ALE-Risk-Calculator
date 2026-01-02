@@ -9,16 +9,18 @@ const DYNAMIC_CACHE_NAME = 'ale-calculator-dynamic-v2.1.0';
 
 // Static assets to cache
 const STATIC_ASSETS = [
-    '/',
-    '/index.html',
-    '/privacy.html',
-    '/manifest.json',
+    './',
+    './index.html',
+    './privacy.html',
+    './manifest.json',
     // CDN resources - will be cached when accessed
     'https://cdn.tailwindcss.com',
     'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'
+    'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
+    './fair.html',
+    './fair.worker.js'
 ];
 
 // Install event - cache static assets
@@ -160,14 +162,15 @@ async function networkFirstStrategy(request) {
 // Helper functions
 function isStaticAsset(request) {
     const url = new URL(request.url);
-    return url.pathname === '/' ||
-        url.pathname === '/index.html' ||
-        url.pathname === '/manifest.json' ||
+    // Be more permissive with paths for GitHub Pages
+    return url.pathname.endsWith('index.html') ||
+        url.pathname.endsWith('manifest.json') ||
         url.pathname.endsWith('.css') ||
         url.pathname.endsWith('.js') ||
         url.pathname.endsWith('.png') ||
         url.pathname.endsWith('.jpg') ||
-        url.pathname.endsWith('.ico');
+        url.pathname.endsWith('.ico') ||
+        url.pathname.endsWith('fair.html');
 }
 
 function isCDNResource(request) {
@@ -183,7 +186,7 @@ async function getOfflineFallback(request) {
 
     // Return main page for navigation requests
     if (request.mode === 'navigate') {
-        const cachedPage = await caches.match('/index.html');
+        const cachedPage = await caches.match('./index.html');
         if (cachedPage) {
             return cachedPage;
         }

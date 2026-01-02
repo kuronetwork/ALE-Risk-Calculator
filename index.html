@@ -21,10 +21,10 @@
     <meta name="msapplication-tap-highlight" content="no">
 
     <!-- Manifest and Icons -->
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" type="image/svg+xml" href="/icons/icon.svg">
-    <link rel="apple-touch-icon" href="/icons/icon-192.png">
-    <link rel="mask-icon" href="/icons/icon.svg" color="#3B82F6">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+    <link rel="mask-icon" href="./icons/icon.svg" color="#3B82F6">
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
@@ -534,9 +534,13 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
                     <span
-                        class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate">
+                        class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate mr-4">
                         Kuro Risk Calculator
                     </span>
+                    <a href="fair.html"
+                        class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors">
+                        <span class="mr-1">✨</span> New: FAIR Analysis
+                    </a>
                 </div>
 
                 <div class="flex items-center space-x-2 md:space-x-4">
@@ -3800,7 +3804,7 @@
             registerServiceWorker: async function () {
                 if ('serviceWorker' in navigator) {
                     try {
-                        const registration = await navigator.serviceWorker.register('/sw.js');
+                        const registration = await navigator.serviceWorker.register('sw.js');
                         this.swRegistration = registration;
 
                         console.log('[PWA] Service Worker registered successfully');

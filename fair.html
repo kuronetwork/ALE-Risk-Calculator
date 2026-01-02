@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
+    <meta name="author" content="Kuro">
+    <title>FAIR Analysis - Kuro Risk Calculator</title>
+
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="FAIR Calc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3B82F6">
+
+    <!-- Icons -->
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
+
+    <!-- Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        darkbg: '#111827',
+                        darkcard: '#1F2937',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Shared Styles from index.html */
+        .enhanced-input {
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .enhanced-input:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile Optimization for Input Groups */
+        @media (max-width: 768px) {
+            .pert-group {
+                flex-direction: column !important;
+            }
+
+            .pert-group>div {
+                width: 100% !important;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Level Badges */
+        .badge-l2 {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+            border: 1px solid #93C5FD;
+        }
+
+        .dark .badge-l2 {
+            background-color: #1E3A8A;
+            color: #DBEAFE;
+            border-color: #2563EB;
+        }
+
+        .badge-l3 {
+            background-color: #F3F4F6;
+            color: #374151;
+            border: 1px solid #D1D5DB;
+        }
+
+        .dark .badge-l3 {
+            background-color: #374151;
+            color: #F3F4F6;
+            border-color: #4B5563;
+        }
+
+        /* Sticky Bottom Result Bar */
+        .sticky-result-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+        }
+
+        .sticky-result-bar.visible {
+            transform: translateY(0);
+        }
+
+        .shimmer {
+            animation: shimmer 2s infinite linear;
+            background: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+            background-size: 1000px 100%;
+        }
+
+        .dark .shimmer {
+            background: linear-gradient(to right, #1f2937 0%, #374151 20%, #1f2937 40%, #1f2937 100%);
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <a href="index.html"
+                        class="flex items-center text-gray-500 hover:text-primary transition-colors mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                    </a>
+                    <span data-i18n="navTitle"
+                        class="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500 dark:from-purple-400 dark:to-pink-300 truncate">
+                        FAIR Analysis
+                    </span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <!-- Info/Tutorial Button -->
+                    <button id="btn-tutorial" class="text-primary hover:text-blue-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </button>
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle"
+                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                        <svg id="theme-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <!-- Icon set dynamically -->
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex-grow max-w-5xl mx-auto p-4 w-full pb-32">
+
+        <!-- Header -->
+        <header class="mb-8 text-center sm:text-left border-b border-gray-200 dark:border-gray-700 pb-4">
+            <div class="flex flex-col sm:flex-row justify-between items-end">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800 dark:text-white" data-i18n="pageTitle">Risk Scenario
+                    </h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="pageSubtitle">Factor Analysis of
+                        Information Risk
+                        (OpenFAIR™)</p>
+                </div>
+                <div class="w-full sm:w-auto mt-4 sm:mt-0">
+                    <input type="text" id="scenario-name" placeholder="e.g., Ransomware Attack on DB"
+                        class="w-full sm:w-80 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-purple-500">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Form Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+            <!-- COLUMN 1: Loss Event Frequency (LEF) -->
+            <div class="space-y-6">
+                <!-- Level 2 Card -->
+                <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge-l2 text-xs font-bold px-2 py-1 rounded" data-i18n="badgeL2Driver">Level 2
+                            Driver</span>
+                        <div class="tooltip-container relative group cursor-pointer text-blue-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div data-i18n="tooltipLef"
+                                class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 w-48 bg-gray-800 text-white text-xs p-2 rounded z-50 mb-2">
+                                Derived from Threat Event Frequency x Vulnerability
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-bold text-blue-800 dark:text-blue-300" data-i18n="cardLefTitle">Loss Event
+                        Frequency</h2>
+                    <p class="text-xs text-blue-600 dark:text-blue-400 mt-1" data-i18n="cardLefDesc">How often do bad
+                        things happen?</p>
+                </div>
+
+                <!-- Level 3 Inputs: TEF -->
+                <div
+                    class="bg-white dark:bg-darkcard p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelTef">Threat Event
+                            Frequency (TEF)</h3>
+                        <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeL3">Level 3</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="descTef">Frequency of threat
+                        attempts per year.</p>
+
+                    <div class="flex gap-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
+                        <span class="flex-1" data-i18n="labelMin">Min</span>
+                        <span class="flex-1" data-i18n="labelLikely">Most Likely</span>
+                        <span class="flex-1" data-i18n="labelMax">Max</span>
+                    </div>
+                    <div class="flex gap-2 pert-group">
+                        <input type="number" id="tef-min" value="1" min="0" step="0.1"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                        <input type="number" id="tef-like" value="5" min="0" step="0.1"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400">
+                        <input type="number" id="tef-max" value="12" min="0" step="0.1"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                    </div>
+                </div>
+
+                <!-- Level 3 Inputs: Vulnerability -->
+                <div
+                    class="bg-white dark:bg-darkcard p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelVuln">Vulnerability
+                            (Vuln)</h3>
+                        <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeL3">Level 3</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="descVuln">Probability (%) that
+                        threat overwhelms
+                        defense.</p>
+
+                    <div class="flex gap-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
+                        <span class="flex-1" data-i18n="labelMin">Min %</span>
+                        <span class="flex-1" data-i18n="labelLikely">Likely %</span>
+                        <span class="flex-1" data-i18n="labelMax">Max %</span>
+                    </div>
+                    <div class="flex gap-2 pert-group">
+                        <input type="number" id="vuln-min" value="10" min="0" max="100"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                        <input type="number" id="vuln-like" value="50" min="0" max="100"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400">
+                        <input type="number" id="vuln-max" value="90" min="0" max="100"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUMN 2: Loss Magnitude (LM) -->
+            <div class="space-y-6">
+                <!-- Level 2 Card -->
+                <div
+                    class="bg-green-50 dark:bg-green-900/20 p-4 rounded-xl border border-green-100 dark:border-green-800">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="badge-l2 text-xs font-bold px-2 py-1 rounded" data-i18n="badgeL2Driver">Level 2
+                            Driver</span>
+                        <div class="tooltip-container relative group cursor-pointer text-green-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div data-i18n="tooltipLm"
+                                class="hidden group-hover:block absolute bottom-full left-1/2 -translate-x-1/2 w-48 bg-gray-800 text-white text-xs p-2 rounded z-50 mb-2">
+                                Sum of Primary Loss + Secondary Loss
+                            </div>
+                        </div>
+                    </div>
+                    <h2 class="text-xl font-bold text-green-800 dark:text-green-300" data-i18n="cardLmTitle">Loss
+                        Magnitude</h2>
+                    <p class="text-xs text-green-600 dark:text-green-400 mt-1"><span data-i18n="cardLmDesc">Select
+                            Currency: </span><span class="font-bold currency-label">USD</span></p>
+                </div>
+
+                <!-- Level 3 Inputs: Primary Loss -->
+                <div
+                    class="bg-white dark:bg-darkcard p-6 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelPrim">Primary Loss</h3>
+                        <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeL3">Level 3</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="descPrim">Direct financial
+                        impact (Incident Response,
+                        Fines, etc).</p>
+
+                    <div class="flex gap-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
+                        <span class="flex-1"><span data-i18n="labelMin">Min</span> (<span
+                                class="currency-symbol">USD</span>)</span>
+                        <span class="flex-1"><span data-i18n="labelLikely">Likely</span> (<span
+                                class="currency-symbol">USD</span>)</span>
+                        <span class="flex-1"><span data-i18n="labelMax">Max</span> (<span
+                                class="currency-symbol">USD</span>)</span>
+                    </div>
+                    <div class="flex gap-2 pert-group">
+                        <input type="number" id="prim-min" value="10000" min="0"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                        <input type="number" id="prim-like" value="50000" min="0"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400">
+                        <input type="number" id="prim-max" value="200000" min="0"
+                            class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                    </div>
+                </div>
+
+                <!-- Level 3 Inputs: Secondary Loss (Accordion) -->
+                <div
+                    class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <button
+                        class="w-full p-6 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                        onclick="toggleAccordion('sec-loss-content', this)">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="labelSec">Secondary
+                                    Loss</h3>
+                                <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeL3">Level 3</span>
+                            </div>
+                            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="descSec">Reputation,
+                                Legal, etc. (Optional)
+                            </p>
+                        </div>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+
+                    <div id="sec-loss-content" class="hidden px-6 pb-6 border-t border-gray-100 dark:border-gray-600">
+                        <div class="mt-4 mb-4">
+                            <label class="block text-sm font-semibold mb-1" data-i18n="labelSecProb">Secondary Loss
+                                Probability (%)</label>
+                            <p class="text-xs text-gray-500 mb-2" data-i18n="descSecProb">Chance this loss happens GIVEN
+                                the primary event.</p>
+                            <input type="number" id="sec-prob" value="20" min="0" max="100"
+                                class="enhanced-input w-full md:w-1/3 px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                        </div>
+
+                        <div class="flex gap-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
+                            <span class="flex-1"><span data-i18n="labelMin">Min</span> (<span
+                                    class="currency-symbol">USD</span>)</span>
+                            <span class="flex-1"><span data-i18n="labelLikely">Likely</span> (<span
+                                    class="currency-symbol">USD</span>)</span>
+                            <span class="flex-1"><span data-i18n="labelMax">Max</span> (<span
+                                    class="currency-symbol">USD</span>)</span>
+                        </div>
+                        <div class="flex gap-2 pert-group">
+                            <input type="number" id="sec-min" value="100000" min="0"
+                                class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                            <input type="number" id="sec-like" value="500000" min="0"
+                                class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400">
+                            <input type="number" id="sec-max" value="2000000" min="0"
+                                class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Simulation Controls -->
+        <div class="mt-8 text-center">
+            <div class="mb-4 flex justify-center items-center gap-4 text-sm">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="sim-runs" value="1000" class="text-purple-600"> 1k Runs
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="sim-runs" value="10000" checked class="text-purple-600"> 10k Runs
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="sim-runs" value="50000" class="text-purple-600"> 50k Runs
+                </label>
+            </div>
+            <button id="btn-run" data-i18n="btnRun"
+                class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-12 rounded-full shadow-lg transform transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+                Run Simulation
+            </button>
+            <p id="sim-status" class="mt-2 text-sm text-gray-500 min-h-[20px]"></p>
+        </div>
+
+        <!-- RESULTS SECTION (Initially Hidden) -->
+        <div id="results-section" class="mt-12 opacity-50 pointer-events-none transition-opacity duration-500">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
+                <h2 data-i18n="reportTitle"
+                    class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500">
+                    Analyst Report</h2>
+                <button id="btn-csv" disabled
+                    class="mt-4 sm:mt-0 flex items-center px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0l-4 4m4-4v12"></path>
+                    </svg>
+                    <span data-i18n="btnCsv">Download CSV</span>
+                </button>
+            </div>
+
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-xl text-center border border-purple-100">
+                    <p data-i18n="metricAAL"
+                        class="text-xs uppercase tracking-wider text-purple-600 dark:text-purple-300 font-bold mb-1">AAL
+                        (Mean Risk)</p>
+                    <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-aal">-</p>
+                </div>
+                <!-- 90% VaR - The Professional Metric -->
+                <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-xl text-center border border-red-100">
+                    <p data-i18n="metricVaR"
+                        class="text-xs uppercase tracking-wider text-red-600 dark:text-red-300 font-bold mb-1">VaR (90%)
+                    </p>
+                    <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-var90">-</p>
+                    <p class="text-[10px] text-red-500">10% chance to lose more</p>
+                </div>
+                <div class="bg-orange-50 dark:bg-orange-900/20 p-4 rounded-xl text-center border border-orange-100">
+                    <p data-i18n="metricMax"
+                        class="text-xs uppercase tracking-wider text-orange-600 dark:text-orange-300 font-bold mb-1">Max
+                        Loss</p>
+                    <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-max">-</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl text-center border border-gray-200">
+                    <p data-i18n="metricMin"
+                        class="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400 font-bold mb-1">Min
+                        Loss
+                    </p>
+                    <p class="text-lg md:text-2xl font-black text-gray-800 dark:text-white" id="res-min">-</p>
+                </div>
+            </div>
+
+            <!-- Chart -->
+            <div
+                class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative">
+                <canvas id="lossChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Sticky Result Footer -->
+    <div id="sticky-footer"
+        class="sticky-result-bar bg-white dark:bg-darkcard border-t border-gray-200 dark:border-gray-700 p-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div>
+                <p class="text-xs text-gray-500 uppercase" data-i18n="footerAAL">Average Annual Loss</p>
+                <p class="text-xl font-black text-purple-600 dark:text-purple-400" id="sticky-aal">-</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500 uppercase text-right">VaR (90%)</p>
+                <p class="text-xl font-black text-red-600 dark:text-red-400" id="sticky-var">-</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Modal -->
+    <div id="tutorial-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleModal('tutorial-modal')"></div>
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-6 m-4 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold mb-4">Methodology Guide</h3>
+            <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300">
+                <p>This tool uses <strong>OpenFAIR™</strong> standard calculations with <strong>Monte Carlo
+                        Simulation</strong>.</p>
+
+                <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
+                    <h4 class="font-bold text-purple-700 dark:text-purple-300">1. Beta-PERT Distribution</h4>
+                    <p class="mt-1">Unlike simple averages, we use Min/Most Likely/Max inputs to create a smooth
+                        probability curve (Lambda=4). This accounts for uncertainty in your estimates.</p>
+                </div>
+
+                <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                    <h4 class="font-bold text-blue-700 dark:text-blue-300">2. Event-Driven Logic</h4>
+                    <p class="mt-1">Risk = Frequency x Magnitude. We treat risk as discrete events using a
+                        <strong>Poisson Distribution</strong> for frequency, ensuring rare high-impact events are
+                        modeled correctly.
+                    </p>
+                </div>
+
+                <button onclick="toggleModal('tutorial-modal')"
+                    class="w-full py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg font-bold mt-4">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Localization & Settings ---
+        const I18n = {
+            lang: 'en',
+            currency: 'USD',
+            translations: {
+                en: {
+                    navTitle: "FAIR Analysis",
+                    pageTitle: "Risk Scenario",
+                    pageSubtitle: "Factor Analysis of Information Risk (OpenFAIR™)",
+                    badgeL2Driver: "Level 2 Driver",
+                    cardLefTitle: "Loss Event Frequency",
+                    cardLefDesc: "How often do bad things happen?",
+                    tooltipLef: "Derived from Threat Event Frequency x Vulnerability",
+                    labelTef: "Threat Event Frequency (TEF)",
+                    badgeL3: "Level 3",
+                    descTef: "Frequency of threat attempts per year.",
+                    labelVuln: "Vulnerability (Vuln)",
+                    descVuln: "Probability (%) that threat overwhelms defense.",
+                    labelMin: "Min",
+                    labelLikely: "Most Likely",
+                    labelMax: "Max",
+                    cardLmTitle: "Loss Magnitude",
+                    cardLmDesc: "Select Currency: ",
+                    tooltipLm: "Sum of Primary Loss + Secondary Loss",
+                    labelPrim: "Primary Loss",
+                    descPrim: "Direct financial impact (Incident Response, Fines, etc).",
+                    labelSec: "Secondary Loss",
+                    descSec: "Reputation, Legal, etc. (Optional)",
+                    labelSecProb: "Secondary Loss Probability (%)",
+                    descSecProb: "Chance this loss happens GIVEN the primary event.",
+                    btnRun: "Run Simulation",
+                    reportTitle: "Analyst Report",
+                    btnCsv: "Download CSV",
+                    metricAAL: "AAL (Mean Risk)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "Max Loss",
+                    metricMin: "Min Loss",
+                    footerAAL: "Average Annual Loss"
+                },
+                'zh-TW': {
+                    navTitle: "FAIR 風險分析",
+                    pageTitle: "風險情境分析",
+                    pageSubtitle: "資訊風險因子分析 (OpenFAIR™)",
+                    badgeL2Driver: "Level 2 驅動因子",
+                    cardLefTitle: "損失事件頻率 (LEF)",
+                    cardLefDesc: "發生損失事件的頻率是？",
+                    tooltipLef: "由 威脅事件頻率 x 脆弱性 推導得出",
+                    labelTef: "威脅事件頻率 (TEF)",
+                    badgeL3: "Level 3",
+                    descTef: "每年遭受威脅攻擊的次數。",
+                    labelVuln: "脆弱性 (Vuln)",
+                    descVuln: "防禦失效並造成損失的機率 (%)。",
+                    labelMin: "最小",
+                    labelLikely: "最可能",
+                    labelMax: "最大",
+                    cardLmTitle: "損失幅度 (LM)",
+                    cardLmDesc: "選擇貨幣：",
+                    tooltipLm: "主要損失 + 次要損失 的總和",
+                    labelPrim: "主要損失",
+                    descPrim: "直接財務衝擊（如事故應變、罰款等）。",
+                    labelSec: "次要損失",
+                    descSec: "聲譽、法律訴訟等（選填）。",
+                    labelSecProb: "次要損失發生機率 (%)",
+                    descSecProb: "在主要事件發生後，次要損失隨之發生的機率。",
+                    btnRun: "執行模擬",
+                    reportTitle: "分析報告",
+                    btnCsv: "下載 CSV",
+                    metricAAL: "年均損失 (AAL)",
+                    metricVaR: "風險值 (90% VaR)",
+                    metricMax: "最大損失",
+                    metricMin: "最小損失",
+                    footerAAL: "平均年損失 (AAL)"
+                },
+                ja: {
+                    navTitle: "FAIRリスク分析",
+                    pageTitle: "リスクシナリオ",
+                    pageSubtitle: "情報リスク要因分析 (OpenFAIR™)",
+                    badgeL2Driver: "Level 2 要因",
+                    cardLefTitle: "損失事象頻度 (LEF)",
+                    cardLefDesc: "悪い出来事はどれくらいの頻度で発生しますか？",
+                    tooltipLef: "脅威事象頻度 x 脆弱性 から導出",
+                    labelTef: "脅威事象頻度 (TEF)",
+                    badgeL3: "Level 3",
+                    descTef: "年間あたりの脅威攻撃回数。",
+                    labelVuln: "脆弱性 (Vuln)",
+                    descVuln: "防御が突破される確率 (%)。",
+                    labelMin: "最小",
+                    labelLikely: "最頻",
+                    labelMax: "最大",
+                    cardLmTitle: "損失の大きさ (LM)",
+                    cardLmDesc: "通貨選択：",
+                    tooltipLm: "一次損失 + 二次損失 の合計",
+                    labelPrim: "一次損失",
+                    descPrim: "直接的な財務影響（インシデント対応、罰金など）。",
+                    labelSec: "二次損失",
+                    descSec: "評判、法的対応など（任意）。",
+                    labelSecProb: "二次損失発生確率 (%)",
+                    descSecProb: "一次事象が発生した条件下での二次損失発生確率。",
+                    btnRun: "シミュレーション実行",
+                    reportTitle: "分析レポート",
+                    btnCsv: "CSVダウンロード",
+                    metricAAL: "年間平均損失 (AAL)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "最大損失",
+                    metricMin: "最小損失",
+                    footerAAL: "年間平均損失 (AAL)"
+                }
+            },
+
+            init: function () {
+                try {
+                    const storageKey = 'kuro_risk_calc_v2_data';
+                    const savedData = localStorage.getItem(storageKey);
+
+                    if (savedData) {
+                        const data = JSON.parse(savedData);
+
+                        // Set Language
+                        if (data.lang) {
+                            this.lang = data.lang;
+                            if (this.lang.startsWith('zh') && this.lang !== 'zh-TW') this.lang = 'zh-TW';
+                        }
+
+                        // Set Currency
+                        if (data.currency) {
+                            this.currency = data.currency;
+                        }
+
+                        // Set Theme
+                        if (data.theme === 'dark') {
+                            document.documentElement.classList.add('dark');
+                        } else {
+                            document.documentElement.classList.remove('dark');
+                        }
+                    }
+                } catch (e) {
+                    console.warn('LocalStorage access error', e);
+                }
+
+                // Fallback validation
+                if (!this.translations[this.lang]) this.lang = 'en';
+
+                this.updateDOM();
+                this.updateCurrency();
+            },
+
+            updateDOM: function () {
+                // Update text content
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (this.translations[this.lang][key]) {
+                        el.innerText = this.translations[this.lang][key];
+                    }
+                });
+            },
+
+            updateCurrency: function () {
+                // Update currency symbols/labels
+                document.querySelectorAll('.currency-symbol').forEach(el => el.innerText = this.currency);
+                document.querySelectorAll('.currency-label').forEach(el => el.innerText = this.currency);
+            }
+        };
+
+        // Format Money dynamic wrapper
+        const fmt = (n) => {
+            let locale = 'en-US';
+            if (I18n.lang === 'zh-TW') locale = 'zh-TW';
+            if (I18n.lang === 'ja') locale = 'ja-JP';
+
+            return new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: I18n.currency,
+                maximumFractionDigits: 0
+            }).format(n);
+        };
+
+        // --- UI Logic ---
+        function toggleAccordion(id, btn) {
+            const el = document.getElementById(id);
+            el.classList.toggle('hidden');
+            const icon = btn.querySelector('svg');
+            icon.classList.toggle('rotate-180');
+        }
+
+        function toggleModal(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            I18n.init();
+        });
+
+        document.getElementById('btn-tutorial').addEventListener('click', () => toggleModal('tutorial-modal'));
+
+        // Theme Toggle Logic
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            // We just update the local override AND try to update the main settings if possible, 
+            // but to be safe we just toggle class here. 
+            // Ideally we'd update the big JSON object but let's keep it simple for now to avoid race conditions.
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // --- Worker & Chart Logic ---
+        let riskChart = null;
+        let lastResults = null;
+
+        const worker = new Worker('fair.worker.js?v=' + Date.now());
+
+        worker.onmessage = function (e) {
+            const { type, data, progress, message } = e.data;
+
+            if (type === 'progress') {
+                document.getElementById('sim-status').innerText = `Simulating... ${progress.toFixed(0)}%`;
+            } else if (type === 'complete') {
+                finishSimulation(data);
+            } else if (type === 'error') {
+                alert('Error: ' + message);
+                setLoading(false);
+            }
+        };
+
+        function setLoading(isLoading) {
+            const btn = document.getElementById('btn-run');
+            const status = document.getElementById('sim-status');
+            const btnText = I18n.translations[I18n.lang]['btnRun'] || 'Run Simulation';
+
+            if (isLoading) {
+                btn.disabled = true;
+                btn.innerHTML = `<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> running...`;
+            } else {
+                btn.disabled = false;
+                btn.innerText = btnText;
+                status.innerText = I18n.lang === 'en' ? 'Simulation Complete' : (I18n.lang === 'zh-TW' ? '模擬完成' : '完了');
+            }
+        }
+
+        function finishSimulation(data) {
+            setLoading(false);
+            lastResults = data.results;
+
+            // Unlock Results
+            const resSec = document.getElementById('results-section');
+            resSec.classList.remove('opacity-50', 'pointer-events-none');
+            document.getElementById('btn-csv').disabled = false;
+
+            // Fill Cards
+            document.getElementById('res-aal').innerText = fmt(data.aal);
+            document.getElementById('res-var90').innerText = fmt(data.var90);
+            document.getElementById('res-max').innerText = fmt(data.maxLoss);
+            document.getElementById('res-min').innerText = fmt(data.minLoss);
+
+            // Fill Sticky Footer
+            document.getElementById('sticky-aal').innerText = fmt(data.aal);
+            document.getElementById('sticky-var').innerText = fmt(data.var90);
+            document.getElementById('sticky-footer').classList.add('visible');
+
+            // Render Chart
+            renderChart(data.curveData);
+
+            // Scroll to results on mobile
+            if (window.innerWidth < 768) {
+                resSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function renderChart(curveData) {
+            const ctx = document.getElementById('lossChart').getContext('2d');
+
+            if (riskChart) riskChart.destroy();
+
+            const isDark = document.documentElement.classList.contains('dark');
+            const gridColor = isDark ? '#374151' : '#E5E7EB';
+            const textColor = isDark ? '#9CA3AF' : '#4B5563';
+
+            // Localize Chart Labels
+            const labelLEC = I18n.lang === 'en' ? 'Loss Exceedance Curve (LEC)' : (I18n.lang === 'zh-TW' ? '損失超越曲線 (LEC)' : '損失超過曲線 (LEC)');
+            const labelY = I18n.lang === 'en' ? 'Loss Amount' : (I18n.lang === 'zh-TW' ? '損失金額' : '損失額');
+            const labelX = I18n.lang === 'en' ? 'Probability of Exceedance' : (I18n.lang === 'zh-TW' ? '超越機率' : '超過確率');
+
+            riskChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: curveData.map(d => d.x.toFixed(0) + '%'),
+                    datasets: [{
+                        label: labelLEC,
+                        data: curveData.map(d => d.y),
+                        borderColor: '#8B5CF6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false },
+                    scales: {
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: {
+                                color: textColor,
+                                callback: (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: I18n.currency, maximumFractionDigits: 0 }).format(val)
+                            },
+                            title: { display: true, text: `${labelY} (${I18n.currency})`, color: textColor }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor },
+                            title: { display: true, text: labelX, color: textColor },
+                            reverse: true
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: { label: (c) => fmt(c.raw) }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('btn-run').addEventListener('click', () => {
+            setLoading(true);
+
+            // Gather Inputs
+            const runs = document.querySelector('input[name="sim-runs"]:checked').value;
+
+            worker.postMessage({
+                simulationRuns: parseInt(runs),
+                tefMin: parseFloat(document.getElementById('tef-min').value),
+                tefLike: parseFloat(document.getElementById('tef-like').value),
+                tefMax: parseFloat(document.getElementById('tef-max').value),
+                vulnMin: parseFloat(document.getElementById('vuln-min').value),
+                vulnLike: parseFloat(document.getElementById('vuln-like').value),
+                vulnMax: parseFloat(document.getElementById('vuln-max').value),
+                primaryLossMin: parseFloat(document.getElementById('prim-min').value),
+                primaryLossLike: parseFloat(document.getElementById('prim-like').value),
+                primaryLossMax: parseFloat(document.getElementById('prim-max').value),
+                secondaryLossProb: parseFloat(document.getElementById('sec-prob').value),
+                secondaryLossMin: parseFloat(document.getElementById('sec-min').value),
+                secondaryLossLike: parseFloat(document.getElementById('sec-like').value),
+                secondaryLossMax: parseFloat(document.getElementById('sec-max').value),
+            });
+        });
+
+        // CSV Export logic
+        document.getElementById('btn-csv').addEventListener('click', () => {
+            if (!lastResults) return;
+
+            // CSV Headers
+            let hYear = "Simulation Year";
+            let hEvent = "Event Count";
+            let hPrim = "Primary Loss";
+            let hSec = "Secondary Loss";
+            let hTotal = "Total Loss";
+
+            if (I18n.lang === 'zh-TW') {
+                hYear = "模擬年份"; hEvent = "事件次數"; hPrim = "主要損失"; hSec = "次要損失"; hTotal = "總損失";
+            } else if (I18n.lang === 'ja') {
+                hYear = "シミュレーション年"; hEvent = "イベント数"; hPrim = "一次損失"; hSec = "二次損失"; hTotal = "総損失";
+            }
+
+            let csvContent = `data:text/csv;charset=utf-8,${hYear},${hEvent},${hPrim}(${I18n.currency}),${hSec}(${I18n.currency}),${hTotal}(${I18n.currency})\n`;
+
+            lastResults.forEach((row) => {
+                // row: { year, events, primary, secondary, total }
+                csvContent += `${row.year},${row.events},${row.primary.toFixed(2)},${row.secondary.toFixed(2)},${row.total.toFixed(2)}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `FAIR_Simulation_${new Date().toISOString().slice(0, 10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        });
+
+    </script>
+</body>
+
+</html>
