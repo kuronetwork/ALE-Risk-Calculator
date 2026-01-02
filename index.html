@@ -506,13 +506,11 @@
     class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
     <!-- FAIR Analysis Banner -->
-    <div id="fair-banner"
-        class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 px-4 text-center relative">
+    <div id="fair-banner" class="bg-blue-50 border-b border-blue-100 text-blue-900 py-2 px-4 text-center relative">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center justify-center flex-1">
-                <span class="text-lg mr-2">✨</span>
                 <span class="font-medium text-sm md:text-base" data-i18n="fairBannerText">
-                    NEW: FAIR Risk Analysis - OpenFAIR™ Monte Carlo Simulation with ROSI Calculator
+                    NEW: FAIR Risk Analysis - OpenFAIR™ Monte Carlo Simulation
                 </span>
                 <a href="fair.html"
                     class="ml-4 bg-white/20 hover:bg-white/30 text-white font-medium py-1 px-3 rounded-full text-sm transition-colors"
@@ -538,8 +536,7 @@
                         Kuro Risk Calculator
                     </span>
                     <a href="fair.html"
-                        class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 transition-colors">
-                        <span class="mr-1">📈</span>
+                        class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors">
                         <span class="hidden sm:inline" data-i18n="navFairBtn">FAIR Analysis</span>
                         <span class="sm:hidden">FAIR</span>
                     </a>
@@ -625,51 +622,55 @@
         </header>
 
         <!-- FAIR Analysis Feature Card -->
-        <div
-            class="bg-slate-900 rounded-xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-800">
-            <div class="flex flex-col md:flex-row items-center justify-between">
-                <div class="flex items-center mb-4 md:mb-0">
-                    <div class="bg-blue-600/20 p-3 rounded-lg mr-4 text-blue-400">
-                        <span class="text-3xl">📈</span>
-                    </div>
-                    <div class="text-white">
-                        <div class="flex items-center gap-2 mb-1">
-                            <h3 class="text-xl md:text-2xl font-bold" data-i18n="fairCardTitle">FAIR Risk Analysis</h3>
-                            <span class="bg-blue-600 text-xs px-2 py-1 rounded-md font-medium">NEW</span>
+        <div class="mb-8 no-print">
+            <a href="fair.html" class="block group">
+                <div
+                    class="bg-white dark:bg-darkcard rounded-xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-700 group-hover:border-blue-300">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <div class="text-gray-900 dark:text-white">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="text-xl md:text-2xl font-bold" data-i18n="fairCardTitle">FAIR Risk
+                                        Analysis</h3>
+                                    <span
+                                        class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">NEW</span>
+                                </div>
+                                <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base"
+                                    data-i18n="fairCardDesc">OpenFAIR™ Monte Carlo Simulation • AAL & VaR 90% • ROSI
+                                    Calculator</p>
+                            </div>
                         </div>
-                        <p class="text-slate-300 text-sm md:text-base" data-i18n="fairCardDesc">OpenFAIR™ Monte Carlo
-                            Simulation • AAL & VaR 90% • ROSI Calculator</p>
+                        <div
+                            class="flex items-center text-blue-600 font-medium group-hover:translate-x-2 transition-transform">
+                            <span class="mr-2" data-i18n="fairCardCTA">Start Analysis</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center text-white font-bold group-hover:translate-x-2 transition-transform">
-                    <span class="mr-2" data-i18n="fairCardCTA">Try Now</span>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-                    </svg>
-                </div>
-            </div>
+            </a>
         </div>
-        </a>
     </div>
 
     <!-- Action Buttons -->
     <div class="flex flex-wrap justify-center gap-4 mb-8 no-print">
         <button id="btn-reset"
-            class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
-            <span class="mr-2">↺</span> <span data-i18n="btnReset">Reset</span>
+            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
+            <span data-i18n="btnReset">Reset</span>
         </button>
         <button id="btn-batch"
-            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
-            <span class="mr-2">📋</span> <span data-i18n="btnBatch">Batch Assessment</span>
+            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
+            <span data-i18n="btnBatch">Batch Assessment</span>
         </button>
         <button id="export-pdf"
-            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
-            <span class="mr-2">📄</span> <span data-i18n="btnExportPDF">Export PDF</span>
+            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
+            <span data-i18n="btnExportPDF">Export PDF</span>
         </button>
         <button id="export-excel"
-            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-full shadow-md transition transform hover:-translate-y-1 flex items-center">
-            <span class="mr-2">📊</span> <span data-i18n="btnExportExcel">Export Excel</span>
+            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
+            <span data-i18n="btnExportExcel">Export Excel</span>
         </button>
     </div>
 
@@ -678,11 +679,8 @@
         <!-- SECTION 1: Quantitative Analysis -->
         <section
             class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center mb-6">
-                <div class="bg-blue-100 dark:bg-blue-900 p-2 rounded-lg mr-3">
-                    <span class="text-2xl">💰</span>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="secQuantTitle">1.
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="secQuantTitle">1.
                     Quantitative Analysis</h2>
             </div>
 
@@ -875,11 +873,8 @@
         <!-- SECTION 2: Qualitative Analysis -->
         <section
             class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center mb-6">
-                <div class="bg-emerald-100 dark:bg-emerald-900 p-2 rounded-lg mr-3">
-                    <span class="text-2xl">🛡️</span>
-                </div>
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100" data-i18n="secQualTitle">2.
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="secQualTitle">2.
                     Qualitative Analysis</h2>
             </div>
 
@@ -1074,42 +1069,13 @@
     <footer class="mt-12 py-12 border-t border-gray-200 dark:border-gray-700">
         <div class="max-w-7xl mx-auto px-4">
 
-            <!-- Mobile Experience Banner (Pre-Footer) -->
-            <div
-                class="bg-slate-900 rounded-2xl p-8 mb-12 text-center md:text-left flex flex-col md:flex-row items-center justify-between shadow-2xl overflow-hidden relative">
-                <!-- Background Gloss Effect -->
-                <div
-                    class="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob">
-                </div>
-                <div
-                    class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000">
-                </div>
-
-                <div class="relative z-10 mb-6 md:mb-0 max-w-lg">
-                    <h3 class="text-2xl font-bold text-white mb-2" data-i18n="footerAppTitle">
-                        隨時隨地進行風險分析
-                    </h3>
-                    <p class="text-slate-300" data-i18n="footerAppDesc">
-                        Kuro Risk Calculator 行動版現已推出。隨身攜帶專業的資安風險量化工具。
-                    </p>
-                </div>
-
-                <div class="relative z-10 flex flex-col sm:flex-row gap-4">
-                    <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
-                        target="_blank" class="transform transition hover:-translate-y-1 hover:shadow-lg">
-                        <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg"
-                            alt="Download on App Store" class="h-12 w-auto">
-                    </a>
-                    <!-- Google Play (Coming Soon) -->
-                    <div class="relative group opacity-60 cursor-not-allowed">
-                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                            alt="Get it on Google Play" class="h-12 w-auto grayscale">
-                        <div
-                            class="absolute -top-3 -right-3 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
-                            Soon
-                        </div>
-                    </div>
-                </div>
+            <!-- iOS App Download -->
+            <div class="flex justify-center mb-8">
+                <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
+                    target="_blank" class="opacity-80 hover:opacity-100 transition-opacity">
+                    <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg"
+                        alt="Download on App Store" class="h-10 w-auto">
+                </a>
             </div>
 
             <!-- App Download Section Removed -->
