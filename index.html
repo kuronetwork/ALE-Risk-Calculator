@@ -2716,6 +2716,12 @@
             },
 
             initCharts: function () {
+                // Destroy existing chart if it exists
+                if (this.aleChart) {
+                    this.aleChart.destroy();
+                    this.aleChart = null;
+                }
+
                 // Enhanced Chart Options
                 const commonOptions = {
                     responsive: true,
@@ -3323,9 +3329,13 @@
                     document.documentElement.classList.toggle('dark');
                     Storage.save();
                     this.updateThemeIcon();
-                    // Update Charts Grid Colors
-                    this.initCharts();
-                    this.calculateQuantitative();
+                    // Update Charts Grid Colors - only update existing chart
+                    if (this.aleChart) {
+                        this.aleChart.options.scales.y.grid.color = document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb';
+                        this.aleChart.options.scales.y.ticks.color = document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280';
+                        this.aleChart.options.scales.x.ticks.color = document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280';
+                        this.aleChart.update();
+                    }
                 });
 
                 // Export Buttons (Simplified for brevity)
