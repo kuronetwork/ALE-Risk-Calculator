@@ -505,21 +505,21 @@
 <body
     class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
-    <!-- App Launch Banner -->
-    <div id="app-banner" class="bg-gradient-to-r from-blue-600 to-teal-500 text-white py-3 px-4 text-center relative">
+    <!-- FAIR Analysis Banner -->
+    <div id="fair-banner" class="bg-gradient-to-r from-purple-600 to-pink-500 text-white py-3 px-4 text-center relative">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center justify-center flex-1">
-                <span class="text-lg mr-2">🚀</span>
-                <span class="font-medium text-sm md:text-base" data-i18n="bannerText">
-                    Kuro Risk Calculator APP 即將上線！搶先體驗移動版風險分析工具
+                <span class="text-lg mr-2">✨</span>
+                <span class="font-medium text-sm md:text-base" data-i18n="fairBannerText">
+                    NEW: FAIR Risk Analysis - OpenFAIR™ Monte Carlo Simulation with ROSI Calculator
                 </span>
-                <button
+                <a href="fair.html"
                     class="ml-4 bg-white/20 hover:bg-white/30 text-white font-medium py-1 px-3 rounded-full text-sm transition-colors"
-                    data-i18n="bannerCTA">
-                    了解更多
-                </button>
+                    data-i18n="fairBannerCTA">
+                    Try Now →
+                </a>
             </div>
-            <button id="close-banner" class="text-white/80 hover:text-white ml-4">
+            <button id="close-fair-banner" class="text-white/80 hover:text-white ml-4">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
                     </path>
@@ -534,68 +534,27 @@
             <div class="flex justify-between h-16 items-center">
                 <div class="flex items-center">
                     <span
-                        class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate mr-4">
+                        class="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-400 dark:from-blue-400 dark:to-teal-300 truncate mr-2 md:mr-4">
                         Kuro Risk Calculator
                     </span>
                     <a href="fair.html"
-                        class="hidden md:inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-700 hover:bg-purple-200 transition-colors">
-                        <span class="mr-1">✨</span> New: FAIR Analysis
+                        class="inline-flex items-center px-2 md:px-4 py-1.5 rounded-full text-xs md:text-sm font-bold bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+                        <span class="mr-1">📈</span>
+                        <span class="hidden sm:inline" data-i18n="navFairBtn">FAIR Analysis</span>
+                        <span class="sm:hidden">FAIR</span>
                     </a>
                 </div>
 
                 <div class="flex items-center space-x-2 md:space-x-4">
                     <!-- App Download Button -->
                     <div class="relative group">
-                        <button id="app-download-btn"
+                        <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
+                            target="_blank" rel="noopener noreferrer"
                             class="bg-gradient-to-r from-blue-600 to-teal-500 hover:from-blue-700 hover:to-teal-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:-translate-y-1 flex items-center text-sm">
-                            <span class="mr-2">📱</span>
-                            <span class="hidden sm:inline" data-i18n="btnDownloadApp">下載APP</span>
-                            <span class="sm:hidden">APP</span>
-                        </button>
-                        <!-- App Download Dropdown -->
-                        <div id="app-download-dropdown"
-                            class="hidden absolute right-0 mt-2 w-64 bg-white dark:bg-darkcard rounded-xl shadow-2xl border border-gray-200 dark:border-gray-600 z-50 p-4">
-                            <div class="text-center mb-4">
-                                <h3 class="font-bold text-lg text-gray-800 dark:text-white mb-2"
-                                    data-i18n="appDownloadTitle">Kuro Risk Calculator</h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="appDownloadSubtitle">
-                                    即將推出移動版本</p>
-                            </div>
-                            <div class="space-y-3">
-                                <div
-                                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
-                                    <div class="flex items-center">
-                                        <img src="https://developer.apple.com/assets/elements/icons/app-store/app-store-64x64_2x.png"
-                                            alt="App Store" class="w-8 h-8 mr-3">
-                                        <div>
-                                            <div class="font-semibold text-sm">App Store</div>
-                                            <div class="text-xs text-gray-500">iOS版本</div>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full"
-                                        data-i18n="statusComingSoon">即將推出</span>
-                                </div>
-                                <div
-                                    class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg opacity-60">
-                                    <div class="flex items-center">
-                                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"
-                                            alt="Google Play" class="w-8 h-8 mr-3 rounded">
-                                        <div>
-                                            <div class="font-semibold text-sm">Google Play</div>
-                                            <div class="text-xs text-gray-500">Android版本</div>
-                                        </div>
-                                    </div>
-                                    <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full"
-                                        data-i18n="statusComingSoon">即將推出</span>
-                                </div>
-                            </div>
-                            <div class="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                                <p class="text-xs text-blue-700 dark:text-blue-300 text-center"
-                                    data-i18n="appReleaseInfo">
-                                    預計2024年第一季正式發布
-                                </p>
-                            </div>
-                        </div>
+                            <span class="mr-2"></span>
+                            <span class="hidden sm:inline" data-i18n="btnDownloadApp">Download iOS</span>
+                            <span class="sm:hidden">iOS</span>
+                        </a>
                     </div>
 
                     <!-- Currency Selector -->
@@ -666,6 +625,34 @@
                 The Quantified Savior for Cynical Security Pros
             </p>
         </header>
+
+        <!-- FAIR Analysis Feature Card -->
+        <div class="mb-8 no-print">
+            <a href="fair.html" class="block group">
+                <div class="bg-gradient-to-r from-purple-600 to-pink-500 rounded-2xl p-6 md:p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                    <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center mb-4 md:mb-0">
+                            <div class="bg-white/20 p-3 rounded-xl mr-4">
+                                <span class="text-3xl">📈</span>
+                            </div>
+                            <div class="text-white">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <h3 class="text-xl md:text-2xl font-bold" data-i18n="fairCardTitle">FAIR Risk Analysis</h3>
+                                    <span class="bg-white/20 text-xs px-2 py-1 rounded-full">NEW</span>
+                                </div>
+                                <p class="text-white/80 text-sm md:text-base" data-i18n="fairCardDesc">OpenFAIR™ Monte Carlo Simulation • AAL & VaR 90% • ROSI Calculator</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center text-white font-bold group-hover:translate-x-2 transition-transform">
+                            <span class="mr-2" data-i18n="fairCardCTA">Try Now</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
 
         <!-- Action Buttons -->
         <div class="flex flex-wrap justify-center gap-4 mb-8 no-print">
@@ -1279,13 +1266,20 @@
                     descLow: "Acceptable risk. Periodic review.",
                     concCompare: "Risk reduced from {l1} to {l2} after control.",
                     // App Download Related
-                    btnDownloadApp: "Download App",
+                    btnDownloadApp: "Download iOS",
                     appDownloadTitle: "Kuro Risk Calculator",
                     appDownloadSubtitle: "Mobile version coming soon",
                     statusComingSoon: "Coming Soon",
                     appReleaseInfo: "Expected release: Q1 2024",
                     bannerText: "Kuro Risk Calculator APP is launching soon! Mobile risk analysis tools coming",
                     bannerCTA: "Learn More",
+                    // FAIR Analysis
+                    fairBannerText: "NEW: FAIR Risk Analysis - OpenFAIR™ Monte Carlo Simulation with ROSI Calculator",
+                    fairBannerCTA: "Try Now →",
+                    navFairBtn: "FAIR Analysis",
+                    fairCardTitle: "FAIR Risk Analysis",
+                    fairCardDesc: "OpenFAIR™ Monte Carlo Simulation • AAL & VaR 90% • ROSI Calculator",
+                    fairCardCTA: "Try Now",
                     footerAppTitle: "Risk Analysis Anywhere, Anytime",
                     footerAppDesc: "Kuro Risk Calculator mobile version is coming soon, allowing you to perform professional cybersecurity risk quantification analysis anywhere",
                     statusSoon: "Soon",
@@ -1356,13 +1350,20 @@
                     descLow: "可接受風險，需定期審查。",
                     concCompare: "結論：導入後風險等級從 {l1} 降低至 {l2}。",
                     // App Download Related
-                    btnDownloadApp: "下載APP",
+                    btnDownloadApp: "下載 iOS App",
                     appDownloadTitle: "Kuro Risk Calculator",
                     appDownloadSubtitle: "即將推出移動版本",
                     statusComingSoon: "即將推出",
                     appReleaseInfo: "預計2024年第一季正式發布",
                     bannerText: "Kuro Risk Calculator APP 即將上線！移動版風險分析工具",
                     bannerCTA: "了解更多",
+                    // FAIR Analysis
+                    fairBannerText: "全新：FAIR 風險分析 - OpenFAIR™ 蒙地卡羅模擬與 ROSI 計算器",
+                    fairBannerCTA: "立即體驗 →",
+                    navFairBtn: "FAIR 分析",
+                    fairCardTitle: "FAIR 風險分析",
+                    fairCardDesc: "OpenFAIR™ 蒙地卡羅模擬 • AAL & VaR 90% • ROSI 計算器",
+                    fairCardCTA: "立即體驗",
                     footerAppTitle: "隨時隨地進行風險分析",
                     footerAppDesc: "Kuro Risk Calculator 移動版即將推出，讓您在任何地方都能進行專業的資安風險量化分析",
                     statusSoon: "即將推出",
@@ -1415,13 +1416,20 @@
                     descLow: "許容可能。定期的に見直してください。",
                     concCompare: "対策後、リスクは {l1} から {l2} に低減しました。",
                     // App Download Related
-                    btnDownloadApp: "アプリをダウンロード",
+                    btnDownloadApp: "iOS版をダウンロード",
                     appDownloadTitle: "Kuro Risk Calculator",
                     appDownloadSubtitle: "モバイル版近日公開",
                     statusComingSoon: "近日公開",
                     appReleaseInfo: "2024年第1四半期リリース予定",
                     bannerText: "Kuro Risk Calculator アプリが間もなくリリース！モバイル版リスク分析ツール",
                     bannerCTA: "詳細を見る",
+                    // FAIR Analysis
+                    fairBannerText: "新機能：FAIRリスク分析 - OpenFAIR™モンテカルロシミュレーション＆ROSI計算機",
+                    fairBannerCTA: "今すぐ試す →",
+                    navFairBtn: "FAIR分析",
+                    fairCardTitle: "FAIRリスク分析",
+                    fairCardDesc: "OpenFAIR™モンテカルロシミュレーション • AAL & VaR 90% • ROSI計算機",
+                    fairCardCTA: "今すぐ試す",
                     footerAppTitle: "いつでもどこでもリスク分析",
                     footerAppDesc: "Kuro Risk Calculator モバイル版が間もなく登場。どこでも専門的なサイバーセキュリティリスク定量化分析が可能に",
                     statusSoon: "近日公開",
@@ -3659,128 +3667,23 @@
             },
 
             setupEventListeners: function () {
-                // App download button dropdown toggle
-                const appBtn = document.getElementById('app-download-btn');
-                const dropdown = document.getElementById('app-download-dropdown');
-
-                if (appBtn && dropdown) {
-                    appBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        dropdown.classList.toggle('hidden');
-                    });
-
-                    // Close dropdown when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!appBtn.contains(e.target) && !dropdown.contains(e.target)) {
-                            dropdown.classList.add('hidden');
-                        }
-                    });
-                }
-
                 // Banner close button
-                const closeBanner = document.getElementById('close-banner');
-                const banner = document.getElementById('app-banner');
-
-                if (closeBanner && banner) {
-                    closeBanner.addEventListener('click', () => {
-                        banner.style.display = 'none';
-                        localStorage.setItem('app-banner-closed', 'true');
-                    });
-                }
-
-                // Banner CTA button
-                const bannerCTA = document.querySelector('[data-i18n="bannerCTA"]');
-                if (bannerCTA) {
-                    bannerCTA.addEventListener('click', () => {
-                        this.showAppInfoModal();
+                const closeFairBanner = document.getElementById('close-fair-banner');
+                const fairBanner = document.getElementById('fair-banner');
+                if (closeFairBanner && fairBanner) {
+                    // Check if banner was previously closed
+                    if (localStorage.getItem('fairBannerClosed') === 'true') {
+                        fairBanner.style.display = 'none';
+                    }
+                    closeFairBanner.addEventListener('click', () => {
+                        fairBanner.style.display = 'none';
+                        localStorage.setItem('fairBannerClosed', 'true');
                     });
                 }
             },
 
             checkBannerVisibility: function () {
-                const banner = document.getElementById('app-banner');
-                const bannerClosed = localStorage.getItem('app-banner-closed');
-
-                if (bannerClosed === 'true' && banner) {
-                    banner.style.display = 'none';
-                }
-            },
-
-            showAppInfoModal: function () {
-                const modal = this.createAppInfoModal();
-                document.body.appendChild(modal);
-
-                // Animate in
-                setTimeout(() => {
-                    modal.classList.remove('opacity-0');
-                    modal.querySelector('.transform').classList.remove('scale-95');
-                    modal.querySelector('.transform').classList.add('scale-100');
-                }, 10);
-            },
-
-            createAppInfoModal: function () {
-                const modal = document.createElement('div');
-                modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 opacity-0 transition-opacity duration-300';
-
-                modal.innerHTML = `
-                    <div class="bg-white dark:bg-darkcard rounded-2xl shadow-2xl max-w-2xl w-full transform scale-95 transition-transform duration-300 max-h-[90vh] overflow-y-auto">
-                        <div class="p-6">
-                            <div class="text-center mb-6">
-                                <div class="w-20 h-20 bg-gradient-to-r from-blue-600 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                                    <span class="text-3xl">📱</span>
-                                </div>
-                                <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Kuro Risk Calculator APP</h3>
-                                <p class="text-gray-600 dark:text-gray-400">專業移動版風險分析工具即將登場</p>
-                            </div>
-                            
-                            <div class="space-y-6">
-                                <div>
-                                    <h4 class="font-semibold text-lg text-gray-800 dark:text-white mb-3">🚀 即將推出的功能</h4>
-                                    <ul class="space-y-2 text-gray-600 dark:text-gray-400">
-                                        <li class="flex items-center"><span class="mr-2">✓</span> 完整的量化風險分析</li>
-                                        <li class="flex items-center"><span class="mr-2">✓</span> 定性風險評估矩陣</li>
-                                        <li class="flex items-center"><span class="mr-2">✓</span> 離線模式支援</li>
-                                        <li class="flex items-center"><span class="mr-2">✓</span> 報告匯出功能</li>
-                                        <li class="flex items-center"><span class="mr-2">✓</span> 多語言支援</li>
-                                        <li class="flex items-center"><span class="mr-2">✓</span> 深色模式</li>
-                                    </ul>
-                                </div>
-                                
-                                <div>
-                                    <h4 class="font-semibold text-lg text-gray-800 dark:text-white mb-3">📅 預計發布時間</h4>
-                                    <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                                        <p class="text-blue-700 dark:text-blue-300">
-                                            <strong>iOS版本：</strong> 2024年第一季<br>
-                                            <strong>Android版本：</strong> 2024年第一季
-                                        </p>
-                                    </div>
-                                </div>
-                                
-                                <div class="text-center">
-                                    <p class="text-gray-600 dark:text-gray-400 mb-4" data-i18n="appReleaseSchedule">
-                                        預計發布時間：2024年第一季
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600 text-center">
-                                <button onclick="this.closest('.fixed').remove()" 
-                                        class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                                    關閉
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-
-                // Close on backdrop click
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) {
-                        modal.remove();
-                    }
-                });
-
-                return modal;
+                // FAIR banner visibility is handled in initEventListeners
             }
         };
 

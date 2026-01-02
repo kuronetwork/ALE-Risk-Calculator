@@ -18,7 +18,10 @@
 🔗 **Live Demo**  
 👉 https://aleriskcalc.kuronetwork.me/
 
-📱 **Progressive Web App** - Install on any device for offline access!
+📱 **iOS App**  
+👉 [Download on App Store](https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315)
+
+🌐 **Progressive Web App** - Install on any device for offline access!
 
 ---
 
@@ -56,6 +59,19 @@ This tool is a **pure frontend** PWA where all data is processed locally in the 
 - **ROI Dashboard Cards**: Intuitive card-based layout displaying key metrics
 - **Real-time Visual Feedback**: Input validation with smooth animations and color coding
 - **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+
+---
+
+### 📈 FAIR Risk Analysis
+
+A dedicated module implementing the **OpenFAIR™** standard for quantitative cyber risk analysis.
+
+- **Monte Carlo Simulation**: 1K / 10K / 50K simulation runs for statistical accuracy
+- **Beta-PERT Distribution**: Professional 3-point estimation (Min / Most Likely / Max)
+- **FAIR Taxonomy**: TEF, Vulnerability, Primary Loss, Secondary Loss with probability
+- **Key Metrics**: AAL (Annual Loss Expectancy), VaR 90%, Loss Exceedance Curve
+- **ROSI Calculator**: Return on Security Investment analysis with control effectiveness modeling
+- **Multi-language**: English, 繁體中文, 日本語
 
 ---
 
@@ -434,7 +450,9 @@ npx live-server
 
 ```
 ALE-Risk-Calculator/
-├── index.html              # Main application file
+├── index.html              # Main ALE calculator
+├── fair.html               # FAIR risk analysis module
+├── fair.worker.js          # Monte Carlo simulation worker
 ├── manifest.json           # PWA manifest
 ├── sw.js                   # Service worker
 ├── icons/                  # PWA icons
@@ -501,9 +519,7 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ### Project Links
 - **🌐 Live Application**: https://aleriskcalc.kuronetwork.me/
-- **📂 Source Code**: https://github.com/YourUsername/ale-risk-calculator
-- **🐛 Bug Reports**: https://github.com/YourUsername/ale-risk-calculator/issues
-- **💡 Feature Requests**: https://github.com/YourUsername/ale-risk-calculator/discussions
+
 
 ### Developer Contact
 - **👨‍💻 Developer**: Kuro
@@ -520,7 +536,8 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ### Version History
 
-- **v2.1.1** (Current) - Fixed number overflow in ROI dashboard cards and tables
+- **v2.2.0** (Current) - FAIR Analysis module with Monte Carlo simulation and ROSI calculator
+- **v2.1.1** - Fixed number overflow in ROI dashboard cards and tables
 - **v2.1.0** - PWA features, batch processing, history management
 - **v2.0.0** - Multi-language support, enhanced UI/UX
 - **v1.5.0** - Qualitative risk analysis, dark mode
@@ -539,7 +556,10 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 🔗 **線上使用**  
 👉 https://aleriskcalc.kuronetwork.me/
 
-📱 **漸進式網頁應用程式** - 可安裝至任何裝置，支援離線使用！
+📱 **iOS App**  
+👉 [在 App Store 下載](https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315)
+
+🌐 **漸進式網頁應用程式** - 可安裝至任何裝置，支援離線使用！
 
 ---
 
@@ -577,6 +597,19 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 - **ROI 儀表板卡片**：直觀的卡片式版面顯示關鍵指標
 - **即時視覺回饋**：輸入驗證搭配流暢動畫與色彩編碼
 - **響應式設計**：針對桌機、平板、手機最佳化
+
+---
+
+### 📈 FAIR 風險分析
+
+實作 **OpenFAIR™** 標準的專業量化資安風險分析模組。
+
+- **蒙地卡羅模擬**：1K / 10K / 50K 次模擬確保統計準確性
+- **Beta-PERT 分布**：專業三點估計法（最小值 / 最可能值 / 最大值）
+- **FAIR 分類架構**：TEF、脆弱性、主要損失、次要損失（含發生機率）
+- **關鍵指標**：AAL（年均損失）、VaR 90%、損失超越曲線
+- **ROSI 計算器**：資安投資報酬率分析，支援控制措施有效性建模
+- **多語系支援**：English、繁體中文、日本語
 
 ---
 
@@ -955,7 +988,9 @@ npx live-server
 
 ```
 ALE-Risk-Calculator/
-├── index.html              # 主應用程式檔案
+├── index.html              # 主要 ALE 計算器
+├── fair.html               # FAIR 風險分析模組
+├── fair.worker.js          # 蒙地卡羅模擬 Worker
 ├── manifest.json           # PWA manifest
 ├── sw.js                   # Service worker
 ├── icons/                  # PWA 圖示
@@ -1022,9 +1057,6 @@ ALE-Risk-Calculator/
 
 ### 專案連結
 - **🌐 線上應用程式**：https://aleriskcalc.kuronetwork.me/
-- **📂 原始碼**：https://github.com/YourUsername/ale-risk-calculator
-- **🐛 錯誤回報**：https://github.com/YourUsername/ale-risk-calculator/issues
-- **💡 功能請求**：https://github.com/YourUsername/ale-risk-calculator/discussions
 
 ### 開發者聯絡
 - **👨‍💻 開發者**：Kuro
@@ -1041,7 +1073,8 @@ ALE-Risk-Calculator/
 
 ### 版本歷史
 
-- **v2.1.1**（目前）- 修復 ROI 儀表板卡片與表格中數字溢出問題
+- **v2.2.0**（目前）- FAIR 風險分析模組，含蒙地卡羅模擬與 ROSI 計算器
+- **v2.1.1** - 修復 ROI 儀表板卡片與表格中數字溢出問題
 - **v2.1.0** - PWA 功能、批次處理、歷史管理
 - **v2.0.0** - 多語言支援、增強 UI/UX
 - **v1.5.0** - 定性風險分析、深色模式
