@@ -136,4 +136,4 @@ Desktop.ini
 # Kiro IDE
 .kiro/specs/*/tasks.md.backup
 .agent/rules/
-.kiro.specs/*
+.kiro/specs/*
