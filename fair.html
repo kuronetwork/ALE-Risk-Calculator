@@ -37,6 +37,11 @@
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- FAIR Core Module -->
+    <script src="./fair-core.js"></script>
 
     <!-- Tailwind Config -->
     <script>
@@ -221,6 +226,427 @@
             }
         }
 
+        /* Responsive Design - Mobile (320px-480px) */
+        @media (max-width: 480px) {
+            /* Stack all input groups vertically */
+            .pert-group {
+                flex-direction: column !important;
+                gap: 0.5rem;
+            }
+
+            .pert-group > input,
+            .pert-group > div {
+                width: 100% !important;
+            }
+
+            /* Reduce padding on cards */
+            .bg-white.p-6,
+            .dark\:bg-darkcard.p-6 {
+                padding: 1rem !important;
+            }
+
+            /* Stack header elements */
+            .flex.flex-col.sm\:flex-row {
+                flex-direction: column !important;
+            }
+
+            /* Full width buttons on mobile */
+            button.px-4 {
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Reduce font sizes */
+            h1.text-3xl {
+                font-size: 1.5rem !important;
+            }
+
+            h2.text-xl {
+                font-size: 1.125rem !important;
+            }
+
+            /* Stack metric cards */
+            .grid.grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Adjust toast position for mobile */
+            .toast-notification {
+                left: 1rem;
+                right: 1rem;
+                max-width: none;
+            }
+
+            /* Sticky footer adjustments */
+            .sticky-result-bar {
+                padding: 0.75rem !important;
+            }
+
+            .sticky-result-bar .text-xl {
+                font-size: 1rem !important;
+            }
+        }
+
+        /* Responsive Design - Tablet (481px-1024px) */
+        @media (min-width: 481px) and (max-width: 1024px) {
+            /* Two-column layout for PERT inputs */
+            .pert-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .pert-group > input {
+                flex: 1 1 30%;
+                min-width: 80px;
+            }
+
+            /* Adjust grid layouts */
+            .grid.grid-cols-1.lg\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Metric cards in 2 columns */
+            .grid.grid-cols-2.md\:grid-cols-4 {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+        }
+
+        /* Responsive Design - Desktop (1025px+) */
+        @media (min-width: 1025px) {
+            /* Full multi-column layout */
+            .grid.grid-cols-1.lg\:grid-cols-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* PERT inputs in row */
+            .pert-group {
+                flex-direction: row;
+                gap: 0.5rem;
+            }
+
+            .pert-group > input {
+                flex: 1;
+            }
+        }
+
+        /* Responsive Chart Container */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            min-height: 200px;
+        }
+
+        @media (max-width: 480px) {
+            .chart-container {
+                min-height: 180px;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 1024px) {
+            .chart-container {
+                min-height: 250px;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .chart-container {
+                min-height: 300px;
+            }
+        }
+
+        /* Number Display Overflow Fix */
+        .enhanced-input[type="number"] {
+            /* Ensure number inputs don't overflow */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            min-width: 0;
+        }
+
+        /* Result card number overflow fix */
+        .result-value,
+        .metric-value,
+        [class*="font-bold"][class*="text-"] {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+            max-width: 100%;
+        }
+
+        /* Large number display in result cards */
+        .result-card .text-xl,
+        .result-card .text-2xl,
+        .result-card .text-3xl {
+            font-size: clamp(0.875rem, 3vw, 1.5rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Sticky footer number display */
+        .sticky-result-bar .text-xl {
+            font-size: clamp(0.875rem, 4vw, 1.25rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Comparison table number cells */
+        #comparison-table td {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            max-width: 150px;
+        }
+
+        /* Metric cards number display */
+        .metric-card p.text-lg,
+        .metric-card p.text-xl,
+        .metric-card p.text-2xl {
+            font-size: clamp(0.75rem, 2.5vw, 1.25rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Prevent number input spinner from being cut off */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 1;
+            margin-left: 4px;
+        }
+
+        /* Ensure input content is visible */
+        input.enhanced-input {
+            padding-right: 0.75rem;
+        }
+
+        /* Summary section number display */
+        #comparison-summary p.text-lg {
+            font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Sensitivity analysis number display */
+        .sensitivity-value {
+            font-size: clamp(0.75rem, 2vw, 1rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Convergence metrics number display */
+        .convergence-value {
+            font-size: clamp(0.75rem, 2vw, 0.875rem);
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        /* Chart Responsive Styles */
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Chart canvas responsive sizing */
+        canvas {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        /* Chart legend responsive */
+        @media (max-width: 480px) {
+            /* Reduce chart height on mobile */
+            .chart-wrapper,
+            [style*="height: 300px"],
+            [style*="height: 350px"],
+            [style*="height: 400px"] {
+                height: 200px !important;
+                min-height: 180px !important;
+            }
+
+            /* Stack chart legends vertically on mobile */
+            .chart-legend {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 0.25rem !important;
+            }
+
+            .chart-legend > div {
+                font-size: 0.625rem !important;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 1024px) {
+            /* Medium chart height on tablet */
+            .chart-wrapper,
+            [style*="height: 300px"],
+            [style*="height: 350px"],
+            [style*="height: 400px"] {
+                height: 280px !important;
+                min-height: 250px !important;
+            }
+        }
+
+        /* Tornado chart responsive */
+        #tornado-chart-container {
+            min-height: 200px;
+        }
+
+        @media (max-width: 480px) {
+            #tornado-chart-container {
+                min-height: 180px;
+            }
+        }
+
+        /* Comparison chart responsive */
+        #comparison-chart-container .relative {
+            min-height: 200px;
+        }
+
+        @media (max-width: 480px) {
+            #comparison-chart-container .relative {
+                min-height: 180px;
+            }
+        }
+
+        /* Chart interpretation text responsive */
+        .chart-interpretation {
+            font-size: clamp(0.625rem, 2vw, 0.75rem);
+        }
+
+        @media (max-width: 480px) {
+            .chart-interpretation li {
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        /* Comparison Table Horizontal Scroll */
+        .comparison-table-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #9CA3AF #F3F4F6;
+        }
+
+        .dark .comparison-table-wrapper {
+            scrollbar-color: #4B5563 #1F2937;
+        }
+
+        .comparison-table-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .comparison-table-wrapper::-webkit-scrollbar-track {
+            background: #F3F4F6;
+            border-radius: 4px;
+        }
+
+        .dark .comparison-table-wrapper::-webkit-scrollbar-track {
+            background: #1F2937;
+        }
+
+        .comparison-table-wrapper::-webkit-scrollbar-thumb {
+            background: #9CA3AF;
+            border-radius: 4px;
+        }
+
+        .dark .comparison-table-wrapper::-webkit-scrollbar-thumb {
+            background: #4B5563;
+        }
+
+        .comparison-table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+        }
+
+        .dark .comparison-table-wrapper::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+        }
+
+        /* Comparison table sticky first column */
+        #comparison-table {
+            min-width: 600px;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        #comparison-table th:first-child,
+        #comparison-table td:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 10;
+            background-color: inherit;
+        }
+
+        #comparison-table thead th:first-child {
+            background-color: #F9FAFB;
+            z-index: 11;
+        }
+
+        .dark #comparison-table thead th:first-child {
+            background-color: #1F2937;
+        }
+
+        #comparison-table tbody td:first-child {
+            background-color: #FFFFFF;
+        }
+
+        .dark #comparison-table tbody td:first-child {
+            background-color: #1F2937;
+        }
+
+        /* Add shadow to indicate scrollable content */
+        #comparison-table th:first-child::after,
+        #comparison-table td:first-child::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -8px;
+            bottom: 0;
+            width: 8px;
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.05), transparent);
+            pointer-events: none;
+        }
+
+        .dark #comparison-table th:first-child::after,
+        .dark #comparison-table td:first-child::after {
+            background: linear-gradient(to right, rgba(0, 0, 0, 0.2), transparent);
+        }
+
+        /* Mobile-specific table adjustments */
+        @media (max-width: 768px) {
+            #comparison-table {
+                font-size: 0.75rem;
+            }
+
+            #comparison-table th,
+            #comparison-table td {
+                padding: 0.5rem 0.75rem;
+                white-space: nowrap;
+            }
+
+            #comparison-table th:first-child,
+            #comparison-table td:first-child {
+                min-width: 120px;
+                max-width: 150px;
+                white-space: normal;
+                word-break: break-word;
+            }
+
+            /* Scroll indicator for mobile */
+            .scroll-indicator {
+                display: block;
+                text-align: center;
+                font-size: 0.625rem;
+                color: #9CA3AF;
+                padding: 0.25rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .scroll-indicator {
+                display: none;
+            }
+        }
+
         /* Level Badges */
         .badge-l2 {
             background-color: #DBEAFE;
@@ -291,7 +717,7 @@
     <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="https://aleriskcalc.kuronetwork.me"
+                <a href="./index.html"
                     class="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors group">
                     <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -300,7 +726,42 @@
                     <span class="text-sm font-medium" data-i18n="navBack">Kuro Risk Calculator</span>
                 </a>
 
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 md:space-x-4">
+                    <!-- Currency Selector -->
+                    <div class="relative group hidden sm:block">
+                        <select id="currency-select"
+                            class="appearance-none bg-gray-100 dark:bg-gray-700 border-none rounded-lg py-2 pl-3 pr-8 text-sm focus:ring-2 focus:ring-primary cursor-pointer">
+                            <option value="USD">USD ($)</option>
+                            <option value="TWD">TWD (NT$)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="JPY">JPY (¥)</option>
+                            <option value="CNY">CNY (¥)</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Language Selector -->
+                    <div class="relative group">
+                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg px-2 py-1">
+                            <span class="text-lg mr-1">🌐</span>
+                            <select id="lang-select"
+                                class="bg-transparent border-none text-sm focus:ring-0 cursor-pointer py-1 pr-6 max-w-[80px] sm:max-w-none">
+                                <option value="en">English</option>
+                                <option value="zh-TW">繁體中文</option>
+                                <option value="ja">日本語</option>
+                                <option value="es">Español</option>
+                                <option value="de">Deutsch</option>
+                                <option value="fr">Français</option>
+                                <option value="pt">Português</option>
+                                <option value="vi">Tiếng Việt</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <!-- Info/Tutorial Button -->
                     <button id="btn-tutorial" class="text-primary hover:text-blue-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -492,14 +953,21 @@
                         <div class="flex gap-2 pert-group">
                             <input type="number" id="tef-min" value="1" min="0" step="0.1"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-                                onchange="validatePERTGroup('tef')">
+                                onchange="validatePERTGroup('tef')"
+                                title="Industry benchmark: Ransomware 0.5-2, Data Breach 1-5, DDoS 2-10">
                             <input type="number" id="tef-like" value="5" min="0" step="0.1"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400"
-                                onchange="validatePERTGroup('tef')">
+                                onchange="validatePERTGroup('tef')"
+                                title="Industry benchmark: Ransomware 0.5-2, Data Breach 1-5, DDoS 2-10">
                             <input type="number" id="tef-max" value="12" min="0" step="0.1"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-                                onchange="validatePERTGroup('tef')">
+                                onchange="validatePERTGroup('tef')"
+                                title="Industry benchmark: Ransomware 0.5-2, Data Breach 1-5, DDoS 2-10">
                         </div>
+                        <!-- Industry Benchmark Hint -->
+                        <p class="mt-2 text-xs text-gray-400 dark:text-gray-500 italic" data-i18n="hintTefBenchmark">
+                            💡 Industry benchmarks: Ransomware 0.5-2/yr, Data Breach 1-5/yr, DDoS 2-10/yr
+                        </p>
                         <!-- Validation Message for TEF -->
                         <div id="tef-validation-msg" class="validation-message">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -647,14 +1115,21 @@
                         <div class="flex gap-2 pert-group">
                             <input type="number" id="vuln-min" value="10" min="0" max="100"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-                                onchange="validatePERTGroup('vuln', true)">
+                                onchange="validatePERTGroup('vuln', true)"
+                                title="Industry benchmark: Well-protected 10-30%, Average 30-60%, Weak 60-90%">
                             <input type="number" id="vuln-like" value="50" min="0" max="100"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400"
-                                onchange="validatePERTGroup('vuln', true)">
+                                onchange="validatePERTGroup('vuln', true)"
+                                title="Industry benchmark: Well-protected 10-30%, Average 30-60%, Weak 60-90%">
                             <input type="number" id="vuln-max" value="90" min="0" max="100"
                                 class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-                                onchange="validatePERTGroup('vuln', true)">
+                                onchange="validatePERTGroup('vuln', true)"
+                                title="Industry benchmark: Well-protected 10-30%, Average 30-60%, Weak 60-90%">
                         </div>
+                        <!-- Industry Benchmark Hint -->
+                        <p class="mt-2 text-xs text-gray-400 dark:text-gray-500 italic" data-i18n="hintVulnBenchmark">
+                            💡 Industry benchmarks: Well-protected 10-30%, Average 30-60%, Weak defenses 60-90%
+                        </p>
                         <!-- Validation Message for Vulnerability -->
                         <div id="vuln-validation-msg" class="validation-message">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -806,14 +1281,21 @@
                     <div class="flex gap-2 pert-group">
                         <input type="number" id="prim-min" value="10000" min="0"
                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-                            onchange="validatePERTGroup('prim')">
+                            onchange="validatePERTGroup('prim')"
+                            title="Industry benchmark: SMB $50K-$500K, Enterprise $500K-$5M">
                         <input type="number" id="prim-like" value="50000" min="0"
                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 border-l-4 border-l-purple-400"
-                            onchange="validatePERTGroup('prim')">
+                            onchange="validatePERTGroup('prim')"
+                            title="Industry benchmark: SMB $50K-$500K, Enterprise $500K-$5M">
                         <input type="number" id="prim-max" value="200000" min="0"
                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700"
-                            onchange="validatePERTGroup('prim')">
+                            onchange="validatePERTGroup('prim')"
+                            title="Industry benchmark: SMB $50K-$500K, Enterprise $500K-$5M">
                     </div>
+                    <!-- Industry Benchmark Hint -->
+                    <p class="mt-2 text-xs text-gray-400 dark:text-gray-500 italic" data-i18n="hintPrimBenchmark">
+                        💡 Industry benchmarks: SMB $50K-$500K, Enterprise $500K-$5M (IBM Cost of Data Breach 2024)
+                    </p>
                     <!-- Validation Message for Primary Loss -->
                     <div id="prim-validation-msg" class="validation-message">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1527,7 +2009,8 @@
 
                 <!-- Comparison Table -->
                 <div class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <div class="overflow-x-auto">
+                    <p class="scroll-indicator text-center text-xs text-gray-400 dark:text-gray-500 py-1">← Scroll horizontally →</p>
+                    <div class="overflow-x-auto comparison-table-wrapper">
                         <table class="w-full text-sm" id="comparison-table">
                             <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                                 <tr>
@@ -1878,6 +2361,44 @@
                     convergenceNotConverged: "Not Converged",
                     convergenceRecommend: "Recommend {runs} runs for convergence",
                     convergenceTooltip: "Standard error indicates estimation precision. Lower is better. Results converge when relative error < 5%.",
+                    // Comparison Section translations
+                    comparisonTitle: "Scenario Comparison",
+                    comparisonDesc: "Compare saved scenarios to prioritize risk treatment decisions",
+                    btnSaveScenario: "Save Current",
+                    btnRefresh: "Refresh",
+                    searchPlaceholder: "Search scenarios...",
+                    sortAALDesc: "AAL (High to Low)",
+                    sortAALAsc: "AAL (Low to High)",
+                    sortVaRDesc: "VaR 90% (High to Low)",
+                    sortVaRAsc: "VaR 90% (Low to High)",
+                    sortNameAsc: "Name (A-Z)",
+                    sortNameDesc: "Name (Z-A)",
+                    sortDateDesc: "Date (Newest)",
+                    sortDateAsc: "Date (Oldest)",
+                    filterAllPriorities: "All Priorities",
+                    priorityCritical: "Critical",
+                    priorityHigh: "High",
+                    priorityMedium: "Medium",
+                    priorityLow: "Low",
+                    colScenario: "Scenario",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "Priority",
+                    colActions: "Actions",
+                    comparisonEmpty: "No saved scenarios yet",
+                    comparisonEmptyHint: "Run a simulation and click \"Save Current\" to add scenarios",
+                    summaryTotal: "Total Scenarios",
+                    summaryTotalAAL: "Total AAL",
+                    summaryAvgAAL: "Avg AAL",
+                    summaryCritical: "Critical/High",
+                    comparisonChartTitle: "Risk Distribution Comparison",
+                    chartMetricAAL: "AAL",
+                    chartMetricVaR90: "VaR 90%",
+                    chartMetricBoth: "Both",
+                    legendAAL: "AAL",
+                    legendVaR90: "VaR 90%",
+                    scenarioLimitWarning: "Maximum 10 scenarios. Saving a new scenario will replace the oldest one.",
                     // Comparison Export translations
                     btnExportComparisonCSV: "CSV",
                     btnExportComparisonPDF: "PDF",
@@ -1887,7 +2408,44 @@
                     comparisonPDFTitle: "Scenario Comparison Report",
                     comparisonSummary: "Summary",
                     colUpdatedAt: "Last Updated",
-                    generatedAt: "Generated at"
+                    generatedAt: "Generated at",
+                    // Action buttons
+                    btnLoad: "Load",
+                    btnDelete: "Delete",
+                    confirmDelete: "Are you sure you want to delete this scenario?",
+                    scenarioSaved: "Scenario saved successfully",
+                    scenarioLoaded: "Scenario loaded successfully",
+                    scenarioDeleted: "Scenario deleted successfully",
+                    // Report translations
+                    btnGenerateReport: "Generate Report",
+                    reportExecutiveSummary: "Executive Summary",
+                    reportMethodology: "Methodology",
+                    reportInputParameters: "Input Parameters",
+                    reportResults: "Results",
+                    reportConfidenceIntervals: "Confidence Intervals",
+                    reportPercentile5: "5th Percentile",
+                    reportPercentile50: "50th Percentile (Median)",
+                    reportPercentile95: "95th Percentile",
+                    reportInvestmentRecommendation: "Investment Recommendation",
+                    reportRecommendInvest: "Recommended: The control investment shows positive return",
+                    reportRecommendReview: "Review: The control investment shows marginal return",
+                    reportRecommendNotRecommend: "Not Recommended: The control investment shows negative return",
+                    // History translations
+                    historyTitle: "Analysis History",
+                    historyEmpty: "No analysis history yet",
+                    historyRestore: "Restore",
+                    historyClear: "Clear All",
+                    historyExport: "Export History",
+                    historyImport: "Import History",
+                    // Data persistence translations
+                    exportSuccess: "Data exported successfully",
+                    importSuccess: "Data imported successfully",
+                    importError: "Failed to import data",
+                    invalidFileFormat: "Invalid file format",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 Industry benchmarks: Ransomware 0.5-2/yr, Data Breach 1-5/yr, DDoS 2-10/yr",
+                    hintVulnBenchmark: "💡 Industry benchmarks: Well-protected 10-30%, Average 30-60%, Weak defenses 60-90%",
+                    hintPrimBenchmark: "💡 Industry benchmarks: SMB $50K-$500K, Enterprise $500K-$5M (IBM Cost of Data Breach 2024)"
                 },
                 'zh-TW': {
                     navTitle: "FAIR 風險分析",
@@ -2034,6 +2592,44 @@
                     convergenceNotConverged: "未收斂",
                     convergenceRecommend: "建議執行 {runs} 次以達收斂",
                     convergenceTooltip: "標準誤差表示估計精度，越低越好。當相對誤差 < 5% 時結果收斂。",
+                    // Comparison Section translations
+                    comparisonTitle: "情境比較",
+                    comparisonDesc: "比較已儲存的情境以優先處理風險處置決策",
+                    btnSaveScenario: "儲存目前情境",
+                    btnRefresh: "重新整理",
+                    searchPlaceholder: "搜尋情境...",
+                    sortAALDesc: "AAL（由高到低）",
+                    sortAALAsc: "AAL（由低到高）",
+                    sortVaRDesc: "VaR 90%（由高到低）",
+                    sortVaRAsc: "VaR 90%（由低到高）",
+                    sortNameAsc: "名稱（A-Z）",
+                    sortNameDesc: "名稱（Z-A）",
+                    sortDateDesc: "日期（最新）",
+                    sortDateAsc: "日期（最舊）",
+                    filterAllPriorities: "所有優先級",
+                    priorityCritical: "嚴重",
+                    priorityHigh: "高",
+                    priorityMedium: "中",
+                    priorityLow: "低",
+                    colScenario: "情境",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "優先級",
+                    colActions: "操作",
+                    comparisonEmpty: "尚無已儲存的情境",
+                    comparisonEmptyHint: "執行模擬後點擊「儲存目前情境」以新增情境",
+                    summaryTotal: "情境總數",
+                    summaryTotalAAL: "總 AAL",
+                    summaryAvgAAL: "平均 AAL",
+                    summaryCritical: "嚴重/高",
+                    comparisonChartTitle: "風險分布比較",
+                    chartMetricAAL: "AAL",
+                    chartMetricVaR90: "VaR 90%",
+                    chartMetricBoth: "兩者",
+                    legendAAL: "AAL",
+                    legendVaR90: "VaR 90%",
+                    scenarioLimitWarning: "最多 10 個情境。儲存新情境將取代最舊的情境。",
                     // Comparison Export translations
                     btnExportComparisonCSV: "CSV",
                     btnExportComparisonPDF: "PDF",
@@ -2043,7 +2639,44 @@
                     comparisonPDFTitle: "情境比較報告",
                     comparisonSummary: "摘要",
                     colUpdatedAt: "最後更新",
-                    generatedAt: "產生時間"
+                    generatedAt: "產生時間",
+                    // Action buttons
+                    btnLoad: "載入",
+                    btnDelete: "刪除",
+                    confirmDelete: "確定要刪除此情境嗎？",
+                    scenarioSaved: "情境儲存成功",
+                    scenarioLoaded: "情境載入成功",
+                    scenarioDeleted: "情境刪除成功",
+                    // Report translations
+                    btnGenerateReport: "產生報告",
+                    reportExecutiveSummary: "執行摘要",
+                    reportMethodology: "方法論",
+                    reportInputParameters: "輸入參數",
+                    reportResults: "結果",
+                    reportConfidenceIntervals: "信賴區間",
+                    reportPercentile5: "第 5 百分位數",
+                    reportPercentile50: "第 50 百分位數（中位數）",
+                    reportPercentile95: "第 95 百分位數",
+                    reportInvestmentRecommendation: "投資建議",
+                    reportRecommendInvest: "建議投資：控制措施投資顯示正向報酬",
+                    reportRecommendReview: "需審查：控制措施投資顯示邊際報酬",
+                    reportRecommendNotRecommend: "不建議：控制措施投資顯示負向報酬",
+                    // History translations
+                    historyTitle: "分析歷史記錄",
+                    historyEmpty: "尚無分析歷史記錄",
+                    historyRestore: "還原",
+                    historyClear: "清除全部",
+                    historyExport: "匯出歷史記錄",
+                    historyImport: "匯入歷史記錄",
+                    // Data persistence translations
+                    exportSuccess: "資料匯出成功",
+                    importSuccess: "資料匯入成功",
+                    importError: "資料匯入失敗",
+                    invalidFileFormat: "無效的檔案格式",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 產業基準：勒索軟體 0.5-2次/年、資料外洩 1-5次/年、DDoS 2-10次/年",
+                    hintVulnBenchmark: "💡 產業基準：防護良好 10-30%、一般水準 30-60%、防護薄弱 60-90%",
+                    hintPrimBenchmark: "💡 產業基準：中小企業 $50K-$500K、大型企業 $500K-$5M（IBM 2024 資料外洩成本報告）"
                 },
                 ja: {
                     navTitle: "FAIRリスク分析",
@@ -2190,6 +2823,44 @@
                     convergenceNotConverged: "未収束",
                     convergenceRecommend: "収束には {runs} 回の実行を推奨",
                     convergenceTooltip: "標準誤差は推定精度を示します。低いほど良好です。相対誤差 < 5% で結果が収束します。",
+                    // Comparison Section translations
+                    comparisonTitle: "シナリオ比較",
+                    comparisonDesc: "保存されたシナリオを比較してリスク対応の優先順位を決定",
+                    btnSaveScenario: "現在を保存",
+                    btnRefresh: "更新",
+                    searchPlaceholder: "シナリオを検索...",
+                    sortAALDesc: "AAL（高い順）",
+                    sortAALAsc: "AAL（低い順）",
+                    sortVaRDesc: "VaR 90%（高い順）",
+                    sortVaRAsc: "VaR 90%（低い順）",
+                    sortNameAsc: "名前（A-Z）",
+                    sortNameDesc: "名前（Z-A）",
+                    sortDateDesc: "日付（新しい順）",
+                    sortDateAsc: "日付（古い順）",
+                    filterAllPriorities: "すべての優先度",
+                    priorityCritical: "重大",
+                    priorityHigh: "高",
+                    priorityMedium: "中",
+                    priorityLow: "低",
+                    colScenario: "シナリオ",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "優先度",
+                    colActions: "操作",
+                    comparisonEmpty: "保存されたシナリオがありません",
+                    comparisonEmptyHint: "シミュレーションを実行し「現在を保存」をクリックしてシナリオを追加",
+                    summaryTotal: "シナリオ総数",
+                    summaryTotalAAL: "合計AAL",
+                    summaryAvgAAL: "平均AAL",
+                    summaryCritical: "重大/高",
+                    comparisonChartTitle: "リスク分布比較",
+                    chartMetricAAL: "AAL",
+                    chartMetricVaR90: "VaR 90%",
+                    chartMetricBoth: "両方",
+                    legendAAL: "AAL",
+                    legendVaR90: "VaR 90%",
+                    scenarioLimitWarning: "最大10シナリオ。新しいシナリオを保存すると最も古いものが置き換えられます。",
                     // Comparison Export translations
                     btnExportComparisonCSV: "CSV",
                     btnExportComparisonPDF: "PDF",
@@ -2199,7 +2870,414 @@
                     comparisonPDFTitle: "シナリオ比較レポート",
                     comparisonSummary: "サマリー",
                     colUpdatedAt: "最終更新",
-                    generatedAt: "生成日時"
+                    generatedAt: "生成日時",
+                    // Action buttons
+                    btnLoad: "読み込み",
+                    btnDelete: "削除",
+                    confirmDelete: "このシナリオを削除してもよろしいですか？",
+                    scenarioSaved: "シナリオを保存しました",
+                    scenarioLoaded: "シナリオを読み込みました",
+                    scenarioDeleted: "シナリオを削除しました",
+                    // Report translations
+                    btnGenerateReport: "レポート生成",
+                    reportExecutiveSummary: "エグゼクティブサマリー",
+                    reportMethodology: "方法論",
+                    reportInputParameters: "入力パラメータ",
+                    reportResults: "結果",
+                    reportConfidenceIntervals: "信頼区間",
+                    reportPercentile5: "5パーセンタイル",
+                    reportPercentile50: "50パーセンタイル（中央値）",
+                    reportPercentile95: "95パーセンタイル",
+                    reportInvestmentRecommendation: "投資推奨",
+                    reportRecommendInvest: "推奨：コントロール投資はプラスのリターンを示しています",
+                    reportRecommendReview: "要検討：コントロール投資は限界的なリターンを示しています",
+                    reportRecommendNotRecommend: "非推奨：コントロール投資はマイナスのリターンを示しています",
+                    // History translations
+                    historyTitle: "分析履歴",
+                    historyEmpty: "分析履歴がありません",
+                    historyRestore: "復元",
+                    historyClear: "すべてクリア",
+                    historyExport: "履歴をエクスポート",
+                    historyImport: "履歴をインポート",
+                    // Data persistence translations
+                    exportSuccess: "データのエクスポートに成功しました",
+                    importSuccess: "データのインポートに成功しました",
+                    importError: "データのインポートに失敗しました",
+                    invalidFileFormat: "無効なファイル形式",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 業界ベンチマーク：ランサムウェア 0.5-2回/年、データ漏洩 1-5回/年、DDoS 2-10回/年",
+                    hintVulnBenchmark: "💡 業界ベンチマーク：高防御 10-30%、平均 30-60%、低防御 60-90%",
+                    hintPrimBenchmark: "💡 業界ベンチマーク：中小企業 $50K-$500K、大企業 $500K-$5M（IBM 2024年データ漏洩コストレポート）"
+                },
+                // Spanish (ES)
+                es: {
+                    navBack: "Calculadora de Riesgo Kuro",
+                    navTitle: "Análisis FAIR",
+                    labelScenario: "Escenario",
+                    pageSubtitle: "Análisis de Factores de Riesgo de Información (OpenFAIR™)",
+                    badgeL2Driver: "Factor Nivel 2",
+                    cardLefTitle: "Frecuencia de Eventos de Pérdida",
+                    cardLefDesc: "¿Con qué frecuencia ocurren eventos adversos?",
+                    labelTef: "Frecuencia de Eventos de Amenaza (TEF)",
+                    badgeL3: "Nivel 3",
+                    descTef: "Frecuencia de intentos de amenaza por año.",
+                    labelSimpleMode: "Modo Simple",
+                    labelAdvancedMode: "Modo Avanzado",
+                    labelMin: "Mín",
+                    labelLikely: "Más Probable",
+                    labelMax: "Máx",
+                    labelVuln: "Vulnerabilidad (Vuln)",
+                    descVuln: "Probabilidad (%) de que la amenaza supere la defensa.",
+                    cardLmTitle: "Magnitud de Pérdida",
+                    cardLmDesc: "Seleccionar Moneda: ",
+                    labelPrim: "Pérdida Primaria",
+                    descPrim: "Impacto financiero directo.",
+                    labelSec: "Pérdida Secundaria",
+                    descSec: "Reputación, Legal, etc. (Opcional)",
+                    labelMitigating: "Controles de Mitigación",
+                    badgeOptional: "Opcional",
+                    labelControlCost: "Costo Anual del Control",
+                    labelControlEffect: "Efectividad del Control (%)",
+                    btnRun: "Ejecutar Simulación",
+                    btnCancel: "Cancelar",
+                    reportTitle: "Informe de Análisis",
+                    btnCsv: "Descargar CSV",
+                    metricAAL: "AAL (Riesgo Medio)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "Pérdida Máxima",
+                    metricMin: "Pérdida Mínima",
+                    metricROSI: "ROSI",
+                    footerAAL: "Pérdida Anual Promedio",
+                    modalTitle: "Guía Metodológica",
+                    btnClose: "Cerrar",
+                    chartTitle: "Curva de Excedencia de Pérdidas",
+                    legendBefore: "Antes del Control",
+                    legendAfter: "Después del Control",
+                    sensitivityTitle: "Análisis de Sensibilidad",
+                    btnSensitivity: "Ejecutar Análisis de Sensibilidad",
+                    comparisonTitle: "Comparación de Escenarios",
+                    comparisonDesc: "Compare escenarios guardados para priorizar decisiones de tratamiento de riesgos",
+                    btnSaveScenario: "Guardar Actual",
+                    btnRefresh: "Actualizar",
+                    searchPlaceholder: "Buscar escenarios...",
+                    colScenario: "Escenario",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "Prioridad",
+                    colActions: "Acciones",
+                    comparisonEmpty: "No hay escenarios guardados",
+                    priorityCritical: "Crítico",
+                    priorityHigh: "Alto",
+                    priorityMedium: "Medio",
+                    priorityLow: "Bajo",
+                    btnLoad: "Cargar",
+                    btnDelete: "Eliminar",
+                    confirmDelete: "¿Está seguro de que desea eliminar este escenario?",
+                    btnGenerateReport: "Generar Informe",
+                    historyTitle: "Historial de Análisis",
+                    exportSuccess: "Datos exportados exitosamente",
+                    importSuccess: "Datos importados exitosamente",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 Benchmarks de la industria: Ransomware 0.5-2/año, Brecha de datos 1-5/año, DDoS 2-10/año",
+                    hintVulnBenchmark: "💡 Benchmarks de la industria: Bien protegido 10-30%, Promedio 30-60%, Defensas débiles 60-90%",
+                    hintPrimBenchmark: "💡 Benchmarks de la industria: PYME $50K-$500K, Empresa $500K-$5M (IBM Costo de Brecha de Datos 2024)"
+                },
+                // German (DE)
+                de: {
+                    navBack: "Kuro Risikorechner",
+                    navTitle: "FAIR-Analyse",
+                    labelScenario: "Szenario",
+                    pageSubtitle: "Faktoranalyse von Informationsrisiken (OpenFAIR™)",
+                    badgeL2Driver: "Level 2 Treiber",
+                    cardLefTitle: "Verlustereignishäufigkeit",
+                    cardLefDesc: "Wie oft passieren schlechte Dinge?",
+                    labelTef: "Bedrohungsereignishäufigkeit (TEF)",
+                    badgeL3: "Level 3",
+                    descTef: "Häufigkeit von Bedrohungsversuchen pro Jahr.",
+                    labelSimpleMode: "Einfacher Modus",
+                    labelAdvancedMode: "Erweiterter Modus",
+                    labelMin: "Min",
+                    labelLikely: "Wahrscheinlichst",
+                    labelMax: "Max",
+                    labelVuln: "Verwundbarkeit (Vuln)",
+                    descVuln: "Wahrscheinlichkeit (%), dass Bedrohung Verteidigung überwindet.",
+                    cardLmTitle: "Verlustgröße",
+                    cardLmDesc: "Währung auswählen: ",
+                    labelPrim: "Primärverlust",
+                    descPrim: "Direkte finanzielle Auswirkung.",
+                    labelSec: "Sekundärverlust",
+                    descSec: "Reputation, Rechtliches, etc. (Optional)",
+                    labelMitigating: "Mitigierende Kontrollen",
+                    badgeOptional: "Optional",
+                    labelControlCost: "Jährliche Kontrollkosten",
+                    labelControlEffect: "Kontrolleffektivität (%)",
+                    btnRun: "Simulation starten",
+                    btnCancel: "Abbrechen",
+                    reportTitle: "Analysebericht",
+                    btnCsv: "CSV herunterladen",
+                    metricAAL: "AAL (Mittleres Risiko)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "Maximaler Verlust",
+                    metricMin: "Minimaler Verlust",
+                    metricROSI: "ROSI",
+                    footerAAL: "Durchschnittlicher Jahresverlust",
+                    modalTitle: "Methodikleitfaden",
+                    btnClose: "Schließen",
+                    chartTitle: "Verlustüberschreitungskurve",
+                    legendBefore: "Vor Kontrolle",
+                    legendAfter: "Nach Kontrolle",
+                    sensitivityTitle: "Sensitivitätsanalyse",
+                    btnSensitivity: "Sensitivitätsanalyse durchführen",
+                    comparisonTitle: "Szenariovergleich",
+                    comparisonDesc: "Vergleichen Sie gespeicherte Szenarien zur Priorisierung von Risikobehandlungsentscheidungen",
+                    btnSaveScenario: "Aktuelles speichern",
+                    btnRefresh: "Aktualisieren",
+                    searchPlaceholder: "Szenarien suchen...",
+                    colScenario: "Szenario",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "Priorität",
+                    colActions: "Aktionen",
+                    comparisonEmpty: "Keine gespeicherten Szenarien",
+                    priorityCritical: "Kritisch",
+                    priorityHigh: "Hoch",
+                    priorityMedium: "Mittel",
+                    priorityLow: "Niedrig",
+                    btnLoad: "Laden",
+                    btnDelete: "Löschen",
+                    confirmDelete: "Sind Sie sicher, dass Sie dieses Szenario löschen möchten?",
+                    btnGenerateReport: "Bericht erstellen",
+                    historyTitle: "Analyseverlauf",
+                    exportSuccess: "Daten erfolgreich exportiert",
+                    importSuccess: "Daten erfolgreich importiert",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 Branchenbenchmarks: Ransomware 0,5-2/Jahr, Datenpanne 1-5/Jahr, DDoS 2-10/Jahr",
+                    hintVulnBenchmark: "💡 Branchenbenchmarks: Gut geschützt 10-30%, Durchschnitt 30-60%, Schwache Verteidigung 60-90%",
+                    hintPrimBenchmark: "💡 Branchenbenchmarks: KMU $50K-$500K, Unternehmen $500K-$5M (IBM Kosten einer Datenpanne 2024)"
+                },
+                // French (FR)
+                fr: {
+                    navBack: "Calculateur de Risque Kuro",
+                    navTitle: "Analyse FAIR",
+                    labelScenario: "Scénario",
+                    pageSubtitle: "Analyse des Facteurs de Risque de l'Information (OpenFAIR™)",
+                    badgeL2Driver: "Facteur Niveau 2",
+                    cardLefTitle: "Fréquence des Événements de Perte",
+                    cardLefDesc: "À quelle fréquence les mauvaises choses arrivent-elles?",
+                    labelTef: "Fréquence des Événements de Menace (TEF)",
+                    badgeL3: "Niveau 3",
+                    descTef: "Fréquence des tentatives de menace par an.",
+                    labelSimpleMode: "Mode Simple",
+                    labelAdvancedMode: "Mode Avancé",
+                    labelMin: "Min",
+                    labelLikely: "Plus Probable",
+                    labelMax: "Max",
+                    labelVuln: "Vulnérabilité (Vuln)",
+                    descVuln: "Probabilité (%) que la menace dépasse la défense.",
+                    cardLmTitle: "Magnitude de Perte",
+                    cardLmDesc: "Sélectionner la Devise: ",
+                    labelPrim: "Perte Primaire",
+                    descPrim: "Impact financier direct.",
+                    labelSec: "Perte Secondaire",
+                    descSec: "Réputation, Juridique, etc. (Optionnel)",
+                    labelMitigating: "Contrôles d'Atténuation",
+                    badgeOptional: "Optionnel",
+                    labelControlCost: "Coût Annuel du Contrôle",
+                    labelControlEffect: "Efficacité du Contrôle (%)",
+                    btnRun: "Exécuter la Simulation",
+                    btnCancel: "Annuler",
+                    reportTitle: "Rapport d'Analyse",
+                    btnCsv: "Télécharger CSV",
+                    metricAAL: "AAL (Risque Moyen)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "Perte Maximale",
+                    metricMin: "Perte Minimale",
+                    metricROSI: "ROSI",
+                    footerAAL: "Perte Annuelle Moyenne",
+                    modalTitle: "Guide Méthodologique",
+                    btnClose: "Fermer",
+                    chartTitle: "Courbe de Dépassement des Pertes",
+                    legendBefore: "Avant Contrôle",
+                    legendAfter: "Après Contrôle",
+                    sensitivityTitle: "Analyse de Sensibilité",
+                    btnSensitivity: "Exécuter l'Analyse de Sensibilité",
+                    comparisonTitle: "Comparaison des Scénarios",
+                    comparisonDesc: "Comparez les scénarios enregistrés pour prioriser les décisions de traitement des risques",
+                    btnSaveScenario: "Enregistrer l'Actuel",
+                    btnRefresh: "Actualiser",
+                    searchPlaceholder: "Rechercher des scénarios...",
+                    colScenario: "Scénario",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "Priorité",
+                    colActions: "Actions",
+                    comparisonEmpty: "Aucun scénario enregistré",
+                    priorityCritical: "Critique",
+                    priorityHigh: "Élevé",
+                    priorityMedium: "Moyen",
+                    priorityLow: "Faible",
+                    btnLoad: "Charger",
+                    btnDelete: "Supprimer",
+                    confirmDelete: "Êtes-vous sûr de vouloir supprimer ce scénario?",
+                    btnGenerateReport: "Générer le Rapport",
+                    historyTitle: "Historique des Analyses",
+                    exportSuccess: "Données exportées avec succès",
+                    importSuccess: "Données importées avec succès",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 Benchmarks de l'industrie: Ransomware 0,5-2/an, Violation de données 1-5/an, DDoS 2-10/an",
+                    hintVulnBenchmark: "💡 Benchmarks de l'industrie: Bien protégé 10-30%, Moyen 30-60%, Défenses faibles 60-90%",
+                    hintPrimBenchmark: "💡 Benchmarks de l'industrie: PME $50K-$500K, Entreprise $500K-$5M (IBM Coût d'une Violation de Données 2024)"
+                },
+                // Portuguese (PT)
+                pt: {
+                    navBack: "Calculadora de Risco Kuro",
+                    navTitle: "Análise FAIR",
+                    labelScenario: "Cenário",
+                    pageSubtitle: "Análise de Fatores de Risco da Informação (OpenFAIR™)",
+                    badgeL2Driver: "Fator Nível 2",
+                    cardLefTitle: "Frequência de Eventos de Perda",
+                    cardLefDesc: "Com que frequência coisas ruins acontecem?",
+                    labelTef: "Frequência de Eventos de Ameaça (TEF)",
+                    badgeL3: "Nível 3",
+                    descTef: "Frequência de tentativas de ameaça por ano.",
+                    labelSimpleMode: "Modo Simples",
+                    labelAdvancedMode: "Modo Avançado",
+                    labelMin: "Mín",
+                    labelLikely: "Mais Provável",
+                    labelMax: "Máx",
+                    labelVuln: "Vulnerabilidade (Vuln)",
+                    descVuln: "Probabilidade (%) de que a ameaça supere a defesa.",
+                    cardLmTitle: "Magnitude da Perda",
+                    cardLmDesc: "Selecionar Moeda: ",
+                    labelPrim: "Perda Primária",
+                    descPrim: "Impacto financeiro direto.",
+                    labelSec: "Perda Secundária",
+                    descSec: "Reputação, Legal, etc. (Opcional)",
+                    labelMitigating: "Controles de Mitigação",
+                    badgeOptional: "Opcional",
+                    labelControlCost: "Custo Anual do Controle",
+                    labelControlEffect: "Eficácia do Controle (%)",
+                    btnRun: "Executar Simulação",
+                    btnCancel: "Cancelar",
+                    reportTitle: "Relatório de Análise",
+                    btnCsv: "Baixar CSV",
+                    metricAAL: "AAL (Risco Médio)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "Perda Máxima",
+                    metricMin: "Perda Mínima",
+                    metricROSI: "ROSI",
+                    footerAAL: "Perda Anual Média",
+                    modalTitle: "Guia Metodológico",
+                    btnClose: "Fechar",
+                    chartTitle: "Curva de Excedência de Perdas",
+                    legendBefore: "Antes do Controle",
+                    legendAfter: "Após o Controle",
+                    sensitivityTitle: "Análise de Sensibilidade",
+                    btnSensitivity: "Executar Análise de Sensibilidade",
+                    comparisonTitle: "Comparação de Cenários",
+                    comparisonDesc: "Compare cenários salvos para priorizar decisões de tratamento de riscos",
+                    btnSaveScenario: "Salvar Atual",
+                    btnRefresh: "Atualizar",
+                    searchPlaceholder: "Pesquisar cenários...",
+                    colScenario: "Cenário",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "Prioridade",
+                    colActions: "Ações",
+                    comparisonEmpty: "Nenhum cenário salvo",
+                    priorityCritical: "Crítico",
+                    priorityHigh: "Alto",
+                    priorityMedium: "Médio",
+                    priorityLow: "Baixo",
+                    btnLoad: "Carregar",
+                    btnDelete: "Excluir",
+                    confirmDelete: "Tem certeza de que deseja excluir este cenário?",
+                    btnGenerateReport: "Gerar Relatório",
+                    historyTitle: "Histórico de Análises",
+                    exportSuccess: "Dados exportados com sucesso",
+                    importSuccess: "Dados importados com sucesso",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 Benchmarks da indústria: Ransomware 0,5-2/ano, Violação de dados 1-5/ano, DDoS 2-10/ano",
+                    hintVulnBenchmark: "💡 Benchmarks da indústria: Bem protegido 10-30%, Médio 30-60%, Defesas fracas 60-90%",
+                    hintPrimBenchmark: "💡 Benchmarks da indústria: PME $50K-$500K, Empresa $500K-$5M (IBM Custo de Violação de Dados 2024)"
+                },
+                // Vietnamese (VI)
+                vi: {
+                    navBack: "Máy Tính Rủi Ro Kuro",
+                    navTitle: "Phân Tích FAIR",
+                    labelScenario: "Kịch Bản",
+                    pageSubtitle: "Phân Tích Yếu Tố Rủi Ro Thông Tin (OpenFAIR™)",
+                    badgeL2Driver: "Yếu Tố Cấp 2",
+                    cardLefTitle: "Tần Suất Sự Kiện Tổn Thất",
+                    cardLefDesc: "Những điều xấu xảy ra thường xuyên như thế nào?",
+                    labelTef: "Tần Suất Sự Kiện Đe Dọa (TEF)",
+                    badgeL3: "Cấp 3",
+                    descTef: "Tần suất các nỗ lực đe dọa mỗi năm.",
+                    labelSimpleMode: "Chế Độ Đơn Giản",
+                    labelAdvancedMode: "Chế Độ Nâng Cao",
+                    labelMin: "Tối Thiểu",
+                    labelLikely: "Có Khả Năng Nhất",
+                    labelMax: "Tối Đa",
+                    labelVuln: "Lỗ Hổng (Vuln)",
+                    descVuln: "Xác suất (%) mà mối đe dọa vượt qua phòng thủ.",
+                    cardLmTitle: "Mức Độ Tổn Thất",
+                    cardLmDesc: "Chọn Tiền Tệ: ",
+                    labelPrim: "Tổn Thất Chính",
+                    descPrim: "Tác động tài chính trực tiếp.",
+                    labelSec: "Tổn Thất Phụ",
+                    descSec: "Danh tiếng, Pháp lý, v.v. (Tùy chọn)",
+                    labelMitigating: "Kiểm Soát Giảm Thiểu",
+                    badgeOptional: "Tùy Chọn",
+                    labelControlCost: "Chi Phí Kiểm Soát Hàng Năm",
+                    labelControlEffect: "Hiệu Quả Kiểm Soát (%)",
+                    btnRun: "Chạy Mô Phỏng",
+                    btnCancel: "Hủy",
+                    reportTitle: "Báo Cáo Phân Tích",
+                    btnCsv: "Tải CSV",
+                    metricAAL: "AAL (Rủi Ro Trung Bình)",
+                    metricVaR: "VaR (90%)",
+                    metricMax: "Tổn Thất Tối Đa",
+                    metricMin: "Tổn Thất Tối Thiểu",
+                    metricROSI: "ROSI",
+                    footerAAL: "Tổn Thất Trung Bình Hàng Năm",
+                    modalTitle: "Hướng Dẫn Phương Pháp",
+                    btnClose: "Đóng",
+                    chartTitle: "Đường Cong Vượt Quá Tổn Thất",
+                    legendBefore: "Trước Kiểm Soát",
+                    legendAfter: "Sau Kiểm Soát",
+                    sensitivityTitle: "Phân Tích Độ Nhạy",
+                    btnSensitivity: "Chạy Phân Tích Độ Nhạy",
+                    comparisonTitle: "So Sánh Kịch Bản",
+                    comparisonDesc: "So sánh các kịch bản đã lưu để ưu tiên quyết định xử lý rủi ro",
+                    btnSaveScenario: "Lưu Hiện Tại",
+                    btnRefresh: "Làm Mới",
+                    searchPlaceholder: "Tìm kiếm kịch bản...",
+                    colScenario: "Kịch Bản",
+                    colAAL: "AAL",
+                    colVaR90: "VaR 90%",
+                    colROSI: "ROSI",
+                    colPriority: "Ưu Tiên",
+                    colActions: "Hành Động",
+                    comparisonEmpty: "Chưa có kịch bản nào được lưu",
+                    priorityCritical: "Nghiêm Trọng",
+                    priorityHigh: "Cao",
+                    priorityMedium: "Trung Bình",
+                    priorityLow: "Thấp",
+                    btnLoad: "Tải",
+                    btnDelete: "Xóa",
+                    confirmDelete: "Bạn có chắc chắn muốn xóa kịch bản này không?",
+                    btnGenerateReport: "Tạo Báo Cáo",
+                    historyTitle: "Lịch Sử Phân Tích",
+                    exportSuccess: "Xuất dữ liệu thành công",
+                    importSuccess: "Nhập dữ liệu thành công",
+                    // Industry benchmark hints
+                    hintTefBenchmark: "💡 Tiêu chuẩn ngành: Ransomware 0,5-2/năm, Vi phạm dữ liệu 1-5/năm, DDoS 2-10/năm",
+                    hintVulnBenchmark: "💡 Tiêu chuẩn ngành: Bảo vệ tốt 10-30%, Trung bình 30-60%, Phòng thủ yếu 60-90%",
+                    hintPrimBenchmark: "💡 Tiêu chuẩn ngành: SME $50K-$500K, Doanh nghiệp $500K-$5M (IBM Chi phí Vi phạm Dữ liệu 2024)"
                 }
             },
 
@@ -2254,6 +3332,36 @@
                 // Update currency symbols/labels
                 document.querySelectorAll('.currency-symbol').forEach(el => el.innerText = this.currency);
                 document.querySelectorAll('.currency-label').forEach(el => el.innerText = this.currency);
+            },
+
+            setLang: function (lang) {
+                if (!this.translations[lang]) {
+                    console.warn('Language not supported:', lang);
+                    return;
+                }
+                this.lang = lang;
+                this.updateDOM();
+                this.savePreferences();
+            },
+
+            setCurrency: function (currency) {
+                this.currency = currency;
+                this.updateCurrency();
+                this.savePreferences();
+            },
+
+            savePreferences: function () {
+                try {
+                    const storageKey = 'kuro_risk_calc_v2_data';
+                    const savedData = localStorage.getItem(storageKey);
+                    const data = savedData ? JSON.parse(savedData) : {};
+                    data.lang = this.lang;
+                    data.currency = this.currency;
+                    data.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+                    localStorage.setItem(storageKey, JSON.stringify(data));
+                } catch (e) {
+                    console.warn('Failed to save preferences', e);
+                }
             }
         };
 
@@ -2955,6 +4063,24 @@
         document.addEventListener('DOMContentLoaded', () => {
             I18n.init();
             initScenarioTemplates();
+            
+            // Initialize language selector
+            const langSelect = document.getElementById('lang-select');
+            if (langSelect) {
+                langSelect.value = I18n.lang;
+                langSelect.addEventListener('change', (e) => {
+                    I18n.setLang(e.target.value);
+                });
+            }
+            
+            // Initialize currency selector
+            const currencySelect = document.getElementById('currency-select');
+            if (currencySelect) {
+                currencySelect.value = I18n.currency;
+                currencySelect.addEventListener('change', (e) => {
+                    I18n.setCurrency(e.target.value);
+                });
+            }
         });
 
         // --- Scenario Templates ---
@@ -2969,10 +4095,23 @@
                 },
                 values: {
                     tefMin: 0.5, tefLike: 2, tefMax: 12,
+                    // Advanced TEF decomposition (CF × PoA = TEF)
+                    cfMin: 50, cfLike: 200, cfMax: 1000,
+                    poaMin: 1, poaLike: 2, poaMax: 5,
                     vulnMin: 20, vulnLike: 45, vulnMax: 80,
+                    // Advanced Vulnerability decomposition
+                    tcMin: 5, tcLike: 7, tcMax: 9,
+                    rsMin: 3, rsLike: 5, rsMax: 7,
                     primMin: 50000, primLike: 1500000, primMax: 10000000,
                     secProb: 30,
-                    secMin: 100000, secLike: 500000, secMax: 5000000
+                    secMin: 100000, secLike: 500000, secMax: 5000000,
+                    // Secondary loss categories
+                    secCategories: {
+                        reputation: { enabled: true, prob: 40, min: 50000, like: 200000, max: 2000000 },
+                        legal: { enabled: false, prob: 10, min: 10000, like: 50000, max: 500000 },
+                        regulatory: { enabled: true, prob: 30, min: 20000, like: 150000, max: 1500000 },
+                        competitive: { enabled: true, prob: 25, min: 30000, like: 150000, max: 1000000 }
+                    }
                 }
             },
             databreach: {
@@ -2984,10 +4123,23 @@
                 },
                 values: {
                     tefMin: 1, tefLike: 3, tefMax: 15,
+                    // Advanced TEF decomposition (CF × PoA = TEF)
+                    cfMin: 100, cfLike: 500, cfMax: 2000,
+                    poaMin: 0.5, poaLike: 1, poaMax: 3,
                     vulnMin: 15, vulnLike: 35, vulnMax: 70,
+                    // Advanced Vulnerability decomposition
+                    tcMin: 4, tcLike: 6, tcMax: 8,
+                    rsMin: 4, rsLike: 6, rsMax: 8,
                     primMin: 100000, primLike: 4450000, primMax: 15000000,
                     secProb: 50,
-                    secMin: 200000, secLike: 2000000, secMax: 20000000
+                    secMin: 200000, secLike: 2000000, secMax: 20000000,
+                    // Secondary loss categories
+                    secCategories: {
+                        reputation: { enabled: true, prob: 60, min: 100000, like: 800000, max: 5000000 },
+                        legal: { enabled: true, prob: 40, min: 50000, like: 500000, max: 3000000 },
+                        regulatory: { enabled: true, prob: 70, min: 100000, like: 1000000, max: 10000000 },
+                        competitive: { enabled: true, prob: 30, min: 50000, like: 300000, max: 2000000 }
+                    }
                 }
             },
             ddos: {
@@ -2999,7 +4151,13 @@
                 },
                 values: {
                     tefMin: 2, tefLike: 8, tefMax: 50,
+                    // Advanced TEF decomposition (CF × PoA = TEF)
+                    cfMin: 500, cfLike: 2000, cfMax: 10000,
+                    poaMin: 0.5, poaLike: 1, poaMax: 2,
                     vulnMin: 30, vulnLike: 60, vulnMax: 90,
+                    // Advanced Vulnerability decomposition
+                    tcMin: 3, tcLike: 5, tcMax: 7,
+                    rsMin: 2, rsLike: 4, rsMax: 6,
                     primMin: 10000, primLike: 120000, primMax: 2000000,
                     secProb: 20,
                     secMin: 50000, secLike: 300000, secMax: 1000000
@@ -3014,7 +4172,13 @@
                 },
                 values: {
                     tefMin: 5, tefLike: 20, tefMax: 100,
+                    // Advanced TEF decomposition (CF × PoA = TEF)
+                    cfMin: 1000, cfLike: 5000, cfMax: 20000,
+                    poaMin: 0.5, poaLike: 1, poaMax: 2,
                     vulnMin: 5, vulnLike: 15, vulnMax: 40,
+                    // Advanced Vulnerability decomposition
+                    tcMin: 4, tcLike: 6, tcMax: 8,
+                    rsMin: 5, rsLike: 7, rsMax: 9,
                     primMin: 25000, primLike: 125000, primMax: 2000000,
                     secProb: 10,
                     secMin: 10000, secLike: 50000, secMax: 500000
@@ -3029,10 +4193,23 @@
                 },
                 values: {
                     tefMin: 1, tefLike: 4, tefMax: 12,
+                    // Advanced TEF decomposition (CF × PoA = TEF)
+                    cfMin: 50, cfLike: 200, cfMax: 600,
+                    poaMin: 2, poaLike: 4, poaMax: 8,
                     vulnMin: 25, vulnLike: 50, vulnMax: 80,
+                    // Advanced Vulnerability decomposition
+                    tcMin: 5, tcLike: 7, tcMax: 9,
+                    rsMin: 3, rsLike: 5, rsMax: 7,
                     primMin: 100000, primLike: 750000, primMax: 5000000,
                     secProb: 40,
-                    secMin: 150000, secLike: 800000, secMax: 3000000
+                    secMin: 150000, secLike: 800000, secMax: 3000000,
+                    // Secondary loss categories
+                    secCategories: {
+                        reputation: { enabled: true, prob: 50, min: 50000, like: 300000, max: 1500000 },
+                        legal: { enabled: true, prob: 30, min: 30000, like: 200000, max: 1000000 },
+                        regulatory: { enabled: false, prob: 20, min: 20000, like: 100000, max: 500000 },
+                        competitive: { enabled: true, prob: 40, min: 50000, like: 400000, max: 2000000 }
+                    }
                 }
             }
         };
@@ -3053,20 +4230,92 @@
                 document.querySelector('input[name="tef-mode"][value="simple"]').checked = true;
                 toggleTEFMode('simple');
 
-                // Fill in values
+                // Reset to simple Vulnerability mode when loading a template
+                const vulnSimpleRadio = document.querySelector('input[name="vuln-mode"][value="simple"]');
+                if (vulnSimpleRadio) {
+                    vulnSimpleRadio.checked = true;
+                    toggleVulnMode('simple');
+                }
+
+                // Fill in basic TEF values
                 document.getElementById('tef-min').value = template.values.tefMin;
                 document.getElementById('tef-like').value = template.values.tefLike;
                 document.getElementById('tef-max').value = template.values.tefMax;
+
+                // Fill in advanced TEF values (CF, PoA) if available
+                if (template.values.cfMin !== undefined) {
+                    const cfMin = document.getElementById('cf-min');
+                    const cfLike = document.getElementById('cf-like');
+                    const cfMax = document.getElementById('cf-max');
+                    const poaMin = document.getElementById('poa-min');
+                    const poaLike = document.getElementById('poa-like');
+                    const poaMax = document.getElementById('poa-max');
+                    
+                    if (cfMin) cfMin.value = template.values.cfMin;
+                    if (cfLike) cfLike.value = template.values.cfLike;
+                    if (cfMax) cfMax.value = template.values.cfMax;
+                    if (poaMin) poaMin.value = template.values.poaMin;
+                    if (poaLike) poaLike.value = template.values.poaLike;
+                    if (poaMax) poaMax.value = template.values.poaMax;
+                }
+
+                // Fill in basic Vulnerability values
                 document.getElementById('vuln-min').value = template.values.vulnMin;
                 document.getElementById('vuln-like').value = template.values.vulnLike;
                 document.getElementById('vuln-max').value = template.values.vulnMax;
+
+                // Fill in advanced Vulnerability values (TC, RS) if available
+                if (template.values.tcMin !== undefined) {
+                    const tcMin = document.getElementById('tc-min');
+                    const tcLike = document.getElementById('tc-like');
+                    const tcMax = document.getElementById('tc-max');
+                    const rsMin = document.getElementById('rs-min');
+                    const rsLike = document.getElementById('rs-like');
+                    const rsMax = document.getElementById('rs-max');
+                    
+                    if (tcMin) tcMin.value = template.values.tcMin;
+                    if (tcLike) tcLike.value = template.values.tcLike;
+                    if (tcMax) tcMax.value = template.values.tcMax;
+                    if (rsMin) rsMin.value = template.values.rsMin;
+                    if (rsLike) rsLike.value = template.values.rsLike;
+                    if (rsMax) rsMax.value = template.values.rsMax;
+                }
+
+                // Fill in Primary Loss values
                 document.getElementById('prim-min').value = template.values.primMin;
                 document.getElementById('prim-like').value = template.values.primLike;
                 document.getElementById('prim-max').value = template.values.primMax;
+
+                // Fill in Secondary Loss values
                 document.getElementById('sec-prob').value = template.values.secProb;
                 document.getElementById('sec-min').value = template.values.secMin;
                 document.getElementById('sec-like').value = template.values.secLike;
                 document.getElementById('sec-max').value = template.values.secMax;
+
+                // Fill in Secondary Loss Categories if available
+                if (template.values.secCategories) {
+                    const categories = ['reputation', 'legal', 'regulatory', 'competitive'];
+                    categories.forEach(cat => {
+                        const catData = template.values.secCategories[cat];
+                        if (catData) {
+                            const enabledCheckbox = document.getElementById(`sec-cat-${cat}-enabled`);
+                            const probInput = document.getElementById(`sec-cat-${cat}-prob`);
+                            const minInput = document.getElementById(`sec-cat-${cat}-min`);
+                            const likeInput = document.getElementById(`sec-cat-${cat}-like`);
+                            const maxInput = document.getElementById(`sec-cat-${cat}-max`);
+                            
+                            if (enabledCheckbox) enabledCheckbox.checked = catData.enabled;
+                            if (probInput) probInput.value = catData.prob;
+                            if (minInput) minInput.value = catData.min;
+                            if (likeInput) likeInput.value = catData.like;
+                            if (maxInput) maxInput.value = catData.max;
+                        }
+                    });
+                    // Update category total display
+                    if (typeof updateSecondaryLossCategoryTotal === 'function') {
+                        updateSecondaryLossCategoryTotal();
+                    }
+                }
 
                 // Set scenario name
                 document.getElementById('scenario-name').value = template.name[I18n.lang] || template.name.en;

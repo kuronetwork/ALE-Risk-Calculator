@@ -3365,7 +3365,37 @@ export {
     // Comparison Export exports
     exportComparisonToCSV,
     generateComparisonReportData,
-    downloadComparisonCSV
+    downloadComparisonCSV,
+    // Report Generator exports (added later in file)
+    calculatePercentile,
+    calculatePercentiles,
+    calculateConfidenceInterval,
+    formatCurrency,
+    formatPercentage,
+    getReportLabels,
+    assessRiskLevel,
+    generateExecutiveSummary,
+    generateMethodologySection,
+    generateInputsSection,
+    generateResultsSection,
+    generateInvestmentRecommendation,
+    generateRecommendationsSection,
+    generateReportData,
+    generateReportHTML,
+    generateReport,
+    openReportInNewWindow,
+    // Chart generation exports
+    generateLossExceedanceCurveData,
+    generateTornadoChartData,
+    getLossExceedanceCurveOptions,
+    getTornadoChartOptions,
+    generateChartsSection,
+    generateReportDataWithCharts,
+    generateReportWithCharts,
+    // PDF export functions
+    exportReportToPDF,
+    downloadReportPDF,
+    exportHTMLReportToPDF
 };
 
 
@@ -4748,4 +4778,1252 @@ function generateReportData(scenario, results, options = {}, rawResults = null, 
         },
         labels: labels
     };
+}
+
+
+/**
+ * Generates the complete HTML report from report data
+ * 
+ * @param {ReportData} reportData - Report data from generateReportData
+ * @returns {string} Complete HTML document string
+ * 
+ * **Validates: Requirements 6.1, 6.2**
+ */
+function generateReportHTML(reportData) {
+    if (!reportData) {
+        return '';
+    }
+    
+    const { title, generatedAt, scenarioName, sections, metadata, labels } = reportData;
+    
+    // Build HTML document
+    let html = `<!DOCTYPE html>
+<html lang="${metadata.language || 'en'}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .report-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        .report-header {
+            text-align: center;
+            border-bottom: 2px solid #3B82F6;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .report-header h1 {
+            color: #1e3a5f;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .report-header .meta {
+            color: #666;
+            font-size: 14px;
+        }
+        .section {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+        }
+        .section h2 {
+            color: #1e3a5f;
+            font-size: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .section h4 {
+            color: #333;
+            font-size: 16px;
+            margin: 15px 0 10px 0;
+        }
+        .summary-highlight {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .risk-critical { background: #fee2e2; border-left: 4px solid #ef4444; }
+        .risk-high { background: #fef3c7; border-left: 4px solid #f59e0b; }
+        .risk-medium { background: #fef9c3; border-left: 4px solid #eab308; }
+        .risk-low { background: #dcfce7; border-left: 4px solid #22c55e; }
+        .risk-level { font-size: 18px; }
+        .key-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .metric {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .metric .label { color: #64748b; font-size: 13px; }
+        .metric .value { font-size: 18px; font-weight: 600; color: #1e3a5f; }
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .results-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .results-card h4 { font-size: 13px; color: #64748b; margin-bottom: 5px; }
+        .results-card .value { font-size: 20px; font-weight: 700; color: #1e3a5f; }
+        .results-card.primary { border-left: 4px solid #3B82F6; }
+        .results-card.danger { border-left: 4px solid #ef4444; }
+        .results-card.warning { border-left: 4px solid #f59e0b; }
+        .results-card.success { border-left: 4px solid #22c55e; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+        }
+        .inputs-table td:first-child { font-weight: 500; }
+        .percentile-table { max-width: 400px; }
+        .rosi-results { margin-top: 20px; }
+        .recommendations { margin-top: 15px; }
+        .recommendation-card {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .recommendation-card .icon { font-size: 24px; }
+        .recommendation-card p { margin: 0; }
+        .recommendation-card.strongly-recommend { background: #dcfce7; border: 1px solid #22c55e; }
+        .recommendation-card.recommend { background: #dbeafe; border: 1px solid #3B82F6; }
+        .recommendation-card.marginal { background: #fef9c3; border: 1px solid #eab308; }
+        .recommendation-card.not-recommend { background: #fee2e2; border: 1px solid #ef4444; }
+        .risk-drivers { margin-top: 15px; }
+        .risk-drivers ol { padding-left: 20px; }
+        .risk-drivers li { margin: 8px 0; }
+        ul { padding-left: 20px; margin: 10px 0; }
+        li { margin: 5px 0; }
+        .chart-placeholder {
+            background: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            color: #64748b;
+            margin: 15px 0;
+        }
+        .report-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+            color: #64748b;
+            font-size: 12px;
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .report-container { box-shadow: none; padding: 20px; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <div class="report-header">
+            <h1>${title}</h1>
+            <div class="meta">
+                <p>${labels.scenarioName}: <strong>${scenarioName}</strong></p>
+                <p>${labels.generatedAt}: ${new Date(generatedAt).toLocaleString()}</p>
+                <p>${labels.simulationRuns}: ${metadata.simulationRuns.toLocaleString()}</p>
+            </div>
+        </div>
+`;
+    
+    // Add sections
+    for (const section of sections) {
+        html += `
+        <div class="section" id="${section.id}">
+            <h2>${section.title}</h2>
+            ${section.content}
+        </div>
+`;
+    }
+    
+    // Add chart placeholders if charts are enabled
+    if (metadata.includeCharts) {
+        html += `
+        <div class="section" id="charts">
+            <h2>${labels.charts || 'Visualizations'}</h2>
+            <div class="chart-placeholder" id="loss-exceedance-chart">
+                <p>${labels.lossExceedanceCurve || 'Loss Exceedance Curve'}</p>
+                <p><em>Chart will be rendered when viewing in browser</em></p>
+            </div>
+        </div>
+`;
+    }
+    
+    // Add sensitivity chart placeholder if enabled
+    if (metadata.includeSensitivity) {
+        html += `
+        <div class="section" id="sensitivity">
+            <h2>${labels.sensitivity || 'Sensitivity Analysis'}</h2>
+            <div class="chart-placeholder" id="tornado-chart">
+                <p>${labels.tornadoChart || 'Sensitivity Tornado Chart'}</p>
+                <p><em>Chart will be rendered when viewing in browser</em></p>
+            </div>
+        </div>
+`;
+    }
+    
+    // Footer
+    html += `
+        <div class="report-footer">
+            <p>Generated by FAIR Risk Analysis Tool</p>
+            <p>Based on OpenFAIR™ methodology. OpenFAIR™ is a trademark of The Open Group.</p>
+        </div>
+    </div>
+</body>
+</html>`;
+    
+    return html;
+}
+
+/**
+ * Generates a complete HTML report from scenario and results
+ * 
+ * This is a convenience function that combines generateReportData and generateReportHTML.
+ * 
+ * @param {FAIRScenario} scenario - The FAIR scenario
+ * @param {RiskOutput} results - Simulation results
+ * @param {ReportConfig} [options] - Report configuration options
+ * @param {Array<{total: number}>} [rawResults] - Raw simulation results for percentile calculation
+ * @param {SensitivityResult[]} [sensitivityResults] - Sensitivity analysis results
+ * @returns {string} Complete HTML report string
+ * 
+ * @example
+ * const html = generateReport(scenario, results, { language: 'zh-TW', currency: 'TWD' });
+ * 
+ * **Validates: Requirements 6.1, 6.2**
+ */
+function generateReport(scenario, results, options = {}, rawResults = null, sensitivityResults = null) {
+    const reportData = generateReportData(scenario, results, options, rawResults, sensitivityResults);
+    return generateReportHTML(reportData);
+}
+
+/**
+ * Opens the report in a new browser window for printing or saving
+ * 
+ * @param {string} htmlContent - HTML report content
+ * @param {string} [windowTitle] - Title for the new window
+ * @returns {Window|null} Reference to the new window, or null if blocked
+ */
+function openReportInNewWindow(htmlContent, windowTitle = 'FAIR Risk Analysis Report') {
+    if (typeof window === 'undefined') {
+        return null;
+    }
+    
+    const newWindow = window.open('', '_blank');
+    if (newWindow) {
+        newWindow.document.write(htmlContent);
+        newWindow.document.close();
+        newWindow.document.title = windowTitle;
+    }
+    return newWindow;
+}
+
+// Add report generator functions to window.FAIRCore
+if (typeof window !== 'undefined' && window.FAIRCore) {
+    // Percentile calculation functions
+    window.FAIRCore.calculatePercentile = calculatePercentile;
+    window.FAIRCore.calculatePercentiles = calculatePercentiles;
+    window.FAIRCore.calculateConfidenceInterval = calculateConfidenceInterval;
+    
+    // Formatting functions
+    window.FAIRCore.formatCurrency = formatCurrency;
+    window.FAIRCore.formatPercentage = formatPercentage;
+    
+    // Report generation functions
+    window.FAIRCore.getReportLabels = getReportLabels;
+    window.FAIRCore.assessRiskLevel = assessRiskLevel;
+    window.FAIRCore.generateExecutiveSummary = generateExecutiveSummary;
+    window.FAIRCore.generateMethodologySection = generateMethodologySection;
+    window.FAIRCore.generateInputsSection = generateInputsSection;
+    window.FAIRCore.generateResultsSection = generateResultsSection;
+    window.FAIRCore.generateInvestmentRecommendation = generateInvestmentRecommendation;
+    window.FAIRCore.generateRecommendationsSection = generateRecommendationsSection;
+    window.FAIRCore.generateReportData = generateReportData;
+    window.FAIRCore.generateReportHTML = generateReportHTML;
+    window.FAIRCore.generateReport = generateReport;
+    window.FAIRCore.openReportInNewWindow = openReportInNewWindow;
+}
+
+// Add to CommonJS exports
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports.calculatePercentile = calculatePercentile;
+    module.exports.calculatePercentiles = calculatePercentiles;
+    module.exports.calculateConfidenceInterval = calculateConfidenceInterval;
+    module.exports.formatCurrency = formatCurrency;
+    module.exports.formatPercentage = formatPercentage;
+    module.exports.getReportLabels = getReportLabels;
+    module.exports.assessRiskLevel = assessRiskLevel;
+    module.exports.generateExecutiveSummary = generateExecutiveSummary;
+    module.exports.generateMethodologySection = generateMethodologySection;
+    module.exports.generateInputsSection = generateInputsSection;
+    module.exports.generateResultsSection = generateResultsSection;
+    module.exports.generateInvestmentRecommendation = generateInvestmentRecommendation;
+    module.exports.generateRecommendationsSection = generateRecommendationsSection;
+    module.exports.generateReportData = generateReportData;
+    module.exports.generateReportHTML = generateReportHTML;
+    module.exports.generateReport = generateReport;
+    module.exports.openReportInNewWindow = openReportInNewWindow;
+}
+
+
+// ============================================================================
+// Report Chart Generation Functions
+// ============================================================================
+
+/**
+ * Generates loss exceedance curve data for Chart.js
+ * 
+ * The loss exceedance curve shows the probability of exceeding various loss levels.
+ * X-axis: Loss amount
+ * Y-axis: Probability of exceeding that loss (0-100%)
+ * 
+ * @param {Array<{total: number}>} results - Simulation results with 'total' property
+ * @param {number} [numPoints=20] - Number of points on the curve
+ * @returns {Object} Chart.js compatible data object
+ * 
+ * @example
+ * const chartData = generateLossExceedanceCurveData(results);
+ * new Chart(ctx, { type: 'line', data: chartData, options: {...} });
+ * 
+ * **Validates: Requirements 6.3**
+ */
+function generateLossExceedanceCurveData(results, numPoints = 20) {
+    if (!results || !Array.isArray(results) || results.length === 0) {
+        return {
+            labels: [],
+            datasets: [{
+                label: 'Loss Exceedance Probability',
+                data: [],
+                borderColor: '#3B82F6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                fill: true,
+                tension: 0.4
+            }]
+        };
+    }
+    
+    const values = results.map(r => r.total || 0).sort((a, b) => a - b);
+    const n = values.length;
+    
+    // Generate evenly spaced loss levels
+    const minLoss = values[0];
+    const maxLoss = values[n - 1];
+    const step = (maxLoss - minLoss) / (numPoints - 1);
+    
+    const labels = [];
+    const data = [];
+    
+    for (let i = 0; i < numPoints; i++) {
+        const lossLevel = minLoss + (step * i);
+        labels.push(lossLevel);
+        
+        // Calculate probability of exceeding this loss level
+        const exceedCount = values.filter(v => v > lossLevel).length;
+        const exceedProb = (exceedCount / n) * 100;
+        data.push(exceedProb);
+    }
+    
+    return {
+        labels: labels,
+        datasets: [{
+            label: 'Loss Exceedance Probability (%)',
+            data: data,
+            borderColor: '#3B82F6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3,
+            pointHoverRadius: 5
+        }]
+    };
+}
+
+/**
+ * Generates tornado chart data for sensitivity analysis
+ * 
+ * The tornado chart shows the impact of each parameter on AAL when varied by ±20%.
+ * 
+ * @param {SensitivityResult[]} sensitivityResults - Sensitivity analysis results
+ * @param {number} [baselineAAL] - Baseline AAL for reference line
+ * @returns {Object} Chart.js compatible data object for horizontal bar chart
+ * 
+ * @example
+ * const chartData = generateTornadoChartData(sensitivityResults, baselineAAL);
+ * new Chart(ctx, { type: 'bar', data: chartData, options: { indexAxis: 'y' } });
+ * 
+ * **Validates: Requirements 6.3**
+ */
+function generateTornadoChartData(sensitivityResults, baselineAAL = 0) {
+    if (!sensitivityResults || !Array.isArray(sensitivityResults) || sensitivityResults.length === 0) {
+        return {
+            labels: [],
+            datasets: []
+        };
+    }
+    
+    // Sort by absolute impact (descending)
+    const sorted = [...sensitivityResults].sort((a, b) => {
+        const impactA = Math.abs((a.highAAL || 0) - (a.lowAAL || 0));
+        const impactB = Math.abs((b.highAAL || 0) - (b.lowAAL || 0));
+        return impactB - impactA;
+    });
+    
+    const labels = sorted.map(r => r.parameter || 'Unknown');
+    const lowDeltas = sorted.map(r => (r.lowAAL || 0) - baselineAAL);
+    const highDeltas = sorted.map(r => (r.highAAL || 0) - baselineAAL);
+    
+    return {
+        labels: labels,
+        datasets: [
+            {
+                label: '-20% Parameter Change',
+                data: lowDeltas,
+                backgroundColor: '#22C55E',
+                borderColor: '#16A34A',
+                borderWidth: 1
+            },
+            {
+                label: '+20% Parameter Change',
+                data: highDeltas,
+                backgroundColor: '#EF4444',
+                borderColor: '#DC2626',
+                borderWidth: 1
+            }
+        ]
+    };
+}
+
+/**
+ * Generates Chart.js options for loss exceedance curve
+ * 
+ * @param {Object} options - Chart options
+ * @param {string} [options.currency='USD'] - Currency for formatting
+ * @param {string} [options.title] - Chart title
+ * @returns {Object} Chart.js options object
+ */
+function getLossExceedanceCurveOptions(options = {}) {
+    const currency = options.currency || 'USD';
+    const title = options.title || 'Loss Exceedance Curve';
+    
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: title,
+                font: { size: 16, weight: 'bold' }
+            },
+            legend: {
+                display: false
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const loss = context.label;
+                        const prob = context.raw;
+                        return `${prob.toFixed(1)}% chance of exceeding ${currency} ${Number(loss).toLocaleString()}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: `Loss Amount (${currency})`
+                },
+                ticks: {
+                    callback: function(value) {
+                        return currency + ' ' + Number(value).toLocaleString();
+                    }
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Probability of Exceedance (%)'
+                },
+                min: 0,
+                max: 100
+            }
+        }
+    };
+}
+
+/**
+ * Generates Chart.js options for tornado chart
+ * 
+ * @param {Object} options - Chart options
+ * @param {string} [options.currency='USD'] - Currency for formatting
+ * @param {string} [options.title] - Chart title
+ * @returns {Object} Chart.js options object
+ */
+function getTornadoChartOptions(options = {}) {
+    const currency = options.currency || 'USD';
+    const title = options.title || 'Sensitivity Analysis - Tornado Chart';
+    
+    return {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            title: {
+                display: true,
+                text: title,
+                font: { size: 16, weight: 'bold' }
+            },
+            legend: {
+                position: 'bottom'
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        const delta = context.raw;
+                        const sign = delta >= 0 ? '+' : '';
+                        return `${context.dataset.label}: ${sign}${currency} ${Number(delta).toLocaleString()}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: `Change in AAL (${currency})`
+                },
+                ticks: {
+                    callback: function(value) {
+                        const sign = value >= 0 ? '+' : '';
+                        return sign + currency + ' ' + Number(value).toLocaleString();
+                    }
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Parameter'
+                }
+            }
+        }
+    };
+}
+
+/**
+ * Generates the charts section HTML with embedded Chart.js rendering script
+ * 
+ * @param {Array<{total: number}>} rawResults - Raw simulation results
+ * @param {SensitivityResult[]} [sensitivityResults] - Sensitivity analysis results
+ * @param {Object} options - Report options
+ * @returns {ReportSection} Charts section with embedded scripts
+ * 
+ * **Validates: Requirements 6.3**
+ */
+function generateChartsSection(rawResults, sensitivityResults, options = {}) {
+    const currency = options.currency || 'USD';
+    const lang = options.language || 'en';
+    const labels = getReportLabels(lang);
+    
+    let content = '';
+    
+    // Loss Exceedance Curve
+    if (rawResults && rawResults.length > 0) {
+        const lecData = generateLossExceedanceCurveData(rawResults);
+        const lecOptions = getLossExceedanceCurveOptions({ currency, title: labels.lossExceedanceCurve });
+        
+        content += `
+        <div class="chart-container" style="height: 300px; margin-bottom: 30px;">
+            <canvas id="lossExceedanceChart"></canvas>
+        </div>
+        <script>
+            (function() {
+                const ctx = document.getElementById('lossExceedanceChart');
+                if (ctx && typeof Chart !== 'undefined') {
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: ${JSON.stringify(lecData)},
+                        options: ${JSON.stringify(lecOptions)}
+                    });
+                }
+            })();
+        </script>
+        `;
+    }
+    
+    // Tornado Chart for Sensitivity Analysis
+    if (sensitivityResults && sensitivityResults.length > 0) {
+        const baselineAAL = sensitivityResults[0]?.baselineAAL || 0;
+        const tornadoData = generateTornadoChartData(sensitivityResults, baselineAAL);
+        const tornadoOptions = getTornadoChartOptions({ currency, title: labels.tornadoChart });
+        
+        content += `
+        <div class="chart-container" style="height: ${Math.max(200, sensitivityResults.length * 40)}px; margin-top: 30px;">
+            <canvas id="tornadoChart"></canvas>
+        </div>
+        <script>
+            (function() {
+                const ctx = document.getElementById('tornadoChart');
+                if (ctx && typeof Chart !== 'undefined') {
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: ${JSON.stringify(tornadoData)},
+                        options: ${JSON.stringify(tornadoOptions)}
+                    });
+                }
+            })();
+        </script>
+        `;
+    }
+    
+    // Add Chart.js CDN if charts are present
+    if (content) {
+        content = `
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+        ` + content;
+    }
+    
+    return {
+        id: 'charts',
+        title: labels.charts || 'Visualizations',
+        content: content || '<p>No chart data available.</p>'
+    };
+}
+
+/**
+ * Enhanced report generation that includes charts
+ * 
+ * @param {FAIRScenario} scenario - The FAIR scenario
+ * @param {RiskOutput} results - Simulation results
+ * @param {ReportConfig} [options] - Report configuration options
+ * @param {Array<{total: number}>} [rawResults] - Raw simulation results for charts
+ * @param {SensitivityResult[]} [sensitivityResults] - Sensitivity analysis results
+ * @returns {ReportData} Complete report data with charts
+ * 
+ * **Validates: Requirements 6.1, 6.2, 6.3**
+ */
+function generateReportDataWithCharts(scenario, results, options = {}, rawResults = null, sensitivityResults = null) {
+    const config = {
+        title: options.title || 'FAIR Risk Analysis Report',
+        includeExecutiveSummary: options.includeExecutiveSummary !== false,
+        includeMethodology: options.includeMethodology !== false,
+        includeInputs: options.includeInputs !== false,
+        includeResults: options.includeResults !== false,
+        includeCharts: options.includeCharts !== false,
+        includeSensitivity: options.includeSensitivity === true,
+        includeRecommendations: options.includeRecommendations !== false,
+        language: options.language || 'en',
+        currency: options.currency || 'USD',
+        simulationRuns: scenario.simulationConfig?.runs || 10000
+    };
+    
+    const labels = getReportLabels(config.language);
+    const sections = [];
+    
+    // Executive Summary
+    if (config.includeExecutiveSummary) {
+        sections.push(generateExecutiveSummary(scenario, results, config));
+    }
+    
+    // Methodology
+    if (config.includeMethodology) {
+        sections.push(generateMethodologySection(config));
+    }
+    
+    // Inputs
+    if (config.includeInputs) {
+        sections.push(generateInputsSection(scenario, config));
+    }
+    
+    // Results
+    if (config.includeResults) {
+        sections.push(generateResultsSection(results, rawResults, config));
+    }
+    
+    // Charts (with actual Chart.js rendering)
+    if (config.includeCharts && (rawResults || sensitivityResults)) {
+        sections.push(generateChartsSection(rawResults, sensitivityResults, config));
+    }
+    
+    // Recommendations
+    if (config.includeRecommendations) {
+        sections.push(generateRecommendationsSection(results, sensitivityResults, config));
+    }
+    
+    return {
+        title: config.title,
+        generatedAt: new Date().toISOString(),
+        scenarioName: scenario.name || 'Unnamed Scenario',
+        sections: sections,
+        metadata: {
+            language: config.language,
+            currency: config.currency,
+            simulationRuns: config.simulationRuns,
+            includeCharts: config.includeCharts,
+            includeSensitivity: config.includeSensitivity
+        },
+        labels: labels
+    };
+}
+
+/**
+ * Generates a complete HTML report with charts from scenario and results
+ * 
+ * @param {FAIRScenario} scenario - The FAIR scenario
+ * @param {RiskOutput} results - Simulation results
+ * @param {ReportConfig} [options] - Report configuration options
+ * @param {Array<{total: number}>} [rawResults] - Raw simulation results for charts
+ * @param {SensitivityResult[]} [sensitivityResults] - Sensitivity analysis results
+ * @returns {string} Complete HTML report string with embedded charts
+ * 
+ * **Validates: Requirements 6.1, 6.2, 6.3**
+ */
+function generateReportWithCharts(scenario, results, options = {}, rawResults = null, sensitivityResults = null) {
+    const reportData = generateReportDataWithCharts(scenario, results, options, rawResults, sensitivityResults);
+    return generateReportHTML(reportData);
+}
+
+// Add chart generation functions to window.FAIRCore
+if (typeof window !== 'undefined' && window.FAIRCore) {
+    window.FAIRCore.generateLossExceedanceCurveData = generateLossExceedanceCurveData;
+    window.FAIRCore.generateTornadoChartData = generateTornadoChartData;
+    window.FAIRCore.getLossExceedanceCurveOptions = getLossExceedanceCurveOptions;
+    window.FAIRCore.getTornadoChartOptions = getTornadoChartOptions;
+    window.FAIRCore.generateChartsSection = generateChartsSection;
+    window.FAIRCore.generateReportDataWithCharts = generateReportDataWithCharts;
+    window.FAIRCore.generateReportWithCharts = generateReportWithCharts;
+}
+
+// Add to CommonJS exports
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports.generateLossExceedanceCurveData = generateLossExceedanceCurveData;
+    module.exports.generateTornadoChartData = generateTornadoChartData;
+    module.exports.getLossExceedanceCurveOptions = getLossExceedanceCurveOptions;
+    module.exports.getTornadoChartOptions = getTornadoChartOptions;
+    module.exports.generateChartsSection = generateChartsSection;
+    module.exports.generateReportDataWithCharts = generateReportDataWithCharts;
+    module.exports.generateReportWithCharts = generateReportWithCharts;
+}
+
+
+// ============================================================================
+// PDF Export Functions
+// ============================================================================
+
+/**
+ * PDF export configuration
+ * @typedef {Object} PDFExportConfig
+ * @property {string} [filename] - Output filename (without .pdf extension)
+ * @property {string} [orientation='portrait'] - Page orientation ('portrait' or 'landscape')
+ * @property {string} [format='a4'] - Page format ('a4', 'letter', etc.)
+ * @property {number} [margin=10] - Page margin in mm
+ * @property {boolean} [includeCharts=true] - Whether to include charts
+ * @property {string} [title] - Report title
+ */
+
+/**
+ * Generates a PDF report from scenario and results using jsPDF
+ * 
+ * This function creates a PDF document with all report sections including
+ * executive summary, methodology, inputs, results, and recommendations.
+ * Charts are rendered as images using html2canvas if available.
+ * 
+ * @param {FAIRScenario} scenario - The FAIR scenario
+ * @param {RiskOutput} results - Simulation results
+ * @param {PDFExportConfig} [config] - PDF export configuration
+ * @param {Array<{total: number}>} [rawResults] - Raw simulation results for percentiles
+ * @param {SensitivityResult[]} [sensitivityResults] - Sensitivity analysis results
+ * @returns {Promise<Blob>} PDF blob that can be downloaded
+ * 
+ * @example
+ * const pdfBlob = await exportReportToPDF(scenario, results, { filename: 'risk_report' });
+ * 
+ * **Validates: Requirements 6.1**
+ */
+async function exportReportToPDF(scenario, results, config = {}, rawResults = null, sensitivityResults = null) {
+    // Check if jsPDF is available
+    if (typeof window === 'undefined' || typeof window.jspdf === 'undefined') {
+        throw new Error('jsPDF library is not loaded. Please include jsPDF CDN.');
+    }
+    
+    const { jsPDF } = window.jspdf;
+    
+    const pdfConfig = {
+        filename: config.filename || `FAIR_Report_${new Date().toISOString().slice(0, 10)}`,
+        orientation: config.orientation || 'portrait',
+        format: config.format || 'a4',
+        margin: config.margin || 15,
+        title: config.title || 'FAIR Risk Analysis Report',
+        currency: config.currency || 'USD',
+        language: config.language || 'en'
+    };
+    
+    const labels = getReportLabels(pdfConfig.language);
+    
+    // Create PDF document
+    const doc = new jsPDF({
+        orientation: pdfConfig.orientation,
+        unit: 'mm',
+        format: pdfConfig.format
+    });
+    
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = pdfConfig.margin;
+    const contentWidth = pageWidth - (margin * 2);
+    let yPos = margin;
+    
+    // Helper function to add new page if needed
+    const checkNewPage = (requiredHeight) => {
+        if (yPos + requiredHeight > pageHeight - margin) {
+            doc.addPage();
+            yPos = margin;
+            return true;
+        }
+        return false;
+    };
+    
+    // Helper function to add text with word wrap
+    const addWrappedText = (text, fontSize, isBold = false) => {
+        doc.setFontSize(fontSize);
+        doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+        const lines = doc.splitTextToSize(text, contentWidth);
+        const lineHeight = fontSize * 0.4;
+        
+        for (const line of lines) {
+            checkNewPage(lineHeight);
+            doc.text(line, margin, yPos);
+            yPos += lineHeight;
+        }
+        yPos += 2;
+    };
+    
+    // Helper function to add a section header
+    const addSectionHeader = (title) => {
+        checkNewPage(15);
+        yPos += 5;
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(30, 58, 95); // Dark blue
+        doc.text(title, margin, yPos);
+        yPos += 3;
+        doc.setDrawColor(59, 130, 246); // Blue line
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPos, pageWidth - margin, yPos);
+        yPos += 8;
+        doc.setTextColor(0, 0, 0); // Reset to black
+    };
+    
+    // Title
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(30, 58, 95);
+    doc.text(pdfConfig.title, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 10;
+    
+    // Scenario name and date
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100, 100, 100);
+    doc.text(`${labels.scenarioName}: ${scenario.name || 'Unnamed Scenario'}`, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 5;
+    doc.text(`${labels.generatedAt}: ${new Date().toLocaleString()}`, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 5;
+    doc.text(`${labels.simulationRuns}: ${(scenario.simulationConfig?.runs || 10000).toLocaleString()}`, pageWidth / 2, yPos, { align: 'center' });
+    yPos += 10;
+    
+    doc.setTextColor(0, 0, 0);
+    
+    // Horizontal line
+    doc.setDrawColor(59, 130, 246);
+    doc.setLineWidth(1);
+    doc.line(margin, yPos, pageWidth - margin, yPos);
+    yPos += 10;
+    
+    // Executive Summary
+    addSectionHeader(labels.executiveSummary);
+    
+    // Risk level
+    const riskLevel = assessRiskLevel(results.aal, results.var90);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`${labels.riskLevel}: ${riskLevel.label}`, margin, yPos);
+    yPos += 8;
+    
+    // Key metrics
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.text(`${labels.aal}: ${formatCurrency(results.aal, pdfConfig.currency)}`, margin, yPos);
+    yPos += 6;
+    doc.text(`${labels.var90}: ${formatCurrency(results.var90, pdfConfig.currency)}`, margin, yPos);
+    yPos += 6;
+    doc.text(`${labels.var95}: ${formatCurrency(results.var95, pdfConfig.currency)}`, margin, yPos);
+    yPos += 6;
+    
+    // ROSI if available
+    if (results.rosi !== undefined && results.rosi !== null) {
+        yPos += 3;
+        doc.text(`${labels.rosiSummary}: ${formatPercentage(results.rosi)}`, margin, yPos);
+        yPos += 6;
+        if (results.riskReduction) {
+            doc.text(`${labels.riskReduction}: ${formatCurrency(results.riskReduction, pdfConfig.currency)}`, margin, yPos);
+            yPos += 6;
+        }
+    }
+    
+    // Methodology Section
+    addSectionHeader(labels.methodology);
+    doc.setFontSize(10);
+    addWrappedText('This analysis uses the Factor Analysis of Information Risk (FAIR) methodology, an international standard for quantifying information risk in financial terms.', 10);
+    yPos += 3;
+    addWrappedText('Key Components:', 10, true);
+    addWrappedText('• Loss Event Frequency (LEF) = Threat Event Frequency × Vulnerability', 10);
+    addWrappedText('• Loss Magnitude (LM) = Primary Loss + Secondary Loss', 10);
+    addWrappedText('• Risk = LEF × LM', 10);
+    yPos += 3;
+    addWrappedText(`Monte Carlo Simulation: ${(scenario.simulationConfig?.runs || 10000).toLocaleString()} iterations using Beta-PERT distributions.`, 10);
+    
+    // Input Parameters Section
+    addSectionHeader(labels.inputs);
+    
+    // Create input table
+    const inputData = [];
+    
+    if (scenario.lef) {
+        if (scenario.lef.tef) {
+            inputData.push([labels.tef, scenario.lef.tef.min, scenario.lef.tef.mostLikely, scenario.lef.tef.max]);
+        }
+        if (scenario.lef.vulnerability) {
+            inputData.push([`${labels.vulnerability} (%)`, scenario.lef.vulnerability.min, scenario.lef.vulnerability.mostLikely, scenario.lef.vulnerability.max]);
+        }
+    }
+    
+    if (scenario.lm) {
+        if (scenario.lm.primaryLoss) {
+            inputData.push([labels.primaryLoss, 
+                formatCurrency(scenario.lm.primaryLoss.min, pdfConfig.currency),
+                formatCurrency(scenario.lm.primaryLoss.mostLikely, pdfConfig.currency),
+                formatCurrency(scenario.lm.primaryLoss.max, pdfConfig.currency)
+            ]);
+        }
+        if (scenario.lm.secondaryLoss && scenario.lm.secondaryLoss.magnitude) {
+            inputData.push([labels.secondaryLoss,
+                formatCurrency(scenario.lm.secondaryLoss.magnitude.min, pdfConfig.currency),
+                formatCurrency(scenario.lm.secondaryLoss.magnitude.mostLikely, pdfConfig.currency),
+                formatCurrency(scenario.lm.secondaryLoss.magnitude.max, pdfConfig.currency)
+            ]);
+        }
+    }
+    
+    if (inputData.length > 0) {
+        // Table header
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.setFillColor(248, 250, 252);
+        doc.rect(margin, yPos - 4, contentWidth, 8, 'F');
+        doc.text('Parameter', margin + 2, yPos);
+        doc.text('Min', margin + 60, yPos);
+        doc.text('Most Likely', margin + 90, yPos);
+        doc.text('Max', margin + 130, yPos);
+        yPos += 6;
+        
+        // Table rows
+        doc.setFont('helvetica', 'normal');
+        for (const row of inputData) {
+            checkNewPage(8);
+            doc.text(String(row[0]), margin + 2, yPos);
+            doc.text(String(row[1]), margin + 60, yPos);
+            doc.text(String(row[2]), margin + 90, yPos);
+            doc.text(String(row[3]), margin + 130, yPos);
+            yPos += 6;
+        }
+    }
+    
+    // Results Section
+    addSectionHeader(labels.results);
+    
+    // Results table
+    doc.setFontSize(10);
+    const resultsData = [
+        [labels.aal, formatCurrency(results.aal, pdfConfig.currency)],
+        [labels.var90, formatCurrency(results.var90, pdfConfig.currency)],
+        [labels.var95, formatCurrency(results.var95, pdfConfig.currency)],
+        [labels.median, formatCurrency(results.median, pdfConfig.currency)],
+        [labels.minLoss, formatCurrency(results.minLoss, pdfConfig.currency)],
+        [labels.maxLoss, formatCurrency(results.maxLoss, pdfConfig.currency)]
+    ];
+    
+    for (const row of resultsData) {
+        checkNewPage(8);
+        doc.setFont('helvetica', 'bold');
+        doc.text(row[0] + ':', margin, yPos);
+        doc.setFont('helvetica', 'normal');
+        doc.text(row[1], margin + 60, yPos);
+        yPos += 6;
+    }
+    
+    // Percentiles if raw results available
+    if (rawResults && rawResults.length > 0) {
+        yPos += 5;
+        addWrappedText(`${labels.confidenceInterval} (90%):`, 10, true);
+        
+        const percentiles = calculatePercentiles(rawResults, [5, 25, 50, 75, 95]);
+        const percentileData = [
+            ['5th Percentile', formatCurrency(percentiles.p5, pdfConfig.currency)],
+            ['25th Percentile', formatCurrency(percentiles.p25, pdfConfig.currency)],
+            ['50th Percentile (Median)', formatCurrency(percentiles.p50, pdfConfig.currency)],
+            ['75th Percentile', formatCurrency(percentiles.p75, pdfConfig.currency)],
+            ['95th Percentile', formatCurrency(percentiles.p95, pdfConfig.currency)]
+        ];
+        
+        for (const row of percentileData) {
+            checkNewPage(6);
+            doc.text(`  ${row[0]}: ${row[1]}`, margin, yPos);
+            yPos += 5;
+        }
+    }
+    
+    // Recommendations Section
+    if (results.rosi !== undefined && results.rosi !== null) {
+        addSectionHeader(labels.recommendations);
+        
+        const recommendation = generateInvestmentRecommendation(results, { language: pdfConfig.language });
+        if (recommendation) {
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold');
+            addWrappedText(`${recommendation.icon} ${labels.investmentRecommendation}:`, 11, true);
+            doc.setFont('helvetica', 'normal');
+            addWrappedText(recommendation.text, 10);
+        }
+    }
+    
+    // Top risk drivers from sensitivity analysis
+    if (sensitivityResults && sensitivityResults.length > 0) {
+        yPos += 5;
+        addWrappedText(labels.topRiskDrivers + ':', 11, true);
+        
+        const topParams = rankInfluentialParameters(sensitivityResults, 3);
+        for (let i = 0; i < topParams.length; i++) {
+            const param = topParams[i];
+            addWrappedText(`${i + 1}. ${param.parameter}: ${param.impactPercentage.toFixed(1)}% impact on AAL`, 10);
+        }
+    }
+    
+    // Footer on each page
+    const totalPages = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= totalPages; i++) {
+        doc.setPage(i);
+        doc.setFontSize(8);
+        doc.setTextColor(150, 150, 150);
+        doc.text(
+            `Generated by FAIR Risk Analysis Tool | Page ${i} of ${totalPages}`,
+            pageWidth / 2,
+            pageHeight - 5,
+            { align: 'center' }
+        );
+        doc.text(
+            'Based on OpenFAIR™ methodology. OpenFAIR™ is a trademark of The Open Group.',
+            pageWidth / 2,
+            pageHeight - 10,
+            { align: 'center' }
+        );
+    }
+    
+    // Return as blob
+    return doc.output('blob');
+}
+
+/**
+ * Downloads the PDF report directly to the user's device
+ * 
+ * @param {FAIRScenario} scenario - The FAIR scenario
+ * @param {RiskOutput} results - Simulation results
+ * @param {PDFExportConfig} [config] - PDF export configuration
+ * @param {Array<{total: number}>} [rawResults] - Raw simulation results
+ * @param {SensitivityResult[]} [sensitivityResults] - Sensitivity analysis results
+ * @returns {Promise<boolean>} True if download was successful
+ * 
+ * @example
+ * await downloadReportPDF(scenario, results, { filename: 'my_risk_report' });
+ * 
+ * **Validates: Requirements 6.1**
+ */
+async function downloadReportPDF(scenario, results, config = {}, rawResults = null, sensitivityResults = null) {
+    try {
+        // Check if jsPDF is available
+        if (typeof window === 'undefined' || typeof window.jspdf === 'undefined') {
+            throw new Error('jsPDF library is not loaded. Please include jsPDF CDN.');
+        }
+        
+        const { jsPDF } = window.jspdf;
+        const filename = config.filename || `FAIR_Report_${new Date().toISOString().slice(0, 10)}`;
+        
+        // Generate PDF using the same logic as exportReportToPDF but save directly
+        const pdfBlob = await exportReportToPDF(scenario, results, config, rawResults, sensitivityResults);
+        
+        // Create download link
+        const url = URL.createObjectURL(pdfBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${filename}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        
+        return true;
+    } catch (error) {
+        console.error('Failed to download PDF:', error);
+        return false;
+    }
+}
+
+/**
+ * Exports report to PDF using html2canvas for chart rendering
+ * 
+ * This method renders the HTML report first, captures it as an image,
+ * and then adds it to the PDF. This preserves chart rendering.
+ * 
+ * @param {HTMLElement} reportElement - The HTML element containing the report
+ * @param {PDFExportConfig} [config] - PDF export configuration
+ * @returns {Promise<Blob>} PDF blob
+ * 
+ * @example
+ * const reportDiv = document.getElementById('report-container');
+ * const pdfBlob = await exportHTMLReportToPDF(reportDiv, { filename: 'report' });
+ * 
+ * **Validates: Requirements 6.1**
+ */
+async function exportHTMLReportToPDF(reportElement, config = {}) {
+    // Check if required libraries are available
+    if (typeof window === 'undefined') {
+        throw new Error('This function must be run in a browser environment');
+    }
+    
+    if (typeof window.jspdf === 'undefined') {
+        throw new Error('jsPDF library is not loaded');
+    }
+    
+    if (typeof window.html2canvas === 'undefined') {
+        throw new Error('html2canvas library is not loaded');
+    }
+    
+    const { jsPDF } = window.jspdf;
+    
+    const pdfConfig = {
+        filename: config.filename || `FAIR_Report_${new Date().toISOString().slice(0, 10)}`,
+        orientation: config.orientation || 'portrait',
+        format: config.format || 'a4',
+        margin: config.margin || 10
+    };
+    
+    // Capture the HTML element as canvas
+    const canvas = await window.html2canvas(reportElement, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: '#ffffff'
+    });
+    
+    // Create PDF
+    const doc = new jsPDF({
+        orientation: pdfConfig.orientation,
+        unit: 'mm',
+        format: pdfConfig.format
+    });
+    
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = pdfConfig.margin;
+    
+    // Calculate image dimensions to fit page
+    const imgWidth = pageWidth - (margin * 2);
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    
+    // Add image to PDF (may span multiple pages)
+    let heightLeft = imgHeight;
+    let position = margin;
+    
+    // First page
+    doc.addImage(
+        canvas.toDataURL('image/png'),
+        'PNG',
+        margin,
+        position,
+        imgWidth,
+        imgHeight
+    );
+    heightLeft -= (pageHeight - margin * 2);
+    
+    // Additional pages if needed
+    while (heightLeft > 0) {
+        position = heightLeft - imgHeight + margin;
+        doc.addPage();
+        doc.addImage(
+            canvas.toDataURL('image/png'),
+            'PNG',
+            margin,
+            position,
+            imgWidth,
+            imgHeight
+        );
+        heightLeft -= (pageHeight - margin * 2);
+    }
+    
+    return doc.output('blob');
+}
+
+// Add PDF export functions to window.FAIRCore
+if (typeof window !== 'undefined' && window.FAIRCore) {
+    window.FAIRCore.exportReportToPDF = exportReportToPDF;
+    window.FAIRCore.downloadReportPDF = downloadReportPDF;
+    window.FAIRCore.exportHTMLReportToPDF = exportHTMLReportToPDF;
+}
+
+// Add to CommonJS exports
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports.exportReportToPDF = exportReportToPDF;
+    module.exports.downloadReportPDF = downloadReportPDF;
+    module.exports.exportHTMLReportToPDF = exportHTMLReportToPDF;
 }

@@ -3,9 +3,9 @@
  * Provides offline functionality and caching for PWA experience
  */
 
-const CACHE_NAME = 'ale-calculator-v2.3.0';
-const STATIC_CACHE_NAME = 'ale-calculator-static-v2.3.0';
-const DYNAMIC_CACHE_NAME = 'ale-calculator-dynamic-v2.3.0';
+const CACHE_NAME = 'ale-calculator-v2.4.0';
+const STATIC_CACHE_NAME = 'ale-calculator-static-v2.4.0';
+const DYNAMIC_CACHE_NAME = 'ale-calculator-dynamic-v2.4.0';
 
 // Static assets to cache
 const STATIC_ASSETS = [
@@ -20,7 +20,8 @@ const STATIC_ASSETS = [
     'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js',
     './fair.html',
-    './fair.worker.js'
+    './fair.worker.js',
+    './fair-core.js'
 ];
 
 // Install event - cache static assets
