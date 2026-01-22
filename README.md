@@ -64,17 +64,54 @@ This tool is a **pure frontend** PWA where all data is processed locally in the 
 
 ### 📈 FAIR Risk Analysis
 
-A dedicated module implementing the **OpenFAIR™** standard for quantitative cyber risk analysis.
+A dedicated module implementing the **OpenFAIR™ (Factor Analysis of Information Risk)** standard — the only international standard for quantitative cyber risk analysis (OpenFAIR™ is a trademark of The Open Group).
 
-- **Monte Carlo Simulation**: 1K / 10K / 50K simulation runs for statistical accuracy
+#### What is FAIR?
+
+FAIR is a quantitative risk analysis framework that helps organizations understand, analyze, and measure information risk in financial terms. Unlike traditional qualitative methods (High/Medium/Low), FAIR provides:
+
+- **Defensible risk measurements** that can be communicated to executives and boards
+- **Consistent methodology** for comparing different risk scenarios
+- **Financial quantification** enabling cost-benefit analysis of security investments
+
+#### Core Capabilities
+
+**Monte Carlo Simulation Engine**
+- 1K / 10K / 50K simulation iterations for statistical accuracy
+- Web Worker-based parallel processing for responsive UI
+- Real-time progress tracking and cancellation support
+
+**FAIR Taxonomy Implementation**
+- **TEF (Threat Event Frequency)**: How often threat agents attempt attacks
+- **Vulnerability**: Probability that an attack succeeds
+- **Primary Loss**: Direct financial impact (response, replacement, fines)
+- **Secondary Loss**: Indirect impact (reputation, customer loss) with occurrence probability
+
+**Statistical Analysis**
 - **Beta-PERT Distribution**: Professional 3-point estimation (Min / Most Likely / Max)
-- **FAIR Taxonomy**: TEF, Vulnerability, Primary Loss, Secondary Loss with probability
-- **Key Metrics**: AAL (Annual Loss Expectancy), VaR 90%, Loss Exceedance Curve
-- **ROSI Calculator**: Return on Security Investment analysis with control effectiveness modeling
-- **Scenario Templates**: Pre-configured templates for Ransomware, Data Breach, DDoS, BEC, Insider Threat with industry reference data (IBM, Verizon DBIR, Sophos)
-- **Before/After Comparison Chart**: Dual Loss Exceedance Curves showing risk reduction from control investments
-- **Chart Interpretation Guide**: Built-in explanations to help executives understand the results
-- **Multi-language**: English, 繁體中文, 日本語
+- **AAL (Annualized Loss Expectancy)**: Expected yearly loss
+- **VaR 90% (Value at Risk)**: Loss threshold exceeded only 10% of the time
+- **Loss Exceedance Curve**: Visual probability distribution of potential losses
+
+**ROSI Calculator (Return on Security Investment)**
+- Model control effectiveness (0-100%)
+- Calculate risk reduction from security investments
+- Before/After comparison with dual Loss Exceedance Curves
+- Clear ROI metrics for executive decision-making
+
+**Scenario Templates with Industry Data**
+- **Ransomware**: Based on Sophos State of Ransomware reports
+- **Data Breach**: IBM Cost of a Data Breach reference data
+- **DDoS Attack**: Industry average downtime and recovery costs
+- **BEC (Business Email Compromise)**: FBI IC3 report statistics
+- **Insider Threat**: Ponemon Institute research data
+
+**Scenario Comparison**
+- Save and compare multiple risk scenarios
+- Side-by-side analysis of different threat types
+- Export comparison reports for stakeholder presentations
+
+**Multi-language Support**: English, 繁體中文, 日本語
 
 ---
 
@@ -607,17 +644,54 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ### 📈 FAIR 風險分析
 
-實作 **OpenFAIR™** 標準的專業量化資安風險分析模組。
+實作 **OpenFAIR™（資訊風險因子分析）** 標準的專業量化資安風險分析模組 — 這是唯一的國際量化資安風險分析標準（OpenFAIR™ 為 The Open Group 的商標）。
 
-- **蒙地卡羅模擬**：1K / 10K / 50K 次模擬確保統計準確性
+#### 什麼是 FAIR？
+
+FAIR 是一個量化風險分析框架，協助組織以財務術語理解、分析和衡量資訊風險。與傳統定性方法（高/中/低）不同，FAIR 提供：
+
+- **可辯護的風險衡量**：可向高階主管和董事會溝通的量化數據
+- **一致的方法論**：比較不同風險情境的標準化方式
+- **財務量化**：支援資安投資的成本效益分析
+
+#### 核心功能
+
+**蒙地卡羅模擬引擎**
+- 1K / 10K / 50K 次模擬迭代確保統計準確性
+- 基於 Web Worker 的平行處理，維持 UI 響應性
+- 即時進度追蹤與取消支援
+
+**FAIR 分類架構實作**
+- **TEF（威脅事件頻率）**：威脅行為者嘗試攻擊的頻率
+- **脆弱性**：攻擊成功的機率
+- **主要損失**：直接財務影響（應變、替換、罰款）
+- **次要損失**：間接影響（聲譽、客戶流失）及其發生機率
+
+**統計分析**
 - **Beta-PERT 分布**：專業三點估計法（最小值 / 最可能值 / 最大值）
-- **FAIR 分類架構**：TEF、脆弱性、主要損失、次要損失（含發生機率）
-- **關鍵指標**：AAL（年均損失）、VaR 90%、損失超越曲線
-- **ROSI 計算器**：資安投資報酬率分析，支援控制措施有效性建模
-- **情境模板**：預設勒索軟體、資料外洩、DDoS、BEC、內部威脅等情境，含業界參考數據（IBM、Verizon DBIR、Sophos）
-- **控制前後比較圖**：雙曲線損失超越圖，清楚呈現控制措施投資帶來的風險降低效果
-- **圖表解讀指南**：內建說明協助管理階層理解分析結果
-- **多語系支援**：English、繁體中文、日本語
+- **AAL（年均損失期望值）**：預期年度損失
+- **VaR 90%（風險值）**：僅有 10% 機率超過的損失門檻
+- **損失超越曲線**：潛在損失的視覺化機率分布
+
+**ROSI 計算器（資安投資報酬率）**
+- 建模控制措施有效性（0-100%）
+- 計算資安投資帶來的風險降低
+- 控制前後比較，含雙曲線損失超越圖
+- 清晰的 ROI 指標供高階決策使用
+
+**情境模板與業界數據**
+- **勒索軟體**：基於 Sophos 勒索軟體現況報告
+- **資料外洩**：IBM 資料外洩成本報告參考數據
+- **DDoS 攻擊**：業界平均停機時間與復原成本
+- **BEC（商業電子郵件詐騙）**：FBI IC3 報告統計
+- **內部威脅**：Ponemon Institute 研究數據
+
+**情境比較**
+- 儲存並比較多個風險情境
+- 不同威脅類型的並排分析
+- 匯出比較報告供利害關係人簡報使用
+
+**多語系支援**：English、繁體中文、日本語
 
 ---
 
