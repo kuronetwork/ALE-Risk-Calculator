@@ -14,14 +14,16 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://aleriskcalc.kuronetwork.me/fair.html">
     <meta property="og:title" content="FAIR Analysis - Kuro Risk Calculator">
-    <meta property="og:description" content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
+    <meta property="og:description"
+        content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
     <meta property="og:image" content="https://aleriskcalc.kuronetwork.me/icons/icon-cat.jpg">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://aleriskcalc.kuronetwork.me/fair.html">
     <meta name="twitter:title" content="FAIR Analysis - Kuro Risk Calculator">
-    <meta name="twitter:description" content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
+    <meta name="twitter:description"
+        content="Advanced FAIR Risk Analysis Tool. Quantitative Cyber Risk Quantification using Monte Carlo Simulation.">
     <meta name="twitter:image" content="https://aleriskcalc.kuronetwork.me/icons/icon-cat.jpg">
 
     <!-- PWA Meta Tags -->
@@ -228,14 +230,15 @@
 
         /* Responsive Design - Mobile (320px-480px) */
         @media (max-width: 480px) {
+
             /* Stack all input groups vertically */
             .pert-group {
                 flex-direction: column !important;
                 gap: 0.5rem;
             }
 
-            .pert-group > input,
-            .pert-group > div {
+            .pert-group>input,
+            .pert-group>div {
                 width: 100% !important;
             }
 
@@ -289,6 +292,7 @@
 
         /* Responsive Design - Tablet (481px-1024px) */
         @media (min-width: 481px) and (max-width: 1024px) {
+
             /* Two-column layout for PERT inputs */
             .pert-group {
                 display: flex;
@@ -296,7 +300,7 @@
                 gap: 0.5rem;
             }
 
-            .pert-group > input {
+            .pert-group>input {
                 flex: 1 1 30%;
                 min-width: 80px;
             }
@@ -314,6 +318,7 @@
 
         /* Responsive Design - Desktop (1025px+) */
         @media (min-width: 1025px) {
+
             /* Full multi-column layout */
             .grid.grid-cols-1.lg\:grid-cols-2 {
                 grid-template-columns: repeat(2, 1fr);
@@ -325,7 +330,7 @@
                 gap: 0.5rem;
             }
 
-            .pert-group > input {
+            .pert-group>input {
                 flex: 1;
             }
         }
@@ -454,6 +459,7 @@
 
         /* Chart legend responsive */
         @media (max-width: 480px) {
+
             /* Reduce chart height on mobile */
             .chart-wrapper,
             [style*="height: 300px"],
@@ -470,12 +476,13 @@
                 gap: 0.25rem !important;
             }
 
-            .chart-legend > div {
+            .chart-legend>div {
                 font-size: 0.625rem !important;
             }
         }
 
         @media (min-width: 481px) and (max-width: 1024px) {
+
             /* Medium chart height on tablet */
             .chart-wrapper,
             [style*="height: 300px"],
@@ -720,7 +727,8 @@
                 <div class="flex items-center">
                     <a href="./index.html"
                         class="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors group">
-                        <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
@@ -744,7 +752,8 @@
                             <option value="JPY">JPY (¥)</option>
                             <option value="CNY">CNY (¥)</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
+                        <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
                             <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                 <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                             </svg>
@@ -794,7 +803,8 @@
         <!-- Page Title -->
         <div class="mb-6 text-center sm:text-left">
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white" data-i18n="navTitle">FAIR Analysis</h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="pageSubtitle">Factor Analysis of Information Risk (OpenFAIR™)</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="pageSubtitle">Factor Analysis of
+                Information Risk (OpenFAIR™)</p>
         </div>
 
         <!-- Scenario Header -->
@@ -806,7 +816,8 @@
                 <div class="w-full sm:w-auto flex-grow">
                     <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-end">
                         <div class="sm:w-48">
-                            <label class="block text-xs text-gray-500 mb-1" data-i18n="labelTemplate">Reference Template</label>
+                            <label class="block text-xs text-gray-500 mb-1" data-i18n="labelTemplate">Reference
+                                Template</label>
                             <select id="scenario-template"
                                 class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500">
                                 <option value="custom" data-i18n="templateCustom">Custom Scenario</option>
@@ -827,39 +838,52 @@
         </header>
 
         <!-- Template Notice (hidden by default) -->
-        <div id="template-notice" class="hidden mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
+        <div id="template-notice"
+            class="hidden mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
             <div class="flex items-start gap-3">
-                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none"
+                    stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                 </svg>
                 <div class="flex-grow">
-                    <p class="text-sm font-semibold text-amber-800 dark:text-amber-200" data-i18n="templateNoticeTitle">Reference Data Loaded</p>
+                    <p class="text-sm font-semibold text-amber-800 dark:text-amber-200" data-i18n="templateNoticeTitle">
+                        Reference Data Loaded</p>
                     <p class="text-xs text-amber-700 dark:text-amber-300 mt-1" id="template-source"></p>
-                    <p class="text-xs text-amber-600 dark:text-amber-400 mt-2" data-i18n="templateNoticeHint">Please adjust values based on your organization's industry, size, and existing security controls.</p>
+                    <p class="text-xs text-amber-600 dark:text-amber-400 mt-2" data-i18n="templateNoticeHint">Please
+                        adjust values based on your organization's industry, size, and existing security controls.</p>
                 </div>
-                <button onclick="document.getElementById('template-notice').classList.add('hidden')" class="text-amber-500 hover:text-amber-700">
+                <button onclick="document.getElementById('template-notice').classList.add('hidden')"
+                    class="text-amber-500 hover:text-amber-700">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
             </div>
         </div>
 
         <!-- Methodology Guide (Collapsible Card) -->
-        <div class="mb-8 bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div
+            class="mb-8 bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
             <button
                 class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                 onclick="toggleAccordion('methodology-guide-content', this)">
                 <div class="flex items-center gap-3">
-                    <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                     <div>
-                        <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="modalTitle">Methodology Guide</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">OpenFAIR™ + Monte Carlo Simulation</p>
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200" data-i18n="modalTitle">Methodology Guide
+                        </h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">OpenFAIR™ + Monte Carlo Simulation
+                        </p>
                     </div>
                 </div>
-                <svg class="w-5 h-5 transform transition-transform text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 transform transition-transform text-gray-400" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                 </svg>
             </button>
@@ -867,13 +891,17 @@
             <div id="methodology-guide-content" class="hidden px-4 pb-4 border-t border-gray-100 dark:border-gray-600">
                 <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-                        <h4 class="font-bold text-purple-700 dark:text-purple-300 text-sm">1. Beta-PERT Distribution</h4>
-                        <p class="mt-1 text-xs text-gray-600 dark:text-gray-300" data-i18n="modalPert">Min/Most Likely/Max inputs create a smooth probability curve (Lambda=4) to account for uncertainty.</p>
+                        <h4 class="font-bold text-purple-700 dark:text-purple-300 text-sm">1. Beta-PERT Distribution
+                        </h4>
+                        <p class="mt-1 text-xs text-gray-600 dark:text-gray-300" data-i18n="modalPert">Min/Most
+                            Likely/Max inputs create a smooth probability curve (Lambda=4) to account for uncertainty.
+                        </p>
                     </div>
 
                     <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
                         <h4 class="font-bold text-blue-700 dark:text-blue-300 text-sm">2. Event-Driven Logic</h4>
-                        <p class="mt-1 text-xs text-gray-600 dark:text-gray-300" data-i18n="modalEvent">Risk = Frequency × Magnitude. Uses Poisson Distribution for frequency modeling.</p>
+                        <p class="mt-1 text-xs text-gray-600 dark:text-gray-300" data-i18n="modalEvent">Risk = Frequency
+                            × Magnitude. Uses Poisson Distribution for frequency modeling.</p>
                     </div>
 
                     <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
@@ -937,16 +965,16 @@
                     <!-- TEF Mode Toggle -->
                     <div class="flex items-center gap-3 mb-4">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="tef-mode" value="simple" checked 
-                                class="text-purple-600 focus:ring-purple-500"
-                                onchange="toggleTEFMode('simple')">
-                            <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimpleMode">Simple Mode</span>
+                            <input type="radio" name="tef-mode" value="simple" checked
+                                class="text-purple-600 focus:ring-purple-500" onchange="toggleTEFMode('simple')">
+                            <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimpleMode">Simple
+                                Mode</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="tef-mode" value="advanced" 
-                                class="text-purple-600 focus:ring-purple-500"
-                                onchange="toggleTEFMode('advanced')">
-                            <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelAdvancedMode">Advanced Mode</span>
+                            <input type="radio" name="tef-mode" value="advanced"
+                                class="text-purple-600 focus:ring-purple-500" onchange="toggleTEFMode('advanced')">
+                            <span class="text-sm text-gray-600 dark:text-gray-300"
+                                data-i18n="labelAdvancedMode">Advanced Mode</span>
                         </label>
                     </div>
 
@@ -978,7 +1006,9 @@
                         <!-- Validation Message for TEF -->
                         <div id="tef-validation-msg" class="validation-message">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
                             </svg>
                             <span id="tef-validation-text"></span>
                         </div>
@@ -986,15 +1016,18 @@
 
                     <!-- Advanced Mode: CF × PoA Decomposition -->
                     <div id="tef-advanced-mode" class="hidden">
-                        <div class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800 mb-4">
+                        <div
+                            class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800 mb-4">
                             <p class="text-xs text-purple-700 dark:text-purple-300" data-i18n="descTefAdvanced">
-                                TEF = Contact Frequency × Probability of Action. This decomposition allows more precise modeling of threat behavior.
+                                TEF = Contact Frequency × Probability of Action. This decomposition allows more precise
+                                modeling of threat behavior.
                             </p>
                         </div>
 
                         <!-- Contact Frequency (CF) -->
                         <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1" data-i18n="labelCF">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+                                data-i18n="labelCF">
                                 Contact Frequency (CF)
                             </label>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="descCF">
@@ -1019,7 +1052,9 @@
                             <!-- Validation Message for CF -->
                             <div id="cf-validation-msg" class="validation-message">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
                                 </svg>
                                 <span id="cf-validation-text"></span>
                             </div>
@@ -1027,7 +1062,8 @@
 
                         <!-- Probability of Action (PoA) -->
                         <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1" data-i18n="labelPoA">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+                                data-i18n="labelPoA">
                                 Probability of Action (PoA) %
                             </label>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="descPoA">
@@ -1052,19 +1088,24 @@
                             <!-- Validation Message for PoA -->
                             <div id="poa-validation-msg" class="validation-message">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
                                 </svg>
                                 <span id="poa-validation-text"></span>
                             </div>
                         </div>
 
                         <!-- Calculated TEF Display -->
-                        <div class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <div
+                            class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCalculatedTEF">
+                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                    data-i18n="labelCalculatedTEF">
                                     Calculated TEF (CF × PoA)
                                 </span>
-                                <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeAutoCalc">Auto-calculated</span>
+                                <span class="badge-l3 text-xs px-2 py-1 rounded"
+                                    data-i18n="badgeAutoCalc">Auto-calculated</span>
                             </div>
                             <div class="flex gap-4 mt-2 text-sm">
                                 <div class="flex-1 text-center">
@@ -1099,16 +1140,16 @@
                     <!-- Vulnerability Mode Toggle -->
                     <div class="flex items-center gap-3 mb-4">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="vuln-mode" value="simple" checked 
-                                class="text-purple-600 focus:ring-purple-500"
-                                onchange="toggleVulnMode('simple')">
-                            <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimpleMode">Simple Mode</span>
+                            <input type="radio" name="vuln-mode" value="simple" checked
+                                class="text-purple-600 focus:ring-purple-500" onchange="toggleVulnMode('simple')">
+                            <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimpleMode">Simple
+                                Mode</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="radio" name="vuln-mode" value="advanced" 
-                                class="text-purple-600 focus:ring-purple-500"
-                                onchange="toggleVulnMode('advanced')">
-                            <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelAdvancedMode">Advanced Mode</span>
+                            <input type="radio" name="vuln-mode" value="advanced"
+                                class="text-purple-600 focus:ring-purple-500" onchange="toggleVulnMode('advanced')">
+                            <span class="text-sm text-gray-600 dark:text-gray-300"
+                                data-i18n="labelAdvancedMode">Advanced Mode</span>
                         </label>
                     </div>
 
@@ -1140,7 +1181,9 @@
                         <!-- Validation Message for Vulnerability -->
                         <div id="vuln-validation-msg" class="validation-message">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
                             </svg>
                             <span id="vuln-validation-text"></span>
                         </div>
@@ -1148,15 +1191,18 @@
 
                     <!-- Advanced Mode: TC vs RS Decomposition -->
                     <div id="vuln-advanced-mode" class="hidden">
-                        <div class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800 mb-4">
+                        <div
+                            class="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800 mb-4">
                             <p class="text-xs text-purple-700 dark:text-purple-300" data-i18n="descVulnAdvanced">
-                                Vulnerability = Susceptibility × (1 - Control Effectiveness). Susceptibility is derived from Threat Capability vs Resistance Strength comparison.
+                                Vulnerability = Susceptibility × (1 - Control Effectiveness). Susceptibility is derived
+                                from Threat Capability vs Resistance Strength comparison.
                             </p>
                         </div>
 
                         <!-- Threat Capability (TC) -->
                         <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1" data-i18n="labelTC">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+                                data-i18n="labelTC">
                                 Threat Capability (TC)
                             </label>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="descTC">
@@ -1181,7 +1227,9 @@
                             <!-- Validation Message for TC -->
                             <div id="tc-validation-msg" class="validation-message">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
                                 </svg>
                                 <span id="tc-validation-text"></span>
                             </div>
@@ -1189,7 +1237,8 @@
 
                         <!-- Resistance Strength (RS) -->
                         <div class="mb-4">
-                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1" data-i18n="labelRS">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-1"
+                                data-i18n="labelRS">
                                 Resistance Strength (RS)
                             </label>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="descRS">
@@ -1214,19 +1263,24 @@
                             <!-- Validation Message for RS -->
                             <div id="rs-validation-msg" class="validation-message">
                                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
                                 </svg>
                                 <span id="rs-validation-text"></span>
                             </div>
                         </div>
 
                         <!-- Calculated Vulnerability Display -->
-                        <div class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                        <div
+                            class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                             <div class="flex items-center justify-between">
-                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCalculatedVuln">
+                                <span class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                    data-i18n="labelCalculatedVuln">
                                     Calculated Vulnerability
                                 </span>
-                                <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeAutoCalc">Auto-calculated</span>
+                                <span class="badge-l3 text-xs px-2 py-1 rounded"
+                                    data-i18n="badgeAutoCalc">Auto-calculated</span>
                             </div>
                             <div class="flex gap-4 mt-2 text-sm">
                                 <div class="flex-1 text-center">
@@ -1234,7 +1288,8 @@
                                     <p id="calc-vuln-min" class="font-bold text-purple-600 dark:text-purple-400">25</p>
                                 </div>
                                 <div class="flex-1 text-center">
-                                    <span class="text-xs text-gray-500 uppercase" data-i18n="labelLikely">Likely %</span>
+                                    <span class="text-xs text-gray-500 uppercase" data-i18n="labelLikely">Likely
+                                        %</span>
                                     <p id="calc-vuln-like" class="font-bold text-purple-600 dark:text-purple-400">60</p>
                                 </div>
                                 <div class="flex-1 text-center">
@@ -1242,8 +1297,10 @@
                                     <p id="calc-vuln-max" class="font-bold text-purple-600 dark:text-purple-400">85</p>
                                 </div>
                             </div>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center" data-i18n="descVulnCalcNote">
-                                Note: Control Effectiveness from Mitigating Controls section will be applied during simulation.
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center"
+                                data-i18n="descVulnCalcNote">
+                                Note: Control Effectiveness from Mitigating Controls section will be applied during
+                                simulation.
                             </p>
                         </div>
                     </div>
@@ -1306,7 +1363,9 @@
                     <!-- Validation Message for Primary Loss -->
                     <div id="prim-validation-msg" class="validation-message">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
                         </svg>
                         <span id="prim-validation-text"></span>
                     </div>
@@ -1339,16 +1398,18 @@
                         <!-- Secondary Loss Mode Toggle -->
                         <div class="flex items-center gap-3 mt-4 mb-4">
                             <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" name="sec-loss-mode" value="simple" checked 
+                                <input type="radio" name="sec-loss-mode" value="simple" checked
                                     class="text-purple-600 focus:ring-purple-500"
                                     onchange="toggleSecLossMode('simple')">
-                                <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimpleMode">Simple Mode</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-300"
+                                    data-i18n="labelSimpleMode">Simple Mode</span>
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer">
-                                <input type="radio" name="sec-loss-mode" value="categories" 
+                                <input type="radio" name="sec-loss-mode" value="categories"
                                     class="text-purple-600 focus:ring-purple-500"
                                     onchange="toggleSecLossMode('categories')">
-                                <span class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelCategoryMode">Category Breakdown</span>
+                                <span class="text-sm text-gray-600 dark:text-gray-300"
+                                    data-i18n="labelCategoryMode">Category Breakdown</span>
                             </label>
                         </div>
 
@@ -1356,16 +1417,20 @@
                         <div id="sec-loss-simple-mode">
                             <!-- SLEF (Secondary Loss Event Frequency) -->
                             <div class="mb-4">
-                                <label class="block text-sm font-semibold mb-1" data-i18n="labelSLEF">Secondary Loss Event Frequency (SLEF) %</label>
-                                <p class="text-xs text-gray-500 mb-2" data-i18n="descSLEF">Probability that secondary loss occurs GIVEN a primary loss event (0-100%).</p>
+                                <label class="block text-sm font-semibold mb-1" data-i18n="labelSLEF">Secondary Loss
+                                    Event Frequency (SLEF) %</label>
+                                <p class="text-xs text-gray-500 mb-2" data-i18n="descSLEF">Probability that secondary
+                                    loss occurs GIVEN a primary loss event (0-100%).</p>
                                 <input type="number" id="sec-prob" value="20" min="0" max="100"
                                     class="enhanced-input w-full md:w-1/3 px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700">
                             </div>
 
                             <!-- SLM (Secondary Loss Magnitude) -->
                             <div>
-                                <label class="block text-sm font-semibold mb-1" data-i18n="labelSLM">Secondary Loss Magnitude (SLM)</label>
-                                <p class="text-xs text-gray-500 mb-2" data-i18n="descSLM">Total secondary loss amount when it occurs.</p>
+                                <label class="block text-sm font-semibold mb-1" data-i18n="labelSLM">Secondary Loss
+                                    Magnitude (SLM)</label>
+                                <p class="text-xs text-gray-500 mb-2" data-i18n="descSLM">Total secondary loss amount
+                                    when it occurs.</p>
                                 <div class="flex gap-2 mb-2 text-xs font-semibold text-gray-500 uppercase">
                                     <span class="flex-1"><span data-i18n="labelMin">Min</span> (<span
                                             class="currency-symbol">USD</span>)</span>
@@ -1388,7 +1453,9 @@
                                 <!-- Validation Message for Secondary Loss -->
                                 <div id="sec-validation-msg" class="validation-message">
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                        </path>
                                     </svg>
                                     <span id="sec-validation-text"></span>
                                 </div>
@@ -1397,46 +1464,59 @@
 
                         <!-- Category Breakdown Mode -->
                         <div id="sec-loss-category-mode" class="hidden">
-                            <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800 mb-4">
+                            <div
+                                class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-100 dark:border-purple-800 mb-4">
                                 <p class="text-xs text-purple-700 dark:text-purple-300" data-i18n="descSecCategoryMode">
-                                    Break down secondary losses by category. Each category has its own probability and magnitude. Total secondary loss = sum of (probability × magnitude) for each enabled category.
+                                    Break down secondary losses by category. Each category has its own probability and
+                                    magnitude. Total secondary loss = sum of (probability × magnitude) for each enabled
+                                    category.
                                 </p>
                             </div>
 
                             <!-- Reputation Loss Category -->
-                            <div class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div
+                                class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                                 <div class="flex items-center gap-3 mb-3">
                                     <input type="checkbox" id="cat-reputation-enabled" checked
                                         class="w-4 h-4 text-purple-600 focus:ring-purple-500 rounded"
                                         onchange="updateSecLossCategoryTotal()">
-                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCatReputation">
+                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                        data-i18n="labelCatReputation">
                                         Reputation Loss
                                     </label>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="descCatReputation">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"
+                                        data-i18n="descCatReputation">
                                         (Brand damage, customer churn)
                                     </span>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1" data-i18n="labelCatProb">Probability %</label>
+                                        <label class="block text-xs text-gray-500 mb-1"
+                                            data-i18n="labelCatProb">Probability %</label>
                                         <input type="number" id="cat-reputation-prob" value="30" min="0" max="100"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMin">Min</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMin">Min</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-reputation-min" value="50000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelLikely">Likely</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelLikely">Likely</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-reputation-like" value="200000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm border-l-4 border-l-purple-400"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMax">Max</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMax">Max</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-reputation-max" value="500000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
@@ -1445,12 +1525,14 @@
                             </div>
 
                             <!-- Legal Loss Category -->
-                            <div class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div
+                                class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                                 <div class="flex items-center gap-3 mb-3">
                                     <input type="checkbox" id="cat-legal-enabled" checked
                                         class="w-4 h-4 text-purple-600 focus:ring-purple-500 rounded"
                                         onchange="updateSecLossCategoryTotal()">
-                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCatLegal">
+                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                        data-i18n="labelCatLegal">
                                         Legal Loss
                                     </label>
                                     <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="descCatLegal">
@@ -1459,25 +1541,32 @@
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1" data-i18n="labelCatProb">Probability %</label>
+                                        <label class="block text-xs text-gray-500 mb-1"
+                                            data-i18n="labelCatProb">Probability %</label>
                                         <input type="number" id="cat-legal-prob" value="20" min="0" max="100"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMin">Min</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMin">Min</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-legal-min" value="100000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelLikely">Likely</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelLikely">Likely</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-legal-like" value="300000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm border-l-4 border-l-purple-400"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMax">Max</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMax">Max</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-legal-max" value="1000000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
@@ -1486,39 +1575,49 @@
                             </div>
 
                             <!-- Regulatory Loss Category -->
-                            <div class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div
+                                class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                                 <div class="flex items-center gap-3 mb-3">
                                     <input type="checkbox" id="cat-regulatory-enabled" checked
                                         class="w-4 h-4 text-purple-600 focus:ring-purple-500 rounded"
                                         onchange="updateSecLossCategoryTotal()">
-                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCatRegulatory">
+                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                        data-i18n="labelCatRegulatory">
                                         Regulatory Loss
                                     </label>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="descCatRegulatory">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"
+                                        data-i18n="descCatRegulatory">
                                         (Fines, penalties, compliance costs)
                                     </span>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1" data-i18n="labelCatProb">Probability %</label>
+                                        <label class="block text-xs text-gray-500 mb-1"
+                                            data-i18n="labelCatProb">Probability %</label>
                                         <input type="number" id="cat-regulatory-prob" value="40" min="0" max="100"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMin">Min</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMin">Min</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-regulatory-min" value="50000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelLikely">Likely</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelLikely">Likely</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-regulatory-like" value="250000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm border-l-4 border-l-purple-400"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMax">Max</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMax">Max</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-regulatory-max" value="750000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
@@ -1527,39 +1626,49 @@
                             </div>
 
                             <!-- Competitive Advantage Loss Category -->
-                            <div class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div
+                                class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                                 <div class="flex items-center gap-3 mb-3">
                                     <input type="checkbox" id="cat-competitive-enabled"
                                         class="w-4 h-4 text-purple-600 focus:ring-purple-500 rounded"
                                         onchange="updateSecLossCategoryTotal()">
-                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCatCompetitive">
+                                    <label class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                        data-i18n="labelCatCompetitive">
                                         Competitive Advantage Loss
                                     </label>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400" data-i18n="descCatCompetitive">
+                                    <span class="text-xs text-gray-500 dark:text-gray-400"
+                                        data-i18n="descCatCompetitive">
                                         (IP theft, market share loss)
                                     </span>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1" data-i18n="labelCatProb">Probability %</label>
+                                        <label class="block text-xs text-gray-500 mb-1"
+                                            data-i18n="labelCatProb">Probability %</label>
                                         <input type="number" id="cat-competitive-prob" value="15" min="0" max="100"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMin">Min</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMin">Min</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-competitive-min" value="100000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelLikely">Likely</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelLikely">Likely</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-competitive-like" value="500000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm border-l-4 border-l-purple-400"
                                             onchange="updateSecLossCategoryTotal()">
                                     </div>
                                     <div>
-                                        <label class="block text-xs text-gray-500 mb-1"><span data-i18n="labelMax">Max</span> (<span class="currency-symbol">USD</span>)</label>
+                                        <label class="block text-xs text-gray-500 mb-1"><span
+                                                data-i18n="labelMax">Max</span> (<span
+                                                class="currency-symbol">USD</span>)</label>
                                         <input type="number" id="cat-competitive-max" value="2000000" min="0"
                                             class="enhanced-input w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-sm"
                                             onchange="updateSecLossCategoryTotal()">
@@ -1568,12 +1677,15 @@
                             </div>
 
                             <!-- Category Total Display -->
-                            <div class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+                            <div
+                                class="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
                                 <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="labelCategoryTotal">
+                                    <span class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                                        data-i18n="labelCategoryTotal">
                                         Aggregated Secondary Loss
                                     </span>
-                                    <span class="badge-l3 text-xs px-2 py-1 rounded" data-i18n="badgeAutoCalc">Auto-calculated</span>
+                                    <span class="badge-l3 text-xs px-2 py-1 rounded"
+                                        data-i18n="badgeAutoCalc">Auto-calculated</span>
                                 </div>
                                 <p class="text-xs text-gray-500 mb-2" data-i18n="descCategoryTotal">
                                     Sum of (probability × magnitude) for each enabled category.
@@ -1581,15 +1693,19 @@
                                 <div class="flex gap-4 text-sm">
                                     <div class="flex-1 text-center">
                                         <span class="text-xs text-gray-500 uppercase" data-i18n="labelMin">Min</span>
-                                        <p id="cat-total-min" class="font-bold text-purple-600 dark:text-purple-400">$0</p>
+                                        <p id="cat-total-min" class="font-bold text-purple-600 dark:text-purple-400">$0
+                                        </p>
                                     </div>
                                     <div class="flex-1 text-center">
-                                        <span class="text-xs text-gray-500 uppercase" data-i18n="labelLikely">Likely</span>
-                                        <p id="cat-total-like" class="font-bold text-purple-600 dark:text-purple-400">$0</p>
+                                        <span class="text-xs text-gray-500 uppercase"
+                                            data-i18n="labelLikely">Likely</span>
+                                        <p id="cat-total-like" class="font-bold text-purple-600 dark:text-purple-400">$0
+                                        </p>
                                     </div>
                                     <div class="flex-1 text-center">
                                         <span class="text-xs text-gray-500 uppercase" data-i18n="labelMax">Max</span>
-                                        <p id="cat-total-max" class="font-bold text-purple-600 dark:text-purple-400">$0</p>
+                                        <p id="cat-total-max" class="font-bold text-purple-600 dark:text-purple-400">$0
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -1665,7 +1781,8 @@
             <!-- Custom Simulation Runs Input -->
             <div class="mb-4 flex flex-col items-center gap-3">
                 <div class="flex items-center gap-2">
-                    <label class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimRuns">Simulation Runs:</label>
+                    <label class="text-sm text-gray-600 dark:text-gray-300" data-i18n="labelSimRuns">Simulation
+                        Runs:</label>
                     <input type="number" id="sim-runs-input" value="10000" min="100" max="100000" step="100"
                         class="enhanced-input w-32 px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-center"
                         onchange="validateSimulationRuns()">
@@ -1696,7 +1813,9 @@
                 <!-- Validation Message -->
                 <div id="sim-runs-validation-msg" class="validation-message">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                        </path>
                     </svg>
                     <span id="sim-runs-validation-text"></span>
                 </div>
@@ -1760,49 +1879,63 @@
 
             <!-- Convergence Metrics Section -->
             <div id="convergence-section" class="hidden mb-4">
-                <button 
+                <button
                     class="w-full p-3 text-left flex items-center justify-between bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-700/50 rounded-xl border border-slate-200 dark:border-slate-700 transition-colors"
                     onclick="toggleAccordion('convergence-content', this)">
                     <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        <svg class="w-4 h-4 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                            </path>
                         </svg>
-                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-200" data-i18n="convergenceTitle">Convergence Metrics</span>
-                        <span id="convergence-status-badge" class="hidden px-2 py-0.5 text-xs font-medium rounded-full"></span>
+                        <span class="text-sm font-semibold text-slate-700 dark:text-slate-200"
+                            data-i18n="convergenceTitle">Convergence Metrics</span>
+                        <span id="convergence-status-badge"
+                            class="hidden px-2 py-0.5 text-xs font-medium rounded-full"></span>
                     </div>
-                    <svg class="w-4 h-4 transform transition-transform text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 transform transition-transform text-slate-400" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
-                <div id="convergence-content" class="hidden mt-2 p-4 bg-white dark:bg-darkcard rounded-xl border border-slate-200 dark:border-slate-700">
+                <div id="convergence-content"
+                    class="hidden mt-2 p-4 bg-white dark:bg-darkcard rounded-xl border border-slate-200 dark:border-slate-700">
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
                         <!-- AAL Standard Error -->
                         <div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1" data-i18n="convergenceAALSE">AAL Std Error</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1"
+                                data-i18n="convergenceAALSE">AAL Std Error</p>
                             <p class="text-sm font-bold text-slate-700 dark:text-slate-200" id="res-aal-se">-</p>
                             <p class="text-[10px] text-slate-400 dark:text-slate-500" id="res-aal-se-pct">-</p>
                         </div>
                         <!-- VaR 90% Standard Error -->
                         <div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1" data-i18n="convergenceVaRSE">VaR 90% Std Error</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1"
+                                data-i18n="convergenceVaRSE">VaR 90% Std Error</p>
                             <p class="text-sm font-bold text-slate-700 dark:text-slate-200" id="res-var-se">-</p>
                             <p class="text-[10px] text-slate-400 dark:text-slate-500" id="res-var-se-pct">-</p>
                         </div>
                         <!-- Convergence Status -->
                         <div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1" data-i18n="convergenceStatus">Status</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1"
+                                data-i18n="convergenceStatus">Status</p>
                             <p class="text-sm font-bold" id="res-convergence-status">-</p>
                         </div>
                         <!-- Recommended Runs -->
                         <div class="bg-slate-50 dark:bg-slate-800/50 p-3 rounded-lg text-center">
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1">Runs</p>
-                            <p class="text-sm font-bold text-slate-700 dark:text-slate-200" id="res-recommended-runs">-</p>
+                            <p
+                                class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold mb-1">
+                                Runs</p>
+                            <p class="text-sm font-bold text-slate-700 dark:text-slate-200" id="res-recommended-runs">-
+                            </p>
                             <p class="text-[10px] text-slate-400 dark:text-slate-500" id="res-runs-note">-</p>
                         </div>
                     </div>
                     <!-- Tooltip/Help Text -->
                     <p class="mt-3 text-xs text-slate-500 dark:text-slate-400 italic" data-i18n="convergenceTooltip">
-                        Standard error indicates estimation precision. Lower is better. Results converge when relative error &lt; 5%.
+                        Standard error indicates estimation precision. Lower is better. Results converge when relative
+                        error &lt; 5%.
                     </p>
                 </div>
             </div>
@@ -1844,7 +1977,8 @@
             <!-- Chart -->
             <div class="mt-8">
                 <div class="flex items-center justify-between mb-2">
-                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="chartTitle">Loss Exceedance Curve</h3>
+                    <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="chartTitle">Loss
+                        Exceedance Curve</h3>
                     <div id="chart-legend" class="hidden text-xs space-x-4">
                         <span class="inline-flex items-center gap-1">
                             <span class="w-3 h-0.5 bg-red-500 rounded"></span>
@@ -1856,18 +1990,26 @@
                         </span>
                     </div>
                 </div>
-                <div class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative">
+                <div
+                    class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 h-80 relative">
                     <canvas id="lossChart"></canvas>
                 </div>
                 <!-- Chart Interpretation (shown when control is configured) -->
-                <div id="chart-interpretation" class="hidden mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
-                    <p class="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2" data-i18n="chartInterpretTitle">📊 How to Read This Chart</p>
+                <div id="chart-interpretation"
+                    class="hidden mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
+                    <p class="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2"
+                        data-i18n="chartInterpretTitle">📊 How to Read This Chart</p>
                     <ul class="text-xs text-blue-700 dark:text-blue-300 space-y-1">
-                        <li data-i18n="chartInterpret1">• Red line = Risk distribution WITHOUT the control investment</li>
-                        <li data-i18n="chartInterpret2">• Green line = Risk distribution WITH the control investment</li>
-                        <li data-i18n="chartInterpret3">• The gap between lines = Potential loss avoided by investing</li>
+                        <li data-i18n="chartInterpret1">• Red line = Risk distribution WITHOUT the control investment
+                        </li>
+                        <li data-i18n="chartInterpret2">• Green line = Risk distribution WITH the control investment
+                        </li>
+                        <li data-i18n="chartInterpret3">• The gap between lines = Potential loss avoided by investing
+                        </li>
                     </ul>
-                    <p id="chart-summary" class="text-xs font-medium text-blue-900 dark:text-blue-100 mt-3 pt-3 border-t border-blue-200 dark:border-blue-700"></p>
+                    <p id="chart-summary"
+                        class="text-xs font-medium text-blue-900 dark:text-blue-100 mt-3 pt-3 border-t border-blue-200 dark:border-blue-700">
+                    </p>
                 </div>
             </div>
 
@@ -1875,13 +2017,17 @@
             <div class="mt-8">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                     <div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="sensitivityTitle">Sensitivity Analysis</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="sensitivityDesc">Identify which parameters have the greatest impact on risk</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="sensitivityTitle">
+                            Sensitivity Analysis</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="sensitivityDesc">Identify
+                            which parameters have the greatest impact on risk</p>
                     </div>
                     <button id="btn-sensitivity"
                         class="flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold rounded-lg shadow-md transform transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                            </path>
                         </svg>
                         <span data-i18n="btnSensitivity">Run Sensitivity Analysis</span>
                     </button>
@@ -1891,9 +2037,11 @@
                 <!-- Sensitivity Results (Initially Hidden) -->
                 <div id="sensitivity-results" class="hidden space-y-6">
                     <!-- Tornado Chart -->
-                    <div class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+                    <div
+                        class="bg-white dark:bg-darkcard p-4 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
                         <div class="flex items-center justify-between mb-3">
-                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300" data-i18n="tornadoChartTitle">Tornado Chart - Parameter Impact on AAL</h4>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300"
+                                data-i18n="tornadoChartTitle">Tornado Chart - Parameter Impact on AAL</h4>
                             <div class="flex items-center gap-3 text-xs">
                                 <span class="inline-flex items-center gap-1">
                                     <span class="w-3 h-3 bg-red-500 rounded"></span>
@@ -1911,13 +2059,18 @@
                     </div>
 
                     <!-- Key Insights -->
-                    <div class="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-xl border border-amber-100 dark:border-amber-800">
+                    <div
+                        class="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-xl border border-amber-100 dark:border-amber-800">
                         <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                </path>
                             </svg>
                             <div class="flex-grow">
-                                <p class="text-sm font-semibold text-amber-800 dark:text-amber-200 mb-2" data-i18n="keyInsightsTitle">🎯 Key Risk Drivers</p>
+                                <p class="text-sm font-semibold text-amber-800 dark:text-amber-200 mb-2"
+                                    data-i18n="keyInsightsTitle">🎯 Key Risk Drivers</p>
                                 <div id="top-parameters" class="space-y-2">
                                     <!-- Dynamically populated -->
                                 </div>
@@ -1926,13 +2079,18 @@
                     </div>
 
                     <!-- Recommendations -->
-                    <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800">
+                    <div
+                        class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800">
                         <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                            <svg class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z">
+                                </path>
                             </svg>
                             <div class="flex-grow">
-                                <p class="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2" data-i18n="recommendationsTitle">💡 Recommendations</p>
+                                <p class="text-sm font-semibold text-blue-800 dark:text-blue-200 mb-2"
+                                    data-i18n="recommendationsTitle">💡 Recommendations</p>
                                 <p id="sensitivity-recommendations" class="text-xs text-blue-700 dark:text-blue-300">
                                     <!-- Dynamically populated -->
                                 </p>
@@ -1946,21 +2104,27 @@
             <div class="mt-8">
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
                     <div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="comparisonTitle">Scenario Comparison</h3>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="comparisonDesc">Compare saved scenarios to prioritize risk treatment decisions</p>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white" data-i18n="comparisonTitle">Scenario
+                            Comparison</h3>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="comparisonDesc">Compare
+                            saved scenarios to prioritize risk treatment decisions</p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <button id="btn-save-scenario"
                             class="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md transform transition hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4">
+                                </path>
                             </svg>
                             <span data-i18n="btnSaveScenario">Save Current</span>
                         </button>
                         <button id="btn-refresh-comparison"
                             class="flex items-center gap-2 px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                                </path>
                             </svg>
                             <span data-i18n="btnRefresh">Refresh</span>
                         </button>
@@ -1969,7 +2133,9 @@
                             class="flex items-center gap-2 px-3 py-2 bg-blue-100 dark:bg-blue-900/30 hover:bg-blue-200 dark:hover:bg-blue-800/50 text-blue-700 dark:text-blue-300 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             title="Export comparison to CSV">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                </path>
                             </svg>
                             <span data-i18n="btnExportComparisonCSV">CSV</span>
                         </button>
@@ -1977,7 +2143,9 @@
                             class="flex items-center gap-2 px-3 py-2 bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800/50 text-red-700 dark:text-red-300 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             title="Export comparison to PDF">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                </path>
                             </svg>
                             <span data-i18n="btnExportComparisonPDF">PDF</span>
                         </button>
@@ -2015,18 +2183,26 @@
                 </div>
 
                 <!-- Comparison Table -->
-                <div class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <p class="scroll-indicator text-center text-xs text-gray-400 dark:text-gray-500 py-1">← Scroll horizontally →</p>
+                <div
+                    class="bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                    <p class="scroll-indicator text-center text-xs text-gray-400 dark:text-gray-500 py-1">← Scroll
+                        horizontally →</p>
                     <div class="overflow-x-auto comparison-table-wrapper">
                         <table class="w-full text-sm" id="comparison-table">
                             <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                                 <tr>
-                                    <th class="px-4 py-3 text-left font-semibold text-gray-600 dark:text-gray-300" data-i18n="colScenario">Scenario</th>
-                                    <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300" data-i18n="colAAL">AAL</th>
-                                    <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300" data-i18n="colVaR90">VaR 90%</th>
-                                    <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300" data-i18n="colROSI">ROSI</th>
-                                    <th class="px-4 py-3 text-center font-semibold text-gray-600 dark:text-gray-300" data-i18n="colPriority">Priority</th>
-                                    <th class="px-4 py-3 text-center font-semibold text-gray-600 dark:text-gray-300" data-i18n="colActions">Actions</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-gray-600 dark:text-gray-300"
+                                        data-i18n="colScenario">Scenario</th>
+                                    <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300"
+                                        data-i18n="colAAL">AAL</th>
+                                    <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300"
+                                        data-i18n="colVaR90">VaR 90%</th>
+                                    <th class="px-4 py-3 text-right font-semibold text-gray-600 dark:text-gray-300"
+                                        data-i18n="colROSI">ROSI</th>
+                                    <th class="px-4 py-3 text-center font-semibold text-gray-600 dark:text-gray-300"
+                                        data-i18n="colPriority">Priority</th>
+                                    <th class="px-4 py-3 text-center font-semibold text-gray-600 dark:text-gray-300"
+                                        data-i18n="colActions">Actions</th>
                                 </tr>
                             </thead>
                             <tbody id="comparison-table-body">
@@ -2034,45 +2210,58 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                     <!-- Empty State -->
                     <div id="comparison-empty-state" class="hidden p-8 text-center">
-                        <svg class="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        <svg class="w-12 h-12 mx-auto text-gray-300 dark:text-gray-600 mb-4" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
                         </svg>
-                        <p class="text-gray-500 dark:text-gray-400 font-medium" data-i18n="comparisonEmpty">No saved scenarios yet</p>
-                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="comparisonEmptyHint">Run a simulation and click "Save Current" to add scenarios</p>
+                        <p class="text-gray-500 dark:text-gray-400 font-medium" data-i18n="comparisonEmpty">No saved
+                            scenarios yet</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="comparisonEmptyHint">Run a
+                            simulation and click "Save Current" to add scenarios</p>
                     </div>
                 </div>
 
                 <!-- Comparison Summary -->
-                <div id="comparison-summary" class="hidden mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
+                <div id="comparison-summary"
+                    class="hidden mt-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-700">
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                         <div>
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold" data-i18n="summaryTotal">Total Scenarios</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold"
+                                data-i18n="summaryTotal">Total Scenarios</p>
                             <p class="text-lg font-bold text-slate-700 dark:text-slate-200" id="summary-total">0</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold" data-i18n="summaryTotalAAL">Total AAL</p>
-                            <p class="text-lg font-bold text-purple-600 dark:text-purple-400" id="summary-total-aal">$0</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold"
+                                data-i18n="summaryTotalAAL">Total AAL</p>
+                            <p class="text-lg font-bold text-purple-600 dark:text-purple-400" id="summary-total-aal">$0
+                            </p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold" data-i18n="summaryAvgAAL">Avg AAL</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold"
+                                data-i18n="summaryAvgAAL">Avg AAL</p>
                             <p class="text-lg font-bold text-slate-700 dark:text-slate-200" id="summary-avg-aal">$0</p>
                         </div>
                         <div>
-                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold" data-i18n="summaryCritical">Critical/High</p>
+                            <p class="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold"
+                                data-i18n="summaryCritical">Critical/High</p>
                             <p class="text-lg font-bold text-red-600 dark:text-red-400" id="summary-critical-high">0</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Comparison Chart -->
-                <div id="comparison-chart-container" class="hidden mt-4 p-4 bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div id="comparison-chart-container"
+                    class="hidden mt-4 p-4 bg-white dark:bg-darkcard rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
                     <div class="flex items-center justify-between mb-4">
-                        <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-200" data-i18n="comparisonChartTitle">Risk Distribution Comparison</h4>
+                        <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-200"
+                            data-i18n="comparisonChartTitle">Risk Distribution Comparison</h4>
                         <div class="flex items-center gap-2">
-                            <select id="comparison-chart-metric" 
+                            <select id="comparison-chart-metric"
                                 class="px-2 py-1 text-xs rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200">
                                 <option value="aal" data-i18n="chartMetricAAL">AAL</option>
                                 <option value="var90" data-i18n="chartMetricVaR90">VaR 90%</option>
@@ -2096,12 +2285,17 @@
                 </div>
 
                 <!-- Scenario Limit Warning -->
-                <div id="scenario-limit-warning" class="hidden mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700">
+                <div id="scenario-limit-warning"
+                    class="hidden mt-4 p-3 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700">
                     <div class="flex items-center gap-2">
-                        <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                        <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 flex-shrink-0" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                            </path>
                         </svg>
-                        <p class="text-xs text-amber-700 dark:text-amber-300" data-i18n="scenarioLimitWarning">Maximum 10 scenarios. Saving a new scenario will replace the oldest one.</p>
+                        <p class="text-xs text-amber-700 dark:text-amber-300" data-i18n="scenarioLimitWarning">Maximum
+                            10 scenarios. Saving a new scenario will replace the oldest one.</p>
                     </div>
                 </div>
             </div>
@@ -2127,7 +2321,8 @@
     <!-- Toast Notification for Auto-Correction -->
     <div id="validation-toast" class="toast-notification toast-warning">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
         <div class="flex-grow">
             <p class="font-semibold text-sm" id="toast-title"></p>
@@ -2215,29 +2410,37 @@
             </p>
             <!-- Expandable full notice -->
             <div class="text-center">
-                <button 
+                <button
                     class="inline-flex items-center gap-1 text-xs text-purple-600 dark:text-purple-400 hover:underline focus:outline-none"
                     onclick="toggleAccordion('footer-full-notice', this)">
                     <span data-i18n="footerShowMore">Show full copyright notice</span>
-                    <svg class="w-3 h-3 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-3 h-3 transform transition-transform" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
             </div>
-            <div id="footer-full-notice" class="hidden mt-3 p-4 bg-white dark:bg-darkcard rounded-lg border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-300 space-y-2">
+            <div id="footer-full-notice"
+                class="hidden mt-3 p-4 bg-white dark:bg-darkcard rounded-lg border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-300 space-y-2">
                 <p data-i18n="footerMethodology">
-                    This tool implements the Factor Analysis of Information Risk (FAIR™) methodology for educational and risk assessment purposes.
+                    This tool implements the Factor Analysis of Information Risk (FAIR™) methodology for educational and
+                    risk assessment purposes.
                 </p>
                 <p data-i18n="footerTrademark">
-                    OpenFAIR™, O-RA (Open Risk Analysis), and O-RT (Open Risk Taxonomy) are trademarks of The Open Group. This tool is not affiliated with, endorsed by, or certified by The Open Group.
+                    OpenFAIR™, O-RA (Open Risk Analysis), and O-RT (Open Risk Taxonomy) are trademarks of The Open
+                    Group. This tool is not affiliated with, endorsed by, or certified by The Open Group.
                 </p>
                 <p>
                     <span data-i18n="footerStandards">For official FAIR standards and certification, visit</span>
-                    <a href="https://www.opengroup.org/certifications/openfair" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline">The Open Group OpenFAIR Certification</a>.
+                    <a href="https://www.opengroup.org/certifications/openfair" target="_blank"
+                        rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline">The Open
+                        Group OpenFAIR Certification</a>.
                 </p>
                 <p>
-                    <span data-i18n="footerLicense">This software is released under the MIT License. Source code available on</span>
-                    <a href="https://github.com/kuro-network/ale-calculator" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline">GitHub</a>.
+                    <span data-i18n="footerLicense">This software is released under the MIT License. Source code
+                        available on</span>
+                    <a href="https://github.com/kuro-network/ale-calculator" target="_blank" rel="noopener noreferrer"
+                        class="text-purple-600 dark:text-purple-400 hover:underline">GitHub</a>.
                 </p>
                 <p data-i18n="footerThirdParty">
                     Third-party libraries: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).
@@ -3502,7 +3705,7 @@
         }
 
         // --- Validation UI Functions ---
-        
+
         // Toast notification timeout handle
         let toastTimeout = null;
 
@@ -3517,23 +3720,23 @@
             const toast = document.getElementById('validation-toast');
             const titleEl = document.getElementById('toast-title');
             const messageEl = document.getElementById('toast-message');
-            
+
             // Set content
             titleEl.textContent = title;
             messageEl.textContent = message;
-            
+
             // Set type
             toast.classList.remove('toast-warning', 'toast-info');
             toast.classList.add(`toast-${type}`);
-            
+
             // Show toast
             toast.classList.add('visible');
-            
+
             // Clear existing timeout
             if (toastTimeout) {
                 clearTimeout(toastTimeout);
             }
-            
+
             // Auto-hide after duration
             toastTimeout = setTimeout(() => {
                 hideToast();
@@ -3561,9 +3764,9 @@
         function showValidationMessage(prefix, message, type = 'warning') {
             const msgEl = document.getElementById(`${prefix}-validation-msg`);
             const textEl = document.getElementById(`${prefix}-validation-text`);
-            
+
             if (!msgEl || !textEl) return;
-            
+
             textEl.textContent = message;
             msgEl.classList.remove('error', 'warning', 'info');
             msgEl.classList.add(type, 'visible');
@@ -3576,7 +3779,7 @@
         function hideValidationMessage(prefix) {
             const msgEl = document.getElementById(`${prefix}-validation-msg`);
             if (!msgEl) return;
-            
+
             msgEl.classList.remove('visible', 'error', 'warning', 'info');
         }
 
@@ -3589,7 +3792,7 @@
             const minEl = document.getElementById(`${prefix}-min`);
             const likeEl = document.getElementById(`${prefix}-like`);
             const maxEl = document.getElementById(`${prefix}-max`);
-            
+
             [minEl, likeEl, maxEl].forEach(el => {
                 if (!el) return;
                 el.classList.remove('input-error', 'input-warning');
@@ -3608,26 +3811,26 @@
             const minEl = document.getElementById(`${prefix}-min`);
             const likeEl = document.getElementById(`${prefix}-like`);
             const maxEl = document.getElementById(`${prefix}-max`);
-            
+
             if (!minEl || !likeEl || !maxEl) return false;
-            
+
             const minVal = parseFloat(minEl.value) || 0;
             const likeVal = parseFloat(likeEl.value) || 0;
             const maxVal = parseFloat(maxEl.value) || 0;
-            
+
             // Check if values need correction
             if (minVal <= likeVal && likeVal <= maxVal) {
                 return false; // No correction needed
             }
-            
+
             // Sort values
             const values = [minVal, likeVal, maxVal].sort((a, b) => a - b);
-            
+
             // Apply corrected values
             minEl.value = values[0];
             likeEl.value = values[1];
             maxEl.value = values[2];
-            
+
             return true;
         }
 
@@ -3663,7 +3866,7 @@
                     requiredField: 'この項目は必須です'
                 }
             };
-            
+
             const lang = I18n.lang || 'en';
             const langMessages = messages[lang] || messages['en'];
             return langMessages[key] || messages['en'][key] || key;
@@ -3680,32 +3883,32 @@
             const minEl = document.getElementById(`${prefix}-min`);
             const likeEl = document.getElementById(`${prefix}-like`);
             const maxEl = document.getElementById(`${prefix}-max`);
-            
+
             if (!minEl || !likeEl || !maxEl) return;
-            
+
             const minVal = parseFloat(minEl.value);
             const likeVal = parseFloat(likeEl.value);
             const maxVal = parseFloat(maxEl.value);
-            
+
             // Clear previous validation state
             hideValidationMessage(prefix);
             markInputFields(prefix, null);
-            
+
             // Check for NaN (empty or invalid input)
             if (isNaN(minVal) || isNaN(likeVal) || isNaN(maxVal)) {
                 showValidationMessage(prefix, getValidationMessage('requiredField'), 'error');
                 markInputFields(prefix, 'error');
                 return;
             }
-            
+
             // Determine effective range
             const effectiveMin = isPercentage ? 0 : minAllowed;
             const effectiveMax = isPercentage ? 100 : maxAllowed;
-            
+
             // Check range violations
             const values = [minVal, likeVal, maxVal];
             const hasRangeError = values.some(v => v < effectiveMin || v > effectiveMax);
-            
+
             if (hasRangeError) {
                 let message;
                 if (isPercentage) {
@@ -3721,7 +3924,7 @@
                 markInputFields(prefix, 'error');
                 return;
             }
-            
+
             // Check order and auto-correct if needed
             if (minVal > likeVal || likeVal > maxVal) {
                 const corrected = autoCorrectPERTValues(prefix);
@@ -3729,7 +3932,7 @@
                     // Show warning message inline
                     showValidationMessage(prefix, getValidationMessage('orderCorrected'), 'warning');
                     markInputFields(prefix, 'warning');
-                    
+
                     // Show toast notification
                     showToast(
                         getValidationMessage('orderCorrectedTitle'),
@@ -3737,7 +3940,7 @@
                         'warning',
                         3000
                     );
-                    
+
                     // Clear warning after a delay
                     setTimeout(() => {
                         hideValidationMessage(prefix);
@@ -3754,7 +3957,7 @@
         function validateAllInputs() {
             let isValid = true;
             const errors = [];
-            
+
             // Validate based on current mode
             if (currentTEFMode === 'simple') {
                 validatePERTGroup('tef');
@@ -3777,7 +3980,7 @@
                     errors.push('Probability of Action');
                 }
             }
-            
+
             if (currentVulnMode === 'simple') {
                 validatePERTGroup('vuln', true);
                 const vulnMin = parseFloat(document.getElementById('vuln-min').value);
@@ -3799,27 +4002,27 @@
                     errors.push('Resistance Strength');
                 }
             }
-            
+
             validatePERTGroup('prim');
             const primMin = parseFloat(document.getElementById('prim-min').value);
             if (isNaN(primMin) || primMin < 0) {
                 isValid = false;
                 errors.push('Primary Loss');
             }
-            
+
             validatePERTGroup('sec');
             const secMin = parseFloat(document.getElementById('sec-min').value);
             if (isNaN(secMin) || secMin < 0) {
                 isValid = false;
                 errors.push('Secondary Loss');
             }
-            
+
             // Validate simulation runs
             if (!validateSimulationRuns()) {
                 isValid = false;
                 errors.push('Simulation Runs');
             }
-            
+
             return isValid;
         }
 
@@ -3869,15 +4072,15 @@
             const input = document.getElementById('sim-runs-input');
             const msgEl = document.getElementById('sim-runs-validation-msg');
             const textEl = document.getElementById('sim-runs-validation-text');
-            
+
             if (!input || !msgEl || !textEl) return true;
-            
+
             const value = parseInt(input.value);
-            
+
             // Clear previous validation state
             msgEl.classList.remove('visible', 'error', 'warning');
             input.classList.remove('input-error', 'input-warning');
-            
+
             // Check for NaN (empty or invalid input)
             if (isNaN(value)) {
                 const msg = I18n.translations[I18n.lang]?.simRunsRequired || 'Simulation runs is required';
@@ -3886,7 +4089,7 @@
                 input.classList.add('input-error');
                 return false;
             }
-            
+
             // Check range
             if (value < SIM_RUNS_MIN || value > SIM_RUNS_MAX) {
                 const msg = (I18n.translations[I18n.lang]?.simRunsRange || 'Simulation runs must be between {min} and {max}')
@@ -3897,10 +4100,10 @@
                 input.classList.add('input-error');
                 return false;
             }
-            
+
             // Update preset button styles based on current value
             updatePresetButtonStyles(value);
-            
+
             return true;
         }
 
@@ -3911,7 +4114,7 @@
         function getSimulationRuns() {
             const input = document.getElementById('sim-runs-input');
             if (!input) return 10000; // Default fallback
-            
+
             const value = parseInt(input.value);
             if (isNaN(value) || value < SIM_RUNS_MIN || value > SIM_RUNS_MAX) {
                 return null;
@@ -3926,7 +4129,7 @@
             currentTEFMode = mode;
             const simpleMode = document.getElementById('tef-simple-mode');
             const advancedMode = document.getElementById('tef-advanced-mode');
-            
+
             if (mode === 'simple') {
                 simpleMode.classList.remove('hidden');
                 advancedMode.classList.add('hidden');
@@ -3941,16 +4144,16 @@
             const cfMin = parseFloat(document.getElementById('cf-min').value) || 0;
             const cfLike = parseFloat(document.getElementById('cf-like').value) || 0;
             const cfMax = parseFloat(document.getElementById('cf-max').value) || 0;
-            
+
             const poaMin = parseFloat(document.getElementById('poa-min').value) || 0;
             const poaLike = parseFloat(document.getElementById('poa-like').value) || 0;
             const poaMax = parseFloat(document.getElementById('poa-max').value) || 0;
-            
+
             // Calculate TEF = CF × (PoA / 100)
             const tefMin = cfMin * (poaMin / 100);
             const tefLike = cfLike * (poaLike / 100);
             const tefMax = cfMax * (poaMax / 100);
-            
+
             // Update display
             document.getElementById('calc-tef-min').textContent = tefMin.toFixed(2);
             document.getElementById('calc-tef-like').textContent = tefLike.toFixed(2);
@@ -3969,11 +4172,11 @@
                 const cfMin = parseFloat(document.getElementById('cf-min').value) || 0;
                 const cfLike = parseFloat(document.getElementById('cf-like').value) || 0;
                 const cfMax = parseFloat(document.getElementById('cf-max').value) || 0;
-                
+
                 const poaMin = parseFloat(document.getElementById('poa-min').value) || 0;
                 const poaLike = parseFloat(document.getElementById('poa-like').value) || 0;
                 const poaMax = parseFloat(document.getElementById('poa-max').value) || 0;
-                
+
                 return {
                     min: cfMin * (poaMin / 100),
                     like: cfLike * (poaLike / 100),
@@ -3989,7 +4192,7 @@
             currentVulnMode = mode;
             const simpleMode = document.getElementById('vuln-simple-mode');
             const advancedMode = document.getElementById('vuln-advanced-mode');
-            
+
             if (mode === 'simple') {
                 simpleMode.classList.remove('hidden');
                 advancedMode.classList.add('hidden');
@@ -4008,7 +4211,7 @@
             // Clamp values to 1-10 range
             const tc = Math.max(1, Math.min(10, threatCapability));
             const rs = Math.max(1, Math.min(10, resistanceStrength));
-            
+
             if (tc <= rs) {
                 // TC <= RS: Lower susceptibility, max 50%
                 return (tc / rs) * 0.5;
@@ -4024,18 +4227,18 @@
             const tcMin = parseFloat(document.getElementById('tc-min').value) || 1;
             const tcLike = parseFloat(document.getElementById('tc-like').value) || 5;
             const tcMax = parseFloat(document.getElementById('tc-max').value) || 10;
-            
+
             const rsMin = parseFloat(document.getElementById('rs-min').value) || 1;
             const rsLike = parseFloat(document.getElementById('rs-like').value) || 5;
             const rsMax = parseFloat(document.getElementById('rs-max').value) || 10;
-            
+
             // Calculate Susceptibility for each PERT point
             // Min Vuln: Min TC vs Max RS (best case for defender)
             // Max Vuln: Max TC vs Min RS (worst case for defender)
             const vulnMin = calculateSusceptibility(tcMin, rsMax) * 100;
             const vulnLike = calculateSusceptibility(tcLike, rsLike) * 100;
             const vulnMax = calculateSusceptibility(tcMax, rsMin) * 100;
-            
+
             // Update display
             document.getElementById('calc-vuln-min').textContent = vulnMin.toFixed(0);
             document.getElementById('calc-vuln-like').textContent = vulnLike.toFixed(0);
@@ -4054,11 +4257,11 @@
                 const tcMin = parseFloat(document.getElementById('tc-min').value) || 1;
                 const tcLike = parseFloat(document.getElementById('tc-like').value) || 5;
                 const tcMax = parseFloat(document.getElementById('tc-max').value) || 10;
-                
+
                 const rsMin = parseFloat(document.getElementById('rs-min').value) || 1;
                 const rsLike = parseFloat(document.getElementById('rs-like').value) || 5;
                 const rsMax = parseFloat(document.getElementById('rs-max').value) || 10;
-                
+
                 return {
                     min: calculateSusceptibility(tcMin, rsMax) * 100,
                     like: calculateSusceptibility(tcLike, rsLike) * 100,
@@ -4074,7 +4277,7 @@
             currentSecLossMode = mode;
             const simpleMode = document.getElementById('sec-loss-simple-mode');
             const categoryMode = document.getElementById('sec-loss-category-mode');
-            
+
             if (mode === 'simple') {
                 simpleMode.classList.remove('hidden');
                 categoryMode.classList.add('hidden');
@@ -4090,7 +4293,7 @@
             let totalMin = 0;
             let totalLike = 0;
             let totalMax = 0;
-            
+
             categories.forEach(cat => {
                 const enabled = document.getElementById(`cat-${cat}-enabled`).checked;
                 if (enabled) {
@@ -4098,14 +4301,14 @@
                     const min = parseFloat(document.getElementById(`cat-${cat}-min`).value) || 0;
                     const like = parseFloat(document.getElementById(`cat-${cat}-like`).value) || 0;
                     const max = parseFloat(document.getElementById(`cat-${cat}-max`).value) || 0;
-                    
+
                     // Expected value = probability × magnitude
                     totalMin += (prob / 100) * min;
                     totalLike += (prob / 100) * like;
                     totalMax += (prob / 100) * max;
                 }
             });
-            
+
             // Format with currency symbol
             const currencySymbol = document.querySelector('.currency-symbol')?.textContent || 'USD';
             const formatCurrency = (value) => {
@@ -4116,7 +4319,7 @@
                 }
                 return `${currencySymbol} ${value.toFixed(0)}`;
             };
-            
+
             document.getElementById('cat-total-min').textContent = formatCurrency(totalMin);
             document.getElementById('cat-total-like').textContent = formatCurrency(totalLike);
             document.getElementById('cat-total-max').textContent = formatCurrency(totalMax);
@@ -4138,7 +4341,7 @@
                 let totalMin = 0;
                 let totalLike = 0;
                 let totalMax = 0;
-                
+
                 categories.forEach(cat => {
                     const enabled = document.getElementById(`cat-${cat}-enabled`).checked;
                     if (enabled) {
@@ -4146,19 +4349,19 @@
                         const min = parseFloat(document.getElementById(`cat-${cat}-min`).value) || 0;
                         const like = parseFloat(document.getElementById(`cat-${cat}-like`).value) || 0;
                         const max = parseFloat(document.getElementById(`cat-${cat}-max`).value) || 0;
-                        
+
                         enabledCategories.push({
                             name: cat,
                             probability: prob,
                             magnitude: { min, mostLikely: like, max }
                         });
-                        
+
                         totalMin += (prob / 100) * min;
                         totalLike += (prob / 100) * like;
                         totalMax += (prob / 100) * max;
                     }
                 });
-                
+
                 return {
                     mode: 'categories',
                     categories: enabledCategories,
@@ -4175,7 +4378,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             I18n.init();
             initScenarioTemplates();
-            
+
             // Initialize language selector
             const langSelect = document.getElementById('lang-select');
             if (langSelect) {
@@ -4184,7 +4387,7 @@
                     I18n.setLang(e.target.value);
                 });
             }
-            
+
             // Initialize currency selector
             const currencySelect = document.getElementById('currency-select');
             if (currencySelect) {
@@ -4200,8 +4403,8 @@
         const scenarioTemplates = {
             ransomware: {
                 name: { en: 'Ransomware Attack', 'zh-TW': '勒索軟體攻擊', ja: 'ランサムウェア攻撃' },
-                source: { 
-                    en: 'Reference: IBM Cost of Data Breach 2024, Sophos State of Ransomware 2024', 
+                source: {
+                    en: 'Reference: IBM Cost of Data Breach 2024, Sophos State of Ransomware 2024',
                     'zh-TW': '參考來源：IBM 資料外洩成本報告 2024、Sophos 勒索軟體現況報告 2024',
                     ja: '参考：IBM データ侵害コストレポート 2024、Sophos ランサムウェアレポート 2024'
                 },
@@ -4228,8 +4431,8 @@
             },
             databreach: {
                 name: { en: 'Data Breach', 'zh-TW': '資料外洩', ja: 'データ侵害' },
-                source: { 
-                    en: 'Reference: IBM Cost of Data Breach 2024 (Global Average: $4.45M)', 
+                source: {
+                    en: 'Reference: IBM Cost of Data Breach 2024 (Global Average: $4.45M)',
                     'zh-TW': '參考來源：IBM 資料外洩成本報告 2024（全球平均：$4.45M）',
                     ja: '参考：IBM データ侵害コストレポート 2024（世界平均：$4.45M）'
                 },
@@ -4256,8 +4459,8 @@
             },
             ddos: {
                 name: { en: 'DDoS Attack', 'zh-TW': '阻斷服務攻擊', ja: 'DDoS攻撃' },
-                source: { 
-                    en: 'Reference: Cloudflare DDoS Report 2024, Ponemon Institute', 
+                source: {
+                    en: 'Reference: Cloudflare DDoS Report 2024, Ponemon Institute',
                     'zh-TW': '參考來源：Cloudflare DDoS 報告 2024、Ponemon Institute',
                     ja: '参考：Cloudflare DDoS レポート 2024、Ponemon Institute'
                 },
@@ -4277,8 +4480,8 @@
             },
             bec: {
                 name: { en: 'Business Email Compromise', 'zh-TW': '商業郵件詐騙', ja: 'ビジネスメール詐欺' },
-                source: { 
-                    en: 'Reference: FBI IC3 Report 2024, Verizon DBIR 2024', 
+                source: {
+                    en: 'Reference: FBI IC3 Report 2024, Verizon DBIR 2024',
                     'zh-TW': '參考來源：FBI IC3 報告 2024、Verizon DBIR 2024',
                     ja: '参考：FBI IC3 レポート 2024、Verizon DBIR 2024'
                 },
@@ -4298,8 +4501,8 @@
             },
             insider: {
                 name: { en: 'Insider Threat', 'zh-TW': '內部威脅', ja: '内部脅威' },
-                source: { 
-                    en: 'Reference: Ponemon Cost of Insider Threats 2024', 
+                source: {
+                    en: 'Reference: Ponemon Cost of Insider Threats 2024',
                     'zh-TW': '參考來源：Ponemon 內部威脅成本報告 2024',
                     ja: '参考：Ponemon 内部脅威コストレポート 2024'
                 },
@@ -4362,7 +4565,7 @@
                     const poaMin = document.getElementById('poa-min');
                     const poaLike = document.getElementById('poa-like');
                     const poaMax = document.getElementById('poa-max');
-                    
+
                     if (cfMin) cfMin.value = template.values.cfMin;
                     if (cfLike) cfLike.value = template.values.cfLike;
                     if (cfMax) cfMax.value = template.values.cfMax;
@@ -4384,7 +4587,7 @@
                     const rsMin = document.getElementById('rs-min');
                     const rsLike = document.getElementById('rs-like');
                     const rsMax = document.getElementById('rs-max');
-                    
+
                     if (tcMin) tcMin.value = template.values.tcMin;
                     if (tcLike) tcLike.value = template.values.tcLike;
                     if (tcMax) tcMax.value = template.values.tcMax;
@@ -4415,7 +4618,7 @@
                             const minInput = document.getElementById(`sec-cat-${cat}-min`);
                             const likeInput = document.getElementById(`sec-cat-${cat}-like`);
                             const maxInput = document.getElementById(`sec-cat-${cat}-max`);
-                            
+
                             if (enabledCheckbox) enabledCheckbox.checked = catData.enabled;
                             if (probInput) probInput.value = catData.prob;
                             if (minInput) minInput.value = catData.min;
@@ -4575,38 +4778,38 @@
 
         function handleSimulationCancelled(data) {
             setLoading(false);
-            
+
             const status = document.getElementById('sim-status');
-            const cancelledMsg = I18n.lang === 'zh-TW' ? '模擬已取消' : 
-                                 I18n.lang === 'ja' ? 'シミュレーションがキャンセルされました' : 
-                                 'Simulation Cancelled';
-            
+            const cancelledMsg = I18n.lang === 'zh-TW' ? '模擬已取消' :
+                I18n.lang === 'ja' ? 'シミュレーションがキャンセルされました' :
+                    'Simulation Cancelled';
+
             if (data && data.partial) {
                 // Show partial results
                 status.innerText = data.message || cancelledMsg;
-                
+
                 // If we have partial results, display them
                 if (data.completedRuns > 0) {
                     lastResults = null; // Clear previous results
-                    
+
                     // Unlock Results section
                     const resSec = document.getElementById('results-section');
                     resSec.classList.remove('opacity-50', 'pointer-events-none');
-                    
+
                     // Fill Cards with partial data
                     document.getElementById('res-aal').innerText = fmt(data.aal) + ' *';
                     document.getElementById('res-var90').innerText = fmt(data.var90) + ' *';
                     document.getElementById('res-max').innerText = fmt(data.maxLoss) + ' *';
                     document.getElementById('res-min').innerText = fmt(data.minLoss) + ' *';
-                    
+
                     // Fill Sticky Footer
                     document.getElementById('sticky-aal').innerText = fmt(data.aal) + ' *';
                     document.getElementById('sticky-var').innerText = fmt(data.var90) + ' *';
                     document.getElementById('sticky-footer').classList.add('visible');
-                    
+
                     // Display Convergence Metrics for partial results
                     displayConvergenceMetrics(data.convergenceMetrics, data.totalRuns);
-                    
+
                     // Handle ROSI section if available
                     const rosiSection = document.getElementById('rosi-section');
                     if (data.hasControl && data.controlCost > 0) {
@@ -4614,28 +4817,28 @@
                         document.getElementById('res-aal-after').innerText = fmt(data.aalAfterControl) + ' *';
                         document.getElementById('res-risk-reduction').innerText = fmt(data.riskReduction) + ' *';
                         document.getElementById('res-control-cost').innerText = fmt(data.controlCost);
-                        
+
                         const rosiValue = data.rosi;
                         const rosiText = (rosiValue >= 0 ? '+' : '') + rosiValue.toFixed(0) + '% *';
                         document.getElementById('res-rosi').innerText = rosiText;
                     } else {
                         rosiSection.classList.add('hidden');
                     }
-                    
+
                     // Render chart with partial data
                     if (data.curveData && data.curveData.length > 0) {
                         renderChart(data.curveData, data.curveDataAfterControl, data.hasControl);
                     }
-                    
+
                     // Show toast notification about partial results
-                    const partialTitle = I18n.lang === 'zh-TW' ? '部分結果' : 
-                                        I18n.lang === 'ja' ? '部分的な結果' : 
-                                        'Partial Results';
-                    const partialMsg = I18n.lang === 'zh-TW' ? 
+                    const partialTitle = I18n.lang === 'zh-TW' ? '部分結果' :
+                        I18n.lang === 'ja' ? '部分的な結果' :
+                            'Partial Results';
+                    const partialMsg = I18n.lang === 'zh-TW' ?
                         `已完成 ${data.completedRuns.toLocaleString()} / ${data.totalRuns.toLocaleString()} 次模擬。結果標示 * 表示為部分數據。` :
-                        I18n.lang === 'ja' ? 
-                        `${data.completedRuns.toLocaleString()} / ${data.totalRuns.toLocaleString()} 回のシミュレーションが完了しました。* は部分的なデータを示します。` :
-                        `Completed ${data.completedRuns.toLocaleString()} of ${data.totalRuns.toLocaleString()} runs. Results marked with * are partial data.`;
+                        I18n.lang === 'ja' ?
+                            `${data.completedRuns.toLocaleString()} / ${data.totalRuns.toLocaleString()} 回のシミュレーションが完了しました。* は部分的なデータを示します。` :
+                            `Completed ${data.completedRuns.toLocaleString()} of ${data.totalRuns.toLocaleString()} runs. Results marked with * are partial data.`;
                     showToast(partialTitle, partialMsg, 'warning', 5000);
                 }
             } else {
@@ -4651,10 +4854,10 @@
         function displayConvergenceMetrics(metrics, totalRuns) {
             const section = document.getElementById('convergence-section');
             const badge = document.getElementById('convergence-status-badge');
-            
+
             // Show the convergence section
             section.classList.remove('hidden');
-            
+
             if (!metrics) {
                 // No metrics available
                 document.getElementById('res-aal-se').innerText = '-';
@@ -4667,25 +4870,25 @@
                 badge.classList.add('hidden');
                 return;
             }
-            
+
             // Format AAL Standard Error
             const aalSE = metrics.aalStdError || 0;
             const aalRelErr = metrics.aalRelativeError || 0;
             document.getElementById('res-aal-se').innerText = fmt(aalSE);
             document.getElementById('res-aal-se-pct').innerText = `±${(aalRelErr * 100).toFixed(2)}%`;
-            
+
             // Format VaR 90% Standard Error
             const varSE = metrics.var90StdError || 0;
             const varRelErr = metrics.var90RelativeError || 0;
             document.getElementById('res-var-se').innerText = fmt(varSE);
             document.getElementById('res-var-se-pct').innerText = `±${(varRelErr * 100).toFixed(2)}%`;
-            
+
             // Convergence Status
             const statusEl = document.getElementById('res-convergence-status');
             const isConverged = metrics.isConverged;
             const convergedText = I18n.translations[I18n.lang]?.convergenceConverged || 'Converged';
             const notConvergedText = I18n.translations[I18n.lang]?.convergenceNotConverged || 'Not Converged';
-            
+
             if (isConverged) {
                 statusEl.innerText = convergedText;
                 statusEl.className = 'text-sm font-bold text-green-600 dark:text-green-400';
@@ -4699,25 +4902,25 @@
                 badge.className = 'px-2 py-0.5 text-xs font-medium rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400';
                 badge.classList.remove('hidden');
             }
-            
+
             // Recommended Runs
             const recommendedRuns = metrics.recommendedRuns || totalRuns;
             document.getElementById('res-recommended-runs').innerText = recommendedRuns.toLocaleString();
-            
+
             // Runs note
             const runsNoteEl = document.getElementById('res-runs-note');
             if (isConverged) {
-                runsNoteEl.innerText = I18n.lang === 'zh-TW' ? '已達收斂' : 
-                                       I18n.lang === 'ja' ? '収束済み' : 
-                                       'Converged';
+                runsNoteEl.innerText = I18n.lang === 'zh-TW' ? '已達收斂' :
+                    I18n.lang === 'ja' ? '収束済み' :
+                        'Converged';
             } else if (recommendedRuns > totalRuns) {
                 const recommendText = (I18n.translations[I18n.lang]?.convergenceRecommend || 'Recommend {runs} runs')
                     .replace('{runs}', recommendedRuns.toLocaleString());
                 runsNoteEl.innerText = recommendText;
             } else {
-                runsNoteEl.innerText = I18n.lang === 'zh-TW' ? `已執行 ${totalRuns.toLocaleString()} 次` : 
-                                       I18n.lang === 'ja' ? `${totalRuns.toLocaleString()} 回実行済み` : 
-                                       `${totalRuns.toLocaleString()} runs completed`;
+                runsNoteEl.innerText = I18n.lang === 'zh-TW' ? `已執行 ${totalRuns.toLocaleString()} 次` :
+                    I18n.lang === 'ja' ? `${totalRuns.toLocaleString()} 回実行済み` :
+                        `${totalRuns.toLocaleString()} runs completed`;
             }
         }
 
@@ -4805,7 +5008,7 @@
                         }
                     },
                     plugins: {
-                        legend: { 
+                        legend: {
                             display: hasControl && curveDataAfterControl && curveDataAfterControl.length > 0,
                             position: 'top',
                             labels: { color: textColor, usePointStyle: true, pointStyle: 'line' }
@@ -4820,20 +5023,20 @@
 
         document.getElementById('btn-run').addEventListener('click', () => {
             console.log('[Main] Run button clicked');
-            
+
             // Validate all inputs before running simulation
             if (!validateAllInputs()) {
                 console.log('[Main] Validation failed, aborting simulation');
                 // Show error toast
-                const errorTitle = I18n.lang === 'zh-TW' ? '驗證失敗' : 
-                                   I18n.lang === 'ja' ? '検証エラー' : 'Validation Error';
-                const errorMsg = I18n.lang === 'zh-TW' ? '請修正標示的欄位後再執行模擬' : 
-                                 I18n.lang === 'ja' ? 'マークされたフィールドを修正してください' : 
-                                 'Please fix the highlighted fields before running simulation';
+                const errorTitle = I18n.lang === 'zh-TW' ? '驗證失敗' :
+                    I18n.lang === 'ja' ? '検証エラー' : 'Validation Error';
+                const errorMsg = I18n.lang === 'zh-TW' ? '請修正標示的欄位後再執行模擬' :
+                    I18n.lang === 'ja' ? 'マークされたフィールドを修正してください' :
+                        'Please fix the highlighted fields before running simulation';
                 showToast(errorTitle, errorMsg, 'warning', 4000);
                 return;
             }
-            
+
             setLoading(true);
 
             // Gather Inputs
@@ -4847,7 +5050,7 @@
 
             // Get TEF values (handles both simple and advanced modes)
             const tefValues = getTEFValues();
-            
+
             // Get Vulnerability values (handles both simple and advanced modes)
             const vulnValues = getVulnValues();
 
@@ -4877,9 +5080,9 @@
         document.getElementById('btn-cancel').addEventListener('click', () => {
             console.log('[Main] Cancel button clicked');
             const status = document.getElementById('sim-status');
-            const cancellingMsg = I18n.lang === 'zh-TW' ? '正在取消...' : 
-                                  I18n.lang === 'ja' ? 'キャンセル中...' : 
-                                  'Cancelling...';
+            const cancellingMsg = I18n.lang === 'zh-TW' ? '正在取消...' :
+                I18n.lang === 'ja' ? 'キャンセル中...' :
+                    'Cancelling...';
             status.innerText = cancellingMsg;
             worker.postMessage({ type: 'CANCEL_SIMULATION' });
         });
@@ -4934,28 +5137,28 @@
 
         // Handle sensitivity analysis worker messages
         const originalOnMessage = worker.onmessage;
-        worker.onmessage = function(e) {
+        worker.onmessage = function (e) {
             const { type, data, progress, message } = e.data;
-            
+
             if (type === 'sensitivity_complete') {
                 finishSensitivityAnalysis(data);
                 return;
             }
-            
+
             if (type === 'progress' && isSensitivityRunning) {
                 const statusEl = document.getElementById('sensitivity-status');
                 const runningMsg = I18n.translations[I18n.lang]['sensitivityRunning'] || 'Running sensitivity analysis...';
                 statusEl.innerText = `${runningMsg} ${progress.toFixed(0)}%`;
                 return;
             }
-            
+
             if (type === 'error' && isSensitivityRunning) {
                 setSensitivityLoading(false);
                 const errorMsg = I18n.translations[I18n.lang]['sensitivityError'] || 'Sensitivity analysis failed';
                 document.getElementById('sensitivity-status').innerText = errorMsg + ': ' + message;
                 return;
             }
-            
+
             // Call original handler for simulation messages
             originalOnMessage.call(worker, e);
         };
@@ -4964,9 +5167,9 @@
             const btn = document.getElementById('btn-sensitivity');
             const status = document.getElementById('sensitivity-status');
             const btnText = I18n.translations[I18n.lang]['btnSensitivity'] || 'Run Sensitivity Analysis';
-            
+
             isSensitivityRunning = isLoading;
-            
+
             if (isLoading) {
                 btn.disabled = true;
                 btn.innerHTML = `<svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> running...`;
@@ -4979,37 +5182,37 @@
         function finishSensitivityAnalysis(data) {
             setSensitivityLoading(false);
             lastSensitivityResults = data;
-            
+
             const completeMsg = I18n.translations[I18n.lang]['sensitivityComplete'] || 'Sensitivity analysis complete';
             document.getElementById('sensitivity-status').innerText = completeMsg;
-            
+
             // Show results section
             document.getElementById('sensitivity-results').classList.remove('hidden');
-            
+
             // Render tornado chart
             renderTornadoChart(data.results, data.baselineAAL);
-            
+
             // Display top parameters
             displayTopParameters(data.topParameters);
-            
+
             // Display recommendations
             displayRecommendations(data.topParameters);
         }
 
         function renderTornadoChart(results, baselineAAL) {
             const ctx = document.getElementById('tornadoChart').getContext('2d');
-            
+
             if (tornadoChart) tornadoChart.destroy();
-            
+
             const isDark = document.documentElement.classList.contains('dark');
             const gridColor = isDark ? '#374151' : '#E5E7EB';
             const textColor = isDark ? '#9CA3AF' : '#4B5563';
-            
+
             // Prepare data for horizontal bar chart (tornado style)
             const labels = results.map(r => r.parameter);
             const lowImpacts = results.map(r => r.lowAAL - baselineAAL);
             const highImpacts = results.map(r => r.highAAL - baselineAAL);
-            
+
             tornadoChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -5083,20 +5286,20 @@
         function displayTopParameters(topParams) {
             const container = document.getElementById('top-parameters');
             container.innerHTML = '';
-            
+
             const template = I18n.translations[I18n.lang]['topDriverRank'] || '#{rank}. {param} - {impact}% impact';
-            
+
             topParams.forEach((param, index) => {
                 const div = document.createElement('div');
                 div.className = 'flex items-center gap-2 text-sm text-amber-700 dark:text-amber-300';
-                
+
                 const rankBadge = document.createElement('span');
                 rankBadge.className = 'inline-flex items-center justify-center w-6 h-6 rounded-full bg-amber-200 dark:bg-amber-800 text-amber-800 dark:text-amber-200 text-xs font-bold';
                 rankBadge.textContent = param.rank;
-                
+
                 const text = document.createElement('span');
                 text.textContent = `${param.parameter} - ${param.impactPercentage.toFixed(1)}% impact`;
-                
+
                 div.appendChild(rankBadge);
                 div.appendChild(text);
                 container.appendChild(div);
@@ -5105,18 +5308,18 @@
 
         function displayRecommendations(topParams) {
             const container = document.getElementById('sensitivity-recommendations');
-            
+
             if (!topParams || topParams.length === 0) {
                 container.textContent = 'No significant risk drivers identified.';
                 return;
             }
-            
+
             const topParam = topParams[0].parameter;
             let recommendation = '';
-            
+
             // Get localized recommendations
             const translations = I18n.translations[I18n.lang] || I18n.translations['en'];
-            
+
             if (topParam.includes('TEF') || topParam.includes('Threat')) {
                 recommendation = translations['recommendationTEF'] || 'Focus on reducing threat event frequency through improved threat detection and access controls.';
             } else if (topParam.includes('Vuln')) {
@@ -5130,7 +5333,7 @@
             } else {
                 recommendation = `Focus on controlling ${topParam} to achieve the greatest risk reduction.`;
             }
-            
+
             container.textContent = recommendation;
         }
 
@@ -5143,7 +5346,7 @@
 
         // Update currentSimulationData when simulation completes
         const originalFinishSimulation = finishSimulation;
-        finishSimulation = function(data) {
+        finishSimulation = function (data) {
             currentSimulationData = data;
             originalFinishSimulation(data);
             // Refresh comparison table after simulation
@@ -5165,7 +5368,7 @@
         function getComparisonFilterConfig() {
             const searchTerm = document.getElementById('comparison-search').value.trim();
             const priorityFilter = document.getElementById('comparison-filter-priority').value;
-            
+
             const config = {};
             if (searchTerm) {
                 config.searchTerm = searchTerm;
@@ -5202,11 +5405,11 @@
             const tr = document.createElement('tr');
             tr.className = 'border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors';
             tr.dataset.scenarioId = row.id;
-            
-            const rosiDisplay = row.rosi !== null ? 
-                `<span class="${row.rosi >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">${row.rosi >= 0 ? '+' : ''}${row.rosi.toFixed(0)}%</span>` : 
+
+            const rosiDisplay = row.rosi !== null ?
+                `<span class="${row.rosi >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}">${row.rosi >= 0 ? '+' : ''}${row.rosi.toFixed(0)}%</span>` :
                 '<span class="text-gray-400">-</span>';
-            
+
             tr.innerHTML = `
                 <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">${escapeHtml(row.name)}</td>
                 <td class="px-4 py-3 text-right font-mono text-purple-600 dark:text-purple-400">${fmt(row.aal)}</td>
@@ -5250,40 +5453,40 @@
         function refreshComparisonTable() {
             const sortConfig = getComparisonSortConfig();
             const filterConfig = getComparisonFilterConfig();
-            
+
             const tableData = FAIRCore.getComparisonTableData(sortConfig, filterConfig);
             const tbody = document.getElementById('comparison-table-body');
             const emptyState = document.getElementById('comparison-empty-state');
             const summarySection = document.getElementById('comparison-summary');
             const limitWarning = document.getElementById('scenario-limit-warning');
-            
+
             // Clear existing rows
             tbody.innerHTML = '';
-            
+
             if (tableData.length === 0) {
                 emptyState.classList.remove('hidden');
                 summarySection.classList.add('hidden');
             } else {
                 emptyState.classList.add('hidden');
                 summarySection.classList.remove('hidden');
-                
+
                 // Render rows
                 tableData.forEach(row => {
                     tbody.appendChild(renderComparisonTableRow(row));
                 });
-                
+
                 // Update summary
                 const summary = FAIRCore.getComparisonTableSummary(tableData);
                 document.getElementById('summary-total').textContent = summary.totalScenarios;
                 document.getElementById('summary-total-aal').textContent = fmt(summary.totalAAL);
                 document.getElementById('summary-avg-aal').textContent = fmt(summary.avgAAL);
-                document.getElementById('summary-critical-high').textContent = 
+                document.getElementById('summary-critical-high').textContent =
                     summary.priorityCounts.critical + summary.priorityCounts.high;
-                
+
                 // Update comparison chart
                 updateComparisonChart(tableData);
             }
-            
+
             // Show/hide limit warning
             const allScenarios = FAIRCore.listScenarios();
             if (allScenarios.length >= 10) {
@@ -5321,7 +5524,7 @@
         function updateComparisonChart(tableData) {
             const chartContainer = document.getElementById('comparison-chart-container');
             const canvas = document.getElementById('comparison-chart');
-            
+
             if (!tableData || tableData.length === 0) {
                 chartContainer.classList.add('hidden');
                 if (comparisonChartInstance) {
@@ -5330,18 +5533,18 @@
                 }
                 return;
             }
-            
+
             chartContainer.classList.remove('hidden');
-            
+
             const metric = document.getElementById('comparison-chart-metric').value;
             const isDarkMode = document.documentElement.classList.contains('dark');
-            
+
             // Prepare chart data
             const labels = tableData.map(row => truncateLabel(row.name, 15));
-            
+
             // Determine datasets based on selected metric
             const datasets = [];
-            
+
             if (metric === 'aal' || metric === 'both') {
                 datasets.push({
                     label: I18n.translations[I18n.lang]['legendAAL'] || 'AAL',
@@ -5354,7 +5557,7 @@
                     categoryPercentage: 0.8
                 });
             }
-            
+
             if (metric === 'var90' || metric === 'both') {
                 datasets.push({
                     label: I18n.translations[I18n.lang]['legendVaR90'] || 'VaR 90%',
@@ -5371,12 +5574,12 @@
                     categoryPercentage: 0.8
                 });
             }
-            
+
             // Destroy existing chart if any
             if (comparisonChartInstance) {
                 comparisonChartInstance.destroy();
             }
-            
+
             // Create new chart
             const ctx = canvas.getContext('2d');
             comparisonChartInstance = new Chart(ctx, {
@@ -5412,11 +5615,11 @@
                             padding: 12,
                             displayColors: true,
                             callbacks: {
-                                title: function(context) {
+                                title: function (context) {
                                     const index = context[0].dataIndex;
                                     return tableData[index].name;
                                 },
-                                label: function(context) {
+                                label: function (context) {
                                     const value = context.raw;
                                     return `${context.dataset.label}: ${fmt(value)}`;
                                 }
@@ -5443,7 +5646,7 @@
                             ticks: {
                                 color: isDarkMode ? '#9CA3AF' : '#6B7280',
                                 font: { size: 10 },
-                                callback: function(value) {
+                                callback: function (value) {
                                     return formatCompactNumber(value);
                                 }
                             }
@@ -5503,15 +5706,15 @@
                 showToast('Info', msg, 'info', 3000);
                 return;
             }
-            
+
             // Get scenario name
-            const scenarioName = document.getElementById('scenario-name').value.trim() || 
+            const scenarioName = document.getElementById('scenario-name').value.trim() ||
                 (I18n.translations[I18n.lang]['defaultScenarioName'] || 'Unnamed Scenario');
-            
+
             // Gather current input values
             const tefValues = getTEFValues();
             const vulnValues = getVulnValues();
-            
+
             // Create scenario object
             const scenario = FAIRCore.createScenario({
                 name: scenarioName,
@@ -5538,7 +5741,7 @@
                     runs: parseInt(document.getElementById('sim-runs-input').value)
                 }
             });
-            
+
             // Add control if configured
             const controlCost = parseFloat(document.getElementById('ctrl-cost').value) || 0;
             const controlEff = parseFloat(document.getElementById('ctrl-eff').value) || 0;
@@ -5548,7 +5751,7 @@
                     effectiveness: controlEff
                 };
             }
-            
+
             // Add risk results
             scenario.risk = {
                 aal: currentSimulationData.aal,
@@ -5560,10 +5763,10 @@
                 aalAfterControl: currentSimulationData.aalAfterControl || null,
                 riskReduction: currentSimulationData.riskReduction || null
             };
-            
+
             // Save scenario
             const result = FAIRCore.saveScenario(scenario);
-            
+
             if (result.success) {
                 const successMsg = I18n.translations[I18n.lang]['scenarioSaved'] || 'Scenario saved successfully';
                 showToast('Success', result.message || successMsg, 'info', 3000);
@@ -5582,31 +5785,31 @@
                 showToast('Error', 'Scenario not found', 'warning', 3000);
                 return;
             }
-            
+
             // Set scenario name
             document.getElementById('scenario-name').value = scenario.name || '';
-            
+
             // Set TEF values
             if (scenario.lef && scenario.lef.tef) {
                 document.getElementById('tef-min').value = scenario.lef.tef.min;
                 document.getElementById('tef-like').value = scenario.lef.tef.mostLikely;
                 document.getElementById('tef-max').value = scenario.lef.tef.max;
             }
-            
+
             // Set Vulnerability values
             if (scenario.lef && scenario.lef.vulnerability) {
                 document.getElementById('vuln-min').value = scenario.lef.vulnerability.min;
                 document.getElementById('vuln-like').value = scenario.lef.vulnerability.mostLikely;
                 document.getElementById('vuln-max').value = scenario.lef.vulnerability.max;
             }
-            
+
             // Set Primary Loss values
             if (scenario.lm && scenario.lm.primaryLoss) {
                 document.getElementById('prim-min').value = scenario.lm.primaryLoss.min;
                 document.getElementById('prim-like').value = scenario.lm.primaryLoss.mostLikely;
                 document.getElementById('prim-max').value = scenario.lm.primaryLoss.max;
             }
-            
+
             // Set Secondary Loss values
             if (scenario.lm && scenario.lm.secondaryLoss) {
                 document.getElementById('sec-prob').value = scenario.lm.secondaryLoss.probability || 0;
@@ -5616,7 +5819,7 @@
                     document.getElementById('sec-max').value = scenario.lm.secondaryLoss.magnitude.max;
                 }
             }
-            
+
             // Set Control values
             if (scenario.control) {
                 document.getElementById('ctrl-cost').value = scenario.control.annualCost || 0;
@@ -5625,16 +5828,16 @@
                 document.getElementById('ctrl-cost').value = 0;
                 document.getElementById('ctrl-eff').value = 0;
             }
-            
+
             // Set simulation runs
             if (scenario.simulationConfig && scenario.simulationConfig.runs) {
                 document.getElementById('sim-runs-input').value = scenario.simulationConfig.runs;
             }
-            
+
             // Show toast
             const loadedMsg = I18n.translations[I18n.lang]['scenarioLoaded'] || 'Scenario loaded';
             showToast('Info', `${loadedMsg}: ${scenario.name}`, 'info', 3000);
-            
+
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
@@ -5647,9 +5850,9 @@
             if (!confirm(confirmMsg)) {
                 return;
             }
-            
+
             const result = FAIRCore.deleteScenario(scenarioId);
-            
+
             if (result.success) {
                 const deletedMsg = I18n.translations[I18n.lang]['scenarioDeleted'] || 'Scenario deleted';
                 showToast('Info', deletedMsg, 'info', 3000);
@@ -5662,7 +5865,7 @@
         // Initialize comparison table on page load
         function initComparisonTable() {
             refreshComparisonTable();
-            
+
             // Event listeners for comparison table controls
             const btnSave = document.getElementById('btn-save-scenario');
             const btnRefresh = document.getElementById('btn-refresh-comparison');
@@ -5672,7 +5875,7 @@
             const metricSelect = document.getElementById('comparison-chart-metric');
             const btnExportCSV = document.getElementById('btn-export-comparison-csv');
             const btnExportPDF = document.getElementById('btn-export-comparison-pdf');
-            
+
             if (btnSave) btnSave.addEventListener('click', saveCurrentScenario);
             if (btnRefresh) btnRefresh.addEventListener('click', refreshComparisonTable);
             if (searchInput) searchInput.addEventListener('input', refreshComparisonTable);
@@ -5682,7 +5885,7 @@
             if (btnExportCSV) btnExportCSV.addEventListener('click', exportComparisonCSV);
             if (btnExportPDF) btnExportPDF.addEventListener('click', exportComparisonPDF);
         }
-        
+
         // Initialize when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initComparisonTable);
@@ -5698,13 +5901,13 @@
             const sortConfig = getComparisonSortConfig();
             const filterConfig = getComparisonFilterConfig();
             const tableData = FAIRCore.getComparisonTableData(sortConfig, filterConfig);
-            
+
             if (!tableData || tableData.length === 0) {
                 const noDataMsg = I18n.translations[I18n.lang]['comparisonExportNoData'] || 'No scenarios to export';
                 showToast('Info', noDataMsg, 'info', 3000);
                 return;
             }
-            
+
             // Get localized headers
             const headers = {
                 scenario: I18n.translations[I18n.lang]['colScenario'] || 'Scenario',
@@ -5714,13 +5917,13 @@
                 priority: I18n.translations[I18n.lang]['colPriority'] || 'Priority',
                 updatedAt: I18n.translations[I18n.lang]['colUpdatedAt'] || 'Last Updated'
             };
-            
+
             const success = FAIRCore.downloadComparisonCSV(tableData, {
                 currency: I18n.currency,
                 headers: headers,
                 filename: `FAIR_Comparison_${new Date().toISOString().slice(0, 10)}`
             });
-            
+
             if (success) {
                 const successMsg = I18n.translations[I18n.lang]['comparisonExportSuccess'] || 'Comparison exported successfully';
                 showToast('Success', successMsg, 'info', 3000);
@@ -5734,13 +5937,13 @@
             const sortConfig = getComparisonSortConfig();
             const filterConfig = getComparisonFilterConfig();
             const tableData = FAIRCore.getComparisonTableData(sortConfig, filterConfig);
-            
+
             if (!tableData || tableData.length === 0) {
                 const noDataMsg = I18n.translations[I18n.lang]['comparisonExportNoData'] || 'No scenarios to export';
                 showToast('Info', noDataMsg, 'info', 3000);
                 return;
             }
-            
+
             // Check if jsPDF is available
             if (typeof window.jspdf === 'undefined') {
                 // Load jsPDF dynamically
@@ -5760,7 +5963,7 @@
             try {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
-                
+
                 // Get localized labels
                 const labels = {
                     title: I18n.translations[I18n.lang]['comparisonPDFTitle'] || 'Scenario Comparison Report',
@@ -5776,10 +5979,10 @@
                     criticalHigh: I18n.translations[I18n.lang]['summaryCritical'] || 'Critical/High',
                     generatedAt: I18n.translations[I18n.lang]['generatedAt'] || 'Generated at'
                 };
-                
+
                 const currency = I18n.currency;
                 const summary = FAIRCore.getComparisonTableSummary(tableData);
-                
+
                 // Format currency
                 const fmt = (val) => {
                     if (val === null || val === undefined) return 'N/A';
@@ -5790,24 +5993,24 @@
                         maximumFractionDigits: 0
                     }).format(val);
                 };
-                
+
                 // Title
                 doc.setFontSize(18);
                 doc.setFont('helvetica', 'bold');
                 doc.text(labels.title, 105, 20, { align: 'center' });
-                
+
                 // Generated date
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'normal');
                 doc.setTextColor(128, 128, 128);
                 doc.text(`${labels.generatedAt}: ${new Date().toLocaleString()}`, 105, 28, { align: 'center' });
-                
+
                 // Summary section
                 doc.setTextColor(0, 0, 0);
                 doc.setFontSize(14);
                 doc.setFont('helvetica', 'bold');
                 doc.text(labels.summary, 14, 42);
-                
+
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'normal');
                 let yPos = 50;
@@ -5815,7 +6018,7 @@
                 doc.text(`${labels.totalAAL}: ${fmt(summary.totalAAL)}`, 14, yPos + 6);
                 doc.text(`${labels.avgAAL}: ${fmt(summary.avgAAL)}`, 14, yPos + 12);
                 doc.text(`${labels.criticalHigh}: ${summary.priorityCounts.critical + summary.priorityCounts.high}`, 14, yPos + 18);
-                
+
                 // Table header
                 yPos = 80;
                 doc.setFillColor(240, 240, 240);
@@ -5827,17 +6030,17 @@
                 doc.text(labels.var90, 110, yPos);
                 doc.text(labels.rosi, 145, yPos);
                 doc.text(labels.priority, 170, yPos);
-                
+
                 // Table rows
                 doc.setFont('helvetica', 'normal');
                 yPos += 10;
-                
+
                 tableData.forEach((row, index) => {
                     // Check if we need a new page
                     if (yPos > 270) {
                         doc.addPage();
                         yPos = 20;
-                        
+
                         // Repeat header on new page
                         doc.setFillColor(240, 240, 240);
                         doc.rect(14, yPos - 5, 182, 8, 'F');
@@ -5850,23 +6053,23 @@
                         doc.setFont('helvetica', 'normal');
                         yPos += 10;
                     }
-                    
+
                     // Alternate row background
                     if (index % 2 === 0) {
                         doc.setFillColor(250, 250, 250);
                         doc.rect(14, yPos - 4, 182, 7, 'F');
                     }
-                    
+
                     // Truncate long scenario names
                     const name = row.name.length > 30 ? row.name.substring(0, 27) + '...' : row.name;
                     const rosiText = row.rosi !== null ? `${row.rosi.toFixed(1)}%` : 'N/A';
                     const priorityText = row.priority.charAt(0).toUpperCase() + row.priority.slice(1);
-                    
+
                     doc.text(name, 16, yPos);
                     doc.text(fmt(row.aal), 80, yPos);
                     doc.text(fmt(row.var90), 110, yPos);
                     doc.text(rosiText, 145, yPos);
-                    
+
                     // Color-code priority
                     if (row.priority === 'critical') {
                         doc.setTextColor(220, 38, 38);
@@ -5879,10 +6082,10 @@
                     }
                     doc.text(priorityText, 170, yPos);
                     doc.setTextColor(0, 0, 0);
-                    
+
                     yPos += 7;
                 });
-                
+
                 // Footer
                 const pageCount = doc.internal.getNumberOfPages();
                 for (let i = 1; i <= pageCount; i++) {
@@ -5892,14 +6095,14 @@
                     doc.text(`Page ${i} of ${pageCount}`, 105, 290, { align: 'center' });
                     doc.text('Generated by FAIR Risk Calculator', 14, 290);
                 }
-                
+
                 // Save the PDF
                 const filename = `FAIR_Comparison_${new Date().toISOString().slice(0, 10)}.pdf`;
                 doc.save(filename);
-                
+
                 const successMsg = I18n.translations[I18n.lang]['comparisonExportSuccess'] || 'Comparison exported successfully';
                 showToast('Success', successMsg, 'info', 3000);
-                
+
             } catch (error) {
                 console.error('PDF export error:', error);
                 const errorMsg = I18n.translations[I18n.lang]['comparisonExportError'] || 'Failed to export PDF';
@@ -5910,7 +6113,7 @@
         // Sensitivity Analysis button event listener
         document.getElementById('btn-sensitivity').addEventListener('click', () => {
             console.log('[Main] Sensitivity Analysis button clicked');
-            
+
             // Check if simulation has been run
             const resultsSection = document.getElementById('results-section');
             if (resultsSection.classList.contains('opacity-50')) {
@@ -5918,7 +6121,7 @@
                 showToast('Info', needSimMsg, 'info', 3000);
                 return;
             }
-            
+
             // Validate inputs
             if (!validateAllInputs()) {
                 const errorTitle = I18n.translations[I18n.lang]['validationErrorTitle'] || 'Validation Error';
@@ -5926,14 +6129,14 @@
                 showToast(errorTitle, errorMsg, 'warning', 4000);
                 return;
             }
-            
+
             setSensitivityLoading(true);
-            
+
             // Gather inputs
             const runs = document.getElementById('sim-runs-input').value;
             const tefValues = getTEFValues();
             const vulnValues = getVulnValues();
-            
+
             const payload = {
                 type: 'RUN_SENSITIVITY',
                 payload: {
@@ -5953,7 +6156,7 @@
                     secondaryLossMax: parseFloat(document.getElementById('sec-max').value)
                 }
             };
-            
+
             console.log('[Main] Sending sensitivity analysis request:', payload);
             worker.postMessage(payload);
         });
@@ -5992,51 +6195,69 @@
     <!-- About Author Modal -->
     <div id="about-modal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleModal('about-modal')"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white dark:bg-darkcard rounded-2xl shadow-2xl m-4 max-h-[85vh] overflow-y-auto">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white dark:bg-darkcard rounded-2xl shadow-2xl m-4 max-h-[85vh] overflow-y-auto">
             <!-- Header -->
             <div class="sticky top-0 bg-white dark:bg-darkcard p-6 border-b border-gray-100 dark:border-gray-700">
-                <button onclick="toggleModal('about-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                <button onclick="toggleModal('about-modal')"
+                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">關於 Kuro</h2>
                 <p class="text-gray-700 dark:text-gray-300 mt-2">Cyber & Cloud Security Architect | GRC Professional</p>
-                <p class="text-gray-500 dark:text-gray-400 text-sm">Scuba Diver · AWS Community Builder · ISC2 TPE Director</p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Scuba Diver · AWS Community Builder · ISC2 TPE
+                    Director</p>
             </div>
 
             <!-- Content -->
             <div class="p-6 space-y-4">
                 <!-- Bio Section (Collapsible) -->
                 <div class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
-                    <button class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleAccordion('bio-content', this)">
+                    <button
+                        class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        onclick="toggleAccordion('bio-content', this)">
                         <h3 class="font-bold text-gray-700 dark:text-gray-200">簡介</h3>
-                        <svg class="w-5 h-5 text-gray-400 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <svg class="w-5 h-5 text-gray-400 transform transition-transform rotate-180" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
                     <div id="bio-content" class="px-4 pb-4">
                         <div class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
                             <p>深耕資訊安全領域多年，從學生時期熱衷參與資安社群活動，並經營部落格「Kuro 的資安學習手記」，分享個人學習與實務經驗。</p>
-                            <p>曾於高科技製造業、金融業及四大會計師事務所任職，負責資安架構設計、雲端安全架構設計、GenAI 安全審查、產品安全設計審查、資安檢測、ISO 17025 實驗室維運、檢測實驗室報告簽署人、資安合規評估、資安稽核、資安成熟度與資安策略規劃等工作，具備甲乙雙方的多元視角與實戰經驗，在資安領域累積豐富的專案經歷。</p>
+                            <p>曾於高科技製造業、金融業及四大會計師事務所任職，負責資安架構設計、雲端安全架構設計、GenAI 安全審查、產品安全設計審查、資安檢測、ISO 17025
+                                實驗室維運、檢測實驗室報告簽署人、資安合規評估、資安稽核、資安成熟度與資安策略規劃等工作，具備甲乙雙方的多元視角與實戰經驗，在資安領域累積豐富的專案經歷。</p>
                             <p>此外，Kuro 多次擔任公開演講者及受邀擔任企業專業訓練講師，致力於業界推動資訊安全、雲端安全與人才培育，期望提升台灣資安從業者的專業能力。</p>
-                            <p>Kuro 為 AWS Community Builder - Security 組的貢獻者，ISACA 2021年四張證照前 Top3，EC-Council CEH Master Leaderboard 第一名，並持有 CISSP、CCSP、AWS SAA、AWS AIF、GCP ACE、CISM、CISA、CGEIT、CDPSE、CRISC、CEH Master 等超過 40 張專業國際認證，經驗與資格橫跨資安技術、資安治理、資訊管理、資料保護、網路技術安全、駭客攻防、資安事故回應、產品安全、威脅情資、資安稽核、雲端安全、人工智慧安全等領域。</p>
+                            <p>Kuro 為 AWS Community Builder - Security 組的貢獻者，ISACA 2021年四張證照前 Top3，EC-Council CEH Master
+                                Leaderboard 第一名，並持有 CISSP、CCSP、AWS SAA、AWS AIF、GCP ACE、CISM、CISA、CGEIT、CDPSE、CRISC、CEH
+                                Master 等超過 40
+                                張專業國際認證，經驗與資格橫跨資安技術、資安治理、資訊管理、資料保護、網路技術安全、駭客攻防、資安事故回應、產品安全、威脅情資、資安稽核、雲端安全、人工智慧安全等領域。</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- Certifications Section (Collapsible) -->
                 <div class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
-                    <button class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleAccordion('cert-content', this)">
+                    <button
+                        class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        onclick="toggleAccordion('cert-content', this)">
                         <h3 class="font-bold text-gray-700 dark:text-gray-200">Certifications</h3>
-                        <svg class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <svg class="w-5 h-5 text-gray-400 transform transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
                     <div id="cert-content" class="hidden px-4 pb-4 space-y-4">
                         <!-- GRC -->
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">IT Governance, Risk and Compliance</p>
+                            <p
+                                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                                IT Governance, Risk and Compliance</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="cert-badge" title="ISC2 CISSP | 國際資安系統安全專家">CISSP</span>
                                 <span class="cert-badge" title="ISC2 CCSP | 國際雲端資安專家">CCSP</span>
@@ -6046,16 +6267,22 @@
                                 <span class="cert-badge" title="ISACA CRISC | 國際資訊風險控制師">CRISC</span>
                                 <span class="cert-badge" title="ISACA CGEIT | 國際企業資訊治理師">CGEIT</span>
                                 <span class="cert-badge" title="ISACA CDPSE | 國際資訊隱私防護師">CDPSE</span>
-                                <span class="cert-badge" title="ISO/IEC 27001 Lead Auditor | ISO 27001 主導稽核員">ISO 27001 LA</span>
-                                <span class="cert-badge" title="ISO/IEC 27001 Internal Auditor | ISO 27001 內部稽核員">ISO 27001 IA</span>
-                                <span class="cert-badge" title="ISO 9001 Internal Auditor | ISO 9001 內部稽核員">ISO 9001 IA</span>
-                                <span class="cert-badge" title="Associate Certified Chief Information Security Officer">ACCISO</span>
+                                <span class="cert-badge" title="ISO/IEC 27001 Lead Auditor | ISO 27001 主導稽核員">ISO 27001
+                                    LA</span>
+                                <span class="cert-badge" title="ISO/IEC 27001 Internal Auditor | ISO 27001 內部稽核員">ISO
+                                    27001 IA</span>
+                                <span class="cert-badge" title="ISO 9001 Internal Auditor | ISO 9001 內部稽核員">ISO 9001
+                                    IA</span>
+                                <span class="cert-badge"
+                                    title="Associate Certified Chief Information Security Officer">ACCISO</span>
                                 <span class="cert-badge" title="ISO/IEC 17025 實驗室品質管理訓練合格（APP檢測實驗室）">ISO 17025</span>
                             </div>
                         </div>
                         <!-- Security Analysis -->
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Security Analysis</p>
+                            <p
+                                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                                Security Analysis</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="cert-badge" title="EC-Council 認證駭客技術專家">CEH</span>
                                 <span class="cert-badge" title="EC-Council 認證駭客技術實戰專家">CEH Practical</span>
@@ -6068,9 +6295,12 @@
                         </div>
                         <!-- Cloud & AI -->
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Cloud Computing & AI</p>
+                            <p
+                                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                                Cloud Computing & AI</p>
                             <div class="flex flex-wrap gap-2">
-                                <span class="cert-badge" title="AWS Certified Solutions Architect - Associate">AWS SAA</span>
+                                <span class="cert-badge" title="AWS Certified Solutions Architect - Associate">AWS
+                                    SAA</span>
                                 <span class="cert-badge" title="AWS Certified AI Practitioner">AWS AIF</span>
                                 <span class="cert-badge" title="AWS Certified Cloud Practitioner">AWS CCP</span>
                                 <span class="cert-badge" title="GCP Associate Cloud Engineer">GCP ACE</span>
@@ -6079,7 +6309,9 @@
                         </div>
                         <!-- Incident Handling -->
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Incident Handling</p>
+                            <p
+                                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                                Incident Handling</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="cert-badge" title="EC-Council 威脅情資分析專家">CTIA</span>
                                 <span class="cert-badge" title="EC-Council 安全運營中心(SOC)分析師">CSA</span>
@@ -6088,7 +6320,9 @@
                         </div>
                         <!-- Network Security -->
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Network Security</p>
+                            <p
+                                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                                Network Security</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="cert-badge" title="思科認證網路安全專家">CCNP Security</span>
                                 <span class="cert-badge" title="網路安全封包分析師">NSPA</span>
@@ -6096,7 +6330,9 @@
                         </div>
                         <!-- Network Infrastructure -->
                         <div>
-                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Network Infrastructure</p>
+                            <p
+                                class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                                Network Infrastructure</p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="cert-badge" title="思科認證企業網路建置專家">CCNP Enterprise</span>
                                 <span class="cert-badge" title="思科認證網路工程師">CCNA R&S</span>
@@ -6108,10 +6344,14 @@
 
                 <!-- Sports Section (Collapsible) -->
                 <div class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
-                    <button class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleAccordion('sports-content', this)">
+                    <button
+                        class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        onclick="toggleAccordion('sports-content', this)">
                         <h3 class="font-bold text-gray-700 dark:text-gray-200">Sports Certifications</h3>
-                        <svg class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        <svg class="w-5 h-5 text-gray-400 transform transition-transform" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
                         </svg>
                     </button>
                     <div id="sports-content" class="hidden px-4 pb-4">
@@ -6122,7 +6362,8 @@
                             <span class="cert-badge" title="SSI - React Right Specialty 正確反應員">SSI React Right</span>
                             <span class="cert-badge" title="IANTD - Deep Diver 深度潛水員">IANTD Deep</span>
                             <span class="cert-badge" title="SDI - Advanced Scuba Diver 進階水肺潛水員">SDI Advanced</span>
-                            <span class="cert-badge" title="ADS International - OpenWater Diver 開放水域潛水員">ADS OpenWater</span>
+                            <span class="cert-badge" title="ADS International - OpenWater Diver 開放水域潛水員">ADS
+                                OpenWater</span>
                             <span class="cert-badge" title="ADS International - EAN STANDARD DIVER 高氧潛水員">ADS EAN</span>
                         </div>
                     </div>
@@ -6142,28 +6383,37 @@
 
                 <!-- Social Links -->
                 <div class="flex justify-center items-center gap-4 pt-2">
-                    <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank" rel="noopener noreferrer"
-                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" title="GitHub">
+                    <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                        title="GitHub">
                         <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                         </svg>
                     </a>
                     <a href="https://www.linkedin.com/in/kurohuang/" target="_blank" rel="noopener noreferrer"
-                        class="text-gray-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors" title="LinkedIn">
+                        class="text-gray-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors"
+                        title="LinkedIn">
                         <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            <path
+                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
                         </svg>
                     </a>
                     <a href="https://www.facebook.com/kublackstock/" target="_blank" rel="noopener noreferrer"
-                        class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Facebook">
+                        class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                        title="Facebook">
                         <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z"/>
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z" />
                         </svg>
                     </a>
                     <a href="https://medium.com/@kuroH" target="_blank" rel="noopener noreferrer"
-                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" title="Medium">
+                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                        title="Medium">
                         <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                            <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z"/>
+                            <path
+                                d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z" />
                         </svg>
                     </a>
                 </div>
@@ -6183,14 +6433,17 @@
             cursor: default;
             transition: all 0.2s;
         }
+
         .cert-badge:hover {
             background-color: #dbeafe;
             color: #1d4ed8;
         }
+
         .dark .cert-badge {
             background-color: #374151;
             color: #d1d5db;
         }
+
         .dark .cert-badge:hover {
             background-color: #1e3a8a;
             color: #93c5fd;
