@@ -2201,11 +2201,41 @@
 
     <!-- Disclaimer Footer -->
     <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4 mt-auto">
-        <div class="max-w-5xl mx-auto px-4 text-center">
-            <p class="text-xs text-gray-500 dark:text-gray-400">
-                This tool implements the FAIR methodology for educational purposes.
+        <div class="max-w-5xl mx-auto px-4">
+            <!-- Short notice always visible -->
+            <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-2" data-i18n="footerShortNotice">
                 OpenFAIR™ is a trademark of The Open Group.
             </p>
+            <!-- Expandable full notice -->
+            <div class="text-center">
+                <button 
+                    class="inline-flex items-center gap-1 text-xs text-purple-600 dark:text-purple-400 hover:underline focus:outline-none"
+                    onclick="toggleAccordion('footer-full-notice', this)">
+                    <span data-i18n="footerShowMore">Show full copyright notice</span>
+                    <svg class="w-3 h-3 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="footer-full-notice" class="hidden mt-3 p-4 bg-white dark:bg-darkcard rounded-lg border border-gray-200 dark:border-gray-700 text-xs text-gray-600 dark:text-gray-300 space-y-2">
+                <p data-i18n="footerMethodology">
+                    This tool implements the Factor Analysis of Information Risk (FAIR™) methodology for educational and risk assessment purposes.
+                </p>
+                <p data-i18n="footerTrademark">
+                    OpenFAIR™, O-RA (Open Risk Analysis), and O-RT (Open Risk Taxonomy) are trademarks of The Open Group. This tool is not affiliated with, endorsed by, or certified by The Open Group.
+                </p>
+                <p>
+                    <span data-i18n="footerStandards">For official FAIR standards and certification, visit</span>
+                    <a href="https://www.opengroup.org/certifications/openfair" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline">The Open Group OpenFAIR Certification</a>.
+                </p>
+                <p>
+                    <span data-i18n="footerLicense">This software is released under the MIT License. Source code available on</span>
+                    <a href="https://github.com/kuro-network/ale-calculator" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline">GitHub</a>.
+                </p>
+                <p data-i18n="footerThirdParty">
+                    Third-party libraries: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).
+                </p>
+            </div>
         </div>
     </footer>
 
@@ -2445,7 +2475,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 Industry benchmarks: Ransomware 0.5-2/yr, Data Breach 1-5/yr, DDoS 2-10/yr",
                     hintVulnBenchmark: "💡 Industry benchmarks: Well-protected 10-30%, Average 30-60%, Weak defenses 60-90%",
-                    hintPrimBenchmark: "💡 Industry benchmarks: SMB $50K-$500K, Enterprise $500K-$5M (IBM Cost of Data Breach 2024)"
+                    hintPrimBenchmark: "💡 Industry benchmarks: SMB $50K-$500K, Enterprise $500K-$5M (IBM Cost of Data Breach 2024)",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ is a trademark of The Open Group.",
+                    footerShowMore: "Show full copyright notice",
+                    footerMethodology: "This tool implements the Factor Analysis of Information Risk (FAIR™) methodology for educational and risk assessment purposes.",
+                    footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis), and O-RT (Open Risk Taxonomy) are trademarks of The Open Group. This tool is not affiliated with, endorsed by, or certified by The Open Group.",
+                    footerStandards: "For official FAIR standards and certification, visit",
+                    footerLicense: "This software is released under the MIT License. Source code available on",
+                    footerThirdParty: "Third-party libraries: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 },
                 'zh-TW': {
                     navTitle: "FAIR 風險分析",
@@ -2676,7 +2714,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 產業基準：勒索軟體 0.5-2次/年、資料外洩 1-5次/年、DDoS 2-10次/年",
                     hintVulnBenchmark: "💡 產業基準：防護良好 10-30%、一般水準 30-60%、防護薄弱 60-90%",
-                    hintPrimBenchmark: "💡 產業基準：中小企業 $50K-$500K、大型企業 $500K-$5M（IBM 2024 資料外洩成本報告）"
+                    hintPrimBenchmark: "💡 產業基準：中小企業 $50K-$500K、大型企業 $500K-$5M（IBM 2024 資料外洩成本報告）",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ 是 The Open Group 的商標。",
+                    footerShowMore: "顯示完整版權聲明",
+                    footerMethodology: "本工具實作資訊風險因子分析 (FAIR™) 方法論，供教育及風險評估用途。",
+                    footerTrademark: "OpenFAIR™、O-RA（開放風險分析）及 O-RT（開放風險分類法）為 The Open Group 之商標。本工具與 The Open Group 無隸屬、背書或認證關係。",
+                    footerStandards: "如需官方 FAIR 標準及認證資訊，請造訪",
+                    footerLicense: "本軟體採用 MIT 授權條款釋出。原始碼可於以下取得：",
+                    footerThirdParty: "第三方函式庫：Chart.js (MIT)、jsPDF (MIT)、html2canvas (MIT)、Tailwind CSS (MIT)。"
                 },
                 ja: {
                     navTitle: "FAIRリスク分析",
@@ -2907,7 +2953,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 業界ベンチマーク：ランサムウェア 0.5-2回/年、データ漏洩 1-5回/年、DDoS 2-10回/年",
                     hintVulnBenchmark: "💡 業界ベンチマーク：高防御 10-30%、平均 30-60%、低防御 60-90%",
-                    hintPrimBenchmark: "💡 業界ベンチマーク：中小企業 $50K-$500K、大企業 $500K-$5M（IBM 2024年データ漏洩コストレポート）"
+                    hintPrimBenchmark: "💡 業界ベンチマーク：中小企業 $50K-$500K、大企業 $500K-$5M（IBM 2024年データ漏洩コストレポート）",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ は The Open Group の商標です。",
+                    footerShowMore: "完全な著作権表示を表示",
+                    footerMethodology: "本ツールは、教育およびリスク評価目的で情報リスク要因分析 (FAIR™) 方法論を実装しています。",
+                    footerTrademark: "OpenFAIR™、O-RA（オープンリスク分析）、O-RT（オープンリスク分類法）は The Open Group の商標です。本ツールは The Open Group との提携、承認、認定を受けていません。",
+                    footerStandards: "公式 FAIR 標準および認定については、こちらをご覧ください：",
+                    footerLicense: "本ソフトウェアは MIT ライセンスの下でリリースされています。ソースコードはこちらで入手可能：",
+                    footerThirdParty: "サードパーティライブラリ：Chart.js (MIT)、jsPDF (MIT)、html2canvas (MIT)、Tailwind CSS (MIT)。"
                 },
                 // Spanish (ES)
                 es: {
@@ -2981,7 +3035,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 Benchmarks de la industria: Ransomware 0.5-2/año, Brecha de datos 1-5/año, DDoS 2-10/año",
                     hintVulnBenchmark: "💡 Benchmarks de la industria: Bien protegido 10-30%, Promedio 30-60%, Defensas débiles 60-90%",
-                    hintPrimBenchmark: "💡 Benchmarks de la industria: PYME $50K-$500K, Empresa $500K-$5M (IBM Costo de Brecha de Datos 2024)"
+                    hintPrimBenchmark: "💡 Benchmarks de la industria: PYME $50K-$500K, Empresa $500K-$5M (IBM Costo de Brecha de Datos 2024)",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ es una marca registrada de The Open Group.",
+                    footerShowMore: "Mostrar aviso de copyright completo",
+                    footerMethodology: "Esta herramienta implementa la metodología de Análisis de Factores de Riesgo de Información (FAIR™) con fines educativos y de evaluación de riesgos.",
+                    footerTrademark: "OpenFAIR™, O-RA (Análisis de Riesgo Abierto) y O-RT (Taxonomía de Riesgo Abierta) son marcas registradas de The Open Group. Esta herramienta no está afiliada, respaldada ni certificada por The Open Group.",
+                    footerStandards: "Para estándares y certificación oficial de FAIR, visite",
+                    footerLicense: "Este software se publica bajo la Licencia MIT. Código fuente disponible en",
+                    footerThirdParty: "Bibliotecas de terceros: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 },
                 // German (DE)
                 de: {
@@ -3055,7 +3117,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 Branchenbenchmarks: Ransomware 0,5-2/Jahr, Datenpanne 1-5/Jahr, DDoS 2-10/Jahr",
                     hintVulnBenchmark: "💡 Branchenbenchmarks: Gut geschützt 10-30%, Durchschnitt 30-60%, Schwache Verteidigung 60-90%",
-                    hintPrimBenchmark: "💡 Branchenbenchmarks: KMU $50K-$500K, Unternehmen $500K-$5M (IBM Kosten einer Datenpanne 2024)"
+                    hintPrimBenchmark: "💡 Branchenbenchmarks: KMU $50K-$500K, Unternehmen $500K-$5M (IBM Kosten einer Datenpanne 2024)",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ ist eine Marke von The Open Group.",
+                    footerShowMore: "Vollständigen Urheberrechtshinweis anzeigen",
+                    footerMethodology: "Dieses Tool implementiert die Factor Analysis of Information Risk (FAIR™) Methodik für Bildungs- und Risikobewertungszwecke.",
+                    footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) und O-RT (Open Risk Taxonomy) sind Marken von The Open Group. Dieses Tool ist nicht mit The Open Group verbunden, wird nicht von ihr unterstützt oder zertifiziert.",
+                    footerStandards: "Für offizielle FAIR-Standards und Zertifizierung besuchen Sie",
+                    footerLicense: "Diese Software wird unter der MIT-Lizenz veröffentlicht. Quellcode verfügbar auf",
+                    footerThirdParty: "Drittanbieter-Bibliotheken: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 },
                 // French (FR)
                 fr: {
@@ -3129,7 +3199,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 Benchmarks de l'industrie: Ransomware 0,5-2/an, Violation de données 1-5/an, DDoS 2-10/an",
                     hintVulnBenchmark: "💡 Benchmarks de l'industrie: Bien protégé 10-30%, Moyen 30-60%, Défenses faibles 60-90%",
-                    hintPrimBenchmark: "💡 Benchmarks de l'industrie: PME $50K-$500K, Entreprise $500K-$5M (IBM Coût d'une Violation de Données 2024)"
+                    hintPrimBenchmark: "💡 Benchmarks de l'industrie: PME $50K-$500K, Entreprise $500K-$5M (IBM Coût d'une Violation de Données 2024)",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ est une marque de The Open Group.",
+                    footerShowMore: "Afficher l'avis de copyright complet",
+                    footerMethodology: "Cet outil implémente la méthodologie d'Analyse des Facteurs de Risque de l'Information (FAIR™) à des fins éducatives et d'évaluation des risques.",
+                    footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) et O-RT (Open Risk Taxonomy) sont des marques de The Open Group. Cet outil n'est pas affilié, approuvé ou certifié par The Open Group.",
+                    footerStandards: "Pour les normes et la certification FAIR officielles, visitez",
+                    footerLicense: "Ce logiciel est publié sous la licence MIT. Code source disponible sur",
+                    footerThirdParty: "Bibliothèques tierces: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 },
                 // Portuguese (PT)
                 pt: {
@@ -3203,7 +3281,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 Benchmarks da indústria: Ransomware 0,5-2/ano, Violação de dados 1-5/ano, DDoS 2-10/ano",
                     hintVulnBenchmark: "💡 Benchmarks da indústria: Bem protegido 10-30%, Médio 30-60%, Defesas fracas 60-90%",
-                    hintPrimBenchmark: "💡 Benchmarks da indústria: PME $50K-$500K, Empresa $500K-$5M (IBM Custo de Violação de Dados 2024)"
+                    hintPrimBenchmark: "💡 Benchmarks da indústria: PME $50K-$500K, Empresa $500K-$5M (IBM Custo de Violação de Dados 2024)",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ é uma marca registrada do The Open Group.",
+                    footerShowMore: "Mostrar aviso de copyright completo",
+                    footerMethodology: "Esta ferramenta implementa a metodologia de Análise de Fatores de Risco da Informação (FAIR™) para fins educacionais e de avaliação de riscos.",
+                    footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) e O-RT (Open Risk Taxonomy) são marcas registradas do The Open Group. Esta ferramenta não é afiliada, endossada ou certificada pelo The Open Group.",
+                    footerStandards: "Para padrões e certificação FAIR oficiais, visite",
+                    footerLicense: "Este software é lançado sob a Licença MIT. Código fonte disponível no",
+                    footerThirdParty: "Bibliotecas de terceiros: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 },
                 // Vietnamese (VI)
                 vi: {
@@ -3277,7 +3363,15 @@
                     // Industry benchmark hints
                     hintTefBenchmark: "💡 Tiêu chuẩn ngành: Ransomware 0,5-2/năm, Vi phạm dữ liệu 1-5/năm, DDoS 2-10/năm",
                     hintVulnBenchmark: "💡 Tiêu chuẩn ngành: Bảo vệ tốt 10-30%, Trung bình 30-60%, Phòng thủ yếu 60-90%",
-                    hintPrimBenchmark: "💡 Tiêu chuẩn ngành: SME $50K-$500K, Doanh nghiệp $500K-$5M (IBM Chi phí Vi phạm Dữ liệu 2024)"
+                    hintPrimBenchmark: "💡 Tiêu chuẩn ngành: SME $50K-$500K, Doanh nghiệp $500K-$5M (IBM Chi phí Vi phạm Dữ liệu 2024)",
+                    // Footer translations
+                    footerShortNotice: "OpenFAIR™ là thương hiệu của The Open Group.",
+                    footerShowMore: "Hiển thị thông báo bản quyền đầy đủ",
+                    footerMethodology: "Công cụ này triển khai phương pháp Phân Tích Yếu Tố Rủi Ro Thông Tin (FAIR™) cho mục đích giáo dục và đánh giá rủi ro.",
+                    footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) và O-RT (Open Risk Taxonomy) là thương hiệu của The Open Group. Công cụ này không liên kết, được chứng thực hoặc chứng nhận bởi The Open Group.",
+                    footerStandards: "Để biết tiêu chuẩn và chứng nhận FAIR chính thức, hãy truy cập",
+                    footerLicense: "Phần mềm này được phát hành theo Giấy phép MIT. Mã nguồn có sẵn trên",
+                    footerThirdParty: "Thư viện bên thứ ba: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 }
             },
 
@@ -3383,7 +3477,9 @@
             const el = document.getElementById(id);
             el.classList.toggle('hidden');
             const icon = btn.querySelector('svg');
-            icon.classList.toggle('rotate-180');
+            if (icon) {
+                icon.classList.toggle('rotate-180');
+            }
         }
 
         function toggleModal(id) {

@@ -1177,7 +1177,7 @@ self.onmessage = function (e) {
                 totalRuns: baselineResults.totalRuns,
                 // Convergence metrics
                 convergenceMetrics: baselineResults.convergenceMetrics,
-                // Decomposition info for debugging/display
+                // Decomposition info for UI display
                 decomposition: {
                     useTEFDecomposition: useTEFDecomposition || false,
                     useVulnDecomposition: useVulnDecomposition || false,

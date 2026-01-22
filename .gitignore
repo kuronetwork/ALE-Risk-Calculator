@@ -137,3 +137,11 @@ Desktop.ini
 .kiro/specs/*/tasks.md.backup
 .agent/rules/
 .kiro/specs/*
+
+# Development and testing files
+tests/
+node_modules/
+package.json
+package-lock.json
+run-property*.js
+*.test.js
