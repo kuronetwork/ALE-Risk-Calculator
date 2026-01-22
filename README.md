@@ -539,7 +539,8 @@ This project is licensed under the **MIT License** - see the [LICENSE.md](LICENS
 
 ### Version History
 
-- **v2.3.0** (Current) - Fixed FAIR page mobile layout issue, added version-based cache refresh for FAIR page
+- **v2.4.0** (Current) - Added About Author button to FAIR page, enhanced footer with expandable copyright notice (8 languages), improved code quality for open source release
+- **v2.3.0** - Fixed FAIR page mobile layout issue, added version-based cache refresh for FAIR page
 - **v2.2.0** - FAIR Analysis module with Monte Carlo simulation and ROSI calculator
 - **v2.1.1** - Fixed number overflow in ROI dashboard cards and tables
 - **v2.1.0** - PWA features, batch processing, history management

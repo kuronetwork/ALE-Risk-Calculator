@@ -3266,7 +3266,10 @@ if (typeof module !== 'undefined' && module.exports) {
     };
 }
 
-// Export for ES6 modules
+// ES6 module exports are commented out because this file is loaded as a regular script
+// in fair.html. The window.FAIRCore global object provides all exports for browser usage.
+// If you need ES6 module support, load this file with <script type="module">
+/*
 export {
     createPERTInput,
     createDefaultLEFInput,
@@ -3397,7 +3400,7 @@ export {
     downloadReportPDF,
     exportHTMLReportToPDF
 };
-
+*/
 
 // ============================================================================
 // Scenario Comparison Table Functions

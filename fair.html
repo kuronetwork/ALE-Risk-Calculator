@@ -717,14 +717,21 @@
     <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="./index.html"
-                    class="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors group">
-                    <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-                    </svg>
-                    <span class="text-sm font-medium" data-i18n="navBack">Kuro Risk Calculator</span>
-                </a>
+                <div class="flex items-center">
+                    <a href="./index.html"
+                        class="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors group">
+                        <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        <span class="text-sm font-medium" data-i18n="navBack">Kuro Risk Calculator</span>
+                    </a>
+                    <button onclick="toggleModal('about-modal')"
+                        class="ml-2 sm:ml-4 inline-flex items-center px-2 sm:px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <span class="hidden sm:inline" data-i18n="navAboutBtn">About Author</span>
+                        <span class="sm:hidden">Author</span>
+                    </button>
+                </div>
 
                 <div class="flex items-center space-x-2 md:space-x-4">
                     <!-- Currency Selector -->
@@ -2247,6 +2254,7 @@
             translations: {
                 en: {
                     navBack: "Kuro Risk Calculator",
+                    navAboutBtn: "About Author",
                     navTitle: "FAIR Analysis",
                     labelScenario: "Scenario",
                     pageSubtitle: "Factor Analysis of Information Risk (OpenFAIR™)",
@@ -2486,6 +2494,7 @@
                     footerThirdParty: "Third-party libraries: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
                 },
                 'zh-TW': {
+                    navAboutBtn: "關於作者",
                     navTitle: "FAIR 風險分析",
                     pageTitle: "風險情境分析",
                     pageSubtitle: "資訊風險因子分析 (OpenFAIR™)",
@@ -2725,6 +2734,7 @@
                     footerThirdParty: "第三方函式庫：Chart.js (MIT)、jsPDF (MIT)、html2canvas (MIT)、Tailwind CSS (MIT)。"
                 },
                 ja: {
+                    navAboutBtn: "著者について",
                     navTitle: "FAIRリスク分析",
                     pageTitle: "リスクシナリオ",
                     pageSubtitle: "情報リスク要因分析 (OpenFAIR™)",
@@ -2966,6 +2976,7 @@
                 // Spanish (ES)
                 es: {
                     navBack: "Calculadora de Riesgo Kuro",
+                    navAboutBtn: "Sobre el Autor",
                     navTitle: "Análisis FAIR",
                     labelScenario: "Escenario",
                     pageSubtitle: "Análisis de Factores de Riesgo de Información (OpenFAIR™)",
@@ -3048,6 +3059,7 @@
                 // German (DE)
                 de: {
                     navBack: "Kuro Risikorechner",
+                    navAboutBtn: "Über den Autor",
                     navTitle: "FAIR-Analyse",
                     labelScenario: "Szenario",
                     pageSubtitle: "Faktoranalyse von Informationsrisiken (OpenFAIR™)",
@@ -3130,6 +3142,7 @@
                 // French (FR)
                 fr: {
                     navBack: "Calculateur de Risque Kuro",
+                    navAboutBtn: "À propos de l'auteur",
                     navTitle: "Analyse FAIR",
                     labelScenario: "Scénario",
                     pageSubtitle: "Analyse des Facteurs de Risque de l'Information (OpenFAIR™)",
@@ -3212,6 +3225,7 @@
                 // Portuguese (PT)
                 pt: {
                     navBack: "Calculadora de Risco Kuro",
+                    navAboutBtn: "Sobre o Autor",
                     navTitle: "Análise FAIR",
                     labelScenario: "Cenário",
                     pageSubtitle: "Análise de Fatores de Risco da Informação (OpenFAIR™)",
@@ -3294,6 +3308,7 @@
                 // Vietnamese (VI)
                 vi: {
                     navBack: "Máy Tính Rủi Ro Kuro",
+                    navAboutBtn: "Về Tác Giả",
                     navTitle: "Phân Tích FAIR",
                     labelScenario: "Kịch Bản",
                     pageSubtitle: "Phân Tích Yếu Tố Rủi Ro Thông Tin (OpenFAIR™)",
@@ -3809,8 +3824,9 @@
         }
 
         // --- Simulation Runs Input Functions ---
-        const MIN_SIMULATION_RUNS = 100;
-        const MAX_SIMULATION_RUNS = 100000;
+        // Use local constants to avoid conflict with fair-core.js
+        const SIM_RUNS_MIN = 100;
+        const SIM_RUNS_MAX = 100000;
 
         /**
          * Sets the simulation runs input value and updates preset button styles
@@ -3872,10 +3888,10 @@
             }
             
             // Check range
-            if (value < MIN_SIMULATION_RUNS || value > MAX_SIMULATION_RUNS) {
+            if (value < SIM_RUNS_MIN || value > SIM_RUNS_MAX) {
                 const msg = (I18n.translations[I18n.lang]?.simRunsRange || 'Simulation runs must be between {min} and {max}')
-                    .replace('{min}', MIN_SIMULATION_RUNS.toLocaleString())
-                    .replace('{max}', MAX_SIMULATION_RUNS.toLocaleString());
+                    .replace('{min}', SIM_RUNS_MIN.toLocaleString())
+                    .replace('{max}', SIM_RUNS_MAX.toLocaleString());
                 textEl.textContent = msg;
                 msgEl.classList.add('visible', 'error');
                 input.classList.add('input-error');
@@ -3897,7 +3913,7 @@
             if (!input) return 10000; // Default fallback
             
             const value = parseInt(input.value);
-            if (isNaN(value) || value < MIN_SIMULATION_RUNS || value > MAX_SIMULATION_RUNS) {
+            if (isNaN(value) || value < SIM_RUNS_MIN || value > SIM_RUNS_MAX) {
                 return null;
             }
             return value;
@@ -5644,23 +5660,36 @@
         }
 
         // Initialize comparison table on page load
-        document.addEventListener('DOMContentLoaded', function() {
+        function initComparisonTable() {
             refreshComparisonTable();
-        });
-
-        // Event listeners for comparison table controls
-        document.getElementById('btn-save-scenario').addEventListener('click', saveCurrentScenario);
-        document.getElementById('btn-refresh-comparison').addEventListener('click', refreshComparisonTable);
-        document.getElementById('comparison-search').addEventListener('input', refreshComparisonTable);
-        document.getElementById('comparison-sort').addEventListener('change', refreshComparisonTable);
-        document.getElementById('comparison-filter-priority').addEventListener('change', refreshComparisonTable);
-        document.getElementById('comparison-chart-metric').addEventListener('change', onComparisonChartMetricChange);
-
-        // Export comparison to CSV
-        document.getElementById('btn-export-comparison-csv').addEventListener('click', exportComparisonCSV);
+            
+            // Event listeners for comparison table controls
+            const btnSave = document.getElementById('btn-save-scenario');
+            const btnRefresh = document.getElementById('btn-refresh-comparison');
+            const searchInput = document.getElementById('comparison-search');
+            const sortSelect = document.getElementById('comparison-sort');
+            const filterSelect = document.getElementById('comparison-filter-priority');
+            const metricSelect = document.getElementById('comparison-chart-metric');
+            const btnExportCSV = document.getElementById('btn-export-comparison-csv');
+            const btnExportPDF = document.getElementById('btn-export-comparison-pdf');
+            
+            if (btnSave) btnSave.addEventListener('click', saveCurrentScenario);
+            if (btnRefresh) btnRefresh.addEventListener('click', refreshComparisonTable);
+            if (searchInput) searchInput.addEventListener('input', refreshComparisonTable);
+            if (sortSelect) sortSelect.addEventListener('change', refreshComparisonTable);
+            if (filterSelect) filterSelect.addEventListener('change', refreshComparisonTable);
+            if (metricSelect) metricSelect.addEventListener('change', onComparisonChartMetricChange);
+            if (btnExportCSV) btnExportCSV.addEventListener('click', exportComparisonCSV);
+            if (btnExportPDF) btnExportPDF.addEventListener('click', exportComparisonPDF);
+        }
         
-        // Export comparison to PDF
-        document.getElementById('btn-export-comparison-pdf').addEventListener('click', exportComparisonPDF);
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initComparisonTable);
+        } else {
+            // DOM is already ready
+            initComparisonTable();
+        }
 
         /**
          * Exports comparison table data to CSV file
@@ -5959,6 +5988,214 @@
         }
 
     </script>
+
+    <!-- About Author Modal -->
+    <div id="about-modal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleModal('about-modal')"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white dark:bg-darkcard rounded-2xl shadow-2xl m-4 max-h-[85vh] overflow-y-auto">
+            <!-- Header -->
+            <div class="sticky top-0 bg-white dark:bg-darkcard p-6 border-b border-gray-100 dark:border-gray-700">
+                <button onclick="toggleModal('about-modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">關於 Kuro</h2>
+                <p class="text-gray-700 dark:text-gray-300 mt-2">Cyber & Cloud Security Architect | GRC Professional</p>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Scuba Diver · AWS Community Builder · ISC2 TPE Director</p>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 space-y-4">
+                <!-- Bio Section (Collapsible) -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <button class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleAccordion('bio-content', this)">
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200">簡介</h3>
+                        <svg class="w-5 h-5 text-gray-400 transform transition-transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="bio-content" class="px-4 pb-4">
+                        <div class="text-sm text-gray-600 dark:text-gray-300 space-y-2">
+                            <p>深耕資訊安全領域多年，從學生時期熱衷參與資安社群活動，並經營部落格「Kuro 的資安學習手記」，分享個人學習與實務經驗。</p>
+                            <p>曾於高科技製造業、金融業及四大會計師事務所任職，負責資安架構設計、雲端安全架構設計、GenAI 安全審查、產品安全設計審查、資安檢測、ISO 17025 實驗室維運、檢測實驗室報告簽署人、資安合規評估、資安稽核、資安成熟度與資安策略規劃等工作，具備甲乙雙方的多元視角與實戰經驗，在資安領域累積豐富的專案經歷。</p>
+                            <p>此外，Kuro 多次擔任公開演講者及受邀擔任企業專業訓練講師，致力於業界推動資訊安全、雲端安全與人才培育，期望提升台灣資安從業者的專業能力。</p>
+                            <p>Kuro 為 AWS Community Builder - Security 組的貢獻者，ISACA 2021年四張證照前 Top3，EC-Council CEH Master Leaderboard 第一名，並持有 CISSP、CCSP、AWS SAA、AWS AIF、GCP ACE、CISM、CISA、CGEIT、CDPSE、CRISC、CEH Master 等超過 40 張專業國際認證，經驗與資格橫跨資安技術、資安治理、資訊管理、資料保護、網路技術安全、駭客攻防、資安事故回應、產品安全、威脅情資、資安稽核、雲端安全、人工智慧安全等領域。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications Section (Collapsible) -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <button class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleAccordion('cert-content', this)">
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200">Certifications</h3>
+                        <svg class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="cert-content" class="hidden px-4 pb-4 space-y-4">
+                        <!-- GRC -->
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">IT Governance, Risk and Compliance</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="cert-badge" title="ISC2 CISSP | 國際資安系統安全專家">CISSP</span>
+                                <span class="cert-badge" title="ISC2 CCSP | 國際雲端資安專家">CCSP</span>
+                                <span class="cert-badge" title="ISC2 CC | Certified in Cybersecurity">CC</span>
+                                <span class="cert-badge" title="ISACA CISA | 國際電腦稽核師">CISA</span>
+                                <span class="cert-badge" title="ISACA CISM | 國際資訊安全經理人">CISM</span>
+                                <span class="cert-badge" title="ISACA CRISC | 國際資訊風險控制師">CRISC</span>
+                                <span class="cert-badge" title="ISACA CGEIT | 國際企業資訊治理師">CGEIT</span>
+                                <span class="cert-badge" title="ISACA CDPSE | 國際資訊隱私防護師">CDPSE</span>
+                                <span class="cert-badge" title="ISO/IEC 27001 Lead Auditor | ISO 27001 主導稽核員">ISO 27001 LA</span>
+                                <span class="cert-badge" title="ISO/IEC 27001 Internal Auditor | ISO 27001 內部稽核員">ISO 27001 IA</span>
+                                <span class="cert-badge" title="ISO 9001 Internal Auditor | ISO 9001 內部稽核員">ISO 9001 IA</span>
+                                <span class="cert-badge" title="Associate Certified Chief Information Security Officer">ACCISO</span>
+                                <span class="cert-badge" title="ISO/IEC 17025 實驗室品質管理訓練合格（APP檢測實驗室）">ISO 17025</span>
+                            </div>
+                        </div>
+                        <!-- Security Analysis -->
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Security Analysis</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="cert-badge" title="EC-Council 認證駭客技術專家">CEH</span>
+                                <span class="cert-badge" title="EC-Council 認證駭客技術實戰專家">CEH Practical</span>
+                                <span class="cert-badge" title="EC-Council 認證駭客技術大師">CEH Master</span>
+                                <span class="cert-badge" title="EC-Council 認證資安分析專家">ECSA</span>
+                                <span class="cert-badge" title="CREST 認證資安分析專家">CPSA</span>
+                                <span class="cert-badge" title="趨勢認證資訊安全專家">TCSE</span>
+                                <span class="cert-badge" title="初級資訊安全工程師能力鑑定">iPAS</span>
+                            </div>
+                        </div>
+                        <!-- Cloud & AI -->
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Cloud Computing & AI</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="cert-badge" title="AWS Certified Solutions Architect - Associate">AWS SAA</span>
+                                <span class="cert-badge" title="AWS Certified AI Practitioner">AWS AIF</span>
+                                <span class="cert-badge" title="AWS Certified Cloud Practitioner">AWS CCP</span>
+                                <span class="cert-badge" title="GCP Associate Cloud Engineer">GCP ACE</span>
+                                <span class="cert-badge" title="Microsoft Azure Fundamentals">AZ-900</span>
+                            </div>
+                        </div>
+                        <!-- Incident Handling -->
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Incident Handling</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="cert-badge" title="EC-Council 威脅情資分析專家">CTIA</span>
+                                <span class="cert-badge" title="EC-Council 安全運營中心(SOC)分析師">CSA</span>
+                                <span class="cert-badge" title="EC-Council 資安危機處理員">ECIH</span>
+                            </div>
+                        </div>
+                        <!-- Network Security -->
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Network Security</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="cert-badge" title="思科認證網路安全專家">CCNP Security</span>
+                                <span class="cert-badge" title="網路安全封包分析師">NSPA</span>
+                            </div>
+                        </div>
+                        <!-- Network Infrastructure -->
+                        <div>
+                            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">Network Infrastructure</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="cert-badge" title="思科認證企業網路建置專家">CCNP Enterprise</span>
+                                <span class="cert-badge" title="思科認證網路工程師">CCNA R&S</span>
+                                <span class="cert-badge" title="VMware 認證網路虛擬化專家">VCP-NV</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sports Section (Collapsible) -->
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden">
+                    <button class="w-full p-4 text-left flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" onclick="toggleAccordion('sports-content', this)">
+                        <h3 class="font-bold text-gray-700 dark:text-gray-200">Sports Certifications</h3>
+                        <svg class="w-5 h-5 text-gray-400 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div id="sports-content" class="hidden px-4 pb-4">
+                        <div class="flex flex-wrap gap-2">
+                            <span class="cert-badge" title="中華民國健身運動協會">體適能健身C級</span>
+                            <span class="cert-badge" title="PADI - Divemaster 潛水長">PADI Divemaster</span>
+                            <span class="cert-badge" title="PADI - Rescue Diver 救援潛水員">PADI Rescue</span>
+                            <span class="cert-badge" title="SSI - React Right Specialty 正確反應員">SSI React Right</span>
+                            <span class="cert-badge" title="IANTD - Deep Diver 深度潛水員">IANTD Deep</span>
+                            <span class="cert-badge" title="SDI - Advanced Scuba Diver 進階水肺潛水員">SDI Advanced</span>
+                            <span class="cert-badge" title="ADS International - OpenWater Diver 開放水域潛水員">ADS OpenWater</span>
+                            <span class="cert-badge" title="ADS International - EAN STANDARD DIVER 高氧潛水員">ADS EAN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Links -->
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <a href="https://portaly.cc/kurohuang" target="_blank" rel="noopener noreferrer"
+                        class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-colors">
+                        更多作者介紹
+                    </a>
+                    <a href="mailto:contact@kuronetwork.me"
+                        class="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium rounded-lg transition-colors">
+                        Contact
+                    </a>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex justify-center items-center gap-4 pt-2">
+                    <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" title="GitHub">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kurohuang/" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors" title="LinkedIn">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/kublackstock/" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" title="Facebook">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z"/>
+                        </svg>
+                    </a>
+                    <a href="https://medium.com/@kuroH" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors" title="Medium">
+                        <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                            <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .cert-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: #f3f4f6;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: default;
+            transition: all 0.2s;
+        }
+        .cert-badge:hover {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+        .dark .cert-badge {
+            background-color: #374151;
+            color: #d1d5db;
+        }
+        .dark .cert-badge:hover {
+            background-color: #1e3a8a;
+            color: #93c5fd;
+        }
+    </style>
 </body>
 
 </html>
