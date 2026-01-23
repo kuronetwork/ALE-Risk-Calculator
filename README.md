@@ -106,10 +106,8 @@ FAIR is a quantitative risk analysis framework that helps organizations understa
 - **BEC (Business Email Compromise)**: FBI IC3 report statistics
 - **Insider Threat**: Ponemon Institute research data
 
-**Scenario Comparison**
-- Save and compare multiple risk scenarios
-- Side-by-side analysis of different threat types
-- Export comparison reports for stakeholder presentations
+**Scenario Comparison** (Coming Soon)
+- Feature temporarily disabled for improvements
 
 **Multi-language Support**: English, 繁體中文, 日本語
 
@@ -686,10 +684,8 @@ FAIR 是一個量化風險分析框架，協助組織以財務術語理解、分
 - **BEC（商業電子郵件詐騙）**：FBI IC3 報告統計
 - **內部威脅**：Ponemon Institute 研究數據
 
-**情境比較**
-- 儲存並比較多個風險情境
-- 不同威脅類型的並排分析
-- 匯出比較報告供利害關係人簡報使用
+**情境比較**（即將推出）
+- 功能暫時停用以進行改進
 
 **多語系支援**：English、繁體中文、日本語
 
