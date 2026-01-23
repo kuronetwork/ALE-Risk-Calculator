@@ -714,6 +714,15 @@
                 background-position: 1000px 0;
             }
         }
+
+        /* Footer Social Icons Hover Effect */
+        .social-icon {
+            transition: transform 0.2s ease, fill 0.2s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 
@@ -2137,67 +2146,139 @@
     </div>
 
     <!-- Tutorial Modal -->
+    <!-- Quick Start Guide Modal -->
     <div id="tutorial-modal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="toggleModal('tutorial-modal')"></div>
         <div
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-white dark:bg-darkcard rounded-2xl shadow-2xl p-6 m-4 max-h-[90vh] overflow-y-auto">
-            <h3 class="text-xl font-bold mb-4" data-i18n="modalTitle">Methodology Guide</h3>
-            <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300">
-                <p><span data-i18n="modalIntro">This tool uses</span> <strong>OpenFAIR™</strong> <span
-                        data-i18n="modalIntro2">standard calculations with</span> <strong>Monte Carlo
-                        Simulation</strong>.</p>
+            <h3 class="text-xl font-bold mb-4" data-i18n="quickStartTitle">Quick Start Guide</h3>
+            <div class="space-y-3 text-sm text-gray-600 dark:text-gray-300">
 
+                <!-- Step 1 -->
                 <div class="bg-purple-50 dark:bg-purple-900/20 p-3 rounded-lg">
-                    <h4 class="font-bold text-purple-700 dark:text-purple-300">1. Beta-PERT Distribution</h4>
-                    <p class="mt-1" data-i18n="modalPert">Unlike simple averages, we use Min/Most Likely/Max inputs to
-                        create a smooth probability curve (Lambda=4). This accounts for uncertainty in your estimates.
-                    </p>
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 bg-purple-600 text-white rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                        <div>
+                            <h4 class="font-bold text-purple-700 dark:text-purple-300" data-i18n="quickStartStep1Title">Choose Scenario</h4>
+                            <p class="mt-1" data-i18n="quickStartStep1Desc">Select a template (Ransomware, Data Breach, etc.) or create a custom scenario name.</p>
+                            <p class="mt-1 text-xs text-purple-600 dark:text-purple-400" data-i18n="quickStartStep1Tip">Tip: Templates auto-fill industry reference values</p>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Step 2 -->
                 <div class="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
-                    <h4 class="font-bold text-blue-700 dark:text-blue-300">2. Event-Driven Logic</h4>
-                    <p class="mt-1" data-i18n="modalEvent">Risk = Frequency x Magnitude. We treat risk as discrete
-                        events using a <strong>Poisson Distribution</strong> for frequency, ensuring rare high-impact
-                        events are modeled correctly.</p>
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                        <div>
+                            <h4 class="font-bold text-blue-700 dark:text-blue-300" data-i18n="quickStartStep2Title">Enter Threat Frequency (TEF)</h4>
+                            <p class="mt-1" data-i18n="quickStartStep2Desc">Estimate how many threat events may occur per year.</p>
+                            <ul class="mt-1 text-xs space-y-0.5 list-disc list-inside text-gray-500 dark:text-gray-400">
+                                <li data-i18n="quickStartStep2Min">Min: Best-case scenario</li>
+                                <li data-i18n="quickStartStep2Likely">Most Likely: Based on experience</li>
+                                <li data-i18n="quickStartStep2Max">Max: Worst-case scenario</li>
+                            </ul>
+                            <p class="mt-1 text-xs text-blue-600 dark:text-blue-400" data-i18n="quickStartStep2Tip">Tip: Not sure? Start with template values and adjust later</p>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Step 3 -->
                 <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
-                    <h4 class="font-bold text-green-700 dark:text-green-300">3. FAIR Calculation Formula</h4>
-                    <div class="mt-2 space-y-2 text-xs font-mono bg-white dark:bg-gray-800 p-3 rounded">
-                        <p><strong>LEF</strong> = TEF × Vulnerability</p>
-                        <p><strong>LM</strong> = Primary Loss + (Secondary Loss × Sec. Prob)</p>
-                        <p><strong>AAL</strong> = Σ(LEF × LM) / Simulation Runs</p>
-                        <p><strong>VaR 90%</strong> = 90th percentile of annual losses</p>
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 bg-green-600 text-white rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                        <div>
+                            <h4 class="font-bold text-green-700 dark:text-green-300" data-i18n="quickStartStep3Title">Enter Vulnerability</h4>
+                            <p class="mt-1" data-i18n="quickStartStep3Desc">Probability of actual loss when a threat event occurs (0-100%).</p>
+                            <p class="mt-1 text-xs text-green-600 dark:text-green-400" data-i18n="quickStartStep3Tip">Tip: Consider your existing security controls' effectiveness</p>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Step 4 -->
                 <div class="bg-amber-50 dark:bg-amber-900/20 p-3 rounded-lg">
-                    <h4 class="font-bold text-amber-700 dark:text-amber-300">4. ROSI Calculation</h4>
-                    <p class="mt-1" data-i18n="modalRosi">When Mitigating Controls are configured:</p>
-                    <div class="mt-2 space-y-2 text-xs font-mono bg-white dark:bg-gray-800 p-3 rounded">
-                        <p><strong>Vuln (after)</strong> = Vuln × (1 - Effectiveness%)</p>
-                        <p><strong>Risk Reduction</strong> = AAL (before) - AAL (after)</p>
-                        <p><strong>ROSI</strong> = (Risk Reduction - Control Cost) / Control Cost × 100%</p>
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 bg-amber-600 text-white rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                        <div>
+                            <h4 class="font-bold text-amber-700 dark:text-amber-300" data-i18n="quickStartStep4Title">Enter Loss Amounts</h4>
+                            <p class="mt-1" data-i18n="quickStartStep4Desc">Estimate financial impact in your selected currency.</p>
+                            <ul class="mt-1 text-xs space-y-0.5 list-disc list-inside text-gray-500 dark:text-gray-400">
+                                <li data-i18n="quickStartStep4Primary">Primary Loss: Direct costs (recovery, downtime, ransom, etc.)</li>
+                                <li data-i18n="quickStartStep4Secondary">Secondary Loss: Indirect costs (reputation, legal, customer churn)</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg">
-                    <h4 class="font-bold text-gray-700 dark:text-gray-300">5. Monte Carlo Runs</h4>
-                    <p class="mt-1" data-i18n="modalRuns">Each "run" simulates one year. More runs produce more stable
-                        statistics:</p>
-                    <ul class="mt-2 text-xs space-y-1 list-disc list-inside">
-                        <li><strong>1K:</strong> <span data-i18n="runs1k">Quick preview, less stable tail values</span>
-                        </li>
-                        <li><strong>10K:</strong> <span data-i18n="runs10k">Recommended balance of speed and
-                                accuracy</span></li>
-                        <li><strong>50K:</strong> <span data-i18n="runs50k">High precision for formal reports</span>
-                        </li>
-                    </ul>
+                <!-- Step 5 -->
+                <div class="bg-indigo-50 dark:bg-indigo-900/20 p-3 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 bg-indigo-600 text-white rounded-full flex items-center justify-center text-xs font-bold">5</span>
+                        <div>
+                            <h4 class="font-bold text-indigo-700 dark:text-indigo-300" data-i18n="quickStartStep5Title">Run Simulation</h4>
+                            <p class="mt-1" data-i18n="quickStartStep5Desc">Choose simulation iterations and click "Run Simulation".</p>
+                            <ul class="mt-1 text-xs space-y-0.5 list-disc list-inside text-gray-500 dark:text-gray-400">
+                                <li><strong>1K:</strong> <span data-i18n="quickStartStep5Run1k">Quick preview (~1 sec)</span></li>
+                                <li><strong>10K:</strong> <span data-i18n="quickStartStep5Run10k">Recommended for most cases</span></li>
+                                <li><strong>50K+:</strong> <span data-i18n="quickStartStep5Run50k">For formal reports, more stable results</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="bg-rose-50 dark:bg-rose-900/20 p-3 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <span class="flex-shrink-0 w-6 h-6 bg-rose-600 text-white rounded-full flex items-center justify-center text-xs font-bold">6</span>
+                        <div>
+                            <h4 class="font-bold text-rose-700 dark:text-rose-300" data-i18n="quickStartStep6Title">Interpret Results</h4>
+                            <p class="mt-1" data-i18n="quickStartStep6Desc">Review the key metrics from your simulation.</p>
+                            <ul class="mt-1 text-xs space-y-0.5 list-disc list-inside text-gray-500 dark:text-gray-400">
+                                <li><strong>AAL:</strong> <span data-i18n="quickStartStep6AAL">Average Annual Loss - expected yearly loss</span></li>
+                                <li><strong>VaR 90%:</strong> <span data-i18n="quickStartStep6VaR">90% confidence the loss won't exceed this amount</span></li>
+                                <li><strong>Max Loss:</strong> <span data-i18n="quickStartStep6Max">Worst-case single loss in simulation</span></li>
+                            </ul>
+                            <p class="mt-1 text-xs text-rose-600 dark:text-rose-400" data-i18n="quickStartStep6Tip">Tip: Download PDF report to share with stakeholders</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Methodology hint -->
+                <div class="text-center text-xs text-gray-500 dark:text-gray-400 pt-2">
+                    <p data-i18n="quickStartMethodologyHint">Want to learn FAIR methodology? Expand "Methodology Guide" on the page.</p>
                 </div>
 
                 <button onclick="toggleModal('tutorial-modal')"
-                    class="w-full py-3 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 rounded-lg font-bold mt-4"
-                    data-i18n="btnClose">Close</button>
+                    class="w-full py-3 bg-primary hover:bg-blue-600 text-white rounded-lg font-bold mt-2 transition-colors"
+                    data-i18n="quickStartBegin">Let's Begin</button>
+
+                <!-- Author Credit -->
+                <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <div class="text-center">
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                            <span data-i18n="quickStartBuiltBy">Built by</span>
+                            <button onclick="toggleModal('tutorial-modal'); setTimeout(() => toggleModal('about-modal'), 300);"
+                                class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                                Kuro
+                            </button>
+                        </p>
+                        <div class="flex flex-wrap justify-center gap-1.5">
+                            <span class="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs rounded" title="Certified Information Systems Security Professional">CISSP</span>
+                            <span class="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs rounded" title="Certified Cloud Security Professional">CCSP</span>
+                            <span class="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs rounded" title="Certified Information Systems Auditor">CISA</span>
+                            <span class="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs rounded" title="Certified Information Security Manager">CISM</span>
+                            <span class="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs rounded" title="Certified in Risk and Information Systems Control">CRISC</span>
+                            <span class="inline-block px-2 py-0.5 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs rounded" title="Certified Data Privacy Solutions Engineer">CDPSE</span>
+                        </div>
+                        <p class="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                            <button onclick="toggleModal('tutorial-modal'); setTimeout(() => toggleModal('about-modal'), 300);"
+                                class="hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+                                data-i18n="quickStartAboutAuthor">
+                                Click to learn more about the author
+                            </button>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2205,6 +2286,49 @@
     <!-- Disclaimer Footer -->
     <footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-4 mt-auto">
         <div class="max-w-5xl mx-auto px-4">
+            <!-- Author Info & Social Links -->
+            <div class="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                <p class="text-xs text-gray-600 dark:text-gray-400 text-center mb-3">
+                    <span data-i18n="footerBuiltBy">Built with ❤️ by</span>
+                    <button onclick="toggleModal('about-modal')"
+                        class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                        Kuro
+                    </button>
+                </p>
+                <div class="flex justify-center items-center gap-4">
+                    <a href="https://portaly.cc/kurohuang" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors social-icon" title="Portaly">
+                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10zm-1-17h2v10h-2zm0 12h2v2h-2z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors social-icon" title="GitHub">
+                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kurohuang/" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-blue-700 dark:hover:text-blue-500 transition-colors social-icon" title="LinkedIn">
+                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/kublackstock/" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors social-icon" title="Facebook">
+                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z"/>
+                        </svg>
+                    </a>
+                    <a href="https://medium.com/@kuroH" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors social-icon" title="Medium">
+                        <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+                            <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
             <!-- Short notice always visible -->
             <p class="text-xs text-gray-500 dark:text-gray-400 text-center mb-2" data-i18n="footerShortNotice">
                 OpenFAIR™ is a trademark of The Open Group.
@@ -2339,6 +2463,40 @@
                     rosiSubtext: "Return on Security Investment",
                     footerAAL: "Average Annual Loss",
                     modalTitle: "Methodology Guide",
+                    // Quick Start Guide translations
+                    quickStartTitle: "Quick Start Guide",
+                    quickStartStep1Title: "Choose Scenario",
+                    quickStartStep1Desc: "Select a template (Ransomware, Data Breach, etc.) or create a custom scenario name.",
+                    quickStartStep1Tip: "Tip: Templates auto-fill industry reference values",
+                    quickStartStep2Title: "Enter Threat Frequency (TEF)",
+                    quickStartStep2Desc: "Estimate how many threat events may occur per year.",
+                    quickStartStep2Min: "Min: Best-case scenario",
+                    quickStartStep2Likely: "Most Likely: Based on experience",
+                    quickStartStep2Max: "Max: Worst-case scenario",
+                    quickStartStep2Tip: "Tip: Not sure? Start with template values and adjust later",
+                    quickStartStep3Title: "Enter Vulnerability",
+                    quickStartStep3Desc: "Probability of actual loss when a threat event occurs (0-100%).",
+                    quickStartStep3Tip: "Tip: Consider your existing security controls' effectiveness",
+                    quickStartStep4Title: "Enter Loss Amounts",
+                    quickStartStep4Desc: "Estimate financial impact in your selected currency.",
+                    quickStartStep4Primary: "Primary Loss: Direct costs (recovery, downtime, ransom, etc.)",
+                    quickStartStep4Secondary: "Secondary Loss: Indirect costs (reputation, legal, customer churn)",
+                    quickStartStep5Title: "Run Simulation",
+                    quickStartStep5Desc: "Choose simulation iterations and click \"Run Simulation\".",
+                    quickStartStep5Run1k: "Quick preview (~1 sec)",
+                    quickStartStep5Run10k: "Recommended for most cases",
+                    quickStartStep5Run50k: "For formal reports, more stable results",
+                    quickStartStep6Title: "Interpret Results",
+                    quickStartStep6Desc: "Review the key metrics from your simulation.",
+                    quickStartStep6AAL: "Average Annual Loss - expected yearly loss",
+                    quickStartStep6VaR: "90% confidence the loss won't exceed this amount",
+                    quickStartStep6Max: "Worst-case single loss in simulation",
+                    quickStartStep6Tip: "Tip: Download PDF report to share with stakeholders",
+                    quickStartMethodologyHint: "Want to learn FAIR methodology? Expand \"Methodology Guide\" on the page.",
+                    quickStartBegin: "Let's Begin",
+                    quickStartBuiltBy: "Built by",
+                    quickStartAboutAuthor: "Click to learn more about the author",
+                    footerBuiltBy: "Built with ❤️ by",
                     btnClose: "Close",
                     labelTemplate: "Reference Template",
                     templateCustom: "Custom Scenario",
@@ -2579,6 +2737,40 @@
                     rosiSubtext: "資安投資報酬率",
                     footerAAL: "平均年損失 (AAL)",
                     modalTitle: "方法論指南",
+                    // Quick Start Guide translations
+                    quickStartTitle: "快速入門指南",
+                    quickStartStep1Title: "選擇情境",
+                    quickStartStep1Desc: "選擇預設模板（勒索軟體、資料外洩等）或自訂情境名稱。",
+                    quickStartStep1Tip: "提示：模板會自動填入業界參考值",
+                    quickStartStep2Title: "填寫威脅頻率 (TEF)",
+                    quickStartStep2Desc: "估算每年可能發生幾次威脅事件。",
+                    quickStartStep2Min: "最小值：最樂觀情況",
+                    quickStartStep2Likely: "最可能：根據經驗判斷",
+                    quickStartStep2Max: "最大值：最悲觀情況",
+                    quickStartStep2Tip: "提示：不確定？先用模板值，之後再調整",
+                    quickStartStep3Title: "填寫脆弱性",
+                    quickStartStep3Desc: "威脅事件發生時，造成實際損失的機率 (0-100%)。",
+                    quickStartStep3Tip: "提示：考慮現有資安控制措施的有效性",
+                    quickStartStep4Title: "填寫損失金額",
+                    quickStartStep4Desc: "以您選擇的幣別估算財務影響。",
+                    quickStartStep4Primary: "主要損失：直接成本（修復、停機、贖金等）",
+                    quickStartStep4Secondary: "次要損失：間接成本（聲譽、法律、客戶流失）",
+                    quickStartStep5Title: "執行模擬",
+                    quickStartStep5Desc: "選擇模擬次數並點擊「執行模擬」。",
+                    quickStartStep5Run1k: "快速預覽（約 1 秒）",
+                    quickStartStep5Run10k: "大多數情況的建議值",
+                    quickStartStep5Run50k: "正式報告用，結果更穩定",
+                    quickStartStep6Title: "解讀結果",
+                    quickStartStep6Desc: "檢視模擬產生的關鍵指標。",
+                    quickStartStep6AAL: "年均損失 - 每年預期的平均損失",
+                    quickStartStep6VaR: "有 90% 信心損失不會超過此金額",
+                    quickStartStep6Max: "模擬中的最大單次損失",
+                    quickStartStep6Tip: "提示：下載 PDF 報告與主管分享",
+                    quickStartMethodologyHint: "想了解 FAIR 方法論？請展開頁面上的「方法論指南」。",
+                    quickStartBegin: "開始使用",
+                    quickStartBuiltBy: "作者",
+                    quickStartAboutAuthor: "點擊了解更多作者資訊",
+                    footerBuiltBy: "用 ❤️ 打造 by",
                     btnClose: "關閉",
                     labelTemplate: "參考情境模板",
                     templateCustom: "自訂情境",
@@ -2819,6 +3011,40 @@
                     rosiSubtext: "セキュリティ投資収益率",
                     footerAAL: "年間平均損失 (AAL)",
                     modalTitle: "方法論ガイド",
+                    // Quick Start Guide translations
+                    quickStartTitle: "クイックスタートガイド",
+                    quickStartStep1Title: "シナリオを選択",
+                    quickStartStep1Desc: "テンプレート（ランサムウェア、データ侵害など）を選択するか、カスタムシナリオ名を作成します。",
+                    quickStartStep1Tip: "ヒント：テンプレートは業界参考値を自動入力します",
+                    quickStartStep2Title: "脅威頻度 (TEF) を入力",
+                    quickStartStep2Desc: "年間に発生する可能性のある脅威イベント数を推定します。",
+                    quickStartStep2Min: "最小：最良のケース",
+                    quickStartStep2Likely: "最頻：経験に基づく値",
+                    quickStartStep2Max: "最大：最悪のケース",
+                    quickStartStep2Tip: "ヒント：不明な場合はテンプレート値から始めて後で調整",
+                    quickStartStep3Title: "脆弱性を入力",
+                    quickStartStep3Desc: "脅威イベント発生時に実際の損失が生じる確率 (0-100%)。",
+                    quickStartStep3Tip: "ヒント：既存のセキュリティ対策の有効性を考慮",
+                    quickStartStep4Title: "損失額を入力",
+                    quickStartStep4Desc: "選択した通貨で財務影響を推定します。",
+                    quickStartStep4Primary: "一次損失：直接コスト（復旧、ダウンタイム、身代金など）",
+                    quickStartStep4Secondary: "二次損失：間接コスト（評判、法的、顧客離れ）",
+                    quickStartStep5Title: "シミュレーション実行",
+                    quickStartStep5Desc: "シミュレーション回数を選択し「シミュレーション実行」をクリック。",
+                    quickStartStep5Run1k: "クイックプレビュー（約1秒）",
+                    quickStartStep5Run10k: "ほとんどの場合に推奨",
+                    quickStartStep5Run50k: "正式レポート用、より安定した結果",
+                    quickStartStep6Title: "結果を解釈",
+                    quickStartStep6Desc: "シミュレーションの主要指標を確認します。",
+                    quickStartStep6AAL: "年間平均損失 - 予想される年間損失",
+                    quickStartStep6VaR: "90%の確率で損失がこの金額を超えない",
+                    quickStartStep6Max: "シミュレーションでの最大単一損失",
+                    quickStartStep6Tip: "ヒント：PDFレポートをダウンロードして関係者と共有",
+                    quickStartMethodologyHint: "FAIR方法論を学びたい場合は、ページ上の「方法論ガイド」を展開してください。",
+                    quickStartBegin: "始めましょう",
+                    quickStartBuiltBy: "作成者",
+                    quickStartAboutAuthor: "作成者の詳細を見る",
+                    footerBuiltBy: "❤️ を込めて作成 by",
                     btnClose: "閉じる",
                     labelTemplate: "参考テンプレート",
                     templateCustom: "カスタムシナリオ",
@@ -3018,6 +3244,37 @@
                     metricROSI: "ROSI",
                     footerAAL: "Pérdida Anual Promedio",
                     modalTitle: "Guía Metodológica",
+                    // Quick Start Guide translations
+                    quickStartTitle: "Guía de Inicio Rápido",
+                    quickStartStep1Title: "Elegir Escenario",
+                    quickStartStep1Desc: "Seleccione una plantilla (Ransomware, Brecha de Datos, etc.) o cree un nombre de escenario personalizado.",
+                    quickStartStep1Tip: "Consejo: Las plantillas completan automáticamente valores de referencia de la industria",
+                    quickStartStep2Title: "Ingresar Frecuencia de Amenaza (TEF)",
+                    quickStartStep2Desc: "Estime cuántos eventos de amenaza pueden ocurrir por año.",
+                    quickStartStep2Min: "Mín: Mejor escenario",
+                    quickStartStep2Likely: "Más Probable: Basado en experiencia",
+                    quickStartStep2Max: "Máx: Peor escenario",
+                    quickStartStep2Tip: "Consejo: ¿No está seguro? Comience con valores de plantilla y ajuste después",
+                    quickStartStep3Title: "Ingresar Vulnerabilidad",
+                    quickStartStep3Desc: "Probabilidad de pérdida real cuando ocurre un evento de amenaza (0-100%).",
+                    quickStartStep3Tip: "Consejo: Considere la efectividad de sus controles de seguridad existentes",
+                    quickStartStep4Title: "Ingresar Montos de Pérdida",
+                    quickStartStep4Desc: "Estime el impacto financiero en su moneda seleccionada.",
+                    quickStartStep4Primary: "Pérdida Primaria: Costos directos (recuperación, tiempo de inactividad, rescate, etc.)",
+                    quickStartStep4Secondary: "Pérdida Secundaria: Costos indirectos (reputación, legal, pérdida de clientes)",
+                    quickStartStep5Title: "Ejecutar Simulación",
+                    quickStartStep5Desc: "Elija las iteraciones de simulación y haga clic en \"Ejecutar Simulación\".",
+                    quickStartStep5Run1k: "Vista previa rápida (~1 seg)",
+                    quickStartStep5Run10k: "Recomendado para la mayoría de casos",
+                    quickStartStep5Run50k: "Para informes formales, resultados más estables",
+                    quickStartStep6Title: "Interpretar Resultados",
+                    quickStartStep6Desc: "Revise las métricas clave de su simulación.",
+                    quickStartStep6AAL: "Pérdida Anual Promedio - pérdida anual esperada",
+                    quickStartStep6VaR: "90% de confianza de que la pérdida no excederá este monto",
+                    quickStartStep6Max: "Peor pérdida única en la simulación",
+                    quickStartStep6Tip: "Consejo: Descargue el informe PDF para compartir con las partes interesadas",
+                    quickStartMethodologyHint: "¿Quiere aprender la metodología FAIR? Expanda \"Guía Metodológica\" en la página.",
+                    quickStartBegin: "Comenzar",
                     btnClose: "Cerrar",
                     chartTitle: "Curva de Excedencia de Pérdidas",
                     legendBefore: "Antes del Control",
@@ -3058,7 +3315,10 @@
                     footerTrademark: "OpenFAIR™, O-RA (Análisis de Riesgo Abierto) y O-RT (Taxonomía de Riesgo Abierta) son marcas registradas de The Open Group. Esta herramienta no está afiliada, respaldada ni certificada por The Open Group.",
                     footerStandards: "Para estándares y certificación oficial de FAIR, visite",
                     footerLicense: "Este software se publica bajo la Licencia MIT. Código fuente disponible en",
-                    footerThirdParty: "Bibliotecas de terceros: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
+                    footerThirdParty: "Bibliotecas de terceros: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).",
+                    quickStartBuiltBy: "Creado por",
+                    quickStartAboutAuthor: "Haga clic para obtener más información sobre el autor",
+                    footerBuiltBy: "Hecho con ❤️ por"
                 },
                 // German (DE)
                 de: {
@@ -3101,6 +3361,37 @@
                     metricROSI: "ROSI",
                     footerAAL: "Durchschnittlicher Jahresverlust",
                     modalTitle: "Methodikleitfaden",
+                    // Quick Start Guide translations
+                    quickStartTitle: "Schnellstartanleitung",
+                    quickStartStep1Title: "Szenario wählen",
+                    quickStartStep1Desc: "Wählen Sie eine Vorlage (Ransomware, Datenpanne, etc.) oder erstellen Sie einen benutzerdefinierten Szenarionamen.",
+                    quickStartStep1Tip: "Tipp: Vorlagen füllen automatisch Branchenreferenzwerte aus",
+                    quickStartStep2Title: "Bedrohungshäufigkeit (TEF) eingeben",
+                    quickStartStep2Desc: "Schätzen Sie, wie viele Bedrohungsereignisse pro Jahr auftreten können.",
+                    quickStartStep2Min: "Min: Bester Fall",
+                    quickStartStep2Likely: "Wahrscheinlichst: Basierend auf Erfahrung",
+                    quickStartStep2Max: "Max: Schlimmster Fall",
+                    quickStartStep2Tip: "Tipp: Unsicher? Beginnen Sie mit Vorlagenwerten und passen Sie später an",
+                    quickStartStep3Title: "Verwundbarkeit eingeben",
+                    quickStartStep3Desc: "Wahrscheinlichkeit eines tatsächlichen Verlusts bei einem Bedrohungsereignis (0-100%).",
+                    quickStartStep3Tip: "Tipp: Berücksichtigen Sie die Wirksamkeit Ihrer bestehenden Sicherheitskontrollen",
+                    quickStartStep4Title: "Verlustbeträge eingeben",
+                    quickStartStep4Desc: "Schätzen Sie die finanziellen Auswirkungen in Ihrer gewählten Währung.",
+                    quickStartStep4Primary: "Primärverlust: Direkte Kosten (Wiederherstellung, Ausfallzeit, Lösegeld, etc.)",
+                    quickStartStep4Secondary: "Sekundärverlust: Indirekte Kosten (Reputation, Rechtliches, Kundenabwanderung)",
+                    quickStartStep5Title: "Simulation starten",
+                    quickStartStep5Desc: "Wählen Sie Simulationsiterationen und klicken Sie auf \"Simulation starten\".",
+                    quickStartStep5Run1k: "Schnellvorschau (~1 Sek)",
+                    quickStartStep5Run10k: "Empfohlen für die meisten Fälle",
+                    quickStartStep5Run50k: "Für formelle Berichte, stabilere Ergebnisse",
+                    quickStartStep6Title: "Ergebnisse interpretieren",
+                    quickStartStep6Desc: "Überprüfen Sie die wichtigsten Kennzahlen Ihrer Simulation.",
+                    quickStartStep6AAL: "Durchschnittlicher Jahresverlust - erwarteter jährlicher Verlust",
+                    quickStartStep6VaR: "90% Konfidenz, dass der Verlust diesen Betrag nicht überschreitet",
+                    quickStartStep6Max: "Schlimmster Einzelverlust in der Simulation",
+                    quickStartStep6Tip: "Tipp: PDF-Bericht herunterladen, um ihn mit Stakeholdern zu teilen",
+                    quickStartMethodologyHint: "Möchten Sie die FAIR-Methodik lernen? Erweitern Sie \"Methodikleitfaden\" auf der Seite.",
+                    quickStartBegin: "Los geht's",
                     btnClose: "Schließen",
                     chartTitle: "Verlustüberschreitungskurve",
                     legendBefore: "Vor Kontrolle",
@@ -3141,7 +3432,10 @@
                     footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) und O-RT (Open Risk Taxonomy) sind Marken von The Open Group. Dieses Tool ist nicht mit The Open Group verbunden, wird nicht von ihr unterstützt oder zertifiziert.",
                     footerStandards: "Für offizielle FAIR-Standards und Zertifizierung besuchen Sie",
                     footerLicense: "Diese Software wird unter der MIT-Lizenz veröffentlicht. Quellcode verfügbar auf",
-                    footerThirdParty: "Drittanbieter-Bibliotheken: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
+                    footerThirdParty: "Drittanbieter-Bibliotheken: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).",
+                    quickStartBuiltBy: "Erstellt von",
+                    quickStartAboutAuthor: "Klicken Sie hier, um mehr über den Autor zu erfahren",
+                    footerBuiltBy: "Mit ❤️ erstellt von"
                 },
                 // French (FR)
                 fr: {
@@ -3184,6 +3478,37 @@
                     metricROSI: "ROSI",
                     footerAAL: "Perte Annuelle Moyenne",
                     modalTitle: "Guide Méthodologique",
+                    // Quick Start Guide translations
+                    quickStartTitle: "Guide de Démarrage Rapide",
+                    quickStartStep1Title: "Choisir un Scénario",
+                    quickStartStep1Desc: "Sélectionnez un modèle (Ransomware, Violation de Données, etc.) ou créez un nom de scénario personnalisé.",
+                    quickStartStep1Tip: "Astuce: Les modèles remplissent automatiquement les valeurs de référence de l'industrie",
+                    quickStartStep2Title: "Entrer la Fréquence des Menaces (TEF)",
+                    quickStartStep2Desc: "Estimez combien d'événements de menace peuvent survenir par an.",
+                    quickStartStep2Min: "Min: Meilleur scénario",
+                    quickStartStep2Likely: "Plus Probable: Basé sur l'expérience",
+                    quickStartStep2Max: "Max: Pire scénario",
+                    quickStartStep2Tip: "Astuce: Pas sûr? Commencez avec les valeurs du modèle et ajustez plus tard",
+                    quickStartStep3Title: "Entrer la Vulnérabilité",
+                    quickStartStep3Desc: "Probabilité de perte réelle lorsqu'un événement de menace survient (0-100%).",
+                    quickStartStep3Tip: "Astuce: Considérez l'efficacité de vos contrôles de sécurité existants",
+                    quickStartStep4Title: "Entrer les Montants de Perte",
+                    quickStartStep4Desc: "Estimez l'impact financier dans votre devise sélectionnée.",
+                    quickStartStep4Primary: "Perte Primaire: Coûts directs (récupération, temps d'arrêt, rançon, etc.)",
+                    quickStartStep4Secondary: "Perte Secondaire: Coûts indirects (réputation, juridique, perte de clients)",
+                    quickStartStep5Title: "Exécuter la Simulation",
+                    quickStartStep5Desc: "Choisissez les itérations de simulation et cliquez sur \"Exécuter la Simulation\".",
+                    quickStartStep5Run1k: "Aperçu rapide (~1 sec)",
+                    quickStartStep5Run10k: "Recommandé pour la plupart des cas",
+                    quickStartStep5Run50k: "Pour les rapports formels, résultats plus stables",
+                    quickStartStep6Title: "Interpréter les Résultats",
+                    quickStartStep6Desc: "Examinez les métriques clés de votre simulation.",
+                    quickStartStep6AAL: "Perte Annuelle Moyenne - perte annuelle attendue",
+                    quickStartStep6VaR: "90% de confiance que la perte ne dépassera pas ce montant",
+                    quickStartStep6Max: "Pire perte unique dans la simulation",
+                    quickStartStep6Tip: "Astuce: Téléchargez le rapport PDF pour le partager avec les parties prenantes",
+                    quickStartMethodologyHint: "Vous voulez apprendre la méthodologie FAIR? Développez \"Guide Méthodologique\" sur la page.",
+                    quickStartBegin: "Commencer",
                     btnClose: "Fermer",
                     chartTitle: "Courbe de Dépassement des Pertes",
                     legendBefore: "Avant Contrôle",
@@ -3224,7 +3549,10 @@
                     footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) et O-RT (Open Risk Taxonomy) sont des marques de The Open Group. Cet outil n'est pas affilié, approuvé ou certifié par The Open Group.",
                     footerStandards: "Pour les normes et la certification FAIR officielles, visitez",
                     footerLicense: "Ce logiciel est publié sous la licence MIT. Code source disponible sur",
-                    footerThirdParty: "Bibliothèques tierces: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
+                    footerThirdParty: "Bibliothèques tierces: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).",
+                    quickStartBuiltBy: "Créé par",
+                    quickStartAboutAuthor: "Cliquez pour en savoir plus sur l'auteur",
+                    footerBuiltBy: "Fait avec ❤️ par"
                 },
                 // Portuguese (PT)
                 pt: {
@@ -3267,6 +3595,37 @@
                     metricROSI: "ROSI",
                     footerAAL: "Perda Anual Média",
                     modalTitle: "Guia Metodológico",
+                    // Quick Start Guide translations
+                    quickStartTitle: "Guia de Início Rápido",
+                    quickStartStep1Title: "Escolher Cenário",
+                    quickStartStep1Desc: "Selecione um modelo (Ransomware, Violação de Dados, etc.) ou crie um nome de cenário personalizado.",
+                    quickStartStep1Tip: "Dica: Os modelos preenchem automaticamente valores de referência da indústria",
+                    quickStartStep2Title: "Inserir Frequência de Ameaça (TEF)",
+                    quickStartStep2Desc: "Estime quantos eventos de ameaça podem ocorrer por ano.",
+                    quickStartStep2Min: "Mín: Melhor cenário",
+                    quickStartStep2Likely: "Mais Provável: Baseado na experiência",
+                    quickStartStep2Max: "Máx: Pior cenário",
+                    quickStartStep2Tip: "Dica: Não tem certeza? Comece com valores do modelo e ajuste depois",
+                    quickStartStep3Title: "Inserir Vulnerabilidade",
+                    quickStartStep3Desc: "Probabilidade de perda real quando um evento de ameaça ocorre (0-100%).",
+                    quickStartStep3Tip: "Dica: Considere a eficácia dos seus controles de segurança existentes",
+                    quickStartStep4Title: "Inserir Valores de Perda",
+                    quickStartStep4Desc: "Estime o impacto financeiro na sua moeda selecionada.",
+                    quickStartStep4Primary: "Perda Primária: Custos diretos (recuperação, tempo de inatividade, resgate, etc.)",
+                    quickStartStep4Secondary: "Perda Secundária: Custos indiretos (reputação, legal, perda de clientes)",
+                    quickStartStep5Title: "Executar Simulação",
+                    quickStartStep5Desc: "Escolha as iterações de simulação e clique em \"Executar Simulação\".",
+                    quickStartStep5Run1k: "Visualização rápida (~1 seg)",
+                    quickStartStep5Run10k: "Recomendado para a maioria dos casos",
+                    quickStartStep5Run50k: "Para relatórios formais, resultados mais estáveis",
+                    quickStartStep6Title: "Interpretar Resultados",
+                    quickStartStep6Desc: "Revise as métricas principais da sua simulação.",
+                    quickStartStep6AAL: "Perda Anual Média - perda anual esperada",
+                    quickStartStep6VaR: "90% de confiança de que a perda não excederá este valor",
+                    quickStartStep6Max: "Pior perda única na simulação",
+                    quickStartStep6Tip: "Dica: Baixe o relatório PDF para compartilhar com as partes interessadas",
+                    quickStartMethodologyHint: "Quer aprender a metodologia FAIR? Expanda \"Guia Metodológico\" na página.",
+                    quickStartBegin: "Começar",
                     btnClose: "Fechar",
                     chartTitle: "Curva de Excedência de Perdas",
                     legendBefore: "Antes do Controle",
@@ -3307,7 +3666,10 @@
                     footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) e O-RT (Open Risk Taxonomy) são marcas registradas do The Open Group. Esta ferramenta não é afiliada, endossada ou certificada pelo The Open Group.",
                     footerStandards: "Para padrões e certificação FAIR oficiais, visite",
                     footerLicense: "Este software é lançado sob a Licença MIT. Código fonte disponível no",
-                    footerThirdParty: "Bibliotecas de terceiros: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
+                    footerThirdParty: "Bibliotecas de terceiros: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).",
+                    quickStartBuiltBy: "Criado por",
+                    quickStartAboutAuthor: "Clique para saber mais sobre o autor",
+                    footerBuiltBy: "Feito com ❤️ por"
                 },
                 // Vietnamese (VI)
                 vi: {
@@ -3350,6 +3712,37 @@
                     metricROSI: "ROSI",
                     footerAAL: "Tổn Thất Trung Bình Hàng Năm",
                     modalTitle: "Hướng Dẫn Phương Pháp",
+                    // Quick Start Guide translations
+                    quickStartTitle: "Hướng Dẫn Bắt Đầu Nhanh",
+                    quickStartStep1Title: "Chọn Kịch Bản",
+                    quickStartStep1Desc: "Chọn mẫu (Ransomware, Vi Phạm Dữ Liệu, v.v.) hoặc tạo tên kịch bản tùy chỉnh.",
+                    quickStartStep1Tip: "Mẹo: Các mẫu tự động điền giá trị tham chiếu ngành",
+                    quickStartStep2Title: "Nhập Tần Suất Mối Đe Dọa (TEF)",
+                    quickStartStep2Desc: "Ước tính số sự kiện đe dọa có thể xảy ra mỗi năm.",
+                    quickStartStep2Min: "Tối thiểu: Trường hợp tốt nhất",
+                    quickStartStep2Likely: "Có khả năng nhất: Dựa trên kinh nghiệm",
+                    quickStartStep2Max: "Tối đa: Trường hợp xấu nhất",
+                    quickStartStep2Tip: "Mẹo: Không chắc chắn? Bắt đầu với giá trị mẫu và điều chỉnh sau",
+                    quickStartStep3Title: "Nhập Lỗ Hổng",
+                    quickStartStep3Desc: "Xác suất tổn thất thực tế khi sự kiện đe dọa xảy ra (0-100%).",
+                    quickStartStep3Tip: "Mẹo: Xem xét hiệu quả của các biện pháp bảo mật hiện có",
+                    quickStartStep4Title: "Nhập Số Tiền Tổn Thất",
+                    quickStartStep4Desc: "Ước tính tác động tài chính theo đơn vị tiền tệ đã chọn.",
+                    quickStartStep4Primary: "Tổn Thất Chính: Chi phí trực tiếp (khôi phục, thời gian ngừng hoạt động, tiền chuộc, v.v.)",
+                    quickStartStep4Secondary: "Tổn Thất Phụ: Chi phí gián tiếp (danh tiếng, pháp lý, mất khách hàng)",
+                    quickStartStep5Title: "Chạy Mô Phỏng",
+                    quickStartStep5Desc: "Chọn số lần lặp mô phỏng và nhấp \"Chạy Mô Phỏng\".",
+                    quickStartStep5Run1k: "Xem trước nhanh (~1 giây)",
+                    quickStartStep5Run10k: "Khuyến nghị cho hầu hết các trường hợp",
+                    quickStartStep5Run50k: "Cho báo cáo chính thức, kết quả ổn định hơn",
+                    quickStartStep6Title: "Diễn Giải Kết Quả",
+                    quickStartStep6Desc: "Xem xét các chỉ số chính từ mô phỏng của bạn.",
+                    quickStartStep6AAL: "Tổn Thất Trung Bình Hàng Năm - tổn thất hàng năm dự kiến",
+                    quickStartStep6VaR: "90% tin tưởng tổn thất sẽ không vượt quá số tiền này",
+                    quickStartStep6Max: "Tổn thất đơn lẻ tồi tệ nhất trong mô phỏng",
+                    quickStartStep6Tip: "Mẹo: Tải báo cáo PDF để chia sẻ với các bên liên quan",
+                    quickStartMethodologyHint: "Muốn tìm hiểu phương pháp FAIR? Mở rộng \"Hướng Dẫn Phương Pháp\" trên trang.",
+                    quickStartBegin: "Bắt Đầu",
                     btnClose: "Đóng",
                     chartTitle: "Đường Cong Vượt Quá Tổn Thất",
                     legendBefore: "Trước Kiểm Soát",
@@ -3390,7 +3783,10 @@
                     footerTrademark: "OpenFAIR™, O-RA (Open Risk Analysis) và O-RT (Open Risk Taxonomy) là thương hiệu của The Open Group. Công cụ này không liên kết, được chứng thực hoặc chứng nhận bởi The Open Group.",
                     footerStandards: "Để biết tiêu chuẩn và chứng nhận FAIR chính thức, hãy truy cập",
                     footerLicense: "Phần mềm này được phát hành theo Giấy phép MIT. Mã nguồn có sẵn trên",
-                    footerThirdParty: "Thư viện bên thứ ba: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT)."
+                    footerThirdParty: "Thư viện bên thứ ba: Chart.js (MIT), jsPDF (MIT), html2canvas (MIT), Tailwind CSS (MIT).",
+                    quickStartBuiltBy: "Được xây dựng bởi",
+                    quickStartAboutAuthor: "Nhấp để tìm hiểu thêm về tác giả",
+                    footerBuiltBy: "Được tạo với ❤️ bởi"
                 }
             },
 
