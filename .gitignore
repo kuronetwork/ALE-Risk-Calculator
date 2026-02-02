@@ -137,6 +137,7 @@ Desktop.ini
 .kiro/specs/*/tasks.md.backup
 .agent/rules/
 .kiro/specs/*
+.kiro/
 
 # Development and testing files
 tests/
