@@ -136,8 +136,11 @@ Desktop.ini
 # Kiro IDE
 .kiro/specs/*/tasks.md.backup
 .agent/rules/
+.agent/workflows
 .kiro/specs/*
 .kiro/
+.agents/
+.agent/
 
 # Development and testing files
 tests/
