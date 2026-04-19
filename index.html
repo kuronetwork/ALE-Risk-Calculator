@@ -43,6 +43,11 @@
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Fonts: JetBrains Mono for data, DM Sans for UI -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -52,17 +57,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-    <!-- Tailwind Configuration for Dark Mode -->
+    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
                     colors: {
-                        primary: '#3B82F6', // Blue 500
-                        secondary: '#10B981', // Emerald 500
-                        darkbg: '#111827', // Gray 900
-                        darkcard: '#1F2937', // Gray 800
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#22D3EE',
+                        darkbg: '#0B0F19',
+                        darkcard: '#131825',
+                        darksurface: '#1A1F2E',
                     }
                 }
             }
@@ -70,6 +81,205 @@
     </script>
 
     <style>
+        /* ============================================
+           DESIGN SYSTEM — Kuro Risk Calculator v3
+           ============================================ */
+        :root {
+            --color-bg: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-surface-alt: #F1F5F9;
+            --color-border: #E2E8F0;
+            --color-border-subtle: #F1F5F9;
+            --color-text-primary: #0F172A;
+            --color-text-secondary: #475569;
+            --color-text-muted: #94A3B8;
+            --color-accent: #22D3EE;
+            --color-positive: #34D399;
+            --color-negative: #F87171;
+            --color-warning: #FBBF24;
+            --color-info: #60A5FA;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+        }
+
+        .dark {
+            --color-bg: #0B0F19;
+            --color-surface: #131825;
+            --color-surface-alt: #1A1F2E;
+            --color-border: #1E293B;
+            --color-border-subtle: #1A1F2E;
+            --color-text-primary: #F1F5F9;
+            --color-text-secondary: #94A3B8;
+            --color-text-muted: #475569;
+            --color-accent: #22D3EE;
+            --color-positive: #34D399;
+            --color-negative: #F87171;
+            --color-warning: #FBBF24;
+            --color-info: #60A5FA;
+        }
+
+        /* Base typography */
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Monospace for data values */
+        .font-data {
+            font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+
+        /* Noise texture overlay for dark mode depth */
+        .dark body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* Subtle grid pattern for dark mode */
+        .dark .grid-bg {
+            background-image:
+                linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+        }
+
+        /* Card system */
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--color-accent);
+        }
+
+        .dark .card {
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.03);
+        }
+
+        /* Staggered reveal animation */
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            animation: fadeSlideUp 0.5s ease-out both;
+        }
+
+        .reveal-delay-1 { animation-delay: 0.08s; }
+        .reveal-delay-2 { animation-delay: 0.16s; }
+        .reveal-delay-3 { animation-delay: 0.24s; }
+        .reveal-delay-4 { animation-delay: 0.32s; }
+        .reveal-delay-5 { animation-delay: 0.40s; }
+
+        /* Accent glow for key metrics */
+        .glow-accent {
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+        }
+
+        .dark .glow-accent {
+            text-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+        }
+
+        /* Settings panel */
+        .settings-panel {
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .settings-panel.open {
+            transform: translateX(0);
+        }
+
+        .settings-backdrop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .settings-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Wizard Steps */
+        .wizard-step {
+            display: none;
+            animation: fadeSlideUp 0.35s ease-out both;
+        }
+
+        .wizard-step.active {
+            display: block;
+        }
+
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .step-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            border: 2px solid var(--color-border);
+            color: var(--color-text-muted);
+            background: var(--color-surface);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .step-dot.active {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            box-shadow: 0 0 12px rgba(34, 211, 238, 0.2);
+        }
+
+        .step-dot.completed {
+            border-color: #34D399;
+            background: #34D399;
+            color: #fff;
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: var(--color-border);
+            transition: background 0.3s ease;
+        }
+
+        .step-line.completed {
+            background: #34D399;
+        }
+
         /* Custom Tooltip Styling */
         .tooltip-container {
             position: relative;
@@ -412,8 +622,8 @@
 
         /* ROI Cards */
         .roi-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border: 2px solid #e2e8f0;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
             border-radius: 12px;
             padding: 20px;
             text-align: center;
@@ -429,18 +639,17 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6, #10b981);
+            height: 3px;
+            border-radius: 12px 12px 0 0;
+            background: linear-gradient(90deg, #22D3EE, #3B82F6);
         }
 
         .roi-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--color-accent);
         }
 
         .dark .roi-card {
-            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-            border-color: #374151;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.02);
         }
 
         .roi-card.positive::before {
@@ -452,13 +661,13 @@
         }
 
         .roi-value {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.125rem, 2.5vw, 1.75rem);
             font-weight: 800;
             line-height: 1.2;
             margin: 8px 0;
-            word-break: break-word;
-            overflow-wrap: break-word;
-            hyphens: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .roi-label {
@@ -519,108 +728,42 @@
 <body
     class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
-    <!-- FAIR Analysis Banner -->
-    <div id="fair-banner" class="bg-blue-50 border-b border-blue-100 text-blue-900 py-2 px-4 text-center relative">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center justify-center flex-1">
-                <span class="font-medium text-sm md:text-base" data-i18n="fairBannerText">
-                    NEW: FAIR Risk Analysis - OpenFAIR™ Monte Carlo Simulation
-                </span>
-                <a href="fair.html"
-                    class="ml-4 bg-white/20 hover:bg-white/30 text-white font-medium py-1 px-3 rounded-full text-sm transition-colors"
-                    data-i18n="fairBannerCTA">
-                    Try Now →
-                </a>
-            </div>
-            <button id="close-fair-banner" class="text-white/80 hover:text-white ml-4">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                    </path>
-                </svg>
-            </button>
-        </div>
-    </div>
-
-    <!-- Navbar -->
-    <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
+    <!-- Navbar — Minimal -->
+    <nav class="bg-white/80 dark:bg-darkcard/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-white/5 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
-                    <span class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white truncate mr-2 md:mr-4">
-                        Kuro Risk Calculator
-                    </span>
-                    <a href="fair.html"
-                        class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <span class="hidden sm:inline" data-i18n="navFairBtn">FAIR Analysis</span>
-                        <span class="sm:hidden">FAIR</span>
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex items-center gap-1">
+                    <a href="./" class="flex items-center gap-2">
+                        <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white font-mono">Kuro</span>
+                        <span class="text-sm font-medium text-gray-400 dark:text-gray-500 hidden sm:inline">Risk Calculator</span>
                     </a>
-                    <button onclick="toggleModal('about-modal')"
-                        class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <span class="hidden sm:inline" data-i18n="navAboutBtn">About Author</span>
-                        <span class="sm:hidden">Author</span>
-                    </button>
+                    <!-- Desktop Nav Tabs -->
+                    <div class="hidden md:flex items-center gap-1 ml-6">
+                        <button onclick="exitWorkspace()" class="px-3 py-1.5 rounded-md text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">ALE</button>
+                        <a href="fair.html" class="px-3 py-1.5 rounded-md text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">FAIR</a>
+                    </div>
                 </div>
 
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <!-- App Download Button (Navbar) -->
-                    <div class="relative group">
-                        <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
-                            target="_blank" rel="noopener noreferrer"
-                            class="flex items-center transition-opacity hover:opacity-80">
-                            <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg"
-                                alt="Download on App Store" class="h-8 w-auto">
-                        </a>
-                    </div>
-
-                    <!-- Currency Selector -->
-                    <div class="relative group hidden sm:block">
-                        <select id="currency-select"
-                            class="appearance-none bg-gray-100 dark:bg-gray-700 border-none rounded-lg py-2 pl-3 pr-8 text-sm focus:ring-2 focus:ring-primary cursor-pointer">
-                            <option value="USD">USD ($)</option>
-                            <option value="TWD">TWD (NT$)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="JPY">JPY (¥)</option>
-                            <option value="CNY">CNY (¥)</option>
-                        </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Language Selector -->
-                    <div class="relative group">
-                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg px-2 py-1">
-                            <span class="text-lg mr-1">🌐</span>
-                            <select id="lang-select"
-                                class="bg-transparent border-none text-sm focus:ring-0 cursor-pointer py-1 pr-6 max-w-[80px] sm:max-w-none">
-                                <option value="en">English</option>
-                                <option value="zh-TW">繁體中文</option>
-                                <option value="ja">日本語</option>
-                                <option value="es">Español</option>
-                                <option value="de">Deutsch</option>
-                                <option value="fr">Français</option>
-                                <option value="pt">Português</option>
-                                <option value="vi">Tiếng Việt</option>
-                            </select>
-                        </div>
-                    </div>
-
+                <div class="flex items-center gap-2">
                     <!-- Dark Mode Toggle -->
                     <button id="theme-toggle"
-                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 focus:outline-none transition-colors">
-                        <!-- Sun Icon -->
-                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor"
-                            viewBox="0 0 20 20">
-                            <path
-                                d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z"
-                                fill-rule="evenodd" clip-rule="evenodd"></path>
+                        class="p-2 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 focus:outline-none transition-colors"
+                        aria-label="Toggle theme">
+                        <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
                         </svg>
-                        <!-- Moon Icon -->
                         <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Settings Gear -->
+                    <button id="settings-toggle"
+                        class="p-2 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 focus:outline-none transition-colors"
+                        aria-label="Settings" onclick="toggleSettings()">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                     </button>
                 </div>
@@ -628,207 +771,334 @@
         </div>
     </nav>
 
-    <div class="flex-grow max-w-7xl mx-auto p-4 md:p-8 w-full" id="report-container">
+    <!-- Settings Side Panel -->
+    <div id="settings-backdrop" class="settings-backdrop fixed inset-0 z-50 bg-black/40" onclick="toggleSettings()"></div>
+    <div id="settings-panel" class="settings-panel fixed top-0 right-0 z-50 h-full w-80 bg-white dark:bg-darkcard border-l border-gray-200 dark:border-white/5 shadow-2xl overflow-y-auto">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white">Settings</h2>
+                <button onclick="toggleSettings()" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <!-- Language -->
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Language</label>
+                <select id="lang-select"
+                    class="w-full bg-gray-50 dark:bg-darksurface border border-gray-200 dark:border-white/10 rounded-lg py-2.5 px-3 text-sm focus:ring-2 focus:ring-accent cursor-pointer text-gray-700 dark:text-gray-200">
+                    <option value="en">🌐 English</option>
+                    <option value="zh-TW">🌐 繁體中文</option>
+                    <option value="ja">🌐 日本語</option>
+                    <option value="es">🌐 Español</option>
+                    <option value="de">🌐 Deutsch</option>
+                    <option value="fr">🌐 Français</option>
+                    <option value="pt">🌐 Português</option>
+                    <option value="vi">🌐 Tiếng Việt</option>
+                </select>
+            </div>
+            <!-- Currency -->
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Currency</label>
+                <select id="currency-select"
+                    class="w-full bg-gray-50 dark:bg-darksurface border border-gray-200 dark:border-white/10 rounded-lg py-2.5 px-3 text-sm focus:ring-2 focus:ring-accent cursor-pointer text-gray-700 dark:text-gray-200">
+                    <option value="USD">USD ($)</option>
+                    <option value="TWD">TWD (NT$)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="JPY">JPY (¥)</option>
+                    <option value="CNY">CNY (¥)</option>
+                </select>
+            </div>
+            <div class="border-t border-gray-100 dark:border-white/5 my-6"></div>
+            <!-- App Store -->
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Mobile App</label>
+                <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
+                    target="_blank" rel="noopener noreferrer" class="flex items-center justify-center transition-opacity hover:opacity-80">
+                    <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg" alt="Download on App Store" class="h-10 w-auto">
+                </a>
+            </div>
+            <div class="border-t border-gray-100 dark:border-white/5 my-6"></div>
+            <button onclick="toggleSettings(); toggleModal('about-modal')"
+                class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                <span data-i18n="navAboutBtn">About Author</span>
+            </button>
+            <a href="privacy.html" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">Privacy Policy</a>
+        </div>
+    </div>
 
-        <!-- Header -->
-        <header class="mb-10 text-center">
-            <h1 class="text-3xl md:text-5xl font-extrabold mb-3 text-gray-900 dark:text-white" data-i18n="appTitle">
+    <div class="flex-grow max-w-7xl mx-auto p-4 md:p-8 w-full grid-bg" id="report-container">
+
+        <!-- ========== DASHBOARD VIEW ========== -->
+        <div id="dashboard-view">
+
+        <!-- Dashboard Header -->
+        <header class="mb-10 reveal">
+            <p class="text-xs font-mono font-medium text-accent uppercase tracking-widest mb-3">Cybersecurity Risk Intelligence</p>
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight" data-i18n="appTitle">
                 Cyber Risk Quantification Tool
             </h1>
-            <p class="text-slate-600 dark:text-slate-400 text-lg" data-i18n="appSubtitle">
+            <p class="text-gray-500 dark:text-gray-400 text-base mt-2 max-w-xl" data-i18n="appSubtitle">
                 The Quantified Savior for Cynical Security Pros
             </p>
         </header>
 
-        <!-- FAIR Analysis Feature Card -->
-        <div class="mb-8 no-print">
-            <a href="fair.html" class="block group">
-                <div
-                    class="bg-white dark:bg-darkcard rounded-xl p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 dark:border-gray-700 group-hover:border-blue-300">
-                    <div class="flex flex-col md:flex-row items-center justify-between">
-                        <div class="flex items-center mb-4 md:mb-0">
-                            <div class="text-gray-900 dark:text-white">
-                                <div class="flex items-center gap-2 mb-1">
-                                    <h3 class="text-xl md:text-2xl font-bold" data-i18n="fairCardTitle">FAIR Risk
-                                        Analysis</h3>
-                                    <span
-                                        class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full font-medium">NEW</span>
-                                </div>
-                                <p class="text-gray-500 dark:text-gray-400 text-sm md:text-base"
-                                    data-i18n="fairCardDesc">OpenFAIR™ Monte Carlo Simulation • AAL & VaR 90% • ROSI
-                                    Calculator</p>
-                            </div>
-                        </div>
-                        <div
-                            class="flex items-center text-blue-600 font-medium group-hover:translate-x-2 transition-transform">
-                            <span class="mr-2" data-i18n="fairCardCTA">Start Analysis</span>
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                            </svg>
-                        </div>
+        <!-- Dashboard Module Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10 no-print">
+            <!-- ALE Card -->
+            <div class="card p-6 reveal reveal-delay-1 cursor-pointer group" onclick="enterWorkspace()">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-500/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                     </div>
+                    <span class="text-xs font-mono text-gray-400 dark:text-gray-500">NIST SP 800-30</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1">ALE Calculator</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Quantitative risk analysis with SLE, ALE, ROI</p>
+                <div class="flex items-center text-sm font-medium text-blue-500 group-hover:translate-x-1 transition-transform">
+                    <span>Start</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </div>
+            </div>
+            <!-- FAIR Card -->
+            <a href="fair.html" class="card p-6 reveal reveal-delay-2 group block">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-50 dark:bg-cyan-500/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <span class="text-xs font-mono text-gray-400 dark:text-gray-500">OpenFAIR™</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1" data-i18n="fairCardTitle">FAIR Analysis</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4" data-i18n="fairCardDesc">Monte Carlo Simulation • AAL & VaR 90% • ROSI</p>
+                <div class="flex items-center text-sm font-medium text-cyan-500 group-hover:translate-x-1 transition-transform">
+                    <span data-i18n="fairCardCTA">Start Analysis</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </div>
             </a>
+            <!-- History / Batch Card -->
+            <div class="card p-6 reveal reveal-delay-3 cursor-pointer group" id="dashboard-history-card">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-500/10 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <span class="text-xs font-mono text-gray-400 dark:text-gray-500">IndexedDB</span>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1" data-i18n="btnHistory">History</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Saved assessments & batch processing</p>
+                <div class="flex items-center text-sm font-medium text-purple-500 group-hover:translate-x-1 transition-transform">
+                    <span>View All</span>
+                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <!-- Action Buttons -->
-    <div class="flex flex-wrap justify-center gap-4 mb-8 no-print">
-        <button id="btn-reset"
-            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
-            <span data-i18n="btnReset">Reset</span>
-        </button>
-        <button id="btn-batch"
-            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
-            <span data-i18n="btnBatch">Batch Assessment</span>
-        </button>
-        <button id="export-pdf"
-            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
-            <span data-i18n="btnExportPDF">Export PDF</span>
-        </button>
-        <button id="export-excel"
-            class="bg-white dark:bg-darkcard border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium py-2 px-6 rounded-lg transition-colors flex items-center">
-            <span data-i18n="btnExportExcel">Export Excel</span>
-        </button>
-    </div>
+        </div><!-- end dashboard-view -->
 
-    <main class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        <!-- ========== WORKSPACE VIEW ========== -->
+        <div id="workspace-view" style="display:none;">
 
-        <!-- SECTION 1: Quantitative Analysis -->
-        <section
-            class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+        <!-- Back to Dashboard -->
+        <div class="mb-6">
+            <button onclick="exitWorkspace()" class="flex items-center gap-1.5 text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors group">
+                <svg class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span>Dashboard</span>
+            </button>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="flex flex-wrap items-center gap-3 mb-6 no-print">
+            <button id="btn-reset"
+                class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                <span data-i18n="btnReset">Reset</span>
+            </button>
+            <button id="btn-batch"
+                class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                <span data-i18n="btnBatch">Batch Assessment</span>
+            </button>
+            <div class="flex-grow"></div>
+            <button id="export-pdf"
+                class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span data-i18n="btnExportPDF">Export PDF</span>
+            </button>
+            <button id="export-excel"
+                class="px-4 py-2 rounded-lg text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors flex items-center gap-1.5">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                <span data-i18n="btnExportExcel">Export Excel</span>
+            </button>
+        </div>
+
+    <main class="max-w-4xl mx-auto">
+
+        <!-- Wizard Step Indicator -->
+        <div class="step-indicator mb-8 px-4 reveal reveal-delay-5">
+            <div class="step-dot active" onclick="goToStep(1)" id="step-dot-1">1</div>
+            <div class="step-line" id="step-line-1"></div>
+            <div class="step-dot" onclick="goToStep(2)" id="step-dot-2">2</div>
+            <div class="step-line" id="step-line-2"></div>
+            <div class="step-dot" onclick="goToStep(3)" id="step-dot-3">3</div>
+        </div>
+        <div class="flex justify-between mb-6 px-4 text-xs text-gray-400 dark:text-gray-500 reveal reveal-delay-5">
+            <span class="text-center w-20">Input</span>
+            <span class="text-center w-20">Results</span>
+            <span class="text-center w-20">Risk Matrix</span>
+        </div>
+
+        <!-- STEP 1: Input Parameters -->
+        <div class="wizard-step active" id="wizard-step-1">
+        <section id="ale-section"
+            class="card p-6 md:p-8">
             <div class="mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="secQuantTitle">1.
                     Quantitative Analysis</h2>
             </div>
 
             <!-- Inputs Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
                 <!-- Asset Value -->
                 <div class="relative">
-                    <label for="av" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    <label for="av" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                         <span data-i18n="labelAV">Asset Value (AV)</span>
-                        <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
+                        <div class="tooltip-container ml-1 cursor-pointer text-accent hover:text-cyan-400">
                             ⓘ
                             <span class="tooltip-text" data-i18n="tipAV">Total monetary value of the asset.</span>
                         </div>
                     </label>
                     <input type="number" id="av" placeholder="10000000"
-                        class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        class="enhanced-input font-data w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-darksurface text-gray-900 dark:text-white focus:ring-0 focus:border-accent dark:focus:border-accent">
                     <p id="av-error" class="text-red-500 text-xs mt-1 h-4"></p>
                 </div>
 
                 <!-- Exposure Factor -->
                 <div>
-                    <label for="ef" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    <label for="ef" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                         <span data-i18n="labelEF">Exposure Factor (EF %)</span>
-                        <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
+                        <div class="tooltip-container ml-1 cursor-pointer text-accent hover:text-cyan-400">
                             ⓘ
                             <span class="tooltip-text" data-i18n="tipEF">% of loss when a threat occurs.</span>
                         </div>
                     </label>
                     <input type="number" id="ef" placeholder="10"
-                        class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        class="enhanced-input font-data w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-darksurface text-gray-900 dark:text-white focus:ring-0 focus:border-accent dark:focus:border-accent">
                     <p id="ef-error" class="text-red-500 text-xs mt-1 h-4"></p>
                 </div>
 
                 <!-- ARO Before -->
                 <div>
-                    <label for="aro-before" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    <label for="aro-before" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                         <span data-i18n="labelARO1">ARO (Before)</span>
-                        <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
+                        <div class="tooltip-container ml-1 cursor-pointer text-accent hover:text-cyan-400">
                             ⓘ
                             <span class="tooltip-text" data-i18n="tipARO1">Frequency of occurrence per year
                                 (Current).</span>
                         </div>
                     </label>
                     <input type="number" step="0.1" id="aro-before" placeholder="1"
-                        class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        class="enhanced-input font-data w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-darksurface text-gray-900 dark:text-white focus:ring-0 focus:border-accent dark:focus:border-accent">
                     <p id="aro-before-error" class="text-red-500 text-xs mt-1 h-4"></p>
                 </div>
 
                 <!-- ARO After -->
                 <div>
-                    <label for="new-aro" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    <label for="new-aro" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                         <span data-i18n="labelARO2">ARO (After)</span>
-                        <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
+                        <div class="tooltip-container ml-1 cursor-pointer text-accent hover:text-cyan-400">
                             ⓘ
                             <span class="tooltip-text" data-i18n="tipARO2">Estimated frequency after control.</span>
                         </div>
                     </label>
                     <input type="number" step="0.1" id="new-aro" placeholder="0.2"
-                        class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        class="enhanced-input font-data w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-darksurface text-gray-900 dark:text-white focus:ring-0 focus:border-accent dark:focus:border-accent">
                     <p id="new-aro-error" class="text-red-500 text-xs mt-1 h-4"></p>
                 </div>
 
                 <!-- Control Cost -->
                 <div class="md:col-span-2">
-                    <label for="control-cost" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    <label for="control-cost" class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                         <span data-i18n="labelCost">Control Cost (Annual)</span>
-                        <div class="tooltip-container ml-1 cursor-pointer text-blue-500 hover:text-blue-600">
+                        <div class="tooltip-container ml-1 cursor-pointer text-accent hover:text-cyan-400">
                             ⓘ
                             <span class="tooltip-text" data-i18n="tipCost">Cost to implement/maintain
                                 control.</span>
                         </div>
                     </label>
                     <input type="number" id="control-cost" placeholder="10000000"
-                        class="enhanced-input w-full px-4 py-3 rounded-lg border-2 border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-0 focus:border-blue-500 dark:focus:border-blue-400">
+                        class="enhanced-input font-data w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-darksurface text-gray-900 dark:text-white focus:ring-0 focus:border-accent dark:focus:border-accent">
                     <p id="control-cost-error" class="text-red-500 text-xs mt-1 h-4"></p>
                 </div>
             </div>
 
+            <!-- Step 1 Navigation -->
+            <div class="flex justify-end mt-4">
+                <button onclick="goToStep(2)" class="px-6 py-2.5 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 font-medium text-sm transition-colors flex items-center gap-2">
+                    <span>View Results</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+        </section>
+        </div>
+
+        <!-- STEP 2: Results & Analysis -->
+        <div class="wizard-step" id="wizard-step-2">
+        <section class="card p-6 md:p-8">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Results & ROI</h2>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Quantitative analysis output</p>
+            </div>
+
             <!-- Comparison Table -->
-            <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600 mb-6">
-                <table class="enhanced-table min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
+            <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-white/5 mb-6">
+                <table class="enhanced-table min-w-full divide-y divide-gray-200 dark:divide-white/5">
+                    <thead class="bg-gray-50 dark:bg-darksurface">
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3"
+                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-1/3"
                                 data-i18n="thItem">Item</th>
-                            <th class="px-4 py-3 text-right text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3"
+                            <th class="px-4 py-3 text-right text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-1/3"
                                 data-i18n="thBefore">Before Control</th>
-                            <th class="px-4 py-3 text-right text-xs font-bold text-gray-600 dark:text-gray-200 uppercase tracking-wider w-1/3"
+                            <th class="px-4 py-3 text-right text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider w-1/3"
                                 data-i18n="thAfter">After Control</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600 text-sm">
+                    <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-100 dark:divide-white/5 text-sm">
                         <tr>
-                            <td class="px-4 py-3 font-medium">AV</td>
-                            <td id="table-av-before" class="px-4 py-3 text-right text-gray-500 dark:text-gray-400"
+                            <td class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">AV</td>
+                            <td id="table-av-before" class="px-4 py-3 text-right font-data text-gray-500 dark:text-gray-400"
                                 colspan="2">-</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 font-medium">EF</td>
-                            <td id="table-ef-before" class="px-4 py-3 text-right text-gray-500 dark:text-gray-400"
+                            <td class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">EF</td>
+                            <td id="table-ef-before" class="px-4 py-3 text-right font-data text-gray-500 dark:text-gray-400"
                                 colspan="2">-</td>
                         </tr>
-                        <tr class="bg-gray-50 dark:bg-gray-800/50">
-                            <td class="px-4 py-3 font-medium text-blue-600 dark:text-blue-400">SLE</td>
-                            <td id="table-sle-before" class="px-4 py-3 text-right font-semibold">-</td>
-                            <td id="table-sle-after" class="px-4 py-3 text-right font-semibold">-</td>
+                        <tr class="bg-gray-50/50 dark:bg-white/[0.02]">
+                            <td class="px-4 py-3 font-medium text-accent">SLE</td>
+                            <td id="table-sle-before" class="px-4 py-3 text-right font-data font-semibold">-</td>
+                            <td id="table-sle-after" class="px-4 py-3 text-right font-data font-semibold">-</td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 font-medium">ARO</td>
-                            <td id="table-aro-before" class="px-4 py-3 text-right">-</td>
-                            <td id="table-aro-after" class="px-4 py-3 text-right">-</td>
+                            <td class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300">ARO</td>
+                            <td id="table-aro-before" class="px-4 py-3 text-right font-data">-</td>
+                            <td id="table-aro-after" class="px-4 py-3 text-right font-data">-</td>
                         </tr>
-                        <tr class="bg-gray-50 dark:bg-gray-800/50">
+                        <tr class="bg-gray-50/50 dark:bg-white/[0.02]">
                             <td class="px-4 py-3 font-bold text-lg text-gray-800 dark:text-white">ALE</td>
-                            <td id="table-ale-before" class="px-4 py-3 text-right font-bold text-red-500 text-lg">-
+                            <td id="table-ale-before" class="px-4 py-3 text-right font-bold font-data text-red-400 text-lg">-
                             </td>
-                            <td id="table-ale-after" class="px-4 py-3 text-right font-bold text-green-500 text-lg">-
+                            <td id="table-ale-after" class="px-4 py-3 text-right font-bold font-data text-emerald-400 text-lg">-
                             </td>
                         </tr>
                         <tr>
-                            <td class="px-4 py-3 font-medium" data-i18n="rowMitigation">Risk Mitigation Value</td>
+                            <td class="px-4 py-3 font-medium text-gray-600 dark:text-gray-300" data-i18n="rowMitigation">Risk Mitigation Value</td>
                             <td id="table-mitigation"
-                                class="px-4 py-3 text-right font-medium text-blue-600 dark:text-blue-400" colspan="2">-
+                                class="px-4 py-3 text-right font-data font-medium text-accent" colspan="2">-
                             </td>
                         </tr>
-                        <tr class="bg-green-50 dark:bg-green-900/20">
+                        <tr class="bg-emerald-50/50 dark:bg-emerald-500/5">
                             <td class="px-4 py-3 font-bold text-xl text-gray-800 dark:text-white"
                                 data-i18n="rowNetBenefit">Net Benefit</td>
-                            <td id="table-benefit" class="px-4 py-3 text-right font-bold text-xl" colspan="2">-</td>
+                            <td id="table-benefit" class="px-4 py-3 text-right font-bold font-data text-xl" colspan="2">-</td>
                         </tr>
                     </tbody>
                 </table>
@@ -836,14 +1106,14 @@
 
             <!-- Quant Conclusion -->
             <div id="quantitative-conclusion"
-                class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center mb-8 border border-gray-200 dark:border-gray-600 min-h-[60px] flex items-center justify-center">
+                class="p-4 rounded-lg bg-gray-50 dark:bg-darksurface text-center mb-8 border border-gray-200 dark:border-white/5 min-h-[60px] flex items-center justify-center text-sm">
             </div>
 
             <!-- Charts and ROI Cards -->
             <div class="space-y-8">
                 <!-- ALE Comparison Chart -->
                 <div>
-                    <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 text-center"
+                    <h3 class="text-xs font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 text-center"
                         data-i18n="chartAleTitle">ALE Comparison</h3>
                     <div class="h-64 relative w-full">
                         <canvas id="aleChart"></canvas>
@@ -852,13 +1122,13 @@
 
                 <!-- ROI Dashboard Cards -->
                 <div>
-                    <h3 class="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4 text-center"
+                    <h3 class="text-xs font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4 text-center"
                         data-i18n="roiDashboardTitle">Investment Analysis Dashboard</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <!-- Risk Reduction Card -->
                         <div class="roi-card neutral">
                             <div class="roi-label" data-i18n="roiRiskReduction">Risk Reduction</div>
-                            <div id="roi-risk-reduction" class="roi-value text-blue-600 dark:text-blue-400">$0</div>
+                            <div id="roi-risk-reduction" class="roi-value font-data text-blue-600 dark:text-blue-400">$0</div>
                             <div class="roi-description" data-i18n="roiRiskReductionDesc">Annual risk mitigation
                                 value</div>
                         </div>
@@ -866,7 +1136,7 @@
                         <!-- Control Cost Card -->
                         <div class="roi-card">
                             <div class="roi-label" data-i18n="roiControlCost">Control Cost</div>
-                            <div id="roi-control-cost" class="roi-value text-gray-600 dark:text-gray-400">$0</div>
+                            <div id="roi-control-cost" class="roi-value font-data text-gray-600 dark:text-gray-400">$0</div>
                             <div class="roi-description" data-i18n="roiControlCostDesc">Annual implementation cost
                             </div>
                         </div>
@@ -874,8 +1144,8 @@
                         <!-- Net Benefit Card -->
                         <div id="roi-net-benefit-card" class="roi-card">
                             <div class="roi-label" data-i18n="roiNetBenefit">Net Benefit</div>
-                            <div id="roi-net-benefit" class="roi-value">$0</div>
-                            <div id="roi-percentage" class="text-sm font-semibold mt-1">ROI: 0%</div>
+                            <div id="roi-net-benefit" class="roi-value font-data">$0</div>
+                            <div id="roi-percentage" class="text-sm font-semibold mt-1 font-data">ROI: 0%</div>
                             <div class="roi-description" data-i18n="roiNetBenefitDesc">Annual return on investment
                             </div>
                         </div>
@@ -883,15 +1153,30 @@
 
                     <!-- ROI Conclusion -->
                     <div id="roi-conclusion"
-                        class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600">
+                        class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-darksurface text-center border border-gray-200 dark:border-white/5 text-sm">
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- SECTION 2: Qualitative Analysis -->
+            <!-- Step 2 Navigation -->
+            <div class="flex justify-between mt-6">
+                <button onclick="goToStep(1)" class="px-5 py-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 font-medium text-sm transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <span>Back to Input</span>
+                </button>
+                <button onclick="goToStep(3)" class="px-6 py-2.5 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 font-medium text-sm transition-colors flex items-center gap-2">
+                    <span>Qualitative Analysis</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+
+        </section>
+        </div>
+
+        <!-- STEP 3: Qualitative Analysis -->
+        <div class="wizard-step" id="wizard-step-3">
         <section
-            class="bg-white dark:bg-darkcard p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700">
+            class="card p-6 md:p-8">
             <div class="mb-6">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white" data-i18n="secQualTitle">2.
                     Qualitative Analysis</h2>
@@ -899,14 +1184,14 @@
 
             <!-- Single Risk Assessment -->
             <div class="mb-8">
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2"
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-white/10 pb-2"
                     data-i18n="subQualSingle">Single Risk Assessment</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1"
                             data-i18n="labelLikelihood">Likelihood</label>
                         <select id="likelihood"
-                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-shadow">
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-darksurface text-gray-900 dark:text-white focus:ring-2 focus:ring-accent transition-shadow">
                             <option value="2" data-i18n="optHigh">High</option>
                             <option value="1" data-i18n="optMed">Medium</option>
                             <option value="0" data-i18n="optLow">Low</option>
@@ -916,7 +1201,7 @@
                         <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1"
                             data-i18n="labelImpact">Impact</label>
                         <select id="impact"
-                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 transition-shadow">
+                            class="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-white/10 bg-white dark:bg-darksurface text-gray-900 dark:text-white focus:ring-2 focus:ring-accent transition-shadow">
                             <option value="2" data-i18n="optHigh">High</option>
                             <option value="1" data-i18n="optMed">Medium</option>
                             <option value="0" data-i18n="optLow">Low</option>
@@ -983,32 +1268,32 @@
                 </div>
 
                 <div id="qualitative-conclusion"
-                    class="p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600">
+                    class="p-4 rounded-lg bg-gray-50 dark:bg-darksurface text-center border border-gray-200 dark:border-white/5 text-sm">
                 </div>
             </div>
 
             <!-- Before/After Comparison -->
             <div>
-                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-gray-600 pb-2"
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4 border-b border-gray-200 dark:border-white/10 pb-2"
                     data-i18n="subQualCompare">Before vs. After Comparison</h3>
-                <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-600">
-                    <table class="min-w-full text-center divide-y divide-gray-200 dark:divide-gray-600">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
+                <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-white/5">
+                    <table class="min-w-full text-center divide-y divide-gray-200 dark:divide-white/5">
+                        <thead class="bg-gray-50 dark:bg-darksurface">
                             <tr>
-                                <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thItem">
+                                <th class="px-4 py-2 font-bold text-gray-500 dark:text-gray-400" data-i18n="thItem">
                                     Item</th>
-                                <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thBefore">
+                                <th class="px-4 py-2 font-bold text-gray-500 dark:text-gray-400" data-i18n="thBefore">
                                     Before</th>
-                                <th class="px-4 py-2 font-bold text-gray-600 dark:text-gray-200" data-i18n="thAfter">
+                                <th class="px-4 py-2 font-bold text-gray-500 dark:text-gray-400" data-i18n="thAfter">
                                     After</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-200 dark:divide-gray-600">
+                        <tbody class="bg-white dark:bg-darkcard divide-y divide-gray-100 dark:divide-white/5">
                             <tr>
                                 <td class="px-4 py-2 font-medium" data-i18n="labelLikelihood">Likelihood</td>
                                 <td class="px-4 py-2">
                                     <select id="likelihood-before"
-                                        class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        class="w-full text-center bg-gray-50 dark:bg-darksurface border-none rounded">
                                         <option value="2" data-i18n="optHigh">High</option>
                                         <option value="1" selected data-i18n="optMed">Medium</option>
                                         <option value="0" data-i18n="optLow">Low</option>
@@ -1016,7 +1301,7 @@
                                 </td>
                                 <td class="px-4 py-2">
                                     <select id="likelihood-after"
-                                        class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        class="w-full text-center bg-gray-50 dark:bg-darksurface border-none rounded">
                                         <option value="2" data-i18n="optHigh">High</option>
                                         <option value="1" data-i18n="optMed">Medium</option>
                                         <option value="0" selected data-i18n="optLow">Low</option>
@@ -1027,7 +1312,7 @@
                                 <td class="px-4 py-2 font-medium" data-i18n="labelImpact">Impact</td>
                                 <td class="px-4 py-2">
                                     <select id="impact-before"
-                                        class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        class="w-full text-center bg-gray-50 dark:bg-darksurface border-none rounded">
                                         <option value="2" selected data-i18n="optHigh">High</option>
                                         <option value="1" data-i18n="optMed">Medium</option>
                                         <option value="0" data-i18n="optLow">Low</option>
@@ -1035,7 +1320,7 @@
                                 </td>
                                 <td class="px-4 py-2">
                                     <select id="impact-after"
-                                        class="w-full text-center bg-gray-50 dark:bg-gray-800 border-none rounded">
+                                        class="w-full text-center bg-gray-50 dark:bg-darksurface border-none rounded">
                                         <option value="2" data-i18n="optHigh">High</option>
                                         <option value="1" selected data-i18n="optMed">Medium</option>
                                         <option value="0" data-i18n="optLow">Low</option>
@@ -1051,116 +1336,78 @@
                     </table>
                 </div>
                 <div id="qualitative-comparison-conclusion"
-                    class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-gray-700 text-center border border-gray-200 dark:border-gray-600">
+                    class="mt-4 p-4 rounded-lg bg-gray-50 dark:bg-darksurface text-center border border-gray-200 dark:border-white/5 text-sm">
                 </div>
             </div>
 
             <!-- Formulas Section -->
-            <div class="mt-10 pt-6 border-t border-gray-200 dark:border-gray-600 text-sm">
-                <h3 class="text-md font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4"
+            <div class="mt-10 pt-6 border-t border-gray-200 dark:border-white/5 text-sm">
+                <h3 class="text-xs font-mono font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4"
                     data-i18n="secFormula">Formula Guide</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                        <span class="font-mono font-bold text-blue-600 dark:text-blue-400">SLE = AV × EF</span>
+                    <div class="bg-gray-50 dark:bg-darksurface p-3 rounded-lg">
+                        <span class="font-mono font-bold text-accent">SLE = AV × EF</span>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="defSLE">Single Loss
                             Expectancy</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                        <span class="font-mono font-bold text-blue-600 dark:text-blue-400">ALE = SLE × ARO</span>
+                    <div class="bg-gray-50 dark:bg-darksurface p-3 rounded-lg">
+                        <span class="font-mono font-bold text-accent">ALE = SLE × ARO</span>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-1" data-i18n="defALE">Annualized Loss
                             Expectancy</p>
                     </div>
-                    <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                        <span class="font-mono font-bold text-green-600 dark:text-green-400">Risk Mitigation =
+                    <div class="bg-gray-50 dark:bg-darksurface p-3 rounded-lg">
+                        <span class="font-mono font-bold text-emerald-400">Risk Mitigation =
                             ALE(Pre) - ALE(Post)</span>
                     </div>
-                    <div class="bg-gray-50 dark:bg-gray-800 p-3 rounded">
-                        <span class="font-mono font-bold text-purple-600 dark:text-purple-400">Net Benefit =
+                    <div class="bg-gray-50 dark:bg-darksurface p-3 rounded-lg">
+                        <span class="font-mono font-bold text-purple-400">Net Benefit =
                             Mitigation - Cost</span>
                     </div>
                 </div>
             </div>
 
-        </section>
-    </main>
-
-    <!-- Modern Footer Dock -->
-    <footer class="mt-12 py-12 border-t border-gray-200 dark:border-gray-700">
-        <div class="max-w-7xl mx-auto px-4">
-
-            <!-- iOS App Download -->
-            <div class="flex justify-center mb-8">
-                <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
-                    target="_blank" class="opacity-80 hover:opacity-100 transition-opacity">
-                    <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg"
-                        alt="Download on App Store" class="h-10 w-auto">
-                </a>
+            <!-- Step 3 Navigation -->
+            <div class="flex justify-start mt-6">
+                <button onclick="goToStep(2)" class="px-5 py-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 font-medium text-sm transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    <span>Back to Results</span>
+                </button>
             </div>
 
-            <!-- App Download Section Removed -->
+        </section>
+        </div>
 
+    </main>
+
+    </div><!-- end report-container -->
+
+    <!-- Modern Footer -->
+    <footer class="mt-12 py-10 border-t border-gray-200 dark:border-white/5">
+        <div class="max-w-7xl mx-auto px-4">
             <div class="text-center">
-                <p class="text-gray-500 dark:text-gray-400 mb-6 font-medium">
-                    Developed with ❤️ by <span class="text-gray-800 dark:text-gray-200 font-bold">Kuro</span>
-                    <br>
-                    <span class="text-xs opacity-75">v2.3.0 International Edition</span>
-                    <span class="mx-2 text-xs opacity-75">|</span>
-                    <a href="privacy.html"
-                        class="text-xs opacity-75 hover:opacity-100 hover:text-blue-500 transition-colors">Privacy
-                        Policy</a>
+                <p class="text-gray-400 dark:text-gray-500 mb-5 text-sm">
+                    Developed with ❤️ by <span class="text-gray-600 dark:text-gray-300 font-semibold">Kuro</span>
+                    <span class="mx-2 opacity-50">·</span>
+                    <span class="font-mono text-xs opacity-60">v3.0.0</span>
                 </p>
 
                 <!-- Social Dock -->
-                <div class="flex justify-center items-center gap-6">
-
-                    <!-- About Kuro (Portaly) -->
+                <div class="flex justify-center items-center gap-5">
                     <a href="https://portaly.cc/kurohuang" target="_blank"
-                        class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-500 dark:hover:text-blue-400">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z" />
-                        </svg>
-                        <span class="tooltip-text">About Kuro</span>
+                        class="text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors" title="About Kuro">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
                     </a>
-
-                    <!-- GitHub (Source Code) -->
                     <a href="https://github.com/kuronetwork/ALE-Risk-Calculator" target="_blank"
-                        class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                        </svg>
-                        <span class="tooltip-text">Open Source Repo</span>
+                        class="text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors" title="GitHub">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     </a>
-
-                    <!-- LinkedIn -->
                     <a href="https://www.linkedin.com/in/kurohuang/" target="_blank"
-                        class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-700 dark:hover:text-blue-500">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                        </svg>
-                        <span class="tooltip-text">LinkedIn</span>
+                        class="text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors" title="LinkedIn">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     </a>
-
-                    <!-- Facebook -->
-                    <a href="https://www.facebook.com/kublackstock/" target="_blank"
-                        class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-blue-600 dark:hover:text-blue-400">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385h-3.047v-3.469h3.047v-2.628c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953h-1.513c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385c5.737-.9 10.125-5.864 10.125-11.854z" />
-                        </svg>
-                        <span class="tooltip-text">Facebook</span>
-                    </a>
-
-                    <!-- Medium -->
                     <a href="https://medium.com/@kuroH" target="_blank"
-                        class="tooltip-container icon-tooltip social-icon text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z" />
-                        </svg>
-                        <span class="tooltip-text">Medium</span>
+                        class="text-gray-300 dark:text-gray-600 hover:text-gray-500 dark:hover:text-gray-400 transition-colors" title="Medium">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.82 24 12z"/></svg>
                     </a>
                 </div>
             </div>
@@ -1169,6 +1416,103 @@
 
     <!-- MAIN LOGIC -->
     <script>
+        /**
+         * ------------------------------------------------------------------
+         * MODULE: Dashboard / Workspace Toggle
+         * ------------------------------------------------------------------
+         */
+        function enterWorkspace() {
+            const dashboard = document.getElementById('dashboard-view');
+            const workspace = document.getElementById('workspace-view');
+            if (dashboard) dashboard.style.display = 'none';
+            if (workspace) workspace.style.display = 'block';
+            goToStep(1);
+        }
+
+        function exitWorkspace() {
+            const dashboard = document.getElementById('dashboard-view');
+            const workspace = document.getElementById('workspace-view');
+            if (workspace) workspace.style.display = 'none';
+            if (dashboard) dashboard.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /**
+         * ------------------------------------------------------------------
+         * MODULE: Wizard Navigation
+         * ------------------------------------------------------------------
+         */
+        let currentStep = 1;
+
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
+            // Show target step
+            const target = document.getElementById('wizard-step-' + step);
+            if (target) target.classList.add('active');
+
+            // Update step dots
+            for (let i = 1; i <= 3; i++) {
+                const dot = document.getElementById('step-dot-' + i);
+                const line = document.getElementById('step-line-' + i);
+                dot.classList.remove('active', 'completed');
+                if (line) line.classList.remove('completed');
+
+                if (i < step) {
+                    dot.classList.add('completed');
+                    dot.innerHTML = '✓';
+                    if (line) line.classList.add('completed');
+                } else if (i === step) {
+                    dot.classList.add('active');
+                    dot.innerHTML = i;
+                } else {
+                    dot.innerHTML = i;
+                }
+            }
+
+            currentStep = step;
+            // Scroll to top of wizard
+            window.scrollTo({ top: document.querySelector('.step-indicator').offsetTop - 80, behavior: 'smooth' });
+
+            // Resize charts when Step 2 becomes visible (Chart.js needs visible container)
+            if (step === 2 && typeof Calculator !== 'undefined' && Calculator.aleChart) {
+                setTimeout(function() {
+                    Calculator.aleChart.resize();
+                }, 50);
+            }
+        }
+
+        /**
+         * ------------------------------------------------------------------
+         * MODULE: Settings Panel
+         * ------------------------------------------------------------------
+         */
+        function toggleSettings() {
+            const panel = document.getElementById('settings-panel');
+            const backdrop = document.getElementById('settings-backdrop');
+            const isOpen = panel.classList.contains('open');
+            if (isOpen) {
+                panel.classList.remove('open');
+                backdrop.classList.remove('open');
+                document.body.style.overflow = '';
+            } else {
+                panel.classList.add('open');
+                backdrop.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Wire up dashboard history card to open history modal (if btn-history exists)
+        document.addEventListener('DOMContentLoaded', function() {
+            const histCard = document.getElementById('dashboard-history-card');
+            const btnBatch = document.getElementById('btn-batch');
+            if (histCard && btnBatch) {
+                histCard.addEventListener('click', function() {
+                    btnBatch.click();
+                });
+            }
+        });
+
         /**
          * ------------------------------------------------------------------
          * MODULE: Internationalization (i18n)
@@ -2897,12 +3241,12 @@
                 // Update card styling based on benefit
                 if (benefit >= 0) {
                     netBenefitCard.className = 'roi-card positive';
-                    netBenefitEl.className = 'roi-value text-green-600 dark:text-green-400';
-                    roiPercentageEl.className = 'text-sm font-semibold mt-1 text-green-600 dark:text-green-400';
+                    netBenefitEl.className = 'roi-value font-data text-green-600 dark:text-green-400';
+                    roiPercentageEl.className = 'text-sm font-semibold mt-1 font-data text-green-600 dark:text-green-400';
                 } else {
                     netBenefitCard.className = 'roi-card negative';
-                    netBenefitEl.className = 'roi-value text-red-600 dark:text-red-400';
-                    roiPercentageEl.className = 'text-sm font-semibold mt-1 text-red-600 dark:text-red-400';
+                    netBenefitEl.className = 'roi-value font-data text-red-600 dark:text-red-400';
+                    roiPercentageEl.className = 'text-sm font-semibold mt-1 font-data text-red-600 dark:text-red-400';
                 }
 
                 // Update ROI conclusion
@@ -3373,9 +3717,20 @@
                     `;
                     document.body.appendChild(loadingDiv);
 
+                    // Show all wizard steps for PDF capture
+                    const wizardSteps = document.querySelectorAll('.wizard-step');
+                    const stepIndicator = document.querySelector('.step-indicator');
+                    const stepLabels = stepIndicator ? stepIndicator.nextElementSibling : null;
+                    wizardSteps.forEach(s => { s.style.display = 'block'; s.style.animation = 'none'; });
+                    if (stepIndicator) stepIndicator.style.display = 'none';
+                    if (stepLabels) stepLabels.style.display = 'none';
+
                     // Hide buttons and scroll to top
                     btnContainer.style.display = 'none';
                     window.scrollTo(0, 0);
+
+                    // Resize chart before capture
+                    if (this.aleChart) this.aleChart.resize();
 
                     // Generate PDF with better options
                     html2canvas(report, {
@@ -3390,6 +3745,11 @@
                             // Restore UI
                             btnContainer.style.display = 'flex';
                             loadingDiv.remove();
+                            // Restore wizard steps
+                            wizardSteps.forEach(s => { s.style.display = ''; s.style.animation = ''; });
+                            if (stepIndicator) stepIndicator.style.display = '';
+                            if (stepLabels) stepLabels.style.display = '';
+                            goToStep(currentStep);
 
                             const imgData = canvas.toDataURL('image/png', 0.95);
                             const pdf = new jsPDF('p', 'mm', 'a4');
@@ -3424,12 +3784,20 @@
                             console.error('PDF generation error:', error);
                             btnContainer.style.display = 'flex';
                             loadingDiv.remove();
+                            wizardSteps.forEach(s => { s.style.display = ''; s.style.animation = ''; });
+                            if (stepIndicator) stepIndicator.style.display = '';
+                            if (stepLabels) stepLabels.style.display = '';
+                            goToStep(currentStep);
                             alert('Error generating PDF. Please try again.');
                         }
                     }).catch(error => {
                         console.error('Canvas generation error:', error);
                         btnContainer.style.display = 'flex';
                         loadingDiv.remove();
+                        wizardSteps.forEach(s => { s.style.display = ''; s.style.animation = ''; });
+                        if (stepIndicator) stepIndicator.style.display = '';
+                        if (stepLabels) stepLabels.style.display = '';
+                        goToStep(currentStep);
                         alert('Error capturing content for PDF. Please try again.');
                     });
 
@@ -3779,9 +4147,9 @@
             showInstallButton: function (deferredPrompt) {
                 const installBtn = document.createElement('button');
                 installBtn.id = 'install-btn';
-                installBtn.className = `fixed bottom-4 right-4 z-50 bg-primary hover:bg-blue-600 
-                    text-white font-bold py-3 px-4 rounded-full shadow-lg transition-all duration-300
-                    flex items-center space-x-2`;
+                installBtn.className = `fixed bottom-20 md:bottom-4 right-4 z-30 bg-gray-800 dark:bg-gray-700 hover:bg-gray-700 dark:hover:bg-gray-600
+                    text-white text-sm font-medium py-2.5 px-4 rounded-full shadow-lg transition-all duration-300
+                    flex items-center space-x-2 opacity-90 hover:opacity-100`;
                 installBtn.innerHTML = `
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
@@ -4102,6 +4470,41 @@
         .dark .cert-badge:hover {
             background-color: #1e3a8a;
             color: #93c5fd;
+        }
+    <!-- Bottom Navigation Bar (Mobile only) -->
+    <nav id="bottom-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-darkcard/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-white/5 safe-area-bottom">
+        <div class="flex items-stretch h-16">
+            <!-- Home -->
+            <a href="./" class="bottom-nav-item active flex-1 flex flex-col items-center justify-center gap-0.5 text-accent">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            <!-- ALE -->
+            <button onclick="enterWorkspace()" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-0.5 text-gray-400 dark:text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                <span class="text-xs font-medium">ALE</span>
+            </button>
+            <!-- FAIR -->
+            <a href="fair.html" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-0.5 text-gray-400 dark:text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span class="text-xs font-medium">FAIR</span>
+            </a>
+            <!-- Settings -->
+            <button onclick="toggleSettings()" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-0.5 text-gray-400 dark:text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="text-xs font-medium">Settings</span>
+            </button>
+        </div>
+    </nav>
+
+    <style>
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .bottom-nav-item { transition: color 0.2s ease; -webkit-tap-highlight-color: transparent; }
+        .bottom-nav-item:active { opacity: 0.7; }
+        /* Push footer up on mobile to avoid bottom nav overlap */
+        @media (max-width: 767px) {
+            footer { margin-bottom: 4rem; }
+            .pb-32 { padding-bottom: 8rem !important; }
         }
     </style>
 </body>
