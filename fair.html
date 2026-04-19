@@ -36,6 +36,11 @@
     <link rel="manifest" href="./manifest.json">
     <link rel="icon" type="image/svg+xml" href="./icons/icon.svg">
 
+    <!-- Fonts: JetBrains Mono for data, DM Sans for UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
@@ -51,11 +56,17 @@
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
                     colors: {
                         primary: '#3B82F6',
                         secondary: '#10B981',
-                        darkbg: '#111827',
-                        darkcard: '#1F2937',
+                        accent: '#22D3EE',
+                        darkbg: '#0B0F19',
+                        darkcard: '#131825',
+                        darksurface: '#1A1F2E',
                     }
                 }
             }
@@ -63,7 +74,86 @@
     </script>
 
     <style>
-        /* Shared Styles from index.html */
+        /* Design System */
+        :root {
+            --color-bg: #F8FAFC;
+            --color-surface: #FFFFFF;
+            --color-border: #E2E8F0;
+            --color-text-primary: #0F172A;
+            --color-text-secondary: #475569;
+            --color-text-muted: #94A3B8;
+            --color-accent: #22D3EE;
+        }
+        .dark {
+            --color-bg: #0B0F19;
+            --color-surface: #131825;
+            --color-border: #1E293B;
+            --color-text-primary: #F1F5F9;
+            --color-text-secondary: #94A3B8;
+            --color-text-muted: #475569;
+            --color-accent: #22D3EE;
+        }
+        body {
+            font-family: 'DM Sans', system-ui, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .font-data {
+            font-family: 'JetBrains Mono', monospace;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+        }
+        .dark body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            transition: border-color 0.2s ease;
+        }
+        .card:hover { border-color: var(--color-accent); }
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .reveal { animation: fadeSlideUp 0.5s ease-out both; }
+        .reveal-delay-1 { animation-delay: 0.08s; }
+        .reveal-delay-2 { animation-delay: 0.16s; }
+        .reveal-delay-3 { animation-delay: 0.24s; }
+
+        /* Settings panel */
+        .settings-panel { transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .settings-panel.open { transform: translateX(0); }
+        .settings-backdrop { opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .settings-backdrop.open { opacity: 1; pointer-events: auto; }
+
+        /* Wizard Steps */
+        .wizard-step { display: none; animation: fadeSlideUp 0.35s ease-out both; }
+        .wizard-step.active { display: block; }
+        .step-indicator { display: flex; align-items: center; gap: 0; }
+        .step-dot {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            border: 2px solid var(--color-border);
+            color: var(--color-text-muted);
+            background: var(--color-surface);
+            transition: all 0.3s ease; cursor: pointer; flex-shrink: 0;
+        }
+        .step-dot.active { border-color: var(--color-accent); color: var(--color-accent); box-shadow: 0 0 12px rgba(34,211,238,0.2); }
+        .step-dot.completed { border-color: #34D399; background: #34D399; color: #fff; }
+        .step-line { flex: 1; height: 2px; background: var(--color-border); transition: background 0.3s ease; }
+        .step-line.completed { background: #34D399; }
+
+        /* Shared Styles */
         .enhanced-input {
             transition: all 0.2s ease;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -729,87 +819,47 @@
 <body
     class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 min-h-screen flex flex-col font-sans transition-colors duration-300">
 
-    <!-- Navbar -->
-    <nav class="bg-white dark:bg-darkcard shadow-md sticky top-0 z-40">
+    <!-- Navbar — Minimal -->
+    <nav class="bg-white/80 dark:bg-darkcard/80 backdrop-blur-xl border-b border-gray-200/50 dark:border-white/5 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center">
+            <div class="flex justify-between h-14 items-center">
+                <div class="flex items-center gap-3">
                     <a href="./index.html"
-                        class="flex items-center text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors group">
-                        <svg class="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" fill="none"
+                        class="flex items-center text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors group">
+                        <svg class="w-4 h-4 mr-1.5 group-hover:-translate-x-0.5 transition-transform" fill="none"
                             stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
-                        <span class="text-sm font-medium" data-i18n="navBack">Kuro Risk Calculator</span>
+                        <span class="text-sm font-medium">Home</span>
                     </a>
-                    <button onclick="toggleModal('about-modal')"
-                        class="ml-2 sm:ml-4 inline-flex items-center px-2 sm:px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-purple-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                        <span class="hidden sm:inline" data-i18n="navAboutBtn">About Author</span>
-                        <span class="sm:hidden">Author</span>
-                    </button>
+                    <span class="text-gray-200 dark:text-gray-700">|</span>
+                    <span class="text-lg font-bold tracking-tight text-gray-900 dark:text-white font-mono">FAIR</span>
+                    <span class="text-sm font-medium text-gray-400 dark:text-gray-500 hidden sm:inline">Analysis</span>
                 </div>
 
-                <div class="flex items-center space-x-2 md:space-x-4">
-                    <!-- App Store Button -->
-                    <div class="relative group hidden sm:block">
-                        <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
-                            target="_blank" rel="noopener noreferrer"
-                            class="flex items-center transition-opacity hover:opacity-80">
-                            <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg"
-                                alt="Download on App Store" class="h-8 w-auto">
-                        </a>
-                    </div>
-
-                    <!-- Currency Selector -->
-                    <div class="relative group hidden sm:block">
-                        <select id="currency-select"
-                            class="appearance-none bg-gray-100 dark:bg-gray-700 border-none rounded-lg py-2 pl-3 pr-8 text-sm focus:ring-2 focus:ring-primary cursor-pointer">
-                            <option value="USD">USD ($)</option>
-                            <option value="TWD">TWD (NT$)</option>
-                            <option value="EUR">EUR (€)</option>
-                            <option value="JPY">JPY (¥)</option>
-                            <option value="CNY">CNY (¥)</option>
-                        </select>
-                        <div
-                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-300">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                            </svg>
-                        </div>
-                    </div>
-
-                    <!-- Language Selector -->
-                    <div class="relative group">
-                        <div class="flex items-center bg-gray-100 dark:bg-gray-700 rounded-lg px-2 py-1">
-                            <span class="text-lg mr-1">🌐</span>
-                            <select id="lang-select"
-                                class="bg-transparent border-none text-sm focus:ring-0 cursor-pointer py-1 pr-6 max-w-[80px] sm:max-w-none">
-                                <option value="en">English</option>
-                                <option value="zh-TW">繁體中文</option>
-                                <option value="ja">日本語</option>
-                                <option value="es">Español</option>
-                                <option value="de">Deutsch</option>
-                                <option value="fr">Français</option>
-                                <option value="pt">Português</option>
-                                <option value="vi">Tiếng Việt</option>
-                            </select>
-                        </div>
-                    </div>
-
+                <div class="flex items-center gap-2">
                     <!-- Info/Tutorial Button -->
-                    <button id="btn-tutorial" class="text-primary hover:text-blue-600">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="btn-tutorial" class="p-2 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </button>
                     <!-- Dark Mode Toggle -->
                     <button id="theme-toggle"
-                        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400">
+                        class="p-2 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 focus:outline-none transition-colors">
                         <svg id="theme-icon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <!-- Icon set dynamically -->
                             <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                    </button>
+                    <!-- Settings Gear -->
+                    <button id="settings-toggle"
+                        class="p-2 rounded-lg text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-white/5 focus:outline-none transition-colors"
+                        aria-label="Settings" onclick="toggleSettings()">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
                     </button>
                 </div>
@@ -817,17 +867,91 @@
         </div>
     </nav>
 
-    <div class="flex-grow max-w-5xl mx-auto p-4 w-full pb-32">
+    <!-- Settings Side Panel -->
+    <div id="settings-backdrop" class="settings-backdrop fixed inset-0 z-50 bg-black/40" onclick="toggleSettings()"></div>
+    <div id="settings-panel" class="settings-panel fixed top-0 right-0 z-50 h-full w-80 bg-white dark:bg-darkcard border-l border-gray-200 dark:border-white/5 shadow-2xl overflow-y-auto">
+        <div class="p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-lg font-bold text-gray-900 dark:text-white">Settings</h2>
+                <button onclick="toggleSettings()" class="p-1 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/5">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <!-- Language -->
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Language</label>
+                <select id="lang-select"
+                    class="w-full bg-gray-50 dark:bg-darksurface border border-gray-200 dark:border-white/10 rounded-lg py-2.5 px-3 text-sm focus:ring-2 focus:ring-accent cursor-pointer text-gray-700 dark:text-gray-200">
+                    <option value="en">🌐 English</option>
+                    <option value="zh-TW">🌐 繁體中文</option>
+                    <option value="ja">🌐 日本語</option>
+                    <option value="es">🌐 Español</option>
+                    <option value="de">🌐 Deutsch</option>
+                    <option value="fr">🌐 Français</option>
+                    <option value="pt">🌐 Português</option>
+                    <option value="vi">🌐 Tiếng Việt</option>
+                </select>
+            </div>
+            <!-- Currency -->
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Currency</label>
+                <select id="currency-select"
+                    class="w-full bg-gray-50 dark:bg-darksurface border border-gray-200 dark:border-white/10 rounded-lg py-2.5 px-3 text-sm focus:ring-2 focus:ring-accent cursor-pointer text-gray-700 dark:text-gray-200">
+                    <option value="USD">USD ($)</option>
+                    <option value="TWD">TWD (NT$)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="JPY">JPY (¥)</option>
+                    <option value="CNY">CNY (¥)</option>
+                </select>
+            </div>
+            <div class="border-t border-gray-100 dark:border-white/5 my-6"></div>
+            <div class="mb-6">
+                <label class="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">Mobile App</label>
+                <a href="https://apps.apple.com/tw/app/kuro-risk-calculator-%E8%B3%87%E5%AE%89%E9%A2%A8%E9%9A%AA%E8%A8%88%E7%AE%97%E8%A9%95%E4%BC%B0%E5%99%A8/id6757115315"
+                    target="_blank" rel="noopener noreferrer" class="flex items-center justify-center transition-opacity hover:opacity-80">
+                    <img src="https://developer.apple.com/assets/elements/icons/download-on-the-app-store/download-on-the-app-store.svg" alt="Download on App Store" class="h-10 w-auto">
+                </a>
+            </div>
+            <div class="border-t border-gray-100 dark:border-white/5 my-6"></div>
+            <button onclick="toggleSettings(); toggleModal('about-modal')"
+                class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
+                <span data-i18n="navAboutBtn">About Author</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="flex-grow max-w-4xl mx-auto p-4 w-full pb-32">
 
         <!-- Page Title -->
-        <div class="mb-6 text-center sm:text-left">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white" data-i18n="navTitle">FAIR Analysis</h1>
+        <div class="mb-6 reveal">
+            <p class="text-xs font-mono font-medium text-accent uppercase tracking-widest mb-3">OpenFAIR™ Quantitative Analysis</p>
+            <h1 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white" data-i18n="navTitle">FAIR Analysis</h1>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="pageSubtitle">Factor Analysis of
                 Information Risk (OpenFAIR™)</p>
         </div>
 
+        <!-- Wizard Step Indicator -->
+        <div class="step-indicator mb-4 reveal">
+            <div class="step-dot active" onclick="goToStep(1)" id="step-dot-1">1</div>
+            <div class="step-line" id="step-line-1"></div>
+            <div class="step-dot" onclick="goToStep(2)" id="step-dot-2">2</div>
+            <div class="step-line" id="step-line-2"></div>
+            <div class="step-dot" onclick="goToStep(3)" id="step-dot-3">3</div>
+            <div class="step-line" id="step-line-3"></div>
+            <div class="step-dot" onclick="goToStep(4)" id="step-dot-4">4</div>
+        </div>
+        <div class="flex justify-between mb-8 text-xs text-gray-400 dark:text-gray-500 reveal">
+            <span class="w-8 text-center">Scenario</span>
+            <span class="w-8 text-center">Frequency</span>
+            <span class="w-8 text-center">Loss</span>
+            <span class="w-8 text-center">Results</span>
+        </div>
+
+        <!-- STEP 1: Scenario Setup -->
+        <div class="wizard-step active" id="wizard-step-1">
+
         <!-- Scenario Header -->
-        <header class="mb-8 border-b border-gray-200 dark:border-gray-700 pb-4">
+        <header class="mb-6 card p-6">
             <div class="flex flex-col sm:flex-row justify-between items-end gap-4">
                 <div>
                     <p class="text-xs text-gray-500 uppercase tracking-wide mb-1" data-i18n="labelScenario">Scenario</p>
@@ -952,8 +1076,19 @@
             </div>
         </div>
 
-        <!-- Main Form Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Step 1 Navigation -->
+        <div class="flex justify-end mt-6">
+            <button onclick="goToStep(2)" class="px-6 py-2.5 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 font-medium text-sm transition-colors flex items-center gap-2">
+                <span>Frequency Inputs</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+
+        </div><!-- end wizard-step-1 -->
+
+        <!-- STEP 2: Loss Event Frequency -->
+        <div class="wizard-step" id="wizard-step-2">
+        <div class="space-y-6">
 
             <!-- COLUMN 1: Loss Event Frequency (LEF) -->
             <div class="space-y-6">
@@ -1326,6 +1461,22 @@
                 </div>
             </div>
 
+        <!-- Step 2 Navigation -->
+        <div class="flex justify-between mt-6">
+            <button onclick="goToStep(1)" class="px-5 py-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 font-medium text-sm transition-colors flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                <span>Back to Scenario</span>
+            </button>
+            <button onclick="goToStep(3)" class="px-6 py-2.5 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 font-medium text-sm transition-colors flex items-center gap-2">
+                <span>Loss Magnitude</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+
+        </div><!-- end wizard-step-2 -->
+
+        <!-- STEP 3: Loss Magnitude -->
+        <div class="wizard-step" id="wizard-step-3">
             <!-- COLUMN 2: Loss Magnitude (LM) -->
             <div class="space-y-6">
                 <!-- Level 2 Card -->
@@ -1792,9 +1943,27 @@
             </div>
         </div>
 
+        <!-- Step 3 Navigation -->
+        <div class="flex justify-between mt-6">
+            <button onclick="goToStep(2)" class="px-5 py-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 font-medium text-sm transition-colors flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                <span>Back to Frequency</span>
+            </button>
+            <button onclick="goToStep(4)" class="px-6 py-2.5 rounded-lg bg-accent/10 text-accent hover:bg-accent/20 font-medium text-sm transition-colors flex items-center gap-2">
+                <span>Run Simulation</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+
+        </div><!-- end wizard-step-3 -->
+
+        <!-- STEP 4: Simulation & Results -->
+        <div class="wizard-step" id="wizard-step-4">
+
         <!-- Simulation Controls -->
-        <div class="mt-8 text-center">
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-2" data-i18n="runsExplain">Monte Carlo simulation
+        <div class="mt-2 text-center card p-6 mb-6">
+            <p class="text-xs font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">Monte Carlo Simulation</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-4" data-i18n="runsExplain">Monte Carlo simulation
                 runs. More runs = more stable results. 1K for quick preview, 10K recommended, 50K for formal reports.
             </p>
             <!-- Custom Simulation Runs Input -->
@@ -2120,6 +2289,16 @@
             </div>
 
         </div>
+
+        <!-- Step 4 Navigation -->
+        <div class="flex justify-start mt-6">
+            <button onclick="goToStep(3)" class="px-5 py-2.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 font-medium text-sm transition-colors flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                <span>Back to Loss Inputs</span>
+            </button>
+        </div>
+
+        </div><!-- end wizard-step-4 -->
 
     </div>
 
@@ -3897,6 +4076,53 @@
             }).format(n);
         };
 
+        // --- Wizard Navigation ---
+        let currentStep = 1;
+        const TOTAL_STEPS = 4;
+
+        function goToStep(step) {
+            document.querySelectorAll('.wizard-step').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('wizard-step-' + step);
+            if (target) target.classList.add('active');
+
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const dot = document.getElementById('step-dot-' + i);
+                const line = document.getElementById('step-line-' + i);
+                if (!dot) continue;
+                dot.classList.remove('active', 'completed');
+                if (line) line.classList.remove('completed');
+                if (i < step) {
+                    dot.classList.add('completed');
+                    dot.innerHTML = '✓';
+                    if (line) line.classList.add('completed');
+                } else if (i === step) {
+                    dot.classList.add('active');
+                    dot.innerHTML = i;
+                } else {
+                    dot.innerHTML = i;
+                }
+            }
+            currentStep = step;
+            const indicator = document.querySelector('.step-indicator');
+            if (indicator) window.scrollTo({ top: indicator.offsetTop - 80, behavior: 'smooth' });
+        }
+
+        // --- Settings Panel ---
+        function toggleSettings() {
+            const panel = document.getElementById('settings-panel');
+            const backdrop = document.getElementById('settings-backdrop');
+            const isOpen = panel.classList.contains('open');
+            if (isOpen) {
+                panel.classList.remove('open');
+                backdrop.classList.remove('open');
+                document.body.style.overflow = '';
+            } else {
+                panel.classList.add('open');
+                backdrop.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
         // --- UI Logic ---
         function toggleAccordion(id, btn) {
             const el = document.getElementById(id);
@@ -4870,13 +5096,14 @@
         let riskChart = null;
         let lastResults = null;
 
-        const worker = new Worker('fair.worker.js?v=' + Date.now() + Math.random());
+        const worker = new Worker('fair.worker.js');
         console.log('[Main] Worker created');
 
         worker.onerror = function (e) {
             console.error('[Main] Worker error:', e);
             console.error('[Main] Error details:', e.message, e.filename, e.lineno);
-            alert('Worker Error: ' + e.message);
+            const errMsg = e.message || 'Failed to load worker (server may be offline)';
+            alert('Worker Error: ' + errMsg);
             setLoading(false);
         };
 
@@ -5882,6 +6109,39 @@
         .dark .cert-badge:hover {
             background-color: #1e3a8a;
             color: #93c5fd;
+        }
+    <!-- Bottom Navigation Bar (Mobile only) -->
+    <nav id="bottom-nav" class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/90 dark:bg-darkcard/90 backdrop-blur-xl border-t border-gray-200/50 dark:border-white/5 safe-area-bottom">
+        <div class="flex items-stretch h-16">
+            <!-- Home -->
+            <a href="./" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-0.5 text-gray-400 dark:text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            <!-- ALE -->
+            <a href="./" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-0.5 text-gray-400 dark:text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                <span class="text-xs font-medium">ALE</span>
+            </a>
+            <!-- FAIR (active) -->
+            <a href="fair.html" class="bottom-nav-item active flex-1 flex flex-col items-center justify-center gap-0.5 text-accent">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span class="text-xs font-medium">FAIR</span>
+            </a>
+            <!-- Settings -->
+            <button onclick="toggleSettings()" class="bottom-nav-item flex-1 flex flex-col items-center justify-center gap-0.5 text-gray-400 dark:text-gray-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="text-xs font-medium">Settings</span>
+            </button>
+        </div>
+    </nav>
+
+    <style>
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom); }
+        .bottom-nav-item { transition: color 0.2s ease; -webkit-tap-highlight-color: transparent; }
+        .bottom-nav-item:active { opacity: 0.7; }
+        @media (max-width: 767px) {
+            footer { margin-bottom: 4rem; }
         }
     </style>
 </body>
