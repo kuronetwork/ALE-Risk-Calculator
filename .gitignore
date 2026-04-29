@@ -5,6 +5,9 @@ VERIFICATION-CHECKLIST.md
 DEPLOYMENT-GUIDE.md
 test-overflow-fix.html
 
+# Node dependencies
+node_modules/
+
 # Editor directories and files
 .vscode/
 .idea/
@@ -144,8 +147,5 @@ Desktop.ini
 
 # Development and testing files
 tests/
-node_modules/
-package.json
-package-lock.json
 run-property*.js
 *.test.js
