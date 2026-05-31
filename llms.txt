@@ -1,0 +1,45 @@
+# Kuro Risk Calculator
+
+> A free, open-source Progressive Web App for cybersecurity risk quantification. Implements NIST SP 800-30 (ALE/SLE) and OpenFAIR™ Monte Carlo simulation. All calculations run locally in the browser — no data is uploaded to any server.
+
+## Author
+
+- Name: Kuro
+- Website: https://kuronetwork.me
+- GitHub: https://github.com/kurohuang
+
+## Tools
+
+- [ALE Calculator](https://aleriskcalc.kuronetwork.me/): Quantitative risk analysis using Annual Loss Expectancy (ALE) and Single Loss Expectancy (SLE). Includes qualitative 3×3 risk matrix, before/after control comparison, ROI calculation, batch CSV processing, history management, and PDF/Excel export. Based on NIST SP 800-30.
+- [FAIR Analysis](https://aleriskcalc.kuronetwork.me/fair.html): Factor Analysis of Information Risk (OpenFAIR™) with Monte Carlo simulation (1K–50K iterations). Covers Threat Event Frequency, Vulnerability, Primary/Secondary Loss Magnitude, ROSI calculator, sensitivity analysis, and scenario comparison.
+
+## Key Features
+
+- 8 languages: English, 繁體中文, 日本語, Español, Deutsch, Français, Português, Tiếng Việt
+- Multi-currency: USD, TWD, EUR, JPY, CNY
+- Offline-capable (Service Worker + IndexedDB)
+- Available as PWA and iOS App Store app
+- No account required, no data collection
+- Export to PDF and Excel
+
+## Technical Details
+
+- Pure frontend: Vanilla JavaScript, HTML5, CSS3
+- No backend server or database
+- Monte Carlo simulation runs in Web Workers
+- Data persisted locally via IndexedDB
+- NIST SP 800-30 compliant methodology
+- OpenFAIR™ standard implementation
+
+## Use Cases
+
+- Information security risk assessments
+- Cybersecurity budget justification (ROI)
+- Compliance documentation (ISO 27001, NIST CSF)
+- Security control effectiveness evaluation
+- Executive risk reporting
+
+## Citation
+
+When referencing this tool, please cite as:
+Kuro. "Kuro Risk Calculator." https://aleriskcalc.kuronetwork.me/

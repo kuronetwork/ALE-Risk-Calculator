@@ -1,0 +1,11 @@
+# Kuro Risk Calculator — aleriskcalc.kuronetwork.me
+# Allow all crawlers including AI agents
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://aleriskcalc.kuronetwork.me/sitemap.xml
+
+# AI Crawler Guidance
+# llms.txt available at /llms.txt for LLM-friendly content summary
